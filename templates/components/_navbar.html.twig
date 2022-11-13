@@ -1,4 +1,4 @@
-<div class="px-6 pt-6 lg:px-8" id="navbar">
+<div class="px-6 py-4 lg:px-8 bg-gray-900" id="navbar">
     <div>
         <nav class="flex h-9 items-center justify-between" aria-label="Global">
             <div class="flex lg:min-w-0 lg:flex-1" aria-label="Global">
@@ -17,11 +17,11 @@
                 </button>
             </div>
             <div class="hidden lg:flex lg:min-w-0 lg:flex-1 lg:justify-center lg:gap-x-12">
-                <a href="#" class="font-semibold text-gray-900 hover:text-gray-900">Blog</a>
+                <a href="#" class="font-semibold text-gray-200 hover:text-violet-300">Blog</a>
 
-                <a href="#" class="font-semibold text-gray-900 hover:text-gray-900">Événements</a>
+                <a href="{{ path('app_events') }}" class="font-semibold text-gray-200 hover:text-violet-300">Événements</a>
 
-                <a href="#" class="font-semibold text-gray-900 hover:text-gray-900">Contact</a>
+                <a href="#" class="font-semibold text-gray-200 hover:text-violet-300">Contact</a>
             </div>
             {% if app.user %}
                 <div class="hidden lg:flex lg:min-w-0 lg:flex-1 lg:justify-end">
@@ -29,7 +29,7 @@
                 </div>
             {% else %}
                 <div class="hidden lg:flex lg:min-w-0 lg:flex-1 lg:justify-end">
-                    <a href="{{ path('app_login') }}" class="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-900 shadow-sm ring-1 ring-gray-900/10 hover:ring-gray-900/20">Se Connecter</a>
+                    <a href="{{ path('app_login') }}" class="inline-block rounded-lg px-3 py-1.5 text-sm font-semibold leading-6 text-gray-200 shadow-sm ring-1 ring-violet-600 hover:ring-violet-600 hover:bg-violet-500">Se Connecter</a>
                 </div>
             {% endif %}
         </nav>
@@ -56,14 +56,14 @@
                 <div class="mt-6 flow-root">
                     <div class="-my-6 divide-y divide-gray-500/10">
                         <div class="space-y-2 py-6">
-                            <a href="#" class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10">Blog</a>
+                            <a href="#" class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-200 hover:text-violet-300">Blog</a>
 
-                            <a href="#" class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10">Événements</a>
+                            <a href="#" class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-200 hover:text-violet-300">Événements</a>
 
-                            <a href="#" class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10">Contact</a>
+                            <a href="#" class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-200 hover:text-violet-300">Contact</a>
                         </div>
                         <div class="py-6">
-                            <a href="#" class="-mx-3 block rounded-lg py-2.5 px-3 text-base font-semibold leading-6 text-gray-900 hover:bg-gray-400/10">Se connecter</a>
+                            <a href="#" class="-mx-3 block rounded-lg py-2.5 px-3 text-base font-semibold leading-6 text-gray-200 hover:text-violet-300">Se connecter</a>
                         </div>
                     </div>
                 </div>

@@ -59,6 +59,14 @@ Encore
         config.corejs = '3.23';
     })
 
+    // Copier les images dans le dossier public/build
+    .copyFiles({
+        from: './assets/images',
+        to: '[path][name].[hash:8].[ext]',
+        // to: 'images/[path][name].[ext]',
+        context: './assets'
+    })
+
     // enables Sass/SCSS support
     //.enableSassLoader()
 

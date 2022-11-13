@@ -41,7 +41,7 @@ class Event
     #[ORM\Column]
     private ?int $capacity = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255, nullable: true, options: ['default' => "event.jpeg"])]
     private ?string $imageFileName = null;
 
     #[ORM\Column]
@@ -106,7 +106,7 @@ class Event
         return $this;
     }
 
-    public function getStartsdAt(): ?\DateTimeImmutable
+    public function getStartsAt(): ?\DateTimeImmutable
     {
         return $this->startsAt;
     }
@@ -188,5 +188,10 @@ class Event
         $this->helpNeeded = $helpNeeded;
 
         return $this;
+    }
+
+    public function gratuit(): bool
+    {
+        return ($this->getPrice() == 0) || is_null($this->getPrice());
     }
 }

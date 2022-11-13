@@ -30,7 +30,7 @@ class EventFixtures extends Fixture
         $event->setStartsAt(startsAt: new \DateTimeImmutable(datetime: '2023/06/14'));
         $event->setStatus(status: 1);
         $event->setCapacity(capacity: 50);
-        $event->setImageFileName(imageFileName: 'apero-php.jpg');
+        $event->setImageFileName(imageFileName: 'event.jpeg');
         $event->setCreatedAt(createdAt: new \DateTimeImmutable(datetime: 'now'));
         $event->setUpdatedAt(updatedAt: new \DateTimeImmutable(datetime: 'now + 1 day'));
         $event->setHelpNeeded(helpNeeded: true);
@@ -46,7 +46,7 @@ class EventFixtures extends Fixture
             $event->setPrice(price: $faker->randomFloat(nbMaxDecimals: 2, min: 0, max: 50));
             $event->setStatus($faker->numberBetween(0, 2));
             $event->setCapacity(capacity: $faker->numberBetween(10,  100));
-            $event->setImageFileName(imageFileName: $faker->imageURL(width: 640, height: 480));
+            $event->setImageFileName(imageFileName: 'event.jpeg');
             $event->setHelpNeeded(helpNeeded: $faker->boolean());
 
             $date = $faker->dateTimeBetween('now', '+6 months');

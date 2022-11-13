@@ -63,4 +63,14 @@ class EventRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function findUpcomming()
+    {
+        $qb = $this->createQueryBuilder('events')
+            ->andWhere('events.startsAt > :now')
+            ->setParameter(':now', new \DateTime())
+            ->orderBy('events.startsAt', 'ASC');
+
+        return $qb->getQuery()->getResult();
+    }
 }
