@@ -13,7 +13,37 @@ Mettre en place une application web qui permet l'aide à l'organisation un évé
 - Commentaires
 
 ## Fonctionnalités
-- BDD User
-- BDD Event
-- BDD Poste
-- [ ] Créer un compte utilisateur
+- [x] BDD User
+  - [x] firstname
+  - [x] lastname
+  - [x] email
+  - [x] password
+  - [x] createdAt
+
+- [ ] BDD Event
+  - [ ] name
+    - string
+  - [ ] description
+    - string
+  - [ ] location
+    - string
+  - [ ] eventDate
+    - DateTimeImmutable
+  - [ ] createdAt
+    - dateTimeImmutable
+  - [ ] updatedAt
+    - dateTimeImmutable
+  - [ ] maxInscription
+    - integer
+  - [ ] helpNeeded
+    - boolean
+  -[ ] status
+    - integer
+  - [ ] price
+    - string
+
+- BDD help
+- 
+- [x] Créer un compte utilisateur
+- [x] Formulaire de connexion
+- [ ] Administration
