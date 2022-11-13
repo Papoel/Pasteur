@@ -1,21 +1,52 @@
 version: '3'
 
 services:
-###> doctrine/doctrine-bundle ###
-  database:
-    image: postgres:${POSTGRES_VERSION:-14}-alpine
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
-      # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
-      POSTGRES_USER: ${POSTGRES_USER:-app}
+  ###> doctrine/doctrine-bundle ###
+  db:
+    image: mariadb:latest
+    platform: linux/x86_64
+    container_name: db_pasteur
+    restart: always
     volumes:
-      - db-data:/var/lib/postgresql/data:rw
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
+      - db-data:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: db_pasteur
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    networks:
+      - dev
+    ports:
+      - "3306:3306"
+  ###< doctrine/doctrine-bundle ###
+
+  ###> phpMyAdmin ###
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: phpmyadmin_pasteur
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - "8085:80"
+    environment:
+      PMA_HOST: db
+    networks:
+      - dev
+  ###< phpMyAdmin ###
+
+  ###> MailDev ###
+  maildev:
+    image: maildev/maildev
+    container_name: maildev_pasteur
+    command: bin/maildev --web 80 --smtp 25 --hide-extensions STARTTLS
+    ports:
+      - "8081:80"
+    restart: always
+    networks:
+      - dev
+###< MailDev ###
+
+networks:
+  dev:
 
 volumes:
-###> doctrine/doctrine-bundle ###
   db-data:
-###< doctrine/doctrine-bundle ###
