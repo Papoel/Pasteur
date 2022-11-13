@@ -19,28 +19,32 @@ Mettre en place une application web qui permet l'aide à l'organisation un évé
   - [x] email
   - [x] password
   - [x] createdAt
+- [x] Fixtures User
 
-- [ ] BDD Event
-  - [ ] name
+- [x] BDD Event
+  - [x] name
     - string
-  - [ ] description
+  - [x] description
     - string
-  - [ ] location
+  - [x] location
     - string
-  - [ ] eventDate
+  - [x] startsAt
     - DateTimeImmutable
-  - [ ] createdAt
-    - dateTimeImmutable
-  - [ ] updatedAt
-    - dateTimeImmutable
-  - [ ] maxInscription
-    - integer
-  - [ ] helpNeeded
-    - boolean
-  -[ ] status
-    - integer
-  - [ ] price
+  - [x] price
     - string
+  - [x] status
+    - integer
+  - [x] capacity
+    - integer
+  - [x] helpNeeded
+    - boolean
+  - [x] createdAt
+    - dateTimeImmutable
+  - [x] updatedAt
+    - dateTimeImmutable
+  - [x] imageFileName
+    - string
+  - [ ] Fixtures Event 
 
 - BDD help
 - 
