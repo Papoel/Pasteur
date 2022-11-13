@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block body %}
+
+    <section class="h-screen">
+        <div class="px-6 h-full text-gray-800">
+            <div class="flex xl:justify-center lg:justify-between justify-center items-center flex-wrap h-full g-6">
+                <div class="grow-0 shrink-1 md:shrink-0 basis-auto xl:w-6/12 lg:w-6/12 md:w-9/12 mb-12 md:mb-0">
+                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+                         class="w-full"
+                         alt="Sample image"
+                    />
+                </div>
+
+                <div class="xl:ml-20 xl:w-5/12 lg:w-5/12 md:w-8/12 mb-12 md:mb-0">
+                    <form method="post">
+                        {% if error %}
+                            <div class="bg-red-100 border-t-4 border-red-500 rounded-b text-red-900 px-4 py-3 shadow-md mb-8" role="alert">
+                                <div class="flex">
+                                    <div class="py-1"><svg class="fill-current h-6 w-6 text-red-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"/></svg></div>
+                                    <div>
+                                        <p class="font-bold">Une Erreur s'est produite ...</p>
+                                        <p class="text-sm">{{ error.messageKey|trans(error.messageData, 'security') }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% if app.user %}
+                            <div class="mb-3">
+                                Vous êtes connecté en tant que {{ app.user.userIdentifier }}, souhaitez-vous vous<a href="{{ path('app_logout') }}">déconnecter ?</a>
+                            </div>
+                        {% endif %}
+
+                        <!-- Email input -->
+                        <div class="mb-6">
+                            <label for="inputEmail">Email</label>
+                            <input type="email"
+                                   value="{{ last_username }}"
+                                   name="email"
+                                   id="inputEmail"
+                                   class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                                   autocomplete="email"
+                                   required autofocus
+                            />
+                        </div>
+                        <!-- Password input -->
+                        <div class="mb-6">
+                            <label for="inputPassword">Mot de passe</label>
+                            <input type="password"
+                                   name="password"
+                                   id="inputPassword"
+                                   class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                                   autocomplete="current-password"
+                                   required
+                            />
+                        </div>
+
+                        <div class="flex justify-between items-center mb-6">
+{#                            <div class="form-group form-check">#}
+{#                                <input#}
+{#                                        type="checkbox"#}
+{#                                        class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"#}
+{#                                        id="exampleCheck2"#}
+{#                                />#}
+{#                                <label class="form-check-label inline-block text-gray-800" for="exampleCheck2"#}
+{#                                >Nepas m'oublier</label#}
+{#                                >#}
+{#                            </div>#}
+                            <a href="#" class="font-medium text-blue-600 hover:text-blue-500">
+                                   Mot de passe oublié?
+                            </a>
+                        </div>
+
+                        <div class="text-center lg:text-left">
+                            <button type="submit"
+                                    class="inline-block px-7 py-3 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+                            >
+                                Connexion
+                            </button>
+                        </div>
+
+                        <input type="hidden" name="_csrf_token"
+                               value="{{ csrf_token('authenticate') }}"
+                        >
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
