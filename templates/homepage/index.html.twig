@@ -3,9 +3,9 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
-    <div class="isolate bg-white">
-        {% include('components/_hero_svg.html.twig') %}
+    <section class="isolate bg-white" id="hero">
         {% include('components/_navbar.html.twig') %}
+        {% include('components/_hero_svg.html.twig') %}
         <main>
             <div class="relative px-6 lg:px-8">
                 <div class="mx-auto max-w-3xl pt-20 pb-32 sm:pt-48 sm:pb-40">
@@ -22,11 +22,11 @@
                             </div>
                         </div>
                         <div>
-                            <h1 class="text-4xl font-bold tracking-tight sm:text-center sm:text-6xl">Association des Parents d'Eléves</h1>
-                            <p class="mt-6 text-lg leading-8 text-gray-600 sm:text-center">Ecole primaire Pasteur - Rousies</p>
+                            <h1 class="text-center text-4xl font-bold tracking-tight sm:text-center sm:text-6xl">Association des Parents d'Eléves</h1>
+                            <p class="text-center mt-6 text-lg leading-8 text-gray-600 sm:text-center">Ecole primaire Pasteur - Rousies</p>
                             <span class="flex justify-center mt-4 text-sm text-center text-gray-400">Conçu et développé par Pascal Briffard</span>
-                            <div class="mt-8 flex gap-x-4 sm:justify-center">
-                                <a href="#" class="inline-block rounded-lg bg-indigo-600 px-4 py-1.5 text-base font-semibold leading-7 text-white shadow-sm ring-1 ring-indigo-600 hover:bg-indigo-700 hover:ring-indigo-700">
+                            <div class="mt-8 flex gap-x-4 justify-center">
+                                <a href="{{ path('app_events') }}" class="inline-block rounded-lg bg-indigo-600 px-4 py-1.5 text-base font-semibold leading-7 text-white shadow-sm ring-1 ring-indigo-600 hover:bg-indigo-700 hover:ring-indigo-700">
                                     Nos prochaines actions
                                     <span class="text-indigo-200" aria-hidden="true">&rarr;</span>
                                 </a>
@@ -47,5 +47,5 @@
                 </div>
             </div>
         </main>
-    </div>
+    </section>
 {% endblock %}

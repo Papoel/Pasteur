@@ -41,7 +41,7 @@ class Event
     #[ORM\Column]
     private ?int $capacity = null;
 
-    #[ORM\Column(length: 255, nullable: true, options: ['default' => "event.jpeg"])]
+    #[ORM\Column(length: 255, nullable: true, options: ['default' => 'event.jpeg'])]
     private ?string $imageFileName = null;
 
     #[ORM\Column]
@@ -192,6 +192,6 @@ class Event
 
     public function gratuit(): bool
     {
-        return ($this->getPrice() == 0) || is_null($this->getPrice());
+        return (0 == $this->getPrice()) || is_null($this->getPrice());
     }
 }

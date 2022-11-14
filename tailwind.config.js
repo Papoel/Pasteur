@@ -5,6 +5,7 @@ module.exports = {
     'src/Form/*.php',
     'assets/scripts/*.js',
     '/node_modules/tw-elements/dist/js/**/*.js',
+    "./node_modules/flowbite/**/*.js"
   ],
   theme: {
     extend: {},
@@ -12,5 +13,6 @@ module.exports = {
   plugins: [
     require('tw-elements/dist/plugin'),
     require('@tailwindcss/forms'),
+    require('flowbite/plugin')
   ],
 }

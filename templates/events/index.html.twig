@@ -4,36 +4,37 @@
 
 {% block body %}
     {% include('components/_navbar.html.twig') %}
-    <main class="h-screen mt-12">
-        <div id="header">
+    <section class="h-screen">
+        <div id="header" class="mt-40">
             <h1 class="text-center mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl">
-                Découvrez nos
-                <mark class="px-2 text-white bg-blue-600 rounded dark:bg-violet-500">évenements</mark>
-                à venir.
+                Découvrez nos<mark class="px-2 text-white bg-blue-600 rounded dark:bg-indigo-500">évenements</mark>à venir.
             </h1>
             <p class="text-center text-lg font-normal text-gray-500 lg:text-xl">
-                L'APE à besoin d'aide, ne soyez pas timide, nous vous attendons.
+                L'APE à besoin d'aide, ne soyez pas timide, nous vous attendons 😀.
             </p>
         </div>
 
-        <div class="mt-24 p-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-5">
+        <div class="p-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-5">
             {% for event in events %}
-                <div class="rounded overflow-hidden shadow-lg hover:shadow-xl hover:shadow-violet-100 relative">
-                    <div class="absolute left-[-34px] top-[32px] w-[170px] transform -rotate-45 bg-violet-600 text-center text-white font-semibold py-1 text-sm tracking-tight">
+                <div class="rounded overflow-hidden shadow-lg hover:shadow-xl hover:shadow-indigo-100 relative">
+                    <div class="absolute left-[-34px] top-[32px] w-[170px] transform -rotate-45 bg-indigo-600 text-center text-white font-semibold py-1 text-sm tracking-tight">
                         {{ event.startsAt|date("d / m / Y") }}
                     </div>
                     <img class="w-full" src="{{ asset('build/images/' ~ event.imageFileName) }}" alt="{{ event.imageFileName }}">
-
-                        <div class="inline-flex items-center justify-center px-2 py-1 mr-2 text-sm font-bold leading-none text-white bg-pink-300 rounded-full">{{ event.location }}</div>
+                    <div class="flex justify-end">
+                        <span class="mt-2 mx-4 px-4 py-1 text-sm leading-none text-white bg-indigo-500 rounded-full">{{ event.location }}</span>
+                    </div>
                     <div class="px-6 py-4">
                         <div class="font-bold text-lg mb-2">{{ event.name }}</div>
                         <p class="text-gray-700 text-base">{{ event.description|u.truncate(25) }}</p>
                     </div>
                     <div class="flex justify-between px-6 pt-4 pb-2">
-                        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#{{ event.status }}</span>
+                        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                            {{ event.price }} €
+                        </span>
                     </div>
                     <div class="flex justify-between px-6 pt-4 pb-2">
-                        <a href="#" class="m-3 inline-block px-6 py-2 border-2 border-violet-500 text-violet-500 font-medium text-xs leading-tight uppercase rounded hover:bg-violet-700 hover:text-white focus:outline-none focus:ring-0 transition duration-150 ease-in-out">
+                        <a href="#" class="m-3 inline-block px-6 py-2 border-2 border-indigo-500 text-indigo-500 font-medium text-xs leading-tight uppercase rounded hover:bg-indigo-700 hover:text-white focus:outline-none focus:ring-0 transition duration-150 ease-in-out">
                             S'inscrire
                         </a>
                         <a href="#" class="m-3 inline-block px-6 py-2 border-2 border-teal-500 text-teal-500 font-medium text-xs leading-tight uppercase rounded hover:bg-teal-700 hover:text-white focus:outline-none focus:ring-0 transition duration-150 ease-in-out">
@@ -44,5 +45,5 @@
             {% endfor %}
         </div>
 
-    </main>
+    </section>
 {% endblock %}

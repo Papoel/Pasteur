@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace App\DataFixtures;
 
 use App\Entity\Event;
@@ -12,9 +11,8 @@ use Faker\Factory;
 
 class EventFixtures extends Fixture
 {
-
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function load(ObjectManager $manager): void
     {
@@ -45,7 +43,7 @@ class EventFixtures extends Fixture
             $event->setLocation(location: $faker->city());
             $event->setPrice(price: $faker->randomFloat(nbMaxDecimals: 2, min: 0, max: 50));
             $event->setStatus($faker->numberBetween(0, 2));
-            $event->setCapacity(capacity: $faker->numberBetween(10,  100));
+            $event->setCapacity(capacity: $faker->numberBetween(10, 100));
             $event->setImageFileName(imageFileName: 'event.jpeg');
             $event->setHelpNeeded(helpNeeded: $faker->boolean());
 

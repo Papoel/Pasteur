@@ -9,5 +9,7 @@
 import './styles/app.css';
 import 'tw-elements'
 import('@tailwindcss/forms');
+import('flowbite/plugin');
+import('./scripts/flowbite.min');
 
 console.log('Webpack est connecté !');
