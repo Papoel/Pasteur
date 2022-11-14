@@ -21,16 +21,17 @@
                         {{ event.startsAt|date("d / m / Y") }}
                     </div>
                     <img class="w-full" src="{{ asset('build/images/' ~ event.imageFileName) }}" alt="{{ event.imageFileName }}">
-                    <div class="flex justify-end">
-                        <span class="mt-2 mx-4 px-4 py-1 text-sm leading-none text-white bg-indigo-500 rounded-full">{{ event.location }}</span>
+                    <div class="flex justify-between m-2">
+                        <div class="font-bold text-lg">{{ event.name }}</div>
+                        <div class="mt-1 px-4 py-1 text-sm leading-none text-white bg-indigo-500 rounded-full">{{ event.location }}</div>
                     </div>
                     <div class="px-6 py-4">
-                        <div class="font-bold text-lg mb-2">{{ event.name }}</div>
                         <p class="text-gray-700 text-base">{{ event.description|u.truncate(25) }}</p>
+                        L'événement se déroulera du {{ event.startsAt|date("d / m / Y") }} au {{ event.endsAt|date("d / m / Y") }}
                     </div>
                     <div class="flex justify-between px-6 pt-4 pb-2">
-                        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-                            {{ event.price }} €
+                        <span class="{{ format_price(event) == 'Gratuit' ? 'bg-green-100 text-green-800 uppercase' :'bg-gray-200' }} inline-block rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                            {{ format_price(event)}}
                         </span>
                     </div>
                     <div class="flex justify-between px-6 pt-4 pb-2">

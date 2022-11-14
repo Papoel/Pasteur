@@ -25,7 +25,8 @@ class EventFixtures extends Fixture
         $event->setDescription(description: 'Apéro PHP est un événement mensuel qui a lieu à Maubeuge. Il est organisé par la communauté PHP francophone.');
         $event->setLocation(location: 'Maubeuge');
         $event->setPrice(price: 0);
-        $event->setStartsAt(startsAt: new \DateTimeImmutable(datetime: '2023/06/14'));
+        $event->setStartsAt(startsAt: new \DateTimeImmutable(datetime: '2023/06/14 11:00'));
+        $event->setFinishAt(finishAt:  new \DateTimeImmutable(datetime: '2023/06/14 18:30'));
         $event->setStatus(status: 1);
         $event->setCapacity(capacity: 50);
         $event->setImageFileName(imageFileName: 'event.jpeg');
@@ -47,15 +48,20 @@ class EventFixtures extends Fixture
             $event->setImageFileName(imageFileName: 'event.jpeg');
             $event->setHelpNeeded(helpNeeded: $faker->boolean());
 
-            $date = $faker->dateTimeBetween('now', '+6 months');
+            $date = $faker->dateTimeBetween(startDate: 'now', endDate: '+6 months');
             $immutable = \DateTimeImmutable::createFromMutable($date);
             $event->setStartsAt($immutable);
 
-            $date = $faker->dateTimeBetween('-3 months', '-1 day');
+            $date = $event->getStartsAt();
+
+            $date = $date->modify(modifier: '+'. $faker->numberBetween(int1: 4, int2: 16) .' hours');
+            $event->setFinishAt($date);
+
+            $date = $faker->dateTimeBetween(startDate: '-3 months', endDate: '-1 day');
             $immutable = \DateTimeImmutable::createFromMutable($date);
             $event->setCreatedAt($immutable);
 
-            $date = $faker->dateTimeBetween('-3 months', '-1 day');
+            $date = $faker->dateTimeBetween(startDate: '-3 months', endDate: '-1 day');
             $immutable = \DateTimeImmutable::createFromMutable($date);
             $event->setUpdatedAt($immutable);
 

@@ -36,6 +36,9 @@ class Event
     private ?\DateTimeImmutable $startsAt = null;
 
     #[ORM\Column]
+    private ?\DateTimeImmutable $finishAt = null;
+
+    #[ORM\Column]
     private ?int $status = null;
 
     #[ORM\Column]
@@ -118,6 +121,18 @@ class Event
         return $this;
     }
 
+    public function getFinishAt(): ?\DateTimeImmutable
+    {
+        return $this->finishAt;
+    }
+
+    public function setFinishAt(\DateTimeImmutable $finishAt): self
+    {
+        $this->finishAt = $finishAt;
+
+        return $this;
+    }
+
     public function getStatus(): string
     {
         return self::STATUS[$this->status];
@@ -190,7 +205,7 @@ class Event
         return $this;
     }
 
-    public function gratuit(): bool
+    public function isFree(): bool
     {
         return (0 == $this->getPrice()) || is_null($this->getPrice());
     }
