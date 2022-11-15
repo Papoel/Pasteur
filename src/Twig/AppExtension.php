@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Twig;
 
+use Twig\Error\RuntimeError;
+use Twig\Extra\Intl\IntlExtension;
 use Twig\TwigFilter;
 use App\Entity\Event;
 use Twig\TwigFunction;
-use Twig\Extra\Intl\IntlExtension;
+use Twig\Extra\Intl;
 use Twig\Extension\AbstractExtension;
 
 class AppExtension extends AbstractExtension
@@ -40,10 +42,12 @@ class AppExtension extends AbstractExtension
 
     public function format_price(Event $event): string
     {
-
         return $event->isFree() ? 'Gratuit' : $event->getPrice() . ' €';
     }
 
+    /**
+     * @throws RuntimeError
+     */
     public function formatDateTime(\DateTimeInterface $dateTime): string
     {
         return $dateTime->format(format: 'F d, Y \a\t h:i A');
