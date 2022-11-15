@@ -33,6 +33,7 @@ class EventFixtures extends Fixture
         $event->setCreatedAt(createdAt: new \DateTimeImmutable(datetime: 'now'));
         $event->setUpdatedAt(updatedAt: new \DateTimeImmutable(datetime: 'now + 1 day'));
         $event->setHelpNeeded(helpNeeded: true);
+        $event->setSlug($event->getName());
 
         $manager->persist($event);
         $events[] = $event;
@@ -64,6 +65,8 @@ class EventFixtures extends Fixture
             $date = $faker->dateTimeBetween(startDate: '-3 months', endDate: '-1 day');
             $immutable = \DateTimeImmutable::createFromMutable($date);
             $event->setUpdatedAt($immutable);
+
+            $event->setSlug($event->getName());
 
             $manager->persist($event);
             $events[] = $event;

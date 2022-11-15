@@ -56,6 +56,9 @@ class Event
     #[ORM\Column(nullable: true)]
     private ?bool $helpNeeded = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $slug = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -208,5 +211,17 @@ class Event
     public function isFree(): bool
     {
         return (0 == $this->getPrice()) || is_null($this->getPrice());
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
     }
 }
