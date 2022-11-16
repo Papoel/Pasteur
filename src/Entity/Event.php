@@ -3,10 +3,14 @@
 namespace App\Entity;
 
 use App\Repository\EventRepository;
+use Cocur\Slugify\Slugify;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EventRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Event
 {
     public const STATUS = [
@@ -58,6 +62,29 @@ class Event
 
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
+
+    #[ORM\OneToMany(mappedBy: 'event', targetEntity: Registration::class)]
+    private Collection $registrations;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
+
+        $this->registrations = new ArrayCollection();
+    }
+
+    #[ORM\PrePersist]
+    public function prePersist()
+    {
+        $this->slug = (new Slugify())->slugify($this->name);
+    }
+
+    #[ORM\PreUpdate]
+    public function preUpdate()
+    {
+        $this->updatedAt = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -223,5 +250,40 @@ class Event
         $this->slug = $slug;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Registration>
+     */
+    public function getRegistrations(): Collection
+    {
+        return $this->registrations;
+    }
+
+    public function addRegistration(Registration $registration): self
+    {
+        if (!$this->registrations->contains($registration)) {
+            $this->registrations->add($registration);
+            $registration->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRegistration(Registration $registration): self
+    {
+        if ($this->registrations->removeElement($registration)) {
+            // set the owning side to null (unless already changed)
+            if ($registration->getEvent() === $this) {
+                $registration->setEvent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->name;
     }
 }

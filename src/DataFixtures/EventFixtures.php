@@ -26,14 +26,14 @@ class EventFixtures extends Fixture
         $event->setLocation(location: 'Maubeuge');
         $event->setPrice(price: 0);
         $event->setStartsAt(startsAt: new \DateTimeImmutable(datetime: '2023/06/14 11:00'));
-        $event->setFinishAt(finishAt:  new \DateTimeImmutable(datetime: '2023/06/14 18:30'));
+        $event->setFinishAt(finishAt:  new \DateTimeImmutable(datetime: '2023/06/16 18:30'));
         $event->setStatus(status: 1);
         $event->setCapacity(capacity: 50);
         $event->setImageFileName(imageFileName: 'event.jpeg');
         $event->setCreatedAt(createdAt: new \DateTimeImmutable(datetime: 'now'));
         $event->setUpdatedAt(updatedAt: new \DateTimeImmutable(datetime: 'now + 1 day'));
         $event->setHelpNeeded(helpNeeded: true);
-        $event->setSlug($event->getName());
+        // $event->setSlug($event->getName());
 
         $manager->persist($event);
         $events[] = $event;
@@ -66,7 +66,7 @@ class EventFixtures extends Fixture
             $immutable = \DateTimeImmutable::createFromMutable($date);
             $event->setUpdatedAt($immutable);
 
-            $event->setSlug($event->getName());
+            // $event->setSlug($event->getName());
 
             $manager->persist($event);
             $events[] = $event;

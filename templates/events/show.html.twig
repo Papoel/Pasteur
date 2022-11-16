@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title event.name %}
+
+{% block body %}
+{% include('components/_navbar.html.twig') %}
+    <section class="text-gray-600 body-font mt-12">
+        <div class="container px-5 py-24 mx-auto">
+            <div class="flex flex-col text-center w-full mb-20">
+                <h2 class="text-xs text-yellow-500 tracking-widest font-medium title-font mb-1 uppercase">{{ event.startsAt|format_datetime('full', 'short') }}</h2>
+                <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900 uppercase">{{ event.name }}</h1>
+                <p class="lg:w-2/3 mx-auto leading-relaxed text-base py-20">
+                    {{ event.description }}
+                </p>
+            </div>
+            <div class="flex flex-wrap justify-center">
+                <div class="xl:w-1/4 lg:w-1/2 md:w-full px-8 py-6 border-l-2 border-gray-200 border-opacity-60">
+                    <h2 class="text-lg sm:text-xl text-gray-900 font-medium title-font mb-2">Ou</h2>
+                    <p class="leading-relaxed text-base mb-4">{{ event.location }}</p>
+                </div>
+                <div class="xl:w-1/4 lg:w-1/2 md:w-full px-8 py-6 border-l-2 border-gray-200 border-opacity-60">
+                    <h2 class="text-lg sm:text-xl text-gray-900 font-medium title-font mb-2">Horaire</h2>
+                    {% set difference = date(event.finishAt).diff(date(event.startsAt)) %}
+                    {% set leftDays = difference.days %}
+                    {% if leftDays == 0 %}
+                        <p class="leading-relaxed text-base mb-4">
+                            {{ event.startsAt|format_datetime('short', 'none',) }} de
+                            {{ event.startsAt|format_datetime('none', 'short',) }}
+                            à {{ event.finishAt|format_datetime('none', 'short',) }}
+                        </p>
+                    {% else %}
+                        <p class="leading-relaxed text-base mb-4">
+                            {{ event.startsAt|format_datetime('short', 'short') }} <br/>
+                            {{ event.finishAt|format_datetime('short', 'short') }}
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+            {% if event.helpNeeded %}
+                <div class="flex justify-center">
+                    <a href="#" class="flex mx-auto mt-16 text-white bg-yellow-500 border-0 py-2 px-8 hover:bg-yellow-600 rounded text-lg">
+                        Proposer son aide pour organiser l'événement</a>
+                </div>
+            {% endif %}
+        </div>
+
+
+
+
+
+    </section>
+
+{% endblock %}
