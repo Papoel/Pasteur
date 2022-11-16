@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace App\Twig;
 
+use App\Entity\Event\Event;
 use Twig\Error\RuntimeError;
-use Twig\Extra\Intl\IntlExtension;
-use Twig\TwigFilter;
-use App\Entity\Event;
-use Twig\TwigFunction;
-use Twig\Extra\Intl;
 use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
+use Twig\TwigFunction;
 
 class AppExtension extends AbstractExtension
 {

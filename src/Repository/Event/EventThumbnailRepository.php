@@ -1,27 +1,27 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\Event;
 
-use App\Entity\Event;
+use App\Entity\Event\Thumbnail;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Event>
+ * @extends ServiceEntityRepository<Thumbnail>
  *
- * @method Event|null find($id, $lockMode = null, $lockVersion = null)
- * @method Event|null findOneBy(array $criteria, array $orderBy = null)
- * @method Event[]    findAll()
- * @method Event[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Thumbnail|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Thumbnail|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Thumbnail[]    findAll()
+ * @method Thumbnail[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class EventRepository extends ServiceEntityRepository
+class EventThumbnailRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Event::class);
+        parent::__construct($registry, Thumbnail::class);
     }
 
-    public function save(Event $entity, bool $flush = false): void
+    public function save(Thumbnail $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class EventRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Event $entity, bool $flush = false): void
+    public function remove(Thumbnail $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class EventRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return Event[] Returns an array of Event objects
+//     * @return EventThumbnail[] Returns an array of EventThumbnail objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class EventRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Event
+//    public function findOneBySomeField($value): ?EventThumbnail
 //    {
 //        return $this->createQueryBuilder('e')
 //            ->andWhere('e.exampleField = :val')
@@ -63,14 +63,4 @@ class EventRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
-
-    public function findUpcomming()
-    {
-        $qb = $this->createQueryBuilder('events')
-            ->andWhere('events.startsAt > :now')
-            ->setParameter(':now', new \DateTime())
-            ->orderBy('events.startsAt', 'ASC');
-
-        return $qb->getQuery()->getResult();
-    }
 }

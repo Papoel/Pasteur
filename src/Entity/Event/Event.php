@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Event;
 
-use App\Repository\EventRepository;
+use App\Repository\Event\EventRepository;
 use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -62,6 +62,9 @@ class Event
 
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
+
+    #[ORM\OneToOne(inversedBy: 'event' ,targetEntity: Thumbnail::class, cascade: ['persist', 'remove'])]
+    private Thumbnail $thumbnail;
 
     #[ORM\OneToMany(mappedBy: 'event', targetEntity: Registration::class)]
     private Collection $registrations;
@@ -285,5 +288,17 @@ class Event
     public function __toString(): string
     {
         return $this->name;
+    }
+
+    public function getThumbnail(): ?Thumbnail
+    {
+        return $this->thumbnail;
+    }
+
+    public function setThumbnail(?Thumbnail $thumbnail): self
+    {
+        $this->thumbnail = $thumbnail;
+
+        return $this;
     }
 }

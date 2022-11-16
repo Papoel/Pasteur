@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Event;
 
-use App\Repository\RegistrationRepository;
+use App\Repository\Event\RegistrationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RegistrationRepository::class)]

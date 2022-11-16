@@ -2,8 +2,8 @@
 
 namespace App\Controller\Events;
 
-use App\Entity\Event;
-use App\Repository\EventRepository;
+use App\Entity\Event\Event;
+use App\Repository\Event\EventRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

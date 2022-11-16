@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\Event;
 
-use App\Entity\Registration;
+use App\Entity\Event\Registration;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
