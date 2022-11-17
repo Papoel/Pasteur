@@ -11,9 +11,6 @@ use Faker\Factory;
 
 class EventFixtures extends Fixture
 {
-    /**
-     * {@inheritDoc}
-     */
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('fr_FR');

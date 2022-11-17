@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class EventRegistrationsController extends AbstractController
 {
     #[Route(path: '/evenement/{slug}/inscription-aide', name: 'event_help_registration')]
-    public function index(Event $event)
+    public function index(Event $event): Response
     {
         return $this->render(view: 'inscriptions/index.html.twig', parameters: [
             'event' => $event,
@@ -31,7 +31,6 @@ class EventRegistrationsController extends AbstractController
         $registration = new Registration();
 
         $form = $this->createForm(type: RegistrationHelpFormType::class, data: $registration);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -44,7 +43,6 @@ class EventRegistrationsController extends AbstractController
                 $this->addFlash(type: 'danger', message: 'Cette adresse email est déjà enregistrée pour cet événement.');
                 return $this->redirectToRoute(route: 'event_help_registration', parameters: ['slug' => $event->getSlug()]);
             }
-
 
              $em->persist($registration);
              $em->flush();

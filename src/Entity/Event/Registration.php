@@ -26,6 +26,9 @@ class Registration
     #[ORM\Column(length: 150)]
     private ?string $howHeard;
 
+    #[ORM\Column(length: 150)]
+    private ?string $activity;
+
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $message = null;
 
@@ -81,6 +84,18 @@ class Registration
     public function setHowHeard(string $howHeard): self
     {
         $this->howHeard = $howHeard;
+
+        return $this;
+    }
+
+    public function getActivity(): ?string
+    {
+        return $this->activity;
+    }
+
+    public function setActivity(string $activity): self
+    {
+        $this->activity = $activity;
 
         return $this;
     }

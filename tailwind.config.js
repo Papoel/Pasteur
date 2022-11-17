@@ -5,7 +5,7 @@ module.exports = {
     'src/Form/*.php',
     'assets/scripts/*.js',
     '/node_modules/tw-elements/dist/js/**/*.js',
-    "./node_modules/flowbite/**/*.js"
+    './node_modules/flowbite/**/*.js'
   ],
   theme: {
     extend: {},
