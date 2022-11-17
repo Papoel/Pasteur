@@ -3,6 +3,7 @@
 namespace App\Entity\Event;
 
 use App\Repository\Event\RegistrationRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RegistrationRepository::class)]
@@ -21,6 +22,12 @@ class Registration
 
     #[ORM\Column(length: 10, nullable: true)]
     private ?string $phone = null;
+
+    #[ORM\Column(length: 150)]
+    private ?string $howHeard;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $message = null;
 
     #[ORM\ManyToOne(inversedBy: 'registrations')]
     private ?Event $event = null;
@@ -62,6 +69,30 @@ class Registration
     public function setPhone(?string $phone): self
     {
         $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getHowHeard(): ?string
+    {
+        return $this->howHeard;
+    }
+
+    public function setHowHeard(string $howHeard): self
+    {
+        $this->howHeard = $howHeard;
+
+        return $this;
+    }
+
+    public function getMessage(): ?string
+    {
+        return $this->message;
+    }
+
+    public function setMessage(?string $message): self
+    {
+        $this->message = $message;
 
         return $this;
     }

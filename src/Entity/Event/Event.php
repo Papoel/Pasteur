@@ -69,12 +69,16 @@ class Event
     #[ORM\OneToMany(mappedBy: 'event', targetEntity: Registration::class)]
     private Collection $registrations;
 
+    #[ORM\OneToMany(mappedBy: 'event', targetEntity: Activity::class)]
+    private Collection $activities;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
 
         $this->registrations = new ArrayCollection();
+        $this->activities = new ArrayCollection();
     }
 
     #[ORM\PrePersist]
@@ -298,6 +302,36 @@ class Event
     public function setThumbnail(?Thumbnail $thumbnail): self
     {
         $this->thumbnail = $thumbnail;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Activity>
+     */
+    public function getActivities(): Collection
+    {
+        return $this->activities;
+    }
+
+    public function addActivity(Activity $activity): self
+    {
+        if (!$this->activities->contains($activity)) {
+            $this->activities->add($activity);
+            $activity->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActivity(Activity $activity): self
+    {
+        if ($this->activities->removeElement($activity)) {
+            // set the owning side to null (unless already changed)
+            if ($activity->getEvent() === $this) {
+                $activity->setEvent(null);
+            }
+        }
 
         return $this;
     }

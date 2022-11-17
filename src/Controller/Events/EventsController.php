@@ -19,9 +19,11 @@ class EventsController extends AbstractController
     }
 
     #[Route('/evenement/{slug}', name: 'app_event_show')]
-    public function show(Event $event): Response
+    public function show(Event $event, EventRepository $eventRepository): Response
     {
-        //dd($event);
-        return $this->render('events/show.html.twig', compact('event'));
+        $events = $eventRepository->findUpcomming();
+
+        return $this->render(view: 'events/show.html.twig', parameters: compact('event', 'events'));
+
     }
 }
