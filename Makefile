@@ -427,9 +427,11 @@ rapport-tests:
 .PHONY: rapport-tests
 
 first-install: ## First install.
-	$(MAKE) composer-install
-	$(MAKE) yarn install
-	$(MAKE) yarn build
-	$(MAKE) init-db
-	$(MAKE) start
+	$(COMPOSER) install    # Installe dépendances de Composer
+	$(YARN)     install    # Installe dépendances de Yarn
+	$(YARN)     build      # Compile les assets
+	$(MAKE)     up         # Lance les containers
+	$(MAKE)     init-db    # Initialise la base de données
+	$(MAKE)     serve      # Lance le serveur et ouvre le navigateur
+	$(YARN)     dev-server # Lance le serveur de développement de Yarn
 .PHONY: first-install
