@@ -7,7 +7,10 @@ namespace App\Controller\Events;
 
 use App\Entity\Event\Event;
 use App\Entity\Event\Registration;
+use App\Entity\PlagesHoraires\PlagesHoraires;
 use App\Form\RegistrationHelpFormType;
+use App\Repository\Event\EventRepository;
+use App\Repository\PlagesHoraires\PlagesHorairesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,8 +20,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class EventRegistrationsController extends AbstractController
 {
     #[Route(path: '/evenement/{slug}/inscription-aide', name: 'event_help_registration')]
-    public function index(Event $event): Response
+    public function index(Event $event, PlagesHorairesRepository $plages): Response
     {
+       dd('dd($event->getPlagesHoraires)', $event->getPlagesHoraires());
+
+
         return $this->render(view: 'inscriptions/index.html.twig', parameters: [
             'event' => $event,
             'registrations' => $event->getRegistrations(),

@@ -2,6 +2,7 @@
 
 namespace App\Entity\Event;
 
+use App\Entity\PlagesHoraires\PlagesHoraires;
 use App\Repository\Event\EventRepository;
 use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -69,22 +70,26 @@ class Event
     #[ORM\OneToMany(mappedBy: 'event', targetEntity: Registration::class)]
     private Collection $registrations;
 
+    #[ORM\ManyToMany(targetEntity: PlagesHoraires::class, mappedBy: 'event')]
+    private Collection $plagesHoraires;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
 
         $this->registrations = new ArrayCollection();
+        $this->plagesHoraires = new ArrayCollection();
     }
 
     #[ORM\PrePersist]
-    public function prePersist()
+    public function prePersist(): void
     {
         $this->slug = (new Slugify())->slugify($this->name);
     }
 
     #[ORM\PreUpdate]
-    public function preUpdate()
+    public function preUpdate(): void
     {
         $this->updatedAt = new \DateTimeImmutable();
     }
@@ -298,6 +303,33 @@ class Event
     public function setThumbnail(?Thumbnail $thumbnail): self
     {
         $this->thumbnail = $thumbnail;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PlagesHoraires>
+     */
+    public function getPlagesHoraires(): Collection
+    {
+        return $this->plagesHoraires;
+    }
+
+    public function addPlagesHoraire(PlagesHoraires $plagesHoraire): self
+    {
+        if (!$this->plagesHoraires->contains($plagesHoraire)) {
+            $this->plagesHoraires->add($plagesHoraire);
+            $plagesHoraire->addEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlagesHoraire(PlagesHoraires $plagesHoraire): self
+    {
+        if ($this->plagesHoraires->removeElement($plagesHoraire)) {
+            $plagesHoraire->removeEvent($this);
+        }
 
         return $this;
     }

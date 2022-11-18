@@ -48,6 +48,11 @@
                                 <th scope="col" class="py-3 px-6">
                                     Événement
                                 </th>
+                                {% if event.timeSlots %}
+                                    <th scope="col" class="py-3 px-6">
+                                        Disponibilités
+                                    </th>
+                                {% endif %}
                             </tr>
                             </thead>
                             <tbody>
@@ -59,6 +64,16 @@
                                     <td class="py-4 px-6 uppercase">
                                         {{ registration.activity }}
                                     </td>
+                                    {# Display timeslot for event #}
+                                    {% if event.timeSlots %}
+                                        <td class="py-4 px-6">
+                                            {% for timeSlot in event.timeSlots %}
+                                                <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                                                    {{ timeSlot.name }}
+                                                </span>
+                                            {% endfor %}
+                                        </td>
+                                    {% endif %}
                                 </tr>
                             {% endfor %}
                             </tbody>
