@@ -393,18 +393,6 @@ before-commit: ## Exécuter avant de commit.
 	$(MAKE) tests
 .PHONY: before-commit
 
-first-install: ## First install.
-	$(MAKE) docker-up
-	$(MAKE) composer-install
-	$(MAKE) npm-install
-	$(MAKE) npm-build
-	$(MAKE) sf-perm
-	$(MAKE) sf-dc
-	$(MAKE) sf-dmm
-	$(MAKE) sf-start
-	$(MAKE) sf-open
-.PHONY: first-install
-
 reset-db: ## Réinitialiser la base de données et créer un fichier de migration.
 	$(eval CONFIRM := $(shell read -p "Êtes-vous sûr de vouloir réinitialiser la base de données ? [y/N] " CONFIRM && echo $${CONFIRM:-N}))
 	@if [ "$(CONFIRM)" = "y" ]; then \
@@ -437,3 +425,11 @@ init-db-test-with-fixtures:
 rapport-tests:
 	vendor/bin/phpunit --testdox-html $(PROJECT)_tests.html
 .PHONY: rapport-tests
+
+first-install: ## First install.
+	$(MAKE) composer-install
+	$(MAKE) yarn install
+	$(MAKE) yarn build
+	$(MAKE) init-db
+	$(MAKE) start
+.PHONY: first-install
