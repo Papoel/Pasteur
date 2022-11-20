@@ -6,10 +6,17 @@ declare(strict_types=1);
 namespace App\DataFixtures;
 
 use App\Entity\PlagesHoraires\PlagesHoraires;
+use App\Repository\Event\EventRepository;
+use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
-class PlagesHorairesFixtures extends \Doctrine\Bundle\FixturesBundle\Fixture
+class PlagesHorairesFixtures extends Fixture
 {
+    public function __construct(
+        private EventRepository $eventRepository,
+    ) {
+    }
+
     public function load(ObjectManager $manager)
     {
         $plages = [];
@@ -23,6 +30,14 @@ class PlagesHorairesFixtures extends \Doctrine\Bundle\FixturesBundle\Fixture
 
             $manager->persist($plage);
             $plages[] = $plage;
+        }
+
+        $events =$this->eventRepository->findAll();
+
+        foreach ($events as $event) {
+            $event->addPlagesHoraire(
+                plagesHoraire: $plages[random_int(0, count($plages) - 1)]
+            );
         }
 
         $manager->flush();

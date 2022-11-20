@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinTable;
 
 #[ORM\Entity(repositoryClass: PlagesHorairesRepository::class)]
 class PlagesHoraires
@@ -24,11 +25,12 @@ class PlagesHoraires
     private ?\DateTimeInterface $endsAt = null;
 
     #[ORM\ManyToMany(targetEntity: Event::class, inversedBy: 'plagesHoraires')]
-    private Collection $event;
+    #[JoinTable(name: 'event_plages_horaires')]
+    private Collection $events;
 
     public function __construct()
     {
-        $this->event = new ArrayCollection();
+        $this->events = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -61,17 +63,17 @@ class PlagesHoraires
     }
 
     /**
-     * @return Collection<int, Event>
+     * @return Collection
      */
-    public function getEvent(): Collection
+    public function getEvents(): Collection
     {
-        return $this->event;
+        return $this->events;
     }
 
     public function addEvent(Event $event): self
     {
-        if (!$this->event->contains($event)) {
-            $this->event->add($event);
+        if (!$this->events->contains($event)) {
+            $this->events[] = $event;
         }
 
         return $this;
@@ -79,8 +81,13 @@ class PlagesHoraires
 
     public function removeEvent(Event $event): self
     {
-        $this->event->removeElement($event);
+        $this->events->removeElement($event);
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->startsAt->format(format: 'H:i') . ' - ' . $this->endsAt->format(format: 'H:i');
     }
 }

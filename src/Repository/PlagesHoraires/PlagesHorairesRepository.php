@@ -2,6 +2,7 @@
 
 namespace App\Repository\PlagesHoraires;
 
+use App\Entity\Event\Event;
 use App\Entity\PlagesHoraires\PlagesHoraires;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -63,4 +64,15 @@ class PlagesHorairesRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function findByEvent(Event $event)
+    {
+        return $this->createQueryBuilder('p')
+            ->innerJoin('p.events', 'e')
+            ->andWhere('e.id = :event')
+            ->setParameter('event', $event->getId())
+            ->getQuery()
+            ->getResult()
+        ;
+
+    }
 }

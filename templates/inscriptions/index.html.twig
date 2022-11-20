@@ -48,11 +48,9 @@
                                 <th scope="col" class="py-3 px-6">
                                     Événement
                                 </th>
-                                {% if event.timeSlots %}
-                                    <th scope="col" class="py-3 px-6">
-                                        Disponibilités
-                                    </th>
-                                {% endif %}
+                                <th scope="col" class="py-3 px-6">
+                                    Créneaux choisis
+                                </th>
                             </tr>
                             </thead>
                             <tbody>
@@ -64,63 +62,22 @@
                                     <td class="py-4 px-6 uppercase">
                                         {{ registration.activity }}
                                     </td>
-                                    {# Display timeslot for event #}
-                                    {% if event.timeSlots %}
-                                        <td class="py-4 px-6">
-                                            {% for timeSlot in event.timeSlots %}
-                                                <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-                                                    {{ timeSlot.name }}
-                                                </span>
+                                    <td>
+                                        <ul class="my-1 w-48 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                            {% for plage in event.plagesHoraires %}
+                                                <li class="py-2 px-4 w-full rounded-t-lg border-b border-gray-200 dark:border-gray-600">{{ plage }}</li>
                                             {% endfor %}
-                                        </td>
-                                    {% endif %}
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            {% endif %}
-        </div>
-        {#<section class="text-gray-600 body-font">
-            {% if registrations is not empty %}
-                <div class="container px-5 py-4 mx-auto">
-                    <div class="text-center mb-20">
-                        <h1 class="sm:text-3xl text-2xl font-medium text-center title-font text-gray-900 mb-4">Ne soyez pas timide</h1>
-                        <p class="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto">
-                            Les personnes ci-dessous nous apportent dèjà leur soutien et nous sommes fier de les compter parmi nous pour cette action.
-                        </p>
-                    </div>
-
-                    <div class="overflow-x-auto relative">
-                        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                            <tr>
-                                <th scope="col" class="py-3 px-6">
-                                    Nom
-                                </th>
-                                <th scope="col" class="py-3 px-6">
-                                    Événement
-                                </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for registration in registrations %}
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                    <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ registration.name }}
-                                    </th>
-                                    <td class="py-4 px-6 uppercase">
-                                        {{ registration.event.name }}
+                                        </ul>
                                     </td>
                                 </tr>
                             {% endfor %}
                             </tbody>
                         </table>
+
                     </div>
                 </div>
             {% endif %}
-        </section>#}
+        </div>
     </main>
 
 

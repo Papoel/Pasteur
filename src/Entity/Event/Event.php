@@ -70,7 +70,7 @@ class Event
     #[ORM\OneToMany(mappedBy: 'event', targetEntity: Registration::class)]
     private Collection $registrations;
 
-    #[ORM\ManyToMany(targetEntity: PlagesHoraires::class, mappedBy: 'event')]
+    #[ORM\ManyToMany(targetEntity: PlagesHoraires::class, mappedBy: 'events')]
     private Collection $plagesHoraires;
 
     public function __construct()
@@ -290,11 +290,6 @@ class Event
         return $this;
     }
 
-    public function __toString(): string
-    {
-        return $this->name;
-    }
-
     public function getThumbnail(): ?Thumbnail
     {
         return $this->thumbnail;
@@ -318,7 +313,7 @@ class Event
     public function addPlagesHoraire(PlagesHoraires $plagesHoraire): self
     {
         if (!$this->plagesHoraires->contains($plagesHoraire)) {
-            $this->plagesHoraires->add($plagesHoraire);
+            $this->plagesHoraires[] = $plagesHoraire;
             $plagesHoraire->addEvent($this);
         }
 
@@ -333,4 +328,11 @@ class Event
 
         return $this;
     }
+
+
+    public function __toString(): string
+    {
+        return $this->name;
+    }
+
 }

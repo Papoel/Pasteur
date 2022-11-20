@@ -1,54 +1,81 @@
-<nav class="bg-white px-2 sm:px-4 py-2.5 mb:24 fixed-top w-full z-20 top-0 left-0 border-b border-indigo-200 dark:border-gray-600 dark:bg-gray-900">
-    <div class="container flex flex-wrap justify-between items-center mx-auto">
-
-        <a href="/" class="flex items-center">
-        {% set color = '#363636' %}
-        <svg class="h-6 w-6 mr-3 sm:h-9 inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 792.000000 1280.000000">
-            <g transform="translate(0.000000,1280.000000) scale(0.100000,-0.100000)" fill="{{ color }}" stroke="none">
-                <path d="M1345 12790 c-8 -12 574 -1013 688 -1185 678 -1017 1680 -2173 2617 -3018 395 -357 667 -516 837 -491 73 10 83 16 251 136 208 149 283 179 508 200 266 25 517 -35 728 -175 111 -73 334 -294 453 -447 83 -107 305 -431 300 -437 -2 -1 -88 27 -192 63 -528 182 -794 243 -1005 230 -159 -9 -266 -47 -371 -130 -31 -25 -126 -127 -210 -227 -208 -247 -528 -612 -802 -913 -275 -302 -287 -329 -60 -133 59 52 207 186 328 299 329 307 516 504 709 746 105 132 122 147 223 195 63 29 77 32 190 35 80 3 157 -2 225 -12 222 -35 558 -135 908 -271 96 -37 184 -67 195 -67 37 2 58 41 51 96 -5 41 -26 80 -150 265 -179 268 -323 450 -480 606 -189 189 -329 280 -523 344 -301 98 -685 80 -923 -45 -36 -19 -109 -69 -163 -111 -120 -95 -170 -123 -218 -123 -120 0 -319 113 -563 318 -196 165 -495 443 -512 475 -6 12 -34 86 -63 163 -57 159 -297 739 -390 944 -104 228 -131 268 -168 244 -37 -23 -37 -37 -11 -210 14 -93 25 -170 23 -172 -1 -2 -30 34 -63 80 -97 134 -113 146 -147 111 -13 -12 -16 -27 -12 -57 6 -40 90 -304 109 -339 27 -51 -15 -10 -179 175 -634 718 -827 971 -1598 2091 -286 416 -523 756 -527 756 -4 1 -10 -4 -13 -9z m2506 -2657 c56 -122 179 -414 284 -668 57 -137 115 -277 130 -310 l25 -60 -167 170 c-93 94 -220 227 -285 296 l-116 124 -47 179 c-25 98 -45 179 -43 181 2 2 28 -28 58 -68 60 -78 93 -101 122 -86 36 20 40 44 23 164 -9 64 -18 122 -21 130 -4 8 -3 15 0 15 4 0 21 -30 37 -67z"/>
-                <path d="M1170 12627 c0 -7 -14 -48 -31 -92 -268 -687 -433 -1312 -470 -1777 -29 -355 16 -772 122 -1142 118 -415 399 -966 726 -1425 260 -364 600 -743 859 -958 442 -366 821 -542 1218 -567 85 -5 90 4 11 23 -374 88 -760 320 -1119 670 -613 600 -1101 1286 -1376 1936 -204 481 -281 930 -250 1470 28 507 90 863 298 1707 22 87 37 160 34 163 -10 9 -22 5 -22 -8z"/>
-                <path d="M3522 6498 c-66 -88 -120 -194 -131 -255 -7 -34 -4 -66 10 -125 27 -112 25 -131 -16 -172 -19 -19 -115 -89 -214 -156 -182 -123 -251 -184 -277 -245 -28 -69 -14 -124 56 -222 45 -64 48 -45 -27 -159 -54 -81 -54 -108 2 -219 l48 -95 -42 -117 c-22 -65 -41 -130 -41 -145 0 -31 44 -88 69 -88 31 0 31 -11 0 -50 -43 -53 -49 -107 -16 -145 13 -16 45 -36 71 -45 l46 -15 -25 -37 c-30 -45 -32 -81 -5 -108 23 -23 52 -25 100 -9 39 14 46 7 56 -65 7 -56 39 -96 77 -96 48 0 66 29 107 169 22 74 41 136 44 138 2 3 10 -22 16 -54 21 -99 49 -179 70 -198 28 -25 75 -23 104 4 13 12 38 63 56 113 18 49 35 86 39 81 4 -4 24 -34 45 -66 45 -67 63 -79 113 -75 56 5 71 34 89 173 9 66 17 121 19 123 1 2 23 -24 49 -56 83 -109 132 -137 191 -109 26 12 38 28 54 72 11 30 24 80 27 110 4 30 10 55 13 55 3 -1 18 -19 34 -41 35 -50 82 -74 119 -60 39 15 56 47 74 139 25 122 24 122 131 94 116 -30 138 -29 175 9 29 29 30 33 26 92 -7 77 -46 180 -155 406 -80 168 -244 473 -250 467 -2 -1 48 -137 111 -302 124 -326 186 -510 186 -549 0 -14 -1 -25 -3 -25 -1 0 -29 9 -60 20 -88 31 -138 35 -181 15 -40 -19 -81 -79 -92 -133 -6 -28 -24 -46 -24 -24 0 16 -71 80 -95 86 -33 8 -71 -8 -92 -40 -10 -15 -27 -74 -38 -132 l-20 -104 -62 79 c-85 110 -149 137 -206 86 -22 -20 -45 -97 -53 -178 l-6 -62 -47 48 c-40 41 -53 49 -83 49 -45 0 -92 -37 -110 -85 -6 -19 -15 -35 -18 -35 -4 0 -12 24 -19 54 -32 145 -105 210 -174 156 -27 -21 -81 -139 -92 -203 -4 -21 -10 -36 -14 -35 -3 2 -18 10 -33 17 -22 11 -28 21 -28 47 0 44 -41 91 -91 104 l-40 11 66 75 c75 86 84 123 41 163 -22 20 -33 23 -84 19 l-60 -4 20 45 c11 26 26 74 34 108 18 77 9 125 -40 212 l-35 62 48 74 c77 117 76 154 -9 272 -22 31 -40 62 -40 70 0 31 44 73 230 223 269 216 294 256 244 392 -50 136 -44 180 50 363 63 124 59 115 49 115 -4 0 -32 -33 -61 -72z"/>
-                <path d="M620 5405 c-142 -30 -243 -82 -345 -177 -195 -182 -288 -446 -271 -773 23 -450 260 -943 703 -1461 126 -149 421 -439 573 -565 978 -813 2213 -1286 3575 -1370 105 -6 195 -16 201 -21 7 -5 202 -240 435 -523 233 -283 425 -511 427 -506 2 5 -150 239 -337 520 -188 281 -341 513 -341 516 0 3 20 5 45 5 75 0 321 30 460 55 349 64 592 172 755 335 97 97 153 192 192 326 31 107 33 363 4 494 -23 107 -68 250 -112 359 -19 46 -34 85 -32 86 2 2 38 17 81 35 149 62 231 131 285 240 37 76 43 215 13 315 -107 361 -441 674 -867 814 -187 61 -342 84 -574 85 -257 0 -504 -32 -800 -104 -212 -52 -490 -143 -490 -161 0 -14 35 -11 174 16 373 72 678 105 974 105 324 0 486 -21 676 -87 341 -119 584 -319 722 -597 41 -83 47 -102 51 -179 5 -69 2 -97 -12 -133 -31 -82 -101 -142 -205 -176 -102 -34 -92 -38 -156 64 -112 177 -265 370 -398 503 -239 238 -428 344 -641 362 -304 25 -557 -275 -480 -570 42 -163 149 -278 354 -385 250 -130 509 -182 909 -182 l223 0 39 -83 c93 -197 142 -401 142 -592 1 -271 -113 -451 -373 -589 -216 -115 -510 -178 -946 -201 l-112 -6 -287 383 c-1334 1778 -2295 2879 -2932 3361 -168 127 -338 234 -497 312 -158 77 -219 101 -350 135 -104 28 -358 36 -455 15z m375 -151 c765 -155 1763 -1144 3540 -3509 182 -242 346 -462 364 -489 l34 -49 -104 7 c-481 33 -955 114 -1379 236 -808 234 -1564 642 -2133 1153 -647 580 -1007 1099 -1129 1627 -30 130 -33 433 -5 555 25 105 87 222 163 304 155 167 369 221 649 165z m4523 -1630 c164 -55 377 -228 558 -455 71 -88 224 -317 224 -334 0 -19 -196 -28 -345 -15 -160 13 -295 40 -438 86 -254 83 -374 164 -448 304 -20 38 -24 60 -24 135 0 78 4 97 27 140 23 45 69 96 121 135 60 45 198 47 325 4z"/>
-            </g>
-        </svg>
-        <span class="text-purple-degrade text-2xl font-semibold">APERP</span>
-        </a>
-        <div class="flex md:order-2">
-            <a href="{{ path('app_login') }}" class="btn-purple-degrade">
-                Se connecter
-            </a>
-            <button data-collapse-toggle="navbar-sticky" type="button" class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-sticky" aria-expanded="false">
-                <span class="sr-only">Ouvrir le menu principal</span>
-                <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
-            </button>
+<header class="bg-indigo-700 text-white border-b border-gray-300 py-4 mb-12 shadow-md">
+    <div class="container mx-auto items-center flex justify-between">
+        <div class="">
+            <span class="text-purple-degrade text-md lg:text-2xl font-semibold flex">APERP</span>
         </div>
-        <div class="hidden justify-between items-center w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
-            <ul class="flex flex-col uppercase p-4 mt-4 bg-indigo-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+
+        <button id="menu-button" class="md:hidden">
+            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+
+        </button>
+
+        <nav id="menu" class="fixed top-14 bottom-0 -right-full bg-indigo-700 text-white w-52 md:w-auto md:static transition-all z-50">
+            <ul class="md:flex uppercase">
+                <li><a href="{{ path('app_home') }}" class="block p-3 hover:text-purple-400">accueil</a></li>
+                <li><a href="{{ path('app_events') }}" class="block p-3 hover:text-purple-400">événements</a></li>
+                <li><a href="#" class="block p-3 hover:text-purple-400">contact</a></li>
                 <li>
-                    <a href="{{ path('app_home') }}"
-                       class="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-indigo-100 md:hover:bg-transparent md:hover:text-indigo-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
-                        accueil
-                    </a>
-                </li>
-                {#<li>
-                    <a href="#"
-                       class="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-indigo-100 md:hover:bg-transparent md:hover:text-indigo-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
-                        blog
-                    </a>
-                </li>#}
-                <li>
-                    <a href="{{ path('app_events') }}"
-                       class="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-indigo-100 md:hover:bg-transparent md:hover:text-indigo-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
-                        événements
-                    </a>
-                </li>
-                <li>
-                    <a href="#"
-                       class="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-indigo-100 md:hover:bg-transparent md:hover:text-indigo-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
-                        contact
+                    <a href="{{ path('app_login') }}" class="flex justify-left p-3 hover:text-purple-400">
+                        connexion
+                        <svg class="w-6 h-6 hover:text-purple-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
+                        </svg>
                     </a>
                 </li>
             </ul>
-        </div>
+        </nav>
     </div>
-</nav>
+
+</header>
+
+{#<header>
+    <nav class="flex flex-wrap items-center justify-between w-full py-4 md:py-0 px-4 text-lg text-gray-700 bg-gray-900">
+        <span class="text-purple-degrade text-md lg:text-2xl font-semibold flex">APERP</span>
+        #}{# Bruger Button #}{#
+        <svg class="h-6 w-6 cursor-pointer md:hidden block" id="menu-button" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+
+        <div class="hidden w-full flex justify-between md:flex md:items-center md:w-auto" id="menu">
+            <ul class="pt-4 text-base md:text-sm text-white md:flex md:justify-between md:pt-0">
+                <li><a href="#" class="md:p-4 py-2 block hover:text-purple-400 uppercase">Accueil</a></li>
+                <li><a href="#" class="md:p-4 py-2 block hover:text-purple-400 uppercase">événements</a></li>
+                <li><a href="#" class="md:p-4 py-2 block hover:text-purple-400 uppercase">Contact</a></li>
+            </ul>
+            <ul>
+                <li><a href="{{ path('app_login') }}" class="md:p-4 py-2 block">Connexion</a></li>
+            </ul>
+        </div>
+
+    </nav>
+</header>#}
+<script>
+    const button = document.querySelector('#menu-button');
+    const menu = document.querySelector('#menu');
+
+    button.addEventListener('click', () => {
+        menu.classList.toggle('-right-full');
+        menu.classList.toggle('right-0');
+    });
+</script>
+{#<div class="bg-gray-900">
+    <nav class="shadow dark:bg-gray-800">
+            <div class="flex justify-between p-5 mx-2">
+                <span class="text-purple-degrade text-md lg:text-2xl  font-semibold flex">APERP</span>
+                <div class="w-full space-y-2 pr-3 font-semibold text-xl text-right">
+                    <a href="{{ path('app_home') }}" class="uppercase text-white text-xs  transition-colors duration-300 transform hover:text-indigo-300 dark:text-gray-200 border-b-2 border-indigo-500 mx-1.5">
+                        Accueil
+                    </a>
+
+                    <a href="{{ path('app_events') }}" class="uppercase text-white border-b-2 border-transparent transition-colors duration-300 transform hover:text-indigo-300 dark:hover:text-gray-200 hover:border-blue-500 mx-1.5 sm:mx-6">
+                        événements
+                    </a>
+
+                    <a href="#" class="uppercase text-white border-b-2 border-transparent transition-colors duration-300 transform hover:text-indigo-300 dark:hover:text-gray-200 hover:border-blue-500 mx-1.5 sm:mx-6">
+                        contact
+                    </a>
+                </div>
+
+            </div>
+    </nav>
+</div>#}
