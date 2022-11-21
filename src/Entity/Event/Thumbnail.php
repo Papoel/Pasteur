@@ -2,12 +2,12 @@
 
 namespace App\Entity\Event;
 
-use App\Repository\Event\EventThumbnailRepository;
+use App\Repository\Event\ThumbnailRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Entity\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
-#[ORM\Entity(repositoryClass: EventThumbnailRepository::class)]
+#[ORM\Entity(repositoryClass: ThumbnailRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[Vich\Uploadable]
 class Thumbnail
