@@ -58,3 +58,17 @@ Evenements :
 - [ ] se désinscrire d'un événement
 - [ ] ajouter les activités à un événement
 - [ ] ajouter la sélection d'activités à un événement
+
+😱...
+
+Lors de mon inscription à l'événement:
+- [ ] je ne peux pas m'inscrire à un événement qui est déjà complet.
+- [ ] je ne peux pas m'inscrire à un événement qui est déjà passé.
+
+Lors de mon inscription les données sont enregistrées dans la BDD:
+- [ ] Nom + Prénom => BDD Registration
+- [ ] Email => BDD Registration
+- [ ] Téléphone => BDD Registration
+- [ ] Messages => BDD Registration
+- [ ] Activités => BDD Registration
+- [ ] Plages Horaire => BDD Events_Plages_Horaires
