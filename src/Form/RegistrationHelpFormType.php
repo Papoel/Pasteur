@@ -3,9 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Event\Registration;
-use App\Entity\PlagesHoraires\PlagesHoraires;
-use App\Repository\PlagesHoraires\PlagesHorairesRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Repository\Creneau\CreneauRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -18,7 +16,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class RegistrationHelpFormType extends AbstractType
 {
-    public function __construct(Private readonly PlagesHorairesRepository $plagesHorairesRepository)
+    public function __construct(Private readonly CreneauRepository $plagesHorairesRepository)
     {
     }
 

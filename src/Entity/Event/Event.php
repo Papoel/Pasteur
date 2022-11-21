@@ -2,7 +2,7 @@
 
 namespace App\Entity\Event;
 
-use App\Entity\PlagesHoraires\PlagesHoraires;
+use App\Entity\Creneau\Creneau;
 use App\Repository\Event\EventRepository;
 use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -70,8 +70,8 @@ class Event
     #[ORM\OneToMany(mappedBy: 'event', targetEntity: Registration::class)]
     private Collection $registrations;
 
-    #[ORM\ManyToMany(targetEntity: PlagesHoraires::class, mappedBy: 'events')]
-    private Collection $plagesHoraires;
+    #[ORM\ManyToMany(targetEntity: Creneau::class, mappedBy: 'event')]
+    private Collection $creneaux;
 
     public function __construct()
     {
@@ -79,7 +79,7 @@ class Event
         $this->updatedAt = new \DateTimeImmutable();
 
         $this->registrations = new ArrayCollection();
-        $this->plagesHoraires = new ArrayCollection();
+        $this->creneaux = new ArrayCollection();
     }
 
     #[ORM\PrePersist]
@@ -302,37 +302,35 @@ class Event
         return $this;
     }
 
-    /**
-     * @return Collection<int, PlagesHoraires>
-     */
-    public function getPlagesHoraires(): Collection
-    {
-        return $this->plagesHoraires;
-    }
-
-    public function addPlagesHoraire(PlagesHoraires $plagesHoraire): self
-    {
-        if (!$this->plagesHoraires->contains($plagesHoraire)) {
-            $this->plagesHoraires[] = $plagesHoraire;
-            $plagesHoraire->addEvent($this);
-        }
-
-        return $this;
-    }
-
-    public function removePlagesHoraire(PlagesHoraires $plagesHoraire): self
-    {
-        if ($this->plagesHoraires->removeElement($plagesHoraire)) {
-            $plagesHoraire->removeEvent($this);
-        }
-
-        return $this;
-    }
-
-
     public function __toString(): string
     {
         return $this->name;
     }
 
+    /**
+     * @return Collection<int, Creneau>
+     */
+    public function getCreneaux(): Collection
+    {
+        return $this->creneaux;
+    }
+
+    public function addCreneaux(Creneau $creneaux): self
+    {
+        if (!$this->creneaux->contains($creneaux)) {
+            $this->creneaux->add($creneaux);
+            $creneaux->addEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreneaux(Creneau $creneaux): self
+    {
+        if ($this->creneaux->removeElement($creneaux)) {
+            $creneaux->removeEvent($this);
+        }
+
+        return $this;
+    }
 }

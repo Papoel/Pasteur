@@ -26,7 +26,6 @@ class EventFormType extends AbstractType
             ->add('helpNeeded')
             ->add('slug')
             ->add('thumbnail')
-            ->add('plagesHoraires')
         ;
     }
 

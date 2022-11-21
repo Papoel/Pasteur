@@ -7,14 +7,11 @@ namespace App\Controller\Events;
 
 use App\Entity\Event\Event;
 use App\Entity\Event\Registration;
-use App\Form\EventFormType;
-use App\Form\PlagesHoraireFormType;
 use App\Form\RegistrationHelpFormType;
 use App\Repository\Event\EventRepository;
-use App\Repository\PlagesHoraires\PlagesHorairesRepository;
+use App\Repository\Creneau\CreneauRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class EventRegistrationsController extends AbstractController
 {
     #[Route(path: '/evenement/{slug}/inscription-aide', name: 'event_help_registration')]
-    public function index(Event $event, PlagesHorairesRepository $plages): Response
+    public function index(Event $event, CreneauRepository $plages): Response
     {
         return $this->render(view: 'inscriptions/index.html.twig', parameters: [
             'event' => $event,
@@ -67,17 +64,17 @@ class EventRegistrationsController extends AbstractController
 
     #[Route(path: '/evenement/{slug}/inscription-aide/test', name: 'event_help_registration_test', methods: ['GET', 'POST'])]
     public function testingform(
-        Request $request,
+        Request                $request,
         EntityManagerInterface $em,
-        Event $event,
-        EventRepository $eventRepository,
-        PlagesHorairesRepository $plagesHorairesRepository
+        Event                  $event,
+        EventRepository        $eventRepository,
+        CreneauRepository      $plagesHorairesRepository
     ): Response {
 
         return $this->render(view: 'inscriptions/test_create.html.twig', parameters: [
             'event' => $event,
             'registrations' => $event->getRegistrations(),
-            'plages' => $event->getPlagesHoraires(),
+            'plages' => $event->getCreneaux(),
         ]);
     }
 
