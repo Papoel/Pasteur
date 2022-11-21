@@ -24,15 +24,6 @@ class PlagesHoraires
     #[ORM\Column(type: Types::TIME_MUTABLE)]
     private ?\DateTimeInterface $endsAt = null;
 
-    #[ORM\ManyToMany(targetEntity: Event::class, inversedBy: 'plagesHoraires')]
-    #[JoinTable(name: 'event_plages_horaires')]
-    private Collection $events;
-
-    public function __construct()
-    {
-        $this->events = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -58,30 +49,6 @@ class PlagesHoraires
     public function setEndsAt(\DateTimeInterface $endsAt): self
     {
         $this->endsAt = $endsAt;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection
-     */
-    public function getEvents(): Collection
-    {
-        return $this->events;
-    }
-
-    public function addEvent(Event $event): self
-    {
-        if (!$this->events->contains($event)) {
-            $this->events[] = $event;
-        }
-
-        return $this;
-    }
-
-    public function removeEvent(Event $event): self
-    {
-        $this->events->removeElement($event);
 
         return $this;
     }

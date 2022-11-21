@@ -5,12 +5,12 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
-use App\Entity\PlagesHoraires\PlagesHoraires;
+use App\Entity\Creneau\Creneau;
 use App\Repository\Event\EventRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
-class PlagesHorairesFixtures extends Fixture
+class CreneauFixtures extends Fixture
 {
     public function __construct(
         private EventRepository $eventRepository,
@@ -20,11 +20,11 @@ class PlagesHorairesFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $plages = [];
-        $plage = new PlagesHoraires();
+        $plage = new Creneau();
 
         // For each hour from 08:00 to 20:00
         for ($hour = 8; $hour <= 20; ++$hour) {
-            $plage = new PlagesHoraires();
+            $plage = new Creneau();
             $plage->setStartsAt(startsAt: new \DateTime(datetime: $hour . ':00:00'));
             $plage->setEndsAt(endsAt: new \DateTime(datetime: ($hour + 1) . ':00:00'));
 
@@ -34,11 +34,11 @@ class PlagesHorairesFixtures extends Fixture
 
         $events =$this->eventRepository->findAll();
 
-        foreach ($events as $event) {
+        /*foreach ($events as $event) {
             $event->addPlagesHoraire(
                 plagesHoraire: $plages[random_int(0, count($plages) - 1)]
             );
-        }
+        }*/
 
         $manager->flush();
     }
