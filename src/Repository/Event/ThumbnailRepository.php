@@ -14,7 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Thumbnail[]    findAll()
  * @method Thumbnail[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class EventThumbnailRepository extends ServiceEntityRepository
+class ThumbnailRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
