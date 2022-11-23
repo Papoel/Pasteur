@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Event\Event;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -25,7 +26,12 @@ class EventFormType extends AbstractType
             ->add('updatedAt')
             ->add('helpNeeded')
             ->add('slug')
-            ->add('thumbnail')
+            // findCreneaux from EventRepository return choiceType with creneaux
+            /*->add($builder
+                ->add('creneaux', CreneauFormType::class, ['by_reference' => false])
+                ->add('creneau', TextType::class)
+            )*/
+            ->add('creneaux')
         ;
     }
 

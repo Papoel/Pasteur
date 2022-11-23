@@ -28,6 +28,11 @@
                     </div>
                 </div>
             </section>
+            {% for creneau in event.creneaux %}
+                <ul>
+                    <li>{{ creneau }}</li>
+                </ul>
+            {% endfor %}
 
             {% if registrations is not empty %}
                 <div class="container px-5 py-4 mx-auto">
@@ -64,8 +69,8 @@
                                     </td>
                                     <td>
                                         <ul class="my-1 w-48 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                                            {% for plage in event.plagesHoraires %}
-                                                <li class="py-2 px-4 w-full rounded-t-lg border-b border-gray-200 dark:border-gray-600">{{ plage }}</li>
+                                            {% for creneau in event.creneaux %}
+                                                <li class="py-2 px-4 w-full rounded-t-lg border-b border-gray-200 dark:border-gray-600">{{ creneau }}</li>
                                             {% endfor %}
                                         </ul>
                                     </td>

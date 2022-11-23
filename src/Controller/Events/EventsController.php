@@ -13,7 +13,7 @@ class EventsController extends AbstractController
     #[Route('/evenements', name: 'app_events')]
     public function index(EventRepository $eventRepository): Response
     {
-        $events = $eventRepository->findUpcomming();
+        $events = $eventRepository->findUpcoming();
 
         return $this->render(view: 'events/index.html.twig', parameters: compact(var_name: 'events'));
     }
@@ -21,7 +21,7 @@ class EventsController extends AbstractController
     #[Route('/evenement/{slug}', name: 'app_event_show')]
     public function show(Event $event, EventRepository $eventRepository): Response
     {
-        $events = $eventRepository->findUpcomming();
+        $events = $eventRepository->findUpcoming();
 
         return $this->render(view: 'events/show.html.twig', parameters: compact('event', 'events'));
 
