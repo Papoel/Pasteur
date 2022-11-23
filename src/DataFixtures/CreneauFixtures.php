@@ -35,9 +35,10 @@ class CreneauFixtures extends Fixture implements DependentFixtureInterface
 
         $events =$this->eventRepository->findAll();
 
-        // foreach creneaux add events
         foreach ($creneaux as $creneau) {
-            foreach ($events as $event) {
+            $nbEvents = random_int(min: 1, max: 3);
+            for ($i = 0; $i < $nbEvents; ++$i) {
+                $event = $events[random_int(min: 0, max: count($events) - 1)];
                 $creneau->addEvent(event: $event);
             }
         }
