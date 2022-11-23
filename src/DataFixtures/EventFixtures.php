@@ -24,7 +24,8 @@ class EventFixtures extends Fixture
         $event->setPrice(price: 0);
         $event->setStartsAt(startsAt: new \DateTimeImmutable(datetime: '2023/06/14 11:00'));
         $event->setFinishAt(finishAt:  new \DateTimeImmutable(datetime: '2023/06/16 18:30'));
-        $event->setStatus(status: 1);
+        $randomStatus = random_int(min: 0, max: 3);
+        $event->setStatus(Event::STATUS[$randomStatus]);
         $event->setCapacity(capacity: 50);
         $event->setImageFileName(imageFileName: 'event.jpeg');
         $event->setCreatedAt(createdAt: new \DateTimeImmutable(datetime: 'now'));
@@ -41,7 +42,8 @@ class EventFixtures extends Fixture
             $event->setDescription(description: $faker->paragraph(nbSentences: 3, variableNbSentences: true));
             $event->setLocation(location: $faker->city());
             $event->setPrice(price: $faker->randomFloat(nbMaxDecimals: 2, min: 0, max: 50));
-            $event->setStatus($faker->numberBetween(0, 2));
+            $randomStatus = random_int(min: 0, max: 3);
+            $event->setStatus(Event::STATUS[$randomStatus]);
             $event->setCapacity(capacity: $faker->numberBetween(10, 100));
             $event->setImageFileName(imageFileName: 'event.jpeg');
             $event->setHelpNeeded(helpNeeded: $faker->boolean());
