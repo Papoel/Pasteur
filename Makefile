@@ -442,6 +442,7 @@ first-install: ## First install.
 	$(YARN)     install    # Installe dépendances de Yarn
 	$(YARN)     build      # Compile les assets
 	$(MAKE)     up         # Lance les containers
+	$(MAKE)     env-local  # Créer le fichier .env.local et DATABASE_URL
 	$(MAKE)     init-db    # Initialise la base de données
 	$(MAKE)     serve      # Lance le serveur et ouvre le navigateur
 	$(YARN)     dev-server # Lance le serveur de développement de Yarn
