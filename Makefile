@@ -3,6 +3,13 @@ SHELL         = sh
 PROJECT       = Pasteur
 GIT_AUTHOR    = Papoel
 HTTP_PORT     = 8000
+HOST_NAME	 = 127.0.0.0.1
+DB_NAME       = db_pasteur
+DB_USER       = root
+DB_PASS       =
+DB_PORT       = 3306
+DB_SERVER     = MariaDB-10.8.3&charset=utf8mb4
+DATABASE_URL  = mysql://$(DB_USER):$(DB_PASS)@$(HOST_NAME):$(DB_PORT)/$(DB_NAME)?serverVersion=$(DB_SERVER)
 
 # Executables
 EXEC_PHP      = php
@@ -439,3 +446,10 @@ first-install: ## First install.
 	$(MAKE)     serve      # Lance le serveur et ouvre le navigateur
 	$(YARN)     dev-server # Lance le serveur de développement de Yarn
 .PHONY: first-install
+
+# create .env.local file and set APP_ENV=dev
+	DATABASE_URL="mysql://root:@127.0.0.1:3306/db_pasteur?serverVersion=MariaDB-10.8.3&charset=utf8mb4"
+env-local:
+	touch .env.local
+	@echo "DATABASE_URL=$(DATABASE_URL)" > .env.local
+.PHONY: dev-env
