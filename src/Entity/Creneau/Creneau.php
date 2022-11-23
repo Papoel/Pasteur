@@ -61,11 +61,6 @@ class Creneau
         return $this;
     }
 
-    public function __toString(): string
-    {
-        return $this->startsAt->format(format: 'H:i') . ' - ' . $this->endsAt->format(format: 'H:i');
-    }
-
     /**
      * @return Collection<int, Event>
      */
@@ -88,5 +83,15 @@ class Creneau
         $this->event->removeElement($event);
 
         return $this;
+    }
+
+    public function getCreneau(Event $event): bool
+    {
+        return $this->startsAt->format(format: 'H:i') . ' - ' . $this->endsAt->format(format: 'H:i');
+    }
+
+    public function __toString(): string
+    {
+        return $this->startsAt->format(format: 'H:i') . ' - ' . $this->endsAt->format(format: 'H:i');
     }
 }

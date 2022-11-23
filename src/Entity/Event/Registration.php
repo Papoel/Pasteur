@@ -24,9 +24,6 @@ class Registration
     private ?string $phone = null;
 
     #[ORM\Column(length: 150)]
-    private ?string $howHeard;
-
-    #[ORM\Column(length: 150)]
     private ?string $activity;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -34,6 +31,9 @@ class Registration
 
     #[ORM\ManyToOne(inversedBy: 'registrations')]
     private ?Event $event = null;
+
+    #[ORM\Column(length: 150, nullable: true)]
+    private ?string $creneau_choices = null;
 
     public function getId(): ?int
     {
@@ -76,19 +76,7 @@ class Registration
         return $this;
     }
 
-    public function getHowHeard(): ?string
-    {
-        return $this->howHeard;
-    }
-
-    public function setHowHeard(string $howHeard): self
-    {
-        $this->howHeard = $howHeard;
-
-        return $this;
-    }
-
-    public function getActivity(): ?string
+   public function getActivity(): ?string
     {
         return $this->activity;
     }
@@ -120,6 +108,18 @@ class Registration
     public function setEvent(?Event $event): self
     {
         $this->event = $event;
+
+        return $this;
+    }
+
+    public function getCreneauChoices(): ?string
+    {
+        return $this->creneau_choices;
+    }
+
+    public function setCreneauChoices(?string $creneau_choices): self
+    {
+        $this->creneau_choices = $creneau_choices;
 
         return $this;
     }

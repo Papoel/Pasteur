@@ -9,17 +9,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: EventRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#[UniqueEntity('slug', message: 'Cet événement existe déjà.')]
+
 class Event
 {
-    public const STATUS = [
-        0 => 'Projet',
-        1 => 'Validé',
-        2 => 'Annulé',
-    ];
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -43,8 +40,9 @@ class Event
     #[ORM\Column]
     private ?\DateTimeImmutable $finishAt = null;
 
-    #[ORM\Column]
-    private ?int $status = null;
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $status = Event::STATUS[0];
+
 
     #[ORM\Column]
     private ?int $capacity = null;
@@ -64,14 +62,13 @@ class Event
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
-    #[ORM\OneToOne(inversedBy: 'event' ,targetEntity: Thumbnail::class, cascade: ['persist', 'remove'])]
-    private Thumbnail $thumbnail;
-
     #[ORM\OneToMany(mappedBy: 'event', targetEntity: Registration::class)]
     private Collection $registrations;
 
     #[ORM\ManyToMany(targetEntity: Creneau::class, mappedBy: 'event')]
     private Collection $creneaux;
+
+    public const STATUS = ['IDEE', 'APPROUVE', 'REFUSE', 'ANNULE'];
 
     public function __construct()
     {
@@ -173,10 +170,10 @@ class Event
 
     public function getStatus(): string
     {
-        return self::STATUS[$this->status];
+        return $this->status;
     }
 
-    public function setStatus(int $status): self
+    public function setStatus(string $status): self
     {
         $this->status = $status;
 
@@ -286,18 +283,6 @@ class Event
                 $registration->setEvent(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getThumbnail(): ?Thumbnail
-    {
-        return $this->thumbnail;
-    }
-
-    public function setThumbnail(?Thumbnail $thumbnail): self
-    {
-        $this->thumbnail = $thumbnail;
 
         return $this;
     }

@@ -2,8 +2,10 @@
 
 namespace App\Repository\Event;
 
+use App\Entity\Creneau\Creneau;
 use App\Entity\Event\Event;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -39,36 +41,22 @@ class EventRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Event[] Returns an array of Event objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('e')
-//            ->andWhere('e.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('e.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Event
-//    {
-//        return $this->createQueryBuilder('e')
-//            ->andWhere('e.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
-
-    public function findUpcomming()
+    public function findUpcoming()
     {
         $qb = $this->createQueryBuilder('events')
             ->andWhere('events.startsAt > :now')
             ->setParameter(':now', new \DateTime())
+            ->orderBy('events.startsAt', 'ASC');
+
+        return $qb->getQuery()->getResult();
+    }
+
+    // query for select creneaux from event
+    public function findCreneaux(Event $event)
+    {
+        $qb = $this->createQueryBuilder('events')
+            ->andWhere('events.slug = :event')
+            ->setParameter(':event', $event->getSlug())
             ->orderBy('events.startsAt', 'ASC');
 
         return $qb->getQuery()->getResult();
