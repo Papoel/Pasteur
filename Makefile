@@ -97,10 +97,6 @@ cc: ## Videz le cache
 
 .PHONY: cc
 
-warmup: ## Réchauffer la cache
-	$(SYMFONY) cache:warmup
-.PHONY: warmup
-
 sf-dc: ## Create symfony database.
 	$(SYMFONY) doctrine:database:create --if-not-exists
 .PHONY: sf-dc
@@ -130,10 +126,6 @@ sf-routes: ## List all routes.
 sf-dsu: ## Migrate.
 	$(SYMFONY) doctrine:schema:update --force
 .PHONY: sf-dmm
-
-sf-fixtures: ## Load fixtures.
-	$(SYMFONY_CONSOLE) doctrine:fixtures:load --no-interaction
-.PHONY: sf-fixtures
 
 fix-perms: ## Fixer les permissions de tous les fichiers var
 	chmod -R 777 var/*
@@ -165,13 +157,6 @@ unserve: ## Arrêtez le serveur web
 	$(SYMFONY_BIN) server:stop
 .PHONY: unserve
 
-## —— elasticsearch 🔎           ———————————————————————————————————————————————————————————————————————————————————————————————————————————
-populate: ## Réinitialisation et remplissage de l'index Elasticsearch
-	$(SYMFONY) fos:elastica:reset
-	$(SYMFONY) fos:elastica:populate --index=app
-	$(SYMFONY) strangebuzz:populate
-.PHONY: populate
-
 ## —— Docker 🐳                  ———————————————————————————————————————————————————————————————————————————————————————————————————————————
 up: ## Démarrer le hub docker (PHP,caddy,MySQL,redis,adminer,elasticsearch)
 	$(DOCKER_COMPOSE) up --detach
@@ -189,23 +174,11 @@ logs: ## Afficher les journaux en temps réel
 	$(DOCKER_COMPOSE) logs --tail=0 --follow
 .PHONY: logs
 
-wait-for-mysql: ## Attends que MySQL soit prêt
-	bin/wait-for-mysql.sh
-.PHONY: wait-for-mysql
-
-wait-for-elasticsearch: ## Attends qu'Elasticsearch soit prêt
-	bin/wait-for-elasticsearch.sh
-.PHONY: wait-for-elasticsearch
-
 bash: ## Se connecter au conteneur d'application
 	$(DOCKER) container exec -it php bash
 .PHONY: bash
 
 ## —— Projet ❤️                  ———————————————————————————————————————————————————————————————————————————————————————————————————————————
-init: up init-db wait-for-elasticsearch populate serve ## Démarrer docker, charger les fixtures, remplir l'index Elasticsearch et démarrer le serveur web.
-
-reload: init-db populate ## Chargement des fixtures et repeuplement de l'index Elasticsearch
-
 start: up serve
 
 stop: down unserve ## Arrêtez docker et le serveur Symfony
