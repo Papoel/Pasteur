@@ -11,6 +11,7 @@ use http\Client\Request;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -107,39 +108,31 @@ class RegistrationHelpFormType extends AbstractType
             ])
 
             // add creneau available for this event
-            ->add(child:'creneauChoices', type: EntityType::class, options: [
-                'class' => Event::class,
-                'expanded' => false,
-                'multiple' => true,
-                'label' => 'Choisissez un créneau :',
-                'label_attr' => [
-                    'class' => 'block text-gray-500 uppercase tracking-wider text-sm font-bold'
-                ],
-                'attr' => [
-                    'class' => 'w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out'
-                ],
-                'choice_label' => 'event',
-                'query_builder' => function (eventRepository $eventRepository) {
-                    // Récupérer mon URL
-                    $url = $_SERVER['REQUEST_URI'];
+            ->add(child:'creneauChoices', type: ChoiceType::class,options:
+                [
+                    $url = $_SERVER['REQUEST_URI'],
                     // Extraire de mon URL tout ce qui se trouve après /evenement/
-                    preg_match('/\/evenement\/(.*)\//', $url, $matches);
-                    $slug = $matches[1];
-                    // A partir de mon slug, récupérer l'event
-                    $slug = preg_replace('/\/.*/', '', $slug);
+                    preg_match(pattern: '/\/evenement\/(.*)\//', subject: $url, matches: $matches), // Sans id
+                    // preg_match(pattern: '/\/evenement\/\d\/(.*)\//', subject: $url, matches: $matches), // Avec id
+                    $slug = $matches[1],
+                    // À partir de mon slug, récupérer l'event
+                    $slug = preg_replace(pattern: '/\/.*/', replacement: '', subject: $slug),
                     // Récupérer l'événement
-                    $event = $this->eventRepository->findOneBy(['slug' => $slug]);
-                    // Obtenir tous les créneaux de l'événement
-                    return $eventRepository->createQueryBuilder('events')
-                        ->andWhere('events.slug = :event')
-                        ->setParameter(':event', $event)
-                        ->orderBy('events.startsAt', 'ASC');
-                }
-            ])
+                    $options['event'] = $this->eventRepository->findOneBy(['slug' => $slug]),
+                    $options['event_creneaux'] = $options['event']->getCreneaux()->toArray(),
+                    dd($options['event_creneaux']),
+                    'label_attr' => [
+                        'class' => 'block text-gray-500 uppercase tracking-wider text-sm font-bold'
+                    ],
+                    'attr' => [
+                        'class' => 'w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out'
+                    ],
+                    'label' => 'Choisissez un créneau :',
+                ]
+            )
         ;
 
     }
-
 
     public function configureOptions(OptionsResolver $resolver): void
     {
