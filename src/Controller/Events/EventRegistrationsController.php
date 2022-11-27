@@ -43,20 +43,32 @@ class EventRegistrationsController extends AbstractController
         $form->handleRequest($request);
         // dd($event->getCreneaux()->toArray());
 
-
         if ($form->isSubmitted() && $form->isValid()) {
             $registration->setEvent($event);
 
             $email = $registration->getEmail();
             $existingRegistration = $em->getRepository(entityName: Registration::class)->findOneBy(['email' => $email]);
 
-            if ($existingRegistration) {
+            // WIP => Vérifier si email existe et si oui, vérifier event_id et creneau_id et activity sont <> de ceux de la nouvelle inscription
+            if ($existingRegistration && $existingRegistration->getEvent() === $event && $existingRegistration->getActivity() === $registration->getActivity()) {
                 $this->addFlash(type: 'danger', message: 'Cette adresse email est déjà enregistrée pour cet événement.');
                 return $this->redirectToRoute(route: 'event_help_registration', parameters: ['slug' => $event->getSlug()]);
             }
 
-             $em->persist($registration);
-             $em->flush();
+
+            // Récupérer dans un tableau les créneaux sélectionnés et faire un formatage pour les insérer dans la table registration
+            $creneau_choices = $form->get('creneauChoices')->getData();
+            $creneau_choices = array_map(
+                static function ($creneau) {
+                    return $creneau->getStartsAt()->format('H:i') . ' - ' . $creneau->getEndsAt()->format('H:i');
+                    },
+                $creneau_choices
+            );
+
+            $registration->setCreneauChoices($creneau_choices);
+
+            $em->persist($registration);
+            $em->flush();
 
             $this->addFlash(type: 'success', message: 'Merci, votre inscription à l\'événement .$event->getName(). à bien été prise en compte.');
 

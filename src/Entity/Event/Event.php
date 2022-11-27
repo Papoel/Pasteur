@@ -43,7 +43,6 @@ class Event
     #[ORM\Column(type: 'string', length: 255)]
     private string $status = Event::STATUS[0];
 
-
     #[ORM\Column]
     private ?int $capacity = null;
 

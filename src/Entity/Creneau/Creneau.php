@@ -85,7 +85,7 @@ class Creneau
         return $this;
     }
 
-    public function getCreneau(Event $event): bool
+    public function getPlage(Event $event): bool
     {
         return $this->startsAt->format(format: 'H:i') . ' - ' . $this->endsAt->format(format: 'H:i');
     }

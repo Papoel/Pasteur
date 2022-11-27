@@ -11,6 +11,7 @@ use Doctrine\DBAL\Types\ArrayType;
 use http\Client\Request;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\ChoiceList\ChoiceList;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -108,7 +109,7 @@ class RegistrationHelpFormType extends AbstractType
                 ]
             ])
 
-            ->add('creneauChoices', ChoiceType::class, [
+            ->add(child: 'creneauChoices', type: ChoiceType::class, options: [
                 'label' => 'Quel créneau ?',
                 'label_attr' => [
                     'class' => 'block text-gray-500 uppercase tracking-wider text-sm font-bold'
@@ -117,10 +118,17 @@ class RegistrationHelpFormType extends AbstractType
                     'class' => 'w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out'
                 ],
                 'choices' => $options['event_creneaux'],
+
                 'choice_label' => function ($choice, $key, $value) {
                     return $choice->getStartsAt()->format('H:i') . ' - ' . $choice->getEndsAt()->format('H:i');
                 },
+                'choice_value' => function ($choice) {
+                    return $choice->getId();
+                },
+                'required' => false,
                 'multiple' => true,
+                'expanded' => true,
+                'mapped' => true,
             ])
         ;
     }
