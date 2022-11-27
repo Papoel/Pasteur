@@ -32,8 +32,8 @@ class Registration
     #[ORM\ManyToOne(inversedBy: 'registrations')]
     private ?Event $event = null;
 
-    #[ORM\Column(length: 150, nullable: true)]
-    private ?string $creneau_choices = null;
+    #[ORM\Column]
+    private array $creneau_choices = [];
 
     public function getId(): ?int
     {
@@ -112,12 +112,14 @@ class Registration
         return $this;
     }
 
-    public function getCreneauChoices(): ?string
+    public function getCreneauChoices(): array
     {
-        return $this->creneau_choices;
+        $creneauChoices = $this->creneau_choices;
+
+        return array_unique($creneauChoices);
     }
 
-    public function setCreneauChoices(?string $creneau_choices): self
+    public function setCreneauChoices(array $creneau_choices): self
     {
         $this->creneau_choices = $creneau_choices;
 

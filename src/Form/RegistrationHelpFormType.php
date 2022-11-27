@@ -7,6 +7,7 @@ use App\Entity\Event\Event;
 use App\Entity\Event\Registration;
 use App\Repository\Creneau\CreneauRepository;
 use App\Repository\Event\EventRepository;
+use Doctrine\DBAL\Types\ArrayType;
 use http\Client\Request;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -107,37 +108,29 @@ class RegistrationHelpFormType extends AbstractType
                 ]
             ])
 
-            // add creneau available for this event
-            ->add(child:'creneauChoices', type: ChoiceType::class,options:
-                [
-                    $url = $_SERVER['REQUEST_URI'],
-                    // Extraire de mon URL tout ce qui se trouve après /evenement/
-                    preg_match(pattern: '/\/evenement\/(.*)\//', subject: $url, matches: $matches), // Sans id
-                    // preg_match(pattern: '/\/evenement\/\d\/(.*)\//', subject: $url, matches: $matches), // Avec id
-                    $slug = $matches[1],
-                    // À partir de mon slug, récupérer l'event
-                    $slug = preg_replace(pattern: '/\/.*/', replacement: '', subject: $slug),
-                    // Récupérer l'événement
-                    $options['event'] = $this->eventRepository->findOneBy(['slug' => $slug]),
-                    $options['event_creneaux'] = $options['event']->getCreneaux()->toArray(),
-                    dd($options['event_creneaux']),
-                    'label_attr' => [
-                        'class' => 'block text-gray-500 uppercase tracking-wider text-sm font-bold'
-                    ],
-                    'attr' => [
-                        'class' => 'w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out'
-                    ],
-                    'label' => 'Choisissez un créneau :',
-                ]
-            )
+            ->add('creneauChoices', ChoiceType::class, [
+                'label' => 'Quel créneau ?',
+                'label_attr' => [
+                    'class' => 'block text-gray-500 uppercase tracking-wider text-sm font-bold'
+                ],
+                'attr' => [
+                    'class' => 'w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out'
+                ],
+                'choices' => $options['event_creneaux'],
+                'choice_label' => function ($choice, $key, $value) {
+                    return $choice->getStartsAt()->format('H:i') . ' - ' . $choice->getEndsAt()->format('H:i');
+                },
+                'multiple' => true,
+            ])
         ;
-
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Registration::class,
+            'event_creneaux' => []
         ]);
+        $resolver->setAllowedTypes('event_creneaux', 'array');
     }
 }

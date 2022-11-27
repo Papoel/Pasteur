@@ -34,15 +34,21 @@ class EventRegistrationsController extends AbstractController
     public function create(Event $event, Request $request, EntityManagerInterface $em): Response
     {
         $registration = new Registration();
+        $event_creneaux = $event->getCreneaux()->toArray();
 
-        $form = $this->createForm(type: RegistrationHelpFormType::class, data: $registration);
+        $form = $this->createForm(type: RegistrationHelpFormType::class, data: $registration, options: [
+            'event_creneaux' => $event_creneaux,
+        ]);
+
         $form->handleRequest($request);
+        // dd($event->getCreneaux()->toArray());
+
 
         if ($form->isSubmitted() && $form->isValid()) {
             $registration->setEvent($event);
 
             $email = $registration->getEmail();
-            $existingRegistration = $em->getRepository(Registration::class)->findOneBy(['email' => $email]);
+            $existingRegistration = $em->getRepository(entityName: Registration::class)->findOneBy(['email' => $email]);
 
             if ($existingRegistration) {
                 $this->addFlash(type: 'danger', message: 'Cette adresse email est déjà enregistrée pour cet événement.');
@@ -61,33 +67,6 @@ class EventRegistrationsController extends AbstractController
         return $this->render('inscriptions/create.html.twig', [
             'event' => $event,
             'form' => $form->createView(),
-        ]);
-    }
-
-    #[Route(path: '/evenement/{slug}/inscription-aide/test', name: 'event_help_registration_test', methods: ['GET', 'POST'])]
-    public function testingform(Event $event, EventRepository $eventRepository, CreneauRepository $creneauRepository, Request $request): Response
-    {
-        $newRegistration = new Registration();
-        $newEvent = new Event();
-
-        $items = ['registration' => $newRegistration, 'event' => $newEvent];
-
-        $form = $this->createFormBuilder($items)
-            ->add('event', EventFormType::class)
-            ->add('registration', RegistrationHelpFormType::class)
-            ->getForm();
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-            dd($data);
-        }
-
-        return $this->render(view: 'inscriptions/test_create.html.twig', parameters: [
-            'event' => $event,
-            'form' => $form->createView(),
-            'creneaux' => $creneauRepository->findByEvent($event),
         ]);
     }
 }
