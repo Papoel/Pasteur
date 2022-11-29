@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import '~sweetalert2/src/sweetalert2.scss';
+@import '~sweetalert2/src/sweetalert2';
 
 @layer components {
     .text-purple-degrade {
@@ -10,5 +10,9 @@
 
     .btn-purple-degrade {
         @apply rounded-lg px-5 py-2.5 text-center mr-2 mb-2 text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4;
+    }
+
+    .border-degrade {
+        @apply  hover:border-indigo-600 hover:border-l-4
     }
 }
