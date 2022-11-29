@@ -44,7 +44,7 @@ Mettre en place une application web qui permet l'aide à l'organisation un évé
     - dateTimeImmutable
   - [x] imageFileName
     - string
-  - [ ] Fixtures Event 
+  - [x] Fixtures Event 
 
 - BDD help
 - 
@@ -54,21 +54,23 @@ Mettre en place une application web qui permet l'aide à l'organisation un évé
 
 Evenements :
 - [ ] Créer un événement
-- [ ] s'inscrire à un événement ✅
+- [x] s'inscrire à un événement ✅
 - [ ] se désinscrire d'un événement
-- [ ] ajouter les activités à un événement
-- [ ] ajouter la sélection d'activités à un événement
+- [x] ajouter les activités à un événement
+- [x] ajouter la sélection d'activités à un événement
 
 😱...
 
 Lors de mon inscription à l'événement:
 - [ ] je ne peux pas m'inscrire à un événement qui est déjà complet.
-- [ ] je ne peux pas m'inscrire à un événement qui est déjà passé.
+- [x] je ne peux pas m'inscrire à un événement qui est déjà passé.
+- [x] je ne peux pas m'inscrire à un événement pur lequel je suis déjà inscrit.
+- [x] je ne peux pas m'inscrire à un événement avec une activité pur laquelle je suis déjà inscrit.
 
 Lors de mon inscription les données sont enregistrées dans la BDD:
-- [ ] Nom + Prénom => BDD Registration
-- [ ] Email => BDD Registration
-- [ ] Téléphone => BDD Registration
-- [ ] Messages => BDD Registration
-- [ ] Activités => BDD Registration
-- [ ] Plages Horaire => BDD Events_Plages_Horaires
+- [x] Nom + Prénom => BDD Registration
+- [x] Email => BDD Registration
+- [x] Téléphone => BDD Registration
+- [x] Messages => BDD Registration
+- [x] Activités => BDD Registration
+- [x] Plages Horaire => BDD Events_Plages_Horaires
