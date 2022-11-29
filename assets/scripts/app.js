@@ -6,10 +6,8 @@
  */
 
 // any CSS you import will output into a single css file (app.css in this case)
-import './styles/app.css';
+import '../styles/app.scss';
 import 'tw-elements'
 import('@tailwindcss/forms');
 import('flowbite/plugin');
-import('./scripts/flowbite.min');
-
-console.log('Webpack est connecté !');
+import('./flowbite.min');
