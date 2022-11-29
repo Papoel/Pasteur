@@ -8,7 +8,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\JoinTable;
 
 #[ORM\Entity(repositoryClass: CreneauRepository::class)]
 class Creneau
@@ -87,11 +86,11 @@ class Creneau
 
     public function getPlage(Event $event): bool
     {
-        return $this->startsAt->format(format: 'H:i') . ' - ' . $this->endsAt->format(format: 'H:i');
+        return $this->startsAt->format(format: 'H:i').' - '.$this->endsAt->format(format: 'H:i');
     }
 
     public function __toString(): string
     {
-        return $this->startsAt->format(format: 'H:i') . ' - ' . $this->endsAt->format(format: 'H:i');
+        return $this->startsAt->format(format: 'H:i').' - '.$this->endsAt->format(format: 'H:i');
     }
 }

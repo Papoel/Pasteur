@@ -2,8 +2,8 @@
 
 namespace App\Repository\Creneau;
 
-use App\Entity\Event\Event;
 use App\Entity\Creneau\Creneau;
+use App\Entity\Event\Event;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -49,5 +49,4 @@ class CreneauRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
 }

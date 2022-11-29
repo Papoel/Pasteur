@@ -77,9 +77,9 @@ class Registration
     }
 
    public function getActivity(): ?string
-    {
-        return $this->activity;
-    }
+   {
+       return $this->activity;
+   }
 
     public function setActivity(string $activity): self
     {

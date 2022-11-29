@@ -2,6 +2,7 @@
 
 namespace App\Repository\Event;
 
+use App\Entity\Event\Event;
 use App\Entity\Event\Registration;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -39,28 +40,18 @@ class RegistrationRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Registration[] Returns an array of Registration objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('r')
-//            ->andWhere('r.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('r.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Registration
-//    {
-//        return $this->createQueryBuilder('r')
-//            ->andWhere('r.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    // SELECT DISTINCT `activity` FROM `registration` WHERE `email` = 'pascal.briffard@gmail.com' AND `event_id` = 5
+    public function findActivitiesByEventAndEmail(Event $event, string $email, string $activity)
+    {
+        return $this->createQueryBuilder(alias: 'r')
+            ->select(select: 'DISTINCT r.activity')
+            ->andWhere('r.email = :email')
+            ->andWhere('r.event = :event')
+            ->andWhere('r.activity = :activity')
+            ->setParameter(key: 'email', value: $email)
+            ->setParameter(key: 'event', value: $event->getId())
+            ->setParameter(key: 'activity', value: $activity)
+            ->getQuery()
+            ->getResult();
+    }
 }

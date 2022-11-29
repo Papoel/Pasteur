@@ -24,6 +24,5 @@ class EventsController extends AbstractController
         $events = $eventRepository->findUpcoming();
 
         return $this->render(view: 'events/show.html.twig', parameters: compact('event', 'events'));
-
     }
 }

@@ -23,7 +23,7 @@ class EventFixtures extends Fixture
         $event->setLocation(location: 'Maubeuge');
         $event->setPrice(price: 0);
         $event->setStartsAt(startsAt: new \DateTimeImmutable(datetime: '2023/06/14 11:00'));
-        $event->setFinishAt(finishAt:  new \DateTimeImmutable(datetime: '2023/06/16 18:30'));
+        $event->setFinishAt(finishAt: new \DateTimeImmutable(datetime: '2023/06/16 18:30'));
         $randomStatus = random_int(min: 0, max: 3);
         $event->setStatus(Event::STATUS[$randomStatus]);
         $event->setCapacity(capacity: 50);
@@ -54,7 +54,7 @@ class EventFixtures extends Fixture
 
             $date = $event->getStartsAt();
 
-            $date = $date->modify(modifier: '+'. $faker->numberBetween(int1: 4, int2: 16) .' hours');
+            $date = $date->modify(modifier: '+'.$faker->numberBetween(int1: 4, int2: 16).' hours');
             $event->setFinishAt($date);
 
             $date = $faker->dateTimeBetween(startDate: '-3 months', endDate: '-1 day');
