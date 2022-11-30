@@ -32,10 +32,12 @@
                                     {{ form_widget(form.activity) }}
                                 </div>
 
-                                <div id="creneaux" class="md:col-span-3 col-span-6">
-                                    {{ form_label(form.creneauChoices) }}
-                                    {{ form_widget(form.creneauChoices) }}
-                                </div>
+                                {% if form.creneauChoices is not empty %}
+                                    <div id="creneaux" class="md:col-span-3 col-span-6">
+                                        {{ form_label(form.creneauChoices) }}
+                                        {{ form_widget(form.creneauChoices) }}
+                                    </div>
+                                {% endif %}
 
                                 <div id="message" class="md:col-span-6 col-span-6">
                                     {{ form_errors(form.message) }}
