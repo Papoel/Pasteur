@@ -5,6 +5,7 @@ namespace App\Entity\Event;
 use App\Repository\Event\RegistrationRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: RegistrationRepository::class)]
 class Registration
@@ -15,15 +16,20 @@ class Registration
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank]
     private ?string $name = null;
 
     #[ORM\Column(length: 150)]
+    #[Assert\NotBlank]
+    #[Assert\Email]
     private ?string $email = null;
 
     #[ORM\Column(length: 10, nullable: true)]
+    #[Assert\Length(min: 10, max: 10)]
     private ?string $phone = null;
 
     #[ORM\Column(length: 150)]
+    #[Assert\NotBlank]
     private ?string $activity;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -33,6 +39,7 @@ class Registration
     private ?Event $event = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank]
     private array $creneau_choices = [];
 
     public function getId(): ?int

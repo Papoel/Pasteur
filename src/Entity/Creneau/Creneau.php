@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CreneauRepository::class)]
 class Creneau
@@ -18,9 +19,12 @@ class Creneau
     private ?int $id = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE)]
+    #[Assert\NotBlank]
     private ?\DateTimeInterface $startsAt = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE)]
+    #[Assert\NotBlank]
+    #[Assert\GreaterThan(propertyPath: 'startsAt')]
     private ?\DateTimeInterface $endsAt = null;
 
     #[ORM\ManyToMany(targetEntity: Event::class, inversedBy: 'creneaux')]
