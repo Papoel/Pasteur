@@ -39,7 +39,6 @@ class Registration
     private ?Event $event = null;
 
     #[ORM\Column]
-    #[Assert\NotBlank]
     private array $creneau_choices = [];
 
     public function getId(): ?int
