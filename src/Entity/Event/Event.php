@@ -24,6 +24,12 @@ class Event
 
     #[ORM\Column(length: 150)]
     #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 3,
+        max: 150,
+        minMessage: 'Le titre doit comporter au moins {{ limit }} caractères.',
+        maxMessage: 'Le titre ne peut pas comporter plus de {{ limit }} caractères.'
+    )]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -31,6 +37,12 @@ class Event
     private ?string $description = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\length(
+        min: 3,
+        max: 100,
+        minMessage: 'Le lieu doit comporter au moins {{ limit }} caractères.',
+        maxMessage: 'Le lieu ne peut pas comporter plus de {{ limit }} caractères.'
+    )]
     private ?string $location = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 4, scale: 2, nullable: true)]
@@ -39,10 +51,12 @@ class Event
 
     #[ORM\Column]
     #[Assert\NotBlank]
+    #[Assert\Date]
     private ?\DateTimeImmutable $startsAt = null;
 
     #[ORM\Column]
     #[Assert\NotBlank]
+    #[Assert\Date]
     private ?\DateTimeImmutable $finishAt = null;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -55,9 +69,11 @@ class Event
     private ?string $imageFileName = null;
 
     #[ORM\Column]
+    #[Assert\DateTime]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
+    #[Assert\DateTime]
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column(nullable: true)]

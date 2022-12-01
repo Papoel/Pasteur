@@ -20,10 +20,12 @@ class Creneau
 
     #[ORM\Column(type: Types::TIME_MUTABLE)]
     #[Assert\NotBlank]
+    #[Assert\Time]
     private ?\DateTimeInterface $startsAt = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE)]
     #[Assert\NotBlank]
+    #[Assert\Time]
     #[Assert\GreaterThan(propertyPath: 'startsAt')]
     private ?\DateTimeInterface $endsAt = null;
 
