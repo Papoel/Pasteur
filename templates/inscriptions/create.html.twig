@@ -4,7 +4,7 @@
 
 {% include('components/_navbar.html.twig') %}
     <section class="text-gray-600">
-        <h1 class="text-4xl text-center text-purple-degrade uppercase font-semibold pt-8 md:py-20">{{ event.name }}</h1>
+        <h1 class="text-4xl text-center text-purple-degrade uppercase font-semibold pt-8 md:py-10">{{ event.name }}</h1>
 
         {% include('components/_flash-messages.html.twig') %}
 
@@ -16,41 +16,65 @@
                         <div class="px-4 py-3 bg-white">
                             <div class="grid grid-cols-6 gap-6">
                                 <div id="fullname" class="md:col-span-2 col-span-6">
-                                    {{ form_errors(form.name) }}
-                                    {{ form_label(form.name) }}
-                                    {{ form_widget(form.name) }}
+                                    {{ form_row(form.name, {
+                                        row_class: 'mt-2 px-3',
+                                        label_class: 'font-semibold text-gray-600',
+                                        widget_class: 'border border-red-200 bg-gray-50',
+                                        error_item_class: 'text-red-700 font-semibold',
+                                        widget_errors_class: 'border-double border-4 border-red-500 bg-red-50',
+                                    }) }}
                                 </div>
 
                                 <div id="email" class="md:col-span-2 col-span-6">
-                                    {{ form_errors(form.email) }}
-                                    {{ form_label(form.email) }}
-                                    {{ form_widget(form.email) }}
+                                    {{ form_row(form.email, {
+                                        row_class: 'mt-2 px-3',
+                                        label_class: 'font-semibold text-gray-600',
+                                        widget_class: 'border border-red-200 bg-gray-50',
+                                        error_item_class: 'text-red-700 font-semibold',
+                                        widget_errors_class: 'border-double border-4 border-red-500 bg-red-50',
+                                    }) }}
                                 </div>
 
                                 <div id="telephone" class="md:col-span-2 col-span-6">
-                                    {{ form_errors(form.phone) }}
-                                    {{ form_label(form.phone) }}
-                                    {{ form_widget(form.phone) }}
+                                    {{ form_row(form.phone, {
+                                        row_class: 'mt-2 px-3',
+                                        label_class: 'font-semibold text-gray-600',
+                                        widget_class: 'border border-red-200 bg-gray-50',
+                                        error_item_class: 'text-red-700 font-semibold',
+                                        widget_errors_class: 'border-double border-4 border-red-500 bg-red-50',
+                                    }) }}
                                 </div>
 
                                 <div id="activite" class="md:col-span-3 col-span-6">
-                                    {{ form_errors(form.activity) }}
-                                    {{ form_label(form.activity) }}
-                                    {{ form_widget(form.activity) }}
+                                    {{ form_row(form.activity, {
+                                        row_class: 'mt-2 px-3',
+                                        label_class: 'font-semibold text-gray-600',
+                                        widget_class: 'border border-red-200 bg-gray-50',
+                                        error_item_class: 'text-red-700 font-semibold',
+                                        widget_errors_class: 'border-double border-4 border-red-500 bg-red-50',
+                                    }) }}
                                 </div>
 
                                 {% if form.creneauChoices is not empty %}
                                     <div id="creneaux" class="md:col-span-3 col-span-6">
-                                        {{ form_errors(form.name) }}
-                                        {{ form_label(form.creneauChoices) }}
-                                        {{ form_widget(form.creneauChoices) }}
+                                        {{ form_row(form.creneauChoices, {
+                                            row_class: 'mt-2 px-3',
+                                            label_class: 'font-semibold text-gray-600',
+                                            widget_class: 'border border-red-200 bg-gray-50',
+                                            error_item_class: 'text-red-700 font-semibold',
+                                            widget_errors_class: 'border-double border-4 border-red-500 bg-red-50',
+                                        }) }}
                                     </div>
                                 {% endif %}
 
                                 <div id="message" class="md:col-span-6 col-span-6">
-                                    {{ form_errors(form.message) }}
-                                    {{ form_label(form.message) }}
-                                    {{ form_widget(form.message) }}
+                                    {{ form_row(form.message, {
+                                        row_class: 'mt-2 px-3',
+                                        label_class: 'font-semibold text-gray-600',
+                                        widget_class: 'border border-red-200 bg-gray-50',
+                                        error_item_class: 'text-red-700 font-semibold',
+                                        widget_errors_class: 'border-double border-4 border-red-500 bg-red-50',
+                                    }) }}
                                 </div>
 
                             </div>

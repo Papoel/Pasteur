@@ -16,16 +16,17 @@ class Registration
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: 'Renseigner votre pseudo ou votre prénom et nom.')]
     private ?string $name = null;
 
     #[ORM\Column(length: 150)]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: 'Renseigner votre email.')]
     #[Assert\Email]
     private ?string $email = null;
 
     #[ORM\Column(length: 10, nullable: true)]
-    #[Assert\Length(min: 10, max: 10)]
+    #[Assert\Type(type: 'numeric', message: 'Seuls les chiffres sont acceptés.')]
+    #[Assert\Length(min: 10, max: 10, exactMessage: 'Le numéro de téléphone doit comporter 10 chiffres.')]
     private ?string $phone = null;
 
     #[ORM\Column(length: 150)]
