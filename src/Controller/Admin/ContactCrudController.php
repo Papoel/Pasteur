@@ -24,13 +24,12 @@ class ContactCrudController extends AbstractCrudController
             ->setEntityLabelInSingular(label: 'Demande de contact')
             ->setEntityLabelInPlural(label: 'Demandes de contact')
 
-            ->setPageTitle(pageName: "index", title: "Aperp - Administartion des demandes de contact")
+            ->setPageTitle(pageName: 'index', title: 'Aperp - Administartion des demandes de contact')
             ->setPaginatorPageSize(maxResultsPerPage: 20)
 
             ->addFormTheme(themePath: '@FOSCKEditor/Form/ckeditor_widget.html.twig')
         ;
     }
-
 
     public function configureFields(string $pageName): iterable
     {
@@ -44,5 +43,4 @@ class ContactCrudController extends AbstractCrudController
             DateTimeField::new(propertyName: 'createdAt', label: 'Date de création')->hideOnForm(),
         ];
     }
-
 }

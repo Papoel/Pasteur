@@ -13,12 +13,12 @@ class ContactFixtures extends Fixture
     {
         $faker = Factory::create(locale: 'fr_FR');
 
-        for ($i = 0; $i <= 5; $i++) {
+        for ($i = 0; $i <= 5; ++$i) {
             $contact = new Contact();
 
             $contact->setFullName(fullName: $faker->name())
                 ->setEmail(email: $faker->email())
-                ->setSubject(subject: 'Demande n°' . $i + 1)
+                ->setSubject(subject: 'Demande n°'.$i + 1)
                 ->setMessage(message: $faker->text())
             ;
 

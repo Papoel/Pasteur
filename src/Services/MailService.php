@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace App\Services;
 
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -13,16 +12,16 @@ class MailService
 {
     public function __construct(
         private MailerInterface $mailer,
-   ) {}
+   ) {
+    }
 
     public function sendEmail(
         string $from,
         string $subject,
         string $htmlTemplate,
-        array  $context,
+        array $context,
         string $to = 'admin@aperp.fr',
-    ): void
-    {
+    ): void {
         $email = (new TemplatedEmail());
         $email->from($from);
         $email->to($to);
@@ -34,7 +33,7 @@ class MailService
         try {
             $this->mailer->send($email);
         } catch (TransportExceptionInterface $e) {
-            echo 'Erreur survenue lors de l\'envoi du mail : ' . $e->getMessage();
+            echo 'Erreur survenue lors de l\'envoi du mail : '.$e->getMessage();
         }
     }
 }
