@@ -29,6 +29,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "ckeditor4": "^4.13.0",
         "flowbite": "^1.5.3"
     }
 }

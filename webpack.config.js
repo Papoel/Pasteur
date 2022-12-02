@@ -59,13 +59,16 @@ Encore
         config.corejs = '3.23';
     })
 
-    // Copier les images dans le dossier public/build
-    .copyFiles({
-        from: './assets/images',
-        to: '[path][name].[hash:8].[ext]',
-        // to: 'images/[path][name].[ext]',
-        context: './assets'
-    })
+    // Copier les images dans le dossier public/build et ckEditor config
+    .copyFiles([
+        {from: './assets/images',to: '[path][name].[hash:8].[ext]',context: './assets'},
+        {from: './node_modules/ckeditor4/', to: 'ckeditor/[path][name].[ext]', pattern: /\.(js|css)$/, includeSubdirectories: false},
+        {from: './node_modules/ckeditor4/adapters', to: 'ckeditor/adapters/[path][name].[ext]'},
+        {from: './node_modules/ckeditor4/lang', to: 'ckeditor/lang/[path][name].[ext]'},
+        {from: './node_modules/ckeditor4/plugins', to: 'ckeditor/plugins/[path][name].[ext]'},
+        {from: './node_modules/ckeditor4/skins', to: 'ckeditor/skins/[path][name].[ext]'},
+        {from: './node_modules/ckeditor4/vendor', to: 'ckeditor/vendor/[path][name].[ext]'}
+    ])
 
     // enables Sass/SCSS support
     .enableSassLoader()
