@@ -120,6 +120,6 @@ class RegistrationHelpFormType extends AbstractType
             'data_class' => Registration::class,
             'event_creneaux' => [],
         ]);
-        $resolver->setAllowedTypes('event_creneaux', 'array');
+        $resolver->setAllowedTypes(option: 'event_creneaux', allowedTypes: 'array');
     }
 }

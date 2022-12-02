@@ -13,7 +13,7 @@ class EventFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        $faker = Factory::create('fr_FR');
+        $faker = Factory::create(locale: 'fr_FR');
 
         $events = [];
 
