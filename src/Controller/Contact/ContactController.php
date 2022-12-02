@@ -4,12 +4,11 @@ namespace App\Controller\Contact;
 
 use App\Entity\Contact\Contact;
 use App\Form\ContactFormType;
+use App\Services\MailService;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ContactController extends AbstractController
@@ -18,7 +17,7 @@ class ContactController extends AbstractController
     public function index(
         Request $request,
         EntityManagerInterface $entityManager,
-        MailerInterface $mailer
+        MailService $mailService,
     ): Response {
         $contact = new Contact();
 
@@ -37,23 +36,18 @@ class ContactController extends AbstractController
             $entityManager->persist($contact);
             $entityManager->flush();
 
-            // Email
-            $fullname = $contact->getFullName();
-            $subject = $contact->getSubject();
-
-            $email = (new TemplatedEmail());
-            $email->from($contact->getEmail());
-            $email->to('admin@aperp.fr');
-            $email->bcc('pascal.briffard@gmail.com');
-            if ($subject) {
-                $email->subject($subject);
-            } else {
-                $email->subject('Message de ' . $fullname);
+            // Envoyer un Email grâce au service MailService
+            if ($contact->getSubject() === null) {
+                $contact->setSubject(subject: 'Aperp - Nouveau message sans sujet');
             }
-            $email->htmlTemplate(template: 'emails/contact.html.twig');
-            $email->context(context: ['contact' => $contact]);
-
-            $mailer->send($email);
+            $mailService->sendEmail(
+                from: $contact->getEmail(),
+                subject: $contact->getSubject(),
+                htmlTemplate: 'emails/contact.html.twig',
+                context: [
+                    'contact' => $contact,
+                ],
+            );
 
             $this->addFlash(type: 'success', message: 'Merci 🙏  ' .$contact->getFullname(). ', votre message a bien été envoyé.');
 
