@@ -209,11 +209,11 @@ test: ## Créer un test avec la commande make test
 # Execute the tests in folder tests/Unit or tests/Functional according to answer of the user
 test-unit: ## Exécutez les tests unitaires
 	@echo "\n==> Exécution des Tests Unitaires <==\n"
-	$(EXEC_PHP) bin/phpunit --testdox --verbose tests/Unitaires
+	$(EXEC_PHP) bin/phpunit --testdox --verbose tests/Unit
 
 test-func: ## Exécutez les tests fonctionnels
 	@echo "\n==> Exécution des Tests Fonctionnels <==\n"
-	$(EXEC_PHP) bin/phpunit --testdox --verbose tests/Fonctionnels
+	$(EXEC_PHP) bin/phpunit --testdox --verbose tests/Functional
 
 test-all: phpunit.xml ## Lancer tous les tests
 	$(PHPUNIT) --stop-on-failure

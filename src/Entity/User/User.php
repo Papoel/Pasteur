@@ -26,12 +26,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private array $roles = [];
 
     #[ORM\Column]
+    #[Assert\NotBlank]
+    #[Assert\Regex(
+        pattern: '/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W)/',
+        message: 'Le mot de passe doit contenir au moins une minuscule, une majuscule, un chiffre et un caractère spécial',
+    )]
+    #[Assert\Length(
+        min: 8,
+        max: 80,
+        minMessage: 'Le mot de passe doit faire au moins {{ limit }} caractères',
+        maxMessage: 'Le mot de passe doit faire au plus {{ limit }} caractères',
+    )]
     private ?string $password = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\Length(
+        min: 3,
+        max: 50,
+        minMessage: 'Le prénom doit faire au moins {{ limit }} caractères',
+        maxMessage: 'Le prénom doit faire au plus {{ limit }} caractères',
+    )]
+    #[Assert\Type(type: 'string')]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\Length(
+        min: 3,
+        max: 50,
+        minMessage: 'Le nom doit faire au moins {{ limit }} caractères',
+        maxMessage: 'Le nom doit faire au plus {{ limit }} caractères',
+    )]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 50, nullable: true)]
@@ -44,11 +68,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $pseudo = null;
 
     #[ORM\Column]
-    #[Assert\DateTime]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
-    #[Assert\DateTime]
     private ?\DateTimeImmutable $updatedAt = null;
 
     public function __construct()
@@ -162,9 +184,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->pseudo;
     }
 
-    public function setPseudo(?string $pseudo): void
+    public function setPseudo(?string $pseudo): self
     {
         $this->pseudo = $pseudo;
+
+        return $this;
     }
 
     public function getCreatedAt(): ?\DateTimeImmutable
