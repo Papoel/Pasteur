@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Contact\Contact;
+use Karser\Recaptcha3Bundle\Form\Recaptcha3Type;
+use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -69,6 +71,12 @@ class ContactFormType extends AbstractType
                 'attr' => [
                     'class' => 'btn-purple-degrade rounded text-lg py-1 px-3 block ml-3 ',
                 ],
+            ])
+
+            ->add(child: 'captcha', type: Recaptcha3Type::class, options: [
+                'constraints' => new Recaptcha3(),
+                'action_name' => 'contact',
+                'locale' => 'fr',
             ])
         ;
     }
