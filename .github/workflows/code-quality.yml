@@ -22,5 +22,9 @@ jobs:
       - name: Composer Install PHP-CS-Fixer
         run: cd tools/php-cs-fixer && composer install --ansi --prefer-dist --no-interaction --no-progress
 
-      - name: Run Code Quality checks
-        run: composer check-quality
+#      - name: Run Code Quality checks
+#        run: composer check-quality
+
+      - name: Run PHPCS
+        if: steps.check_phpcs_binary_file.outputs.files_exists == 'true'
+        run: vendor/bin/phpcs -q --report=checkstyle | cs2pr
