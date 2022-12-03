@@ -27,4 +27,4 @@ jobs:
 
       - name: Run PHPCS
         #if: steps.check_phpcs_binary_file.outputs.files_exists == 'true'
-        run: vendor/bin/phpcs -q --report=checkstyle | cs2pr
+        run: ./vendor/bin/php-cs-fixer fix --allow-risky=yes --config=php-cs-fixer.php
