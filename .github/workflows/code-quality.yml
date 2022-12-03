@@ -26,5 +26,5 @@ jobs:
 #        run: composer check-quality
 
       - name: Run PHPCS
-        if: steps.check_phpcs_binary_file.outputs.files_exists == 'true'
+        #if: steps.check_phpcs_binary_file.outputs.files_exists == 'true'
         run: vendor/bin/phpcs -q --report=checkstyle | cs2pr
