@@ -17,11 +17,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[UniqueEntity('slug', message: 'Cet événement existe déjà.')]
 class Event
 {
+    public const STATUS = ['IDEE', 'APPROUVE', 'REFUSE', 'ANNULE'];
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
     #[ORM\Column(length: 150)]
     #[Assert\NotBlank]
     #[Assert\Length(
@@ -31,11 +31,9 @@ class Event
         maxMessage: 'Le titre ne peut pas comporter plus de {{ limit }} caractères.'
     )]
     private ?string $name = null;
-
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     #[Assert\NotBlank]
     private ?string $description = null;
-
     #[ORM\Column(length: 100)]
     #[Assert\length(
         min: 3,
@@ -44,51 +42,37 @@ class Event
         maxMessage: 'Le lieu ne peut pas comporter plus de {{ limit }} caractères.'
     )]
     private ?string $location = null;
-
     #[ORM\Column(type: Types::DECIMAL, precision: 4, scale: 2, nullable: true)]
     #[Assert\GreaterThanOrEqual(0)]
     private ?string $price = null;
-
     #[ORM\Column]
     #[Assert\NotBlank]
     #[Assert\Date]
     private ?\DateTimeImmutable $startsAt = null;
-
     #[ORM\Column]
     #[Assert\NotBlank]
     #[Assert\Date]
     private ?\DateTimeImmutable $finishAt = null;
-
     #[ORM\Column(type: 'string', length: 255)]
     private string $status = Event::STATUS[0];
-
     #[ORM\Column]
     private ?int $capacity = null;
-
     #[ORM\Column(length: 255, nullable: true, options: ['default' => 'event.jpeg'])]
     private ?string $imageFileName = null;
-
     #[ORM\Column]
     #[Assert\DateTime]
     private ?\DateTimeImmutable $createdAt = null;
-
     #[ORM\Column]
     #[Assert\DateTime]
     private ?\DateTimeImmutable $updatedAt = null;
-
     #[ORM\Column(nullable: true)]
     private ?bool $helpNeeded = null;
-
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
-
     #[ORM\OneToMany(mappedBy: 'event', targetEntity: Registration::class)]
     private Collection $registrations;
-
     #[ORM\ManyToMany(targetEntity: Creneau::class, mappedBy: 'event')]
     private Collection $creneaux;
-
-    public const STATUS = ['IDEE', 'APPROUVE', 'REFUSE', 'ANNULE'];
 
     public function __construct()
     {
@@ -148,18 +132,6 @@ class Event
     public function setLocation(string $location): self
     {
         $this->location = $location;
-
-        return $this;
-    }
-
-    public function getPrice(): ?string
-    {
-        return $this->price;
-    }
-
-    public function setPrice(?float $price): self
-    {
-        $this->price = $price;
 
         return $this;
     }
@@ -263,6 +235,18 @@ class Event
     public function isFree(): bool
     {
         return (0 == $this->getPrice()) || is_null($this->getPrice());
+    }
+
+    public function getPrice(): ?string
+    {
+        return $this->price;
+    }
+
+    public function setPrice(?float $price): self
+    {
+        $this->price = $price;
+
+        return $this;
     }
 
     public function getSlug(): ?string

@@ -12,7 +12,7 @@ class MailService
 {
     public function __construct(
         private MailerInterface $mailer,
-   ) {
+    ) {
     }
 
     public function sendEmail(

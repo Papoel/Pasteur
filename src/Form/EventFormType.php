@@ -4,7 +4,6 @@ namespace App\Form;
 
 use App\Entity\Event\Event;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -31,8 +30,7 @@ class EventFormType extends AbstractType
                 ->add('creneaux', CreneauFormType::class, ['by_reference' => false])
                 ->add('creneau', TextType::class)
             )*/
-            ->add('creneaux')
-        ;
+            ->add('creneaux');
     }
 
     public function configureOptions(OptionsResolver $resolver): void

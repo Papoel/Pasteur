@@ -24,8 +24,7 @@ class DashboardController extends AbstractDashboardController
     {
         return Dashboard::new()
             ->setTitle(title: 'APE Rousies Pasteur - Administration')
-            ->renderContentMaximized()
-        ;
+            ->renderContentMaximized();
     }
 
     public function configureMenuItems(): iterable

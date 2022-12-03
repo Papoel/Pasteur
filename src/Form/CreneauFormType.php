@@ -14,8 +14,7 @@ class CreneauFormType extends AbstractType
         $builder
             ->add('startsAt')
             ->add('endsAt')
-            ->add('event')
-        ;
+            ->add('event');
     }
 
     public function configureOptions(OptionsResolver $resolver): void

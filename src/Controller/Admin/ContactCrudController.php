@@ -23,12 +23,9 @@ class ContactCrudController extends AbstractCrudController
         return $crud
             ->setEntityLabelInSingular(label: 'Demande de contact')
             ->setEntityLabelInPlural(label: 'Demandes de contact')
-
             ->setPageTitle(pageName: 'index', title: 'Aperp - Administartion des demandes de contact')
             ->setPaginatorPageSize(maxResultsPerPage: 20)
-
-            ->addFormTheme(themePath: '@FOSCKEditor/Form/ckeditor_widget.html.twig')
-        ;
+            ->addFormTheme(themePath: '@FOSCKEditor/Form/ckeditor_widget.html.twig');
     }
 
     public function configureFields(string $pageName): iterable

@@ -32,7 +32,6 @@ class RegistrationHelpFormType extends AbstractType
                 ],
                 'required' => false,
             ])
-
             ->add(child: 'email', type: EmailType::class, options: [
                 'label' => 'Email :',
                 'label_attr' => [
@@ -44,7 +43,6 @@ class RegistrationHelpFormType extends AbstractType
                 ],
                 'required' => false,
             ])
-
             ->add(child: 'phone', type: TextType::class, options: [
                 'label' => 'Téléphone :',
                 'label_attr' => [
@@ -57,7 +55,6 @@ class RegistrationHelpFormType extends AbstractType
                 ],
                 'required' => false,
             ])
-
             ->add(child: 'activity', type: ChoiceType::class, options: [
                 'placeholder' => 'Choisissez une activité',
                 'label' => 'Une préférence ?',
@@ -74,7 +71,6 @@ class RegistrationHelpFormType extends AbstractType
                 ],
                 'required' => false,
             ])
-
             ->add(child: 'message', type: TextareaType::class, options: [
                 'label' => 'Votre message :',
                 'required' => false,
@@ -87,7 +83,6 @@ class RegistrationHelpFormType extends AbstractType
                     'rows' => 3,
                 ],
             ])
-
             ->add(child: 'creneauChoices', type: ChoiceType::class, options: [
                 'label' => 'Quel créneau ?',
                 'label_attr' => [
@@ -108,8 +103,7 @@ class RegistrationHelpFormType extends AbstractType
                 'multiple' => true,
                 'expanded' => true,
                 'mapped' => true,
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

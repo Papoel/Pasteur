@@ -29,7 +29,6 @@ class ContactFormType extends AbstractType
                 ],
                 'required' => false,
             ])
-
             ->add(child: 'email', type: EmailType::class, options: [
                 'label' => 'Email :',
                 'label_attr' => [
@@ -41,7 +40,6 @@ class ContactFormType extends AbstractType
                 ],
                 'required' => false,
             ])
-
             ->add(child: 'subject', type: TextType::class, options: [
                 'label' => 'Sujet :',
                 'label_attr' => [
@@ -53,7 +51,6 @@ class ContactFormType extends AbstractType
                 ],
                 'required' => false,
             ])
-
             ->add(child: 'message', type: TextareaType::class, options: [
                 'label' => 'Message :',
                 'label_attr' => [
@@ -65,20 +62,17 @@ class ContactFormType extends AbstractType
                 ],
                 'required' => false,
             ])
-
             ->add(child: 'submit', type: SubmitType::class, options: [
                 'label' => 'Envoyer',
                 'attr' => [
                     'class' => 'btn-purple-degrade rounded text-lg py-1 px-3 block ml-3 ',
                 ],
             ])
-
             ->add(child: 'captcha', type: Recaptcha3Type::class, options: [
                 'constraints' => new Recaptcha3(),
                 'action_name' => 'contact',
                 'locale' => 'fr',
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
