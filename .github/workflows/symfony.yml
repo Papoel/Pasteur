@@ -70,4 +70,4 @@ jobs:
         run: cd tools/php-cs-fixer && composer install --ansi --prefer-dist --no-interaction --no-progress
 
       - name: Run Code Quality checks
-        run: composer check-quality
+        run: composer code-quality
