@@ -1,5 +1,4 @@
-name: Symfony
-
+name: Workflow de test
 on:
   push:
     branches: [ "main" ]
@@ -17,12 +16,19 @@ jobs:
     # change this to (see https://github.com/shivammathur/setup-php#bookmark-versioning):
     # uses: shivammathur/setup-php@v2
     - uses: shivammathur/setup-php@2cb9b829437ee246e9b3cac53555a39208ca6d28
+
+    - run: echo "🎉 Ce job a été déclenché par l'événement ''${{ github.event_name }}''."
+    - run: echo "🐧 Ce job est lancé sur le serveur ''${{ runner.os }}'' mis à disposition par GitHub!"
+    - run: echo "🔎 Le nom de la branche est ''${{ github.ref }}'' et celui du dépôt est ''${{ github.repository }}''."
+
       with:
         php-version: '8.1'
         node-version: '16'
+
     - uses: actions/checkout@v3
     - name: Copy .env.test.local
       run: php -r "file_exists('.env.test.local') || copy('.env.test', '.env.test.local');"
+
     - name: Cache Composer packages
       id: composer-cache
       uses: actions/cache@v3
@@ -41,3 +47,27 @@ jobs:
       env:
         DATABASE_URL: sqlite:///%kernel.project_dir%/data/database.sqlite
       run: vendor/bin/phpunit
+
+  code-quality:
+    name: PHPStan & PHP-CS-Fixer
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: [ '8.1' ]
+      fail-fast: false
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+
+      - uses: actions/checkout@v2
+
+      - name: Composer Install
+        run: composer install --ansi --prefer-dist --no-interaction --no-progress
+
+      - name: Composer Install PHP-CS-Fixer
+        run: cd tools/php-cs-fixer && composer install --ansi --prefer-dist --no-interaction --no-progress
+
+      - name: Run Code Quality checks
+        run: composer check-quality
