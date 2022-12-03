@@ -45,7 +45,7 @@ jobs:
         run: bin/console -V
       # —— Code style —— (Based on this package: https://github.com/OskarStark/php-cs-fixer-ga)
       - name: PHP-CS-Fixer
-        uses: docker run --rm -it -w=/app -v ${PWD}:/app oskarstark/php-cs-fixer-ga:latest
+        uses: docker://oskarstark/php-cs-fixer-ga:latest
         with:
           args: --config=.php_cs.dist --diff --dry-run
       ## —— Tests ———————————————————————————————————————————————————————————
