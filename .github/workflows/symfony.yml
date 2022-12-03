@@ -12,7 +12,6 @@ permissions:
 jobs:
   symfony-tests:
     runs-on: ubuntu-latest
-    container: shivammathur/node:latest-${{ matrix.arch }}
     steps:
     #  To automatically get bug fixes and new Php versions for shivammathur/setup-php,
     # change this to (see https://github.com/shivammathur/setup-php#bookmark-versioning):
@@ -20,6 +19,7 @@ jobs:
     - uses: shivammathur/setup-php@2cb9b829437ee246e9b3cac53555a39208ca6d28
       with:
         php-version: '8.1'
+        node-version: '16'
     - uses: actions/checkout@v3
     - name: Copy .env.test.local
       run: php -r "file_exists('.env.test.local') || copy('.env.test', '.env.test.local');"
