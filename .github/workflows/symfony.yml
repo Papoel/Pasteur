@@ -19,7 +19,7 @@ jobs:
       with:
         php-version: '8.1'
         node-version: '16'
-        
+
     - run: echo "🎉 Ce job a été déclenché par l'événement ''${{ github.event_name }}''."
     - run: echo "🐧 Ce job est lancé sur le serveur ''${{ runner.os }}'' mis à disposition par GitHub!"
     - run: echo "🔎 Le nom de la branche est ''${{ github.ref }}'' et celui du dépôt est ''${{ github.repository }}''."
