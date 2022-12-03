@@ -1,6 +1,8 @@
 {
+    "name": "papoel/pasteur",
     "type": "project",
     "license": "proprietary",
+    "description": "A Symfony project created on November 2022 for the 'Association des Parents d'Élèves' de l'école Pasteur de Rousies ",
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
@@ -108,6 +110,8 @@
         }
     },
     "require-dev": {
+        "roave/security-advisories": "dev-latest"
+        ,
         "doctrine/doctrine-fixtures-bundle": "^3.4",
         "phpunit/phpunit": "^9.5",
         "symfony/browser-kit": "6.1.*",
