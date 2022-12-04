@@ -27,7 +27,7 @@ class Registration
     #[ORM\Column(length: 10, nullable: true)]
     #[Assert\Type(type: 'numeric', message: 'Seuls les chiffres sont acceptés.')]
     #[Assert\Length(min: 10, max: 10, exactMessage: 'Le numéro de téléphone doit comporter 10 chiffres.')]
-    private ?string $phone = null;
+    private ?string $telephone = null;
 
     #[ORM\Column(length: 150)]
     #[Assert\NotBlank]
@@ -71,14 +71,14 @@ class Registration
         return $this;
     }
 
-    public function getPhone(): ?string
+    public function getTelephone(): ?string
     {
-        return $this->phone;
+        return $this->telephone;
     }
 
-    public function setPhone(?string $phone): self
+    public function setTelephone(?string $telephone): self
     {
-        $this->phone = $phone;
+        $this->telephone = $telephone;
 
         return $this;
     }

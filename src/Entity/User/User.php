@@ -67,6 +67,51 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     )]
     private ?string $pseudo = null;
 
+    #[ORM\Column(length: 10, nullable: true)]
+    #[Assert\Type(type: 'numeric', message: 'Seuls les chiffres sont acceptés.')]
+    #[Assert\Length(min: 10, max: 10, exactMessage: 'Le numéro de téléphone doit comporter 10 chiffres.')]
+    private ?string $telephone = null;
+
+    #[ORM\Column(length: 150, nullable: true)]
+    #[Assert\Length(
+        max: 150,
+        maxMessage: 'L\'adresse ne peut pas comporter plus de {{ limit }} caractères.'
+    )]
+    #[Assert\Type(type: 'string', message: 'Seuls les caractères alphabétiques sont acceptés.')]
+    private ?string $address;
+
+    #[ORM\Column(length: 200 , nullable: true)]
+    #[Assert\Length(
+        min: 5,
+        max: 200,
+        minMessage: 'Le complément d\'adresse doit comporter au moins {{ limit }} caractères.',
+        maxMessage: ' Le complément d\'adresse ne peut pas comporter plus de {{ limit }} caractères.'
+    )]
+    #[Assert\Type(type: 'string', message: 'Seuls les caractères alphabétiques sont acceptés.')]
+    private ?string $complementAddress = null;
+
+    #[ORM\Column(length: 5, nullable: true)]
+    #[Assert\Length(
+        max: 5,
+        maxMessage: 'Le code postal doit comporter {{ limit }} chiffres.'
+    )]
+    private ?string $postalCode = null;
+
+    public function getPostalCode(): ?string
+    {
+        return $this->postalCode;
+    }
+
+    #[ORM\Column(length: 50, nullable: true)]
+    #[Assert\Length(
+        min: 3,
+        max: 50,
+        minMessage: 'La ville doit comporter au moins {{ limit }} caractères.',
+        maxMessage: 'La ville ne peut pas comporter plus de {{ limit }} caractères.'
+    )]
+    #[Assert\Type(type: 'string', message: 'Seuls les caractères alphabétiques sont acceptés.')]
+    private ?string $town = null;
+
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
@@ -187,6 +232,60 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPseudo(?string $pseudo): self
     {
         $this->pseudo = $pseudo;
+
+        return $this;
+    }
+
+    public function getTelephone(): ?string
+    {
+        return $this->telephone;
+    }
+
+    public function setTelephone(?string $telephone): self
+    {
+        $this->telephone = $telephone;
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?string $address): self
+    {
+        $this->address = $address;
+
+        return $this;
+
+    }
+
+    public function getComplementAddress(): ?string
+    {
+        return $this->complementAddress;
+    }
+
+    public function setComplementAddress(?string $complementAddress): void
+    {
+        $this->complementAddress = $complementAddress;
+    }
+
+    public function setPostalCode(?string $postalCode): self
+    {
+        $this->postalCode = $postalCode;
+
+        return $this;
+    }
+
+    public function getTown(): ?string
+    {
+        return $this->town;
+    }
+
+    public function setTown(?string $town): self
+    {
+        $this->town = $town;
 
         return $this;
     }

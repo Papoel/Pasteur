@@ -22,6 +22,7 @@ class Event
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
+
     #[ORM\Column(length: 150)]
     #[Assert\NotBlank]
     #[Assert\Length(
@@ -31,9 +32,11 @@ class Event
         maxMessage: 'Le titre ne peut pas comporter plus de {{ limit }} caractères.'
     )]
     private ?string $name = null;
+
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     #[Assert\NotBlank]
     private ?string $description = null;
+
     #[ORM\Column(length: 100)]
     #[Assert\length(
         min: 3,
@@ -42,37 +45,46 @@ class Event
         maxMessage: 'Le lieu ne peut pas comporter plus de {{ limit }} caractères.'
     )]
     private ?string $location = null;
+
     #[ORM\Column(type: Types::DECIMAL, precision: 4, scale: 2, nullable: true)]
     #[Assert\GreaterThanOrEqual(0)]
     private ?string $price = null;
+
     #[ORM\Column]
     #[Assert\NotBlank]
-    #[Assert\Date]
     private ?\DateTimeImmutable $startsAt = null;
+
     #[ORM\Column]
     #[Assert\NotBlank]
-    #[Assert\Date]
     private ?\DateTimeImmutable $finishAt = null;
+
     #[ORM\Column(type: 'string', length: 255)]
     private string $status = Event::STATUS[0];
-    #[ORM\Column]
+
+    #[ORM\Column(nullable: true)]
     private ?int $capacity = null;
+
     #[ORM\Column(length: 255, nullable: true, options: ['default' => 'event.jpeg'])]
     private ?string $imageFileName = null;
+
     #[ORM\Column]
-    #[Assert\DateTime]
     private ?\DateTimeImmutable $createdAt = null;
+
     #[ORM\Column]
-    #[Assert\DateTime]
     private ?\DateTimeImmutable $updatedAt = null;
+
     #[ORM\Column(nullable: true)]
     private ?bool $helpNeeded = null;
+
     #[ORM\Column(length: 255)]
-    private ?string $slug = null;
+    private string $slug;
+
     #[ORM\OneToMany(mappedBy: 'event', targetEntity: Registration::class)]
     private Collection $registrations;
+
     #[ORM\ManyToMany(targetEntity: Creneau::class, mappedBy: 'event')]
     private Collection $creneaux;
+
 
     public function __construct()
     {
@@ -261,9 +273,6 @@ class Event
         return $this;
     }
 
-    /**
-     * @return Collection<int, Registration>
-     */
     public function getRegistrations(): Collection
     {
         return $this->registrations;
@@ -284,7 +293,7 @@ class Event
         if ($this->registrations->removeElement($registration)) {
             // set the owning side to null (unless already changed)
             if ($registration->getEvent() === $this) {
-                $registration->setEvent(null);
+                $registration->setEvent(event: null);
             }
         }
 
