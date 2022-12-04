@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Admin\Event;
+namespace App\Controller\Admin;
 
 use App\Entity\Event\Event;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
