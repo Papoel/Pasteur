@@ -43,7 +43,7 @@ class RegistrationHelpFormType extends AbstractType
                 ],
                 'required' => false,
             ])
-            ->add(child: 'phone', type: TextType::class, options: [
+            ->add(child: 'telephone', type: TextType::class, options: [
                 'label' => 'Téléphone :',
                 'label_attr' => [
                     'class' => 'block text-gray-500 uppercase tracking-wider text-sm font-bold',
