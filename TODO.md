@@ -61,7 +61,7 @@ Evenements :
 
 😱...
 
-Lors de mon inscription à l'événement:
+Lors de mon inscription à l'événement :
 - [ ] je ne peux pas m'inscrire à un événement qui est déjà complet.
 - [x] je ne peux pas m'inscrire à un événement qui est déjà passé.
 - [x] je ne peux pas m'inscrire à un événement pur lequel je suis déjà inscrit.
@@ -74,3 +74,23 @@ Lors de mon inscription les données sont enregistrées dans la BDD:
 - [x] Messages => BDD Registration
 - [x] Activités => BDD Registration
 - [x] Plages Horaire => BDD Events_Plages_Horaires
+
+Ajouter dans Entity User:
+- [x] Telephone
+- [x] Adresse
+
+## Fonctionnalités Admin
+- [ ] Utiliser la logique de vérification lors de l'inscription a un event dans l'admin que dans le controller
+  <div style="background-color: #B0413E; padding: 2px 6px; border-radius: 10px; margin-top: 10px;"> 
+    <p style="color: #fff"> 
+      <strong> 
+        <i class="fas fa-exclamation-triangle"></i> 
+        Attention 
+      </strong> 
+      : 
+      Actuellement, un User peut s'inscrire plusieurs fois à un même event et la même activité.
+    </p>
+  </div>
+
+- [ ] Ajouter une option consulter les messages.
+- [ ] Ajouter une option pour répondre aux messages.
