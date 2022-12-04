@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Admin;
+namespace App\Controller\Admin\Contact;
 
 use App\Entity\Contact\Contact;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
