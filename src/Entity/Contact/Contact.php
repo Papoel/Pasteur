@@ -57,6 +57,9 @@ class Contact
     #[Assert\NotNull]
     private ?\DateTimeImmutable $createdAt;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isReplied = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -123,6 +126,18 @@ class Contact
     public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function isIsReplied(): ?bool
+    {
+        return $this->isReplied;
+    }
+
+    public function setIsReplied(?bool $isReplied): self
+    {
+        $this->isReplied = $isReplied;
 
         return $this;
     }

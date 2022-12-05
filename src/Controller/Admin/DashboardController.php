@@ -35,6 +35,9 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToDashboard(label: 'Dashboard', icon: 'fa fa-home');
 
+        yield MenuItem::section();
+        yield MenuItem::linkToUrl(label: 'Site-Web', icon: 'fas fa-check', url: $this->generateUrl('app_home'));
+
         yield MenuItem::section(label: 'Utilisateurs', icon: 'fa fa-users');
         yield MenuItem::subMenu(label: 'Action', icon: 'fas fa-bars')->setSubItems(subItems: [
             MenuItem::linkToCrud(label: 'Voir les utilisateurs', icon: 'fas fa-eye', entityFqcn: User::class),
@@ -56,16 +59,17 @@ class DashboardController extends AbstractDashboardController
                 ->setAction(actionName: Crud::PAGE_NEW),
         ]);
 
-        yield MenuItem::section(label: 'Demande de contact', icon: 'fas fa-envelope');
-        yield MenuItem::subMenu(label: 'Action', icon: 'fas fa-bars')->setSubItems(subItems: [
-            MenuItem::linkToCrud(label: 'Voir les messages', icon: 'fas fa-eye', entityFqcn: Contact::class),
-        ]);
-
         yield MenuItem::section(label: 'Créneaux', icon: 'fas fa-clock');
         yield MenuItem::subMenu(label: 'Action', icon: 'fas fa-bars')->setSubItems(subItems: [
             MenuItem::linkToCrud(label: 'Voir les créneaux', icon: 'fas fa-eye', entityFqcn: Creneau::class),
             MenuItem::linkToCrud(label: 'Ajouter un créneau', icon: 'fas fa-plus', entityFqcn: Creneau::class)
                 ->setAction(actionName: Crud::PAGE_NEW),
         ]);
+
+        yield MenuItem::section(label: 'Demande de contact', icon: 'fas fa-envelope')->setPermission(permission: 'ROLE_PRESIDENT');
+        yield MenuItem::subMenu(label: 'Action', icon: 'fas fa-bars')->setSubItems(subItems: [
+            MenuItem::linkToCrud(label: 'Voir les messages', icon: 'fas fa-eye', entityFqcn: Contact::class)->setPermission(permission: 'ROLE_PRESIDENT'),
+            MenuItem::linktoRoute(label: 'Répondre', icon: 'fa fa-pen', routeName: 'admin_email_response')->setPermission(permission: 'ROLE_PRESIDENT'),
+        ])->setPermission(permission: 'ROLE_PRESIDENT');
     }
 }
