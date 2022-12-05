@@ -40,7 +40,7 @@ jobs:
         run: |
           mkdir -p data
           touch data/database.sqlite
-          doctrine:schema:create
+          doctrine:database:create --if-not-exists --env=test
           doctrine:schema:update --force
 
       - name: Execute tests (Unit and Feature tests) via PHPUnit
