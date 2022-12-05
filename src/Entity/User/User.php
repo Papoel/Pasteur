@@ -4,12 +4,14 @@ namespace App\Entity\User;
 
 use App\Repository\User\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#[UniqueEntity('email', message: 'Cet utilisateur existe déjà dans la base de données.')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -19,7 +21,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 180, unique: true)]
     #[Assert\NotBlank]
-    #[Assert\Email]
+    #[Assert\Email(
+        message: 'Cet email {{ value }} n\'est pas une adresse valide.',
+    )]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -80,7 +84,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Type(type: 'string', message: 'Seuls les caractères alphabétiques sont acceptés.')]
     private ?string $address;
 
-    #[ORM\Column(length: 200 , nullable: true)]
+    #[ORM\Column(length: 200, nullable: true)]
     #[Assert\Length(
         min: 5,
         max: 200,
@@ -258,7 +262,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->address = $address;
 
         return $this;
-
     }
 
     public function getComplementAddress(): ?string
