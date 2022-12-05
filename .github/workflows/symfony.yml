@@ -21,7 +21,7 @@ jobs:
           php-version: '8.1'
       - uses: actions/checkout@v3
 
-      - name: Copy .env.test
+      - name: Copy .env.test.local
         run: php -r "file_exists('.env.test.local') || copy('.env.test', '.env.test.local');"
 
       - name: Cache Composer packages
@@ -40,6 +40,8 @@ jobs:
         run: |
           mkdir -p data
           touch data/database.sqlite
+          doctrine:schema:create
+          doctrine:schema:update --force
 
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         env:
