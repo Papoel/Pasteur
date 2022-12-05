@@ -1,55 +1,76 @@
-# Renommer la pipeline
-name: CI-Pasteur
+image: alpesiserehabitat/phpqa:1.1
 
-# Image de Jakzal/phpqa
-image: jakzal/phpqa
-
-# Installer les dépendances
 before_script:
   - composer install
 
-# Mettre en cache les dépendances
+stages:
+  - DeprecationDetector
+  - SecurityChecker
+  - CodingStandards
+  - UnitTests
+  - Deploy
+
+
+## Si besoin d'une BDD pour les tests
+services:
+    - name: mysql:5.7
+      alias: mysql
+
+variables:
+  MYSQL_ROOT_PASSWORD: pass_test
+  MYSQL_DATABASE: myapptest
+  MYSQL_USER: myapptest
+  MYSQL_PASSWORD: myapptest
+  DATABASE_URL: 'mysql://myapptest:myapptest@mysql:3306/myapptest'
+
 cache:
   paths:
     - vendor/
 
-# CodingStandard exécuter en parallèle PHP CS, PHP Stan et Twig-lint.
-stages:
-  - SecurityChecker
-  - CodingStandards
-  - UnitTests
+php-deprecation-detector:
+  stage: DeprecationDetector
+  script:
+    - deprecation-detector check src vendor
+  allow_failure: false
+  #only:
+  #    - release
 
-# check des failles de sécurité, et interdisons de poursuivre si cette tâche échoue.
 security-checker:
   stage: SecurityChecker
   script:
     - security-checker security:check composer.lock
-  allow_failure: false
+  allow_failure: true
 
-# Respect des règles de codage PSR-12 avec PHP CS (en excluant le fichier Kernel.php
 phpcs:
   stage: CodingStandards
   script:
-    - phpcs -v --standard=PSR12 --ignore=./src/Kernel.php ./src
-  allow_failure: false
+    - phpcs -v --standard=PSR2 --exclude=Generic.Files.LineLength ./src
+  allow_failure: true
+  #only:
+  #    - release
 
-# Scan de PHP Stan
-phpstan:
-  stage: CodingStandards
-  script:
-    - phpstan analyse ./src
-  allow_failure: false
-
-# Scan des fichiers Twig, en précisant bien le répertoire des templates
-twig-lint:
-  stage: CodingStandards
-  script:
-    - twig-lint lint ./templates
-  allow_failure: false
-
-# Exécution des tests unitaires
 phpunit:
   stage: UnitTests
+  ## Si utilisation d'un bdd et de fixtures pour les tests
+  before_script:
+      - php bin/console doctrine:database:drop --force --env=test
+      - php bin/console doctrine:database:create --env=test
+#      - php bin/console doctrine:migration:migrate --env=test --no-interaction
+#      - php bin/console doctrine:fixtures:load --env=test -q
+
   script:
-    - php bin/phpunit
+    - SYMFONY_DEPRECATIONS_HELPER=disabled php bin/phpunit
   allow_failure: false
+
+deploy:
+  image: ubuntu
+  stage: Deploy
+  #only:
+  #    refs:
+  #        - pre-production
+  before_script:
+    - apt-get update
+    - apt-get -y install openssh-client
+    - apt-get -y install sshpass
+  script:
+    - sshpass -p $SSH_USER_PASS ssh -o "StrictHostKeyChecking no" -P $SSH_USER@$SERVERNAME "docker exec $DOCKERNAME git pull && docker exec $DOCKERNAME composer install && docker exec $DOCKERNAME php bin/console cache:clear"
