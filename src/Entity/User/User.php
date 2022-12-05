@@ -96,15 +96,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 5, nullable: true)]
     #[Assert\Length(
+        min: 5,
         max: 5,
-        maxMessage: 'Le code postal doit comporter {{ limit }} chiffres.'
+        exactMessage: 'Le code postal doit comporter 5 chiffres.'
     )]
     private ?string $postalCode = null;
-
-    public function getPostalCode(): ?string
-    {
-        return $this->postalCode;
-    }
 
     #[ORM\Column(length: 50, nullable: true)]
     #[Assert\Length(
@@ -269,9 +265,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->complementAddress;
     }
 
-    public function setComplementAddress(?string $complementAddress): void
+    public function setComplementAddress(?string $complementAddress): self
     {
         $this->complementAddress = $complementAddress;
+
+        return $this;
+    }
+
+    public function getPostalCode(): ?string
+    {
+        return $this->postalCode;
     }
 
     public function setPostalCode(?string $postalCode): self

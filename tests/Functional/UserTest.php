@@ -26,6 +26,11 @@ class UserTest extends KernelTestCase
         $user->setFirstname(firstname: 'Firstname');
         $user->setLastname(lastname: 'Lastname');
         $user->setPseudo(pseudo: 'pseudo');
+        $user->setTelephone(telephone: '0625122512');
+        $user->setAddress(address: '15 rue de la Liberté');
+        $user->setComplementAddress(complementAddress: 'Appartement 2');
+        $user->setPostalCode(postalCode: '59600');
+        $user->setTown(town: 'Maubeuge');
         $user->setCreatedAt(new \DateTimeImmutable());
         $user->setUpdatedAt(new \DateTimeImmutable(datetime: 'now + 1 month'));
 
@@ -130,6 +135,78 @@ class UserTest extends KernelTestCase
         self::assertSame(expected: 'aa', actual: $userPseudo->getPseudo());
 
         $this->assertValidationErrorsCount(entity: $userPseudo, count: 1);
+    }
+
+    public function test_telephone_is_greater_than_10_characters(): void
+    {
+        $userTelephone = $this->getEntityUser()->setTelephone(telephone: '01234567890');
+        self::assertSame(expected: '01234567890', actual: $userTelephone->getTelephone());
+
+        $this->assertValidationErrorsCount(entity: $userTelephone, count: 1);
+    }
+
+    public function test_telephone_is_smaller_than_10_characters(): void
+    {
+        $userTelephone = $this->getEntityUser()->setTelephone(telephone: '0123456');
+        self::assertSame(expected: '0123456', actual: $userTelephone->getTelephone());
+
+        $this->assertValidationErrorsCount(entity: $userTelephone, count: 1);
+    }
+
+    public function test_address_is_greater_than_150_characters(): void
+    {
+        $userAddress = $this->getEntityUser()->setAddress(address: str_repeat(string: 'a', times: 151));
+        self::assertSame(expected: str_repeat(string: 'a', times: 151), actual: $userAddress->getAddress());
+
+        $this->assertValidationErrorsCount(entity: $userAddress, count: 1);
+    }
+
+    public function test_complement_address_is_greater_than_200_characters(): void
+    {
+        $userComplementAddress = $this->getEntityUser()->setComplementAddress(complementAddress: str_repeat(string: 'a', times: 201));
+        self::assertSame(expected: str_repeat(string: 'a', times: 201), actual: $userComplementAddress->getComplementAddress());
+
+        $this->assertValidationErrorsCount(entity: $userComplementAddress, count: 1);
+    }
+
+    public function test_complement_address_is_smaller_than_5_characters(): void
+    {
+        $userComplementAddress = $this->getEntityUser()->setComplementAddress(complementAddress: 'cool');
+        self::assertSame(expected: 'cool', actual: $userComplementAddress->getComplementAddress());
+
+        $this->assertValidationErrorsCount(entity: $userComplementAddress, count: 1);
+    }
+
+    public function test_code_postal_is_greater_than_5_characters(): void
+    {
+        $postal = $this->getEntityUser()->setPostalCode('123456');
+        self::assertSame(expected: '123456', actual: $postal->getPostalCode());
+
+        $this->assertValidationErrorsCount(entity: $postal, count: 1);
+    }
+
+    public function test_code_postal_is_smaller_than_5_characters(): void
+    {
+        $postal = $this->getEntityUser()->setPostalCode('123');
+        self::assertSame(expected: '123', actual: $postal->getPostalCode());
+
+        $this->assertValidationErrorsCount(entity: $postal, count: 1);
+    }
+
+    public function test_town_is_greater_than_50_characters(): void
+    {
+        $town = $this->getEntityUser()->setTown(town: str_repeat(string: 'a', times: 51));
+        self::assertSame(expected: str_repeat(string: 'a', times: 51), actual: $town->getTown());
+
+        $this->assertValidationErrorsCount(entity: $town, count: 1);
+    }
+
+    public function test_town_is_smaller_than_3_characters(): void
+    {
+        $town = $this->getEntityUser()->setTown(town: 'aa');
+        self::assertSame(expected: 'aa', actual: $town->getTown());
+
+        $this->assertValidationErrorsCount(entity: $town, count: 1);
     }
 
     public function test_roles_admin_extend_user(): void
