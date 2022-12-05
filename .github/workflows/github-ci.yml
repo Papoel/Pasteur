@@ -1,3 +1,6 @@
+# Renommer la pipeline
+name: CI-Pasteur
+
 # Image de Jakzal/phpqa
 image: jakzal/phpqa
 
