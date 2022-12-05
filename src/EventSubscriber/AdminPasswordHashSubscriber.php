@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace App\EventSubscriber;
 
 use App\Entity\User\User;
@@ -13,11 +12,11 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AdminPasswordHashSubscriber implements EventSubscriberInterface
 {
-
     public function __construct(
         private EntityManagerInterface $entityManager,
         private UserPasswordHasherInterface $passwordHasher
-    ) { }
+    ) {
+    }
 
     /**
      * @return array<string, array<string, int>>

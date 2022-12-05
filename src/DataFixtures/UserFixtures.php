@@ -62,7 +62,7 @@ class UserFixtures extends Fixture
             $user->setCreatedAt($immutable);
 
             $fixed = '06';
-            $number = $fixed.random_int( 10000000, 99999999);
+            $number = $fixed.random_int(10000000, 99999999);
             $user->setTelephone(telephone: $number);
 
             $user->setAddress(address: $faker->streetAddress());
