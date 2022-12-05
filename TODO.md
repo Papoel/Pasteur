@@ -1,4 +1,4 @@
-# Challenge 24h pour réaliser l'application
+# Challenge 24 h pour réaliser l'application
 
 # Objectifs
 Mettre en place une application web qui permet l'aide à l'organisation un événement.
@@ -10,7 +10,7 @@ Mettre en place une application web qui permet l'aide à l'organisation un évé
 - Poste proposé
 - Plage horaire proposée
 - Plage des postes
-- Commentaires (message lors de la soumissions des postes ( ✅ ) ou vrai commentaire ?)
+- Commentaires (message lors de la soumission des postes (✅) ou vrai commentaire ?)
 
 ## Fonctionnalités
 - [x] BDD User
@@ -67,13 +67,13 @@ Lors de mon inscription à l'événement :
 - [x] je ne peux pas m'inscrire à un événement pur lequel je suis déjà inscrit.
 - [x] je ne peux pas m'inscrire à un événement avec une activité pur laquelle je suis déjà inscrit.
 
-Lors de mon inscription les données sont enregistrées dans la BDD:
+Lors de mon inscription les données sont enregistrées dans la BDD :
 - [x] Nom + Prénom => BDD Registration
 - [x] Email => BDD Registration
 - [x] Téléphone => BDD Registration
 - [x] Messages => BDD Registration
 - [x] Activités => BDD Registration
-- [x] Plages Horaire => BDD Events_Plages_Horaires
+- [x] Plages Horaire ⇒ BDD Events_Plages_Horaires
 
 Ajouter dans Entity User:
 - [x] Telephone
