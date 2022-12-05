@@ -1,0 +1,52 @@
+# Image de Jakzal/phpqa
+image: jakzal/phpqa
+
+# Installer les dépendances
+before_script:
+  - composer install
+
+# Mettre en cache les dépendances
+cache:
+  paths:
+    - vendor/
+
+# CodingStandard exécuter en parallèle PHP CS, PHP Stan et Twig-lint.
+stages:
+  - SecurityChecker
+  - CodingStandards
+  - UnitTests
+
+# check des failles de sécurité, et interdisons de poursuivre si cette tâche échoue.
+security-checker:
+  stage: SecurityChecker
+  script:
+    - security-checker security:check composer.lock
+  allow_failure: false
+
+# Respect des règles de codage PSR-12 avec PHP CS (en excluant le fichier Kernel.php
+phpcs:
+  stage: CodingStandards
+  script:
+    - phpcs -v --standard=PSR12 --ignore=./src/Kernel.php ./src
+  allow_failure: false
+
+# Scan de PHP Stan
+phpstan:
+  stage: CodingStandards
+  script:
+    - phpstan analyse ./src
+  allow_failure: false
+
+# Scan des fichiers Twig, en précisant bien le répertoire des templates
+twig-lint:
+  stage: CodingStandards
+  script:
+    - twig-lint lint ./templates
+  allow_failure: false
+
+# Exécution des tests unitaires
+phpunit:
+  stage: UnitTests
+  script:
+    - php bin/phpunit
+  allow_failure: false
