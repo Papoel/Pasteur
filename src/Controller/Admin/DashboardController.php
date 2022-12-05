@@ -19,7 +19,8 @@ class DashboardController extends AbstractDashboardController
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
-        $this->denyAccessUnlessGranted(attribute: 'ROLE_ADMIN', subject: "Accès à la section d'administration", message: "Désolé, votre rôle ne vous donne pas accès a cette section.");
+        $this->denyAccessUnlessGranted(attribute: 'ROLE_ADMIN', subject: "Accès à la section d'administration", message: 'Désolé, votre rôle ne vous donne pas accès a cette section.');
+
         return $this->render(view: 'admin/dashboard.html.twig');
     }
 
@@ -34,7 +35,7 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToDashboard(label: 'Dashboard', icon: 'fa fa-home');
 
-        yield MenuItem::section(label: 'Utilisateurs',icon: 'fa fa-users');
+        yield MenuItem::section(label: 'Utilisateurs', icon: 'fa fa-users');
         yield MenuItem::subMenu(label: 'Action', icon: 'fas fa-bars')->setSubItems(subItems: [
             MenuItem::linkToCrud(label: 'Voir les utilisateurs', icon: 'fas fa-eye', entityFqcn: User::class),
             MenuItem::linkToCrud(label: 'Ajouter un membre', icon: 'fas fa-plus', entityFqcn: User::class)
@@ -45,17 +46,17 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::subMenu(label: 'Action', icon: 'fas fa-bars')->setSubItems(subItems: [
             MenuItem::linkToCrud(label: 'Voir les événements', icon: 'fas fa-eye', entityFqcn: Event::class),
             MenuItem::linkToCrud(label: 'Ajouter un événement', icon: 'fas fa-plus', entityFqcn: Event::class)
-                ->setAction(actionName: Crud::PAGE_NEW)
+                ->setAction(actionName: Crud::PAGE_NEW),
         ]);
 
         yield MenuItem::section(label: 'Inscriptions', icon: 'fas fa-calendar-check');
         yield MenuItem::subMenu(label: 'Action', icon: 'fas fa-bars')->setSubItems(subItems: [
             MenuItem::linkToCrud(label: 'Voir les inscriptions', icon: 'fas fa-eye', entityFqcn: Registration::class),
             MenuItem::linkToCrud(label: 'Ajouter une inscription', icon: 'fas fa-plus', entityFqcn: Registration::class)
-                ->setAction(actionName: Crud::PAGE_NEW)
+                ->setAction(actionName: Crud::PAGE_NEW),
         ]);
 
-        yield MenuItem::section(label: 'Contact', icon: 'fas fa-envelope');
+        yield MenuItem::section(label: 'Demande de contact', icon: 'fas fa-envelope');
         yield MenuItem::subMenu(label: 'Action', icon: 'fas fa-bars')->setSubItems(subItems: [
             MenuItem::linkToCrud(label: 'Voir les messages', icon: 'fas fa-eye', entityFqcn: Contact::class),
         ]);
@@ -64,7 +65,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::subMenu(label: 'Action', icon: 'fas fa-bars')->setSubItems(subItems: [
             MenuItem::linkToCrud(label: 'Voir les créneaux', icon: 'fas fa-eye', entityFqcn: Creneau::class),
             MenuItem::linkToCrud(label: 'Ajouter un créneau', icon: 'fas fa-plus', entityFqcn: Creneau::class)
-                ->setAction(actionName: Crud::PAGE_NEW)
+                ->setAction(actionName: Crud::PAGE_NEW),
         ]);
     }
 }
