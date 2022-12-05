@@ -85,7 +85,6 @@ class Event
     #[ORM\ManyToMany(targetEntity: Creneau::class, mappedBy: 'event')]
     private Collection $creneaux;
 
-
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
