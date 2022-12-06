@@ -61,7 +61,7 @@ Encore
 
     // Copier les images dans le dossier public/build et ckEditor config
     .copyFiles([
-        {from: './assets/images',to: '[path][name].[hash:8].[ext]',context: './assets'},
+        {from: './assets/uploads/images',to: '[path][name].[hash:8].[ext]',context: './assets'},
         {from: './node_modules/ckeditor4/', to: 'ckeditor/[path][name].[ext]', pattern: /\.(js|css)$/, includeSubdirectories: false},
         {from: './node_modules/ckeditor4/adapters', to: 'ckeditor/adapters/[path][name].[ext]'},
         {from: './node_modules/ckeditor4/lang', to: 'ckeditor/lang/[path][name].[ext]'},
