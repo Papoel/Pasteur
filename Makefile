@@ -146,10 +146,10 @@ cert-install: ## Installez les certificats HTTPS locaux
 serve: ## Servez l'application avec le support HTTPS (ajoutez "--no-tls" pour désactiver https)
 	$(SYMFONY_BIN) serve --daemon --port=$(HTTP_PORT)
 	$(eval CONFIRM := $(shell read -p "Faut-il exécuter le server Yarn ? [y/N] " CONFIRM && echo $${CONFIRM:-N}))
+	$(SYMFONY_BIN) open:local
 	@if [ "$(CONFIRM)" = "y" ]; then \
 		$(YARN) dev-server; \
 	fi
-	$(SYMFONY_BIN) open:local
 .PHONY: serve
 
 unserve: ## Arrêtez le serveur web
