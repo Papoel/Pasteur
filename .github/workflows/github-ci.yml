@@ -1,11 +1,11 @@
-name: Full CI process for Symfony 5
+name: Full CI process for Symfony 6
 on:
   push:
     branches:
       - main
 jobs:
   symfony:
-    name: Symfony 6.1 (PHP ${{ matrix.php-versions }})
+    name: Symfony 6.1 (PHP 8.1)
     # https://hub.docker.com/_/ubuntu/
     runs-on: ubuntu-20.04
     services:
@@ -21,8 +21,7 @@ jobs:
 
     strategy:
       fail-fast: true
-      matrix:
-        php-versions: ['8.1', '8.2']
+      php-versions: '8.1',
     steps:
       # —— Setup Github actions 🐙 —————————————————————————————————————————————
       # https://github.com/actions/checkout (official)
@@ -33,7 +32,7 @@ jobs:
       - name: Setup PHP, extensions and composer with shivammathur/setup-php
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-versions }}
+          php-version: '8.1'
           extensions: mbstring, xml, ctype, iconv, intl, pdo, pdo_mysql, dom, filter, gd, iconv, json, mbstring
         env:
           update: true
@@ -83,12 +82,12 @@ jobs:
       ## —— Coding standards ✨ ————————————————————————————————————————————————
       - name: Coding standards checks (php_codesniffer + php-cs-fixer)
         run: make cs
-        if: matrix.php-versions == '8.1'
+        php-versions: '8.1'
 
       ## —— Static analysis ✨ —————————————————————————————————————————————————
       - name: Static analysis of PHP code (PHPStan)
         run: |
-          bin/console about --env=prod
+          bin/console about --env=test
           make static-analysis
 
       ## —— Tests ✅ ———————————————————————————————————————————————————————————
