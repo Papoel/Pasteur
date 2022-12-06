@@ -50,7 +50,8 @@ jobs:
 
       - name: PHP-CS-Fixer
         if: always() && steps.install.outcome == 'success'
-        run: vendor/bin/php-cs-fixer fix --diff --dry-run
+        run: make qa-fixer-cs-dry-run
+        # run: vendor/bin/php-cs-fixer fix --diff --dry-run
 
       - name: Lint YAML files
         if: always() && steps.install.outcome == 'success'
