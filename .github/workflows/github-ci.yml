@@ -1,76 +1,104 @@
-image: alpesiserehabitat/phpqa:1.1
+name: Full CI process for Symfony 5
+on:
+  push:
+    branches:
+      - main
+jobs:
+  symfony:
+    name: Symfony 6.1 (PHP ${{ matrix.php-versions }})
+    # https://hub.docker.com/_/ubuntu/
+    runs-on: ubuntu-20.04
+    services:
+      # https://docs.docker.com/samples/library/mysql/
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      # https://hub.docker.com/_/elasticsearch/
 
-before_script:
-  - composer install
+    strategy:
+      fail-fast: true
+      matrix:
+        php-versions: ['8.0', '8.1']
+    steps:
+      # —— Setup Github actions 🐙 —————————————————————————————————————————————
+      # https://github.com/actions/checkout (official)
+      - name: Checkout
+        uses: actions/checkout@v2
 
-stages:
-  - DeprecationDetector
-  - SecurityChecker
-  - CodingStandards
-  - UnitTests
-  - Deploy
+      # https://github.com/shivammathur/setup-php (community)
+      - name: Setup PHP, extensions and composer with shivammathur/setup-php
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: mbstring, xml, ctype, iconv, intl, pdo, pdo_mysql, dom, filter, gd, iconv, json, mbstring
+        env:
+          update: true
 
+      - name: Check PHP Version
+        run: php -v
 
-## Si besoin d'une BDD pour les tests
-services:
-    - name: mysql:5.7
-      alias: mysql
+      ## —— Yarn 🐱 ————————————————————————————————————————————————————————————
+      - name: Yarn install
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          #registry-url: npm.fontawesome.com
+      - run: yarn install
+        #env:
+        #NODE_AUTH_TOKEN: ${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}
 
-variables:
-  MYSQL_ROOT_PASSWORD: pass_test
-  MYSQL_DATABASE: myapptest
-  MYSQL_USER: myapptest
-  MYSQL_PASSWORD: myapptest
-  DATABASE_URL: 'mysql://myapptest:myapptest@mysql:3306/myapptest'
+      - name: Yarn build
+        run: yarn run encore production
 
-cache:
-  paths:
-    - vendor/
+      # —— Composer 🧙‍️ —————————————————————————————————————————————————————————
+      - name: Validate composer.json and composer.lock
+        run: composer validate
 
-php-deprecation-detector:
-  stage: DeprecationDetector
-  script:
-    - deprecation-detector check src vendor
-  allow_failure: false
-  #only:
-  #    - release
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
-security-checker:
-  stage: SecurityChecker
-  script:
-    - security-checker security:check composer.lock
-  allow_failure: true
+      - name: Cache composer dependencies
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
 
-phpcs:
-  stage: CodingStandards
-  script:
-    - phpcs -v --standard=PSR2 --exclude=Generic.Files.LineLength ./src
-  allow_failure: true
-  #only:
-  #    - release
+      - name: Install Composer dependencies
+        run: make install
 
-phpunit:
-  stage: UnitTests
-  ## Si utilisation d'un bdd et de fixtures pour les tests
-  before_script:
-      - php bin/console doctrine:database:drop --force --env=test
-      - php bin/console doctrine:database:create --env=test
-#      - php bin/console doctrine:migration:migrate --env=test --no-interaction
-#      - php bin/console doctrine:fixtures:load --env=test -q
+      # —— Symfony 🎵 ——————————————————————————————————————————————————————————
+      - name: Check Symfony requirements
+        run: vendor/bin/requirements-checker
 
-  script:
-    - SYMFONY_DEPRECATIONS_HELPER=disabled php bin/phpunit
-  allow_failure: false
+      - name: Check the Symfony console
+        run: |
+          bin/console about
 
-deploy:
-  image: ubuntu
-  stage: Deploy
-  #only:
-  #    refs:
-  #        - pre-production
-  before_script:
-    - apt-get update
-    - apt-get -y install openssh-client
-    - apt-get -y install sshpass
-  script:
-    - sshpass -p $SSH_USER_PASS ssh -o "StrictHostKeyChecking no" -P $SSH_USER@$SERVERNAME "docker exec $DOCKERNAME git pull && docker exec $DOCKERNAME composer install && docker exec $DOCKERNAME php bin/console cache:clear"
+      ## —— Coding standards ✨ ————————————————————————————————————————————————
+      - name: Coding standards checks (php_codesniffer + php-cs-fixer)
+        run: make cs
+        if: matrix.php-versions == '8.1'
+
+      ## —— Static analysis ✨ —————————————————————————————————————————————————
+      - name: Static analysis of PHP code (PHPStan)
+        run: |
+          bin/console about --env=prod
+          make static-analysis
+
+      ## —— Tests ✅ ———————————————————————————————————————————————————————————
+      # We use the dev env here
+#      - name: Load Doctrine fixtures and populate the Elasticsearch indexes
+#        run: |
+#          make load-fixtures
+#          make populate
+
+      - name: Run functionnal and unit tests
+        run: |
+          cp phpunit.xml.ci phpunit.xml
+          make tests
