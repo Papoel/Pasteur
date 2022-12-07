@@ -71,7 +71,9 @@ jobs:
 
       ## —— Coding standards ✨ ————————————————————————————————————————————————
       - name: Coding standards checks (php_codesniffer + php-cs-fixer)
-        run: make lint-php
+        run: |
+          ./vendor/bin/phpcs -p --colors
+          ./vendor/bin/php-cs-fixer fix
         # if: {{ matrix.php-versions }} == '8.1'
 
       ## —— Static analysis ✨ —————————————————————————————————————————————————
