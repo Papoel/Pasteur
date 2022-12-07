@@ -1,0 +1,29 @@
+name: Code Quality Checks
+on: [ push ]
+jobs:
+  code-quality:
+    name: PHPStan & PHP-CS-Fixer 🧙‍♂️
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: [ '8.1' ]
+        fail-fast: false
+    steps:
+      - name: Setup PHP with tools 🪄
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+
+      - uses: actions/checkout@v3
+
+      - name: Composer Install 🚚
+        run: composer install --prefer-dist --no-interaction --no-progress
+
+      - name: PHPStan 🔬
+        run: vendor/bin/phpstan analyse --no-progress --no-interaction --memory-limit=2G --error-format=checkstyle | cs2pr
+
+      - name: PHP-CS-Fixer 🫣
+        run: cd tools/php-cs-fixer && composer install --ainsi --prefer-dist --no-interaction --no-progress
+
+      - name: Run Code Quality check 🧹
+        run: composer code-quality
