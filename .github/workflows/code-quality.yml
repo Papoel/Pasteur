@@ -72,7 +72,7 @@ jobs:
       ## —— Coding standards ✨ ————————————————————————————————————————————————
       - name: Coding standards checks (php_codesniffer + php-cs-fixer)
         run: make cs
-        if: {{ matrix.php-versions }} == '8.1'
+        # if: {{ matrix.php-versions }} == '8.1'
 
       ## —— Static analysis ✨ —————————————————————————————————————————————————
       - name: Static analysis of PHP code (PHPStan)
