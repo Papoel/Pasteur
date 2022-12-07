@@ -12,7 +12,7 @@
             <div class="lg:flex lg:-mx-6">
                 <div class="lg:w-3/4 lg:px-6">
                     <img class="object-cover object-center w-full h-80 xl:h-[28rem] rounded-xl"
-                         src="{{ asset('build/images/' ~ event.imageFileName) }}" alt="{{ event.imageFileName }}"
+                         src="{{ asset('build/uploads/images/events' ~ event.imageFileName) }}" alt="{{ event.imageFileName }}"
                     >
                     <div>
                         <p class="mt-6 text-sm text-blue-500 uppercase">{{ event.startsAt|format_datetime('full', 'short') }}</p>
