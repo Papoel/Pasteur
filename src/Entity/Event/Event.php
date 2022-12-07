@@ -24,7 +24,7 @@ class Event
     private ?int $id = null;
 
     #[ORM\Column(length: 150)]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: 'Veuillez renseigner un titre pour cet événement.')]
     #[Assert\Length(
         min: 3,
         max: 150,
@@ -38,7 +38,8 @@ class Event
     private ?string $description = null;
 
     #[ORM\Column(length: 100)]
-    #[Assert\length(
+    #[Assert\NotBlank(message: 'Veuillez renseigner un lieu.')]
+    #[Assert\Length(
         min: 3,
         max: 100,
         minMessage: 'Le lieu doit comporter au moins {{ limit }} caractères.',
