@@ -28,7 +28,8 @@ SYMFONY_LINT  = $(SYMFONY) lint:
 PHPUNIT       = ./vendor/bin/phpunit
 #PHPUNIT       = APP_ENV=test $(SF) php bin/phpunit
 PHPSTAN       = ./vendor/bin/phpstan
-PHP_CS_FIXER  = ./vendor/bin/php-cs-fixer
+PHP_CS_FIXER  = ./vendor/bin/phpcs
+PHP_CBF       = ./vendor/bin/phpcbf
 PHPMETRICS    = ./vendor/bin/phpmetrics
 
 # Executables: uniquement en local
@@ -182,10 +183,6 @@ start: up serve
 
 stop: down unserve ## Arrêtez docker et le serveur Symfony
 
-cc-redis: ## Videz tout le cache Redis
-	$(REDIS) -p 6389 flushall
-.PHONY: cc-redis
-
 commands: ## Afficher toutes les commandes dans l'espace de nom du projet
 	$(SYMFONY) list $(PROJECT)
 .PHONY: commands
@@ -214,71 +211,70 @@ test-func: ## Exécutez les tests fonctionnels
 	@echo "\n==> Exécution des Tests Fonctionnels <==\n"
 	$(EXEC_PHP) bin/phpunit --testdox --verbose tests/Functional
 
-test-all: phpunit.xml ## Lancer tous les tests
-	$(PHPUNIT) --stop-on-failure
-
 ## ——Les normes de codage ✨      ———————————————————————————————————————————————————————————————————————————————————————————————————————————
-cs: lint-php lint-js ## Effectuer tous les contrôles des normes de codage
+## Lancer PHPStan mais il faut créer un fichier phpstan.neon
+stan-1: ## Lancer PHPStan level 1
+	$(PHPSTAN) analyse . --level=1
+.PHONY: stan-1
 
-static-analysis: stan ## Lancer l'analyse statique (PHPStan)
+stan-2: ## Lancer PHPStan level 2
+	$(PHPSTAN) analyse . --level=2
+.PHONY: stan-2
 
-stan: ## Lancer PHPStan mais il faut créer un fichier phpstan.neon
-	$(PHPSTAN) analyse -c configuration/phpstan.neon --memory-limit 1G
-.PHONY: stan
+## Lancer PHPStan level 3
+stan-3: ## Lancer PHPStan level 3
+	$(PHPSTAN) analyse . --level=3
+.PHONY: stan-3
+
+## Lancer PHPStan level 4
+stan-4: ## Lancer PHPStan level 4
+	$(PHPSTAN) analyse . --level=4
+.PHONY: stan-4
+
+## Lancer PHPStan level 5
+stan-5: ## Lancer PHPStan level 5
+	$(PHPSTAN) analyse . --level=5
+.PHONY: stan-5
+
+## Lancer PHPStan level 6
+stan-6: ## Lancer PHPStan level 6
+	$(PHPSTAN) analyse . --level=6
+.PHONY: stan-6
+
+## Lancer PHPStan level 7
+stan-7: ## Lancer PHPStan level 7
+	$(PHPSTAN) analyse . --level=7
+.PHONY: stan-7
+
+## Lancer PHPStan level 8
+stan-8: ## Lancer PHPStan level 8
+	$(PHPSTAN) analyse . --level=8
+.PHONY: stan-8
+
+## Lancer PHPStan level 9
+stan-9: ## Lancer PHPStan level 9
+	$(PHPSTAN) analyse . --level=9
+.PHONY: stan-9
 
 lint-php: ## Lint des fichiers avec php-cs-fixer
-	$(PHP_CS_FIXER) fix --allow-risky=yes --dry-run --config=php-cs-fixer.php
+	$(PHP_CS_FIXER) -p --colors
 .PHONY: lint-php
 
 fix-php: ## Corriger les fichiers avec php-cs-fixer
-	$(PHP_CS_FIXER) fix --allow-risky=yes --config=php-cs-fixer.php
+	$(PHP_CBF)
 .PHONY: fix-php
 
 ## —— Déploiement & Prod 🚀      ———————————————————————————————————————————————————————————————————————————————————————————————————————————
-deploy: ## Déploiement complet sans temps mort avec EasyDeploy (avec pré-deploy Git Hooks)
-	test -z "`git status --porcelain`"                 # Prevent deploy if there are modified or added files
-	test -z "`git diff --stat --cached origin/master`" # Prevent deploy if there is something to push on master
-	$(SYMFONY) deploy -v                               # Deploy with EasyDeploy
-.PHONY: deploy
-
 env-check: ## Vérifier les principales variables ENV du projet
 	printenv | grep -i app
 .PHONY: env-check
-
-## —— Yarn 🐱 / JavaScript       ———————————————————————————————————————————————————————————————————————————————————————————————————————————
-dev: ## Rebuild assets pour l'environnement de développement
-	$(YARN) install --check-files
-	$(YARN) run encore dev
-.PHONY: dev
-
-watch: ## Surveiller les fichiers et build assets lorsque cela est nécessaire pour l'environnement de développement.
-	$(YARN) run encore dev --watch
-.PHONY: watch
-
-encore: ## Build assets pour production
-	$(YARN) run encore production
-.PHONY: encore
-
-lint-js: ## Normes de codage de Lints JS
-	$(NPX) eslint assets/js
-.PHONY: lint-js
-
-fix-js: ## Corrige les fichiers JS
-	$(NPX) eslint assets/js --fix
-.PHONY: fix-js
 
 ## —— Rapports sur la qualité du code 📊 ———————————————————————————————————————————————————————————————————————————————————————————————————
 report-metrics: ## Lancer le rapport phpmetrics
 	$(PHPMETRICS) --report-html=var/phpmetrics/ src/
 .PHONY: report-metrics
 
-coverage: ## Créer le rapport de couverture de code avec PHPUnit
-	$(EXEC_PHP) -d xdebug.enable=1 -d xdebug.mode=coverage -d memory_limit=-1 vendor/bin/phpunit --coverage-html=var/coverage
-.PHONY: coverage
-
-## ——————————————————‍      🤷 YOANDEV MAKEFILE 🤷‍     ————————————————————————————————————————————————————————————————————————————————————
-
-## —— 🐛  PHPQA                  ———————————————————————————————————————————————————————————————————————————————————————————————————————————
+## —— 🐛  PHPQA (Avec Docker)                  ———————————————————————————————————————————————————————————————————————————————————————————————————————————
 qa-cs-fixer-dry-run: ## Détecter les erreurs dans le projet
 	$(PHPQA_RUN) php-cs-fixer fix ./src --rules=@Symfony --verbose --dry-run
 .PHONY: qa-cs-fixer-dry-run
@@ -366,7 +362,7 @@ tests-coverage: ## Exécuter les tests-coverage.
 ## —— ⭐  AUTRE                   ———————————————————————————————————————————————————————————————————————————————————————————————————————————
 before-commit: ## Exécuter avant de commit.
 	$(MAKE) qa-cs-fixer
-	$(MAKE) qa-phpstan-7
+	$(MAKE) qa-phpstan-5
 	$(MAKE) qa-security-checker
 	$(MAKE) qa-phpcpd
 	$(MAKE) qa-lint-twigs
