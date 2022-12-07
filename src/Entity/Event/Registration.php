@@ -42,6 +42,16 @@ class Registration
     #[ORM\Column]
     private array $creneau_choices = [];
 
+    public function getCreneauChoicesAsString(): string
+    {
+        return implode(separator: ', ', array: $this->creneau_choices);
+    }
+
+    public function __toString(): string
+    {
+        return $this->activity . ' - ' . $this->name . ' (' . $this->getCreneauChoicesAsString() . ')';
+    }
+
     public function getId(): ?int
     {
         return $this->id;
