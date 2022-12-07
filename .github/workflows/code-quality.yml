@@ -10,28 +10,55 @@ jobs:
     name: Symfony 6.1 (PHP ${{ matrix.php-versions }})
     # https://hub.docker.com/_/ubuntu/
     runs-on: ubuntu-latest
+    services:
+      # https://docs.docker.com/samples/library/mysql/
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     strategy:
       fail-fast: true
       matrix:
         php-versions: ['8.1']
     steps:
+      # —— Setup GitHub actions 🐙 —————————————————————————————————————————————
       # https://github.com/actions/checkout (official)
       - name: Checkout
         uses: actions/checkout@v3
 
       # https://github.com/shivammathur/setup-php (community)
       - name: Setup PHP, extensions and composer with shivammathur/setup-php
-        uses: shivammathur/setup-php@verbose
+        uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, dom, filter, gd, iconv, json, pdo
+          extensions: mbstring, xml, ctype, iconv, intl, pdo, pdo_mysql, dom, filter, gd, iconv, json
+        env:
+          update: true
 
-      # Composer
+      - name: Check PHP Version 🐘
+        run: php -v
+
+      ## —— Yarn 🐱 ————————————————————————————————————————————————————————————
+      - name: Yarn install
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - run: yarn install
+
+      - name: Yarn build
+        run: yarn run build
+
+      # —— Composer 🧙‍️ —————————————————————————————————————————————————————————
+      - name: Validate composer.json and composer.lock
+        run: composer validate
+
       - name: Get composer cache directory
         id: composer-cache
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
-        # https://help.github.com/en/actions/configuring-and-managing-workflows/caching-dependencies-to-speed-up-workflows
       - name: Cache composer dependencies
         uses: actions/cache@v1
         with:
@@ -40,59 +67,35 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Install Composer dependencies
-        run: composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
+        run: make install
 
-      # https://github.com/sensiolabs/security-checker
-      - name: Security check installed dependencies
-        uses: symfonycorp/security-checker-action@v4
+      ## —— Coding standards ✨ ————————————————————————————————————————————————
+      - name: Coding standards checks (php_codesniffer + php-cs-fixer)
+        run: make cs
+        if: {{ matrix.php-versions }} == '8.1'
 
-      # https://github.com/chekalsky/phpcs-action (community)
-      - name: Check PSR12 code style (PHP_CodeSniffer)
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php-versions }}
-          tools: cs2pr, phpcs
+      ## —— Static analysis ✨ —————————————————————————————————————————————————
+      - name: Static analysis of PHP code (PHPStan)
+        run: |
+          php bin/console about --env=dev
+          make static-analysis
 
-      # https://github.com/phpmd/phpmd
-      # - name: Analyses PHP Code (PHP Mess Detector)
-      #  run: vendor/bin/phpmd src,tests text .phpmd-ruleset.xml
+      # —— Symfony 🎵 ——————————————————————————————————————————————————————————
+      - name: Check Symfony requirements
+        run: vendor/bin/requirements-checker
 
-      # https://github.com/phpstan/phpstan
-      - name: Analyse PHP Code (PHPStan)
-        run: vendor/bin/phpstan analyse src
-
-      - name: Cache node_modules
-        uses: actions/cache@v1
-        id: yarn-cache-node-modules
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-yarn-cache-node-modules-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-cache-node-modules-
-
-      - name: Yarn install
-        if: steps.yarn-cache-node-modules.outputs.cache-hit != 'true'
-        run: yarn install
-
-      - name: Yarn build
-        run: yarn run encore production
-
-      - name: Archive production artifacts
-        uses: actions/upload-artifact@v1
-        with:
-          name: build
-          path: public/build
-
-      # PHP CodeSniffer
-      - name: Run phpcs
-        run: phpcs -q --report=checkstyle src | cs2pr
-
-      # Symfony
       - name: Check the Symfony console
         run: |
-          php bin/console -V
           php bin/console about
-      # Tests
-      - name: Run unit and functional tests
+
+      ## —— Tests ✅ ———————————————————————————————————————————————————————————
+      # We use the dev env here
+      - name: Load Doctrine fixtures and populate the Elasticsearch indexes
         run: |
-          php bin/phpunit --stop-on-failure
+          make load-fixtures
+          make populate
+
+      - name: Run functional and unit tests
+        run: |
+          cp phpunit.xml.ci phpunit.xml
+          make test-all
