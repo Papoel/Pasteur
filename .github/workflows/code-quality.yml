@@ -73,8 +73,8 @@ jobs:
       - name: Coding standards checks (php_codesniffer + php-cs-fixer)
         run: |
           php ./vendor/bin/phpcs -p --colors
-          ./vendor/bin/php-cs-fixer fix
           php ./vendor/bin/phpcbf
+          ./vendor/bin/php-cs-fixer fix
         # if: {{ matrix.php-versions }} == '8.1'
 
       ## —— Static analysis ✨ —————————————————————————————————————————————————
