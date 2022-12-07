@@ -5,6 +5,8 @@ parameters:
   excludePaths:
     - vendor
     - tools
+    - var
+    - node_modules
   # Inclusions
   paths:
     - .
