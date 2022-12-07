@@ -74,13 +74,12 @@ jobs:
         run: |
           php ./vendor/bin/phpcs -p --colors
           php ./vendor/bin/phpcbf
-          ./vendor/bin/php-cs-fixer fix
         # if: {{ matrix.php-versions }} == '8.1'
 
       ## —— Static analysis ✨ —————————————————————————————————————————————————
       - name: Static analysis of PHP code (PHPStan)
         run: |
-          php bin/console about --env=dev
+          php bin/console about --env=test
           make static-analysis
 
       # —— Symfony 🎵 ——————————————————————————————————————————————————————————
