@@ -46,7 +46,7 @@ class UserTest extends KernelTestCase
         foreach ($violations as $violation) {
             $messages[] =
                 'Erreur sur la Propriété '
-                .ucfirst($violation->getPropertyPath()).' => '.$violation->getMessage();
+                . ucfirst($violation->getPropertyPath()) . ' => ' . $violation->getMessage();
         }
 
         $this->assertCount(expectedCount: $count, haystack: $violations, message: implode(separator:PHP_EOL, array: $messages));
@@ -295,5 +295,4 @@ class UserTest extends KernelTestCase
 
         $this->assertValidationErrorsCount($userPassword, count: 0);
     }
-
 }

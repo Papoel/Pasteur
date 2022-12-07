@@ -52,9 +52,9 @@ class UserCrudController extends AbstractCrudController
 
             ChoiceField::new(propertyName: 'roles')->setChoices(
                 [
-                    'PRESIDENT'      => 'ROLE_PRESIDENT',
+                    'PRESIDENT' => 'ROLE_PRESIDENT',
                     'ADMINISTRATEUR' => 'ROLE_ADMIN',
-                    'MEMBRE'         => 'ROLE_USER',
+                    'MEMBRE' => 'ROLE_USER',
                 ]
             )->allowMultipleChoices()->hideOnIndex(),
 

@@ -3,7 +3,6 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Contact\Contact;
-use App\Entity\User\User;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
