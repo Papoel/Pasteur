@@ -24,7 +24,7 @@ jobs:
         uses: shivammathur/setup-php@verbose
         with:
           php-version: ${{ matrix.php-versions }}
-          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, dom, filter, gd, iconv, json, mbstring, pdo
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, dom, filter, gd, iconv, json, pdo
 
       # Composer
       - name: Get composer cache directory
@@ -44,15 +44,14 @@ jobs:
 
       # https://github.com/sensiolabs/security-checker
       - name: Security check installed dependencies
-        uses: symfonycorp/security-checker-action@v2
+        uses: symfonycorp/security-checker-action@v4
 
       # https://github.com/chekalsky/phpcs-action (community)
       - name: Check PSR12 code style (PHP_CodeSniffer)
-        uses: chekalsky/phpcs-action@v1.2.0
+        uses: shivammathur/setup-php@v2
         with:
-          enable_warnings: true
-          installed_paths: '${{ github.workspace }}/vendor/squizlabs/php_codesniffer'
-          phpcs_bin_path: './vendor/bin/phpcs src --ignore="Migrations/"'
+          php-version: ${{ matrix.php-versions }}
+          tools: cs2pr, phpcs
 
       # https://github.com/phpmd/phpmd
       # - name: Analyses PHP Code (PHP Mess Detector)
@@ -83,6 +82,10 @@ jobs:
         with:
           name: build
           path: public/build
+
+      # PHP CodeSniffer
+      - name: Run phpcs
+        run: phpcs -q --report=checkstyle src | cs2pr
 
       # Symfony
       - name: Check the Symfony console
