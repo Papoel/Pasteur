@@ -18,8 +18,7 @@ jobs:
           MYSQL_DATABASE: db_pasteur
           # MYSQL_ROOT_PASSWORD: ${{ secrets.CI_DB_PASSWORD }}
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          # DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          DATABASE_URL: mysql://root:@127.0.0.1:3306/db_pasteur?serverVersion=MariaDB-10.8.3&charset=utf8mb4
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
