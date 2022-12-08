@@ -48,7 +48,7 @@ class EventRegistrationsController extends AbstractController
             $creneau_choices = $form->get('creneauChoices')->getData();
             $creneau_choices = array_map(
                 static function ($creneau) {
-                    return $creneau->getStartsAt()->format('H:i').' - '.$creneau->getEndsAt()->format('H:i');
+                    return $creneau->getStartsAt()->format('H:i') . ' - ' . $creneau->getEndsAt()->format('H:i');
                 },
                 $creneau_choices
             );
@@ -58,7 +58,7 @@ class EventRegistrationsController extends AbstractController
             $em->persist($registration);
             $em->flush();
 
-            $this->addFlash(type: 'success', message: 'Merci, votre inscription à l\'événement : '.$event->getName().' à bien été prise en compte.');
+            $this->addFlash(type: 'success', message: 'Merci, votre inscription à l\'événement : ' . $event->getName() . ' à bien été prise en compte.');
 
             return $this->redirectToRoute(route: 'app_event_show', parameters: ['slug' => $event->getSlug()]);
         }
