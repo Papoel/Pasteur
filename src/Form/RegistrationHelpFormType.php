@@ -94,7 +94,7 @@ class RegistrationHelpFormType extends AbstractType
                 'choices' => $options['event_creneaux'],
 
                 'choice_label' => function ($choice, $key, $value) {
-                    return $choice->getStartsAt()->format('H:i').' - '.$choice->getEndsAt()->format('H:i');
+                    return $choice->getStartsAt()->format('H:i') . ' - ' . $choice->getEndsAt()->format('H:i');
                 },
                 'choice_value' => function ($choice) {
                     return $choice->getId();

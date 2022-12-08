@@ -92,11 +92,11 @@ class Creneau
 
     public function getPlage(Event $event): bool
     {
-        return $this->startsAt->format(format: 'H:i').' - '.$this->endsAt->format(format: 'H:i');
+        return $this->startsAt->format(format: 'H:i') . ' - ' . $this->endsAt->format(format: 'H:i');
     }
 
     public function __toString(): string
     {
-        return $this->startsAt->format(format: 'H:i').' - '.$this->endsAt->format(format: 'H:i');
+        return $this->startsAt->format(format: 'H:i') . ' - ' . $this->endsAt->format(format: 'H:i');
     }
 }

@@ -24,8 +24,8 @@ class UserFixtures extends Fixture
         $userAdmin->setLastname(lastname: 'Lamy');
         $userAdmin->setEmail(
             email: strtolower(
-                string: $userAdmin->getFirstname().'.'.$userAdmin->getLastname()
-            ).
+                string: $userAdmin->getFirstname() . '.' . $userAdmin->getLastname()
+            ) .
             '@aperp.fr'
         );
         $userAdmin->setRoles(['ROLE_PRESIDENT']);
@@ -48,8 +48,8 @@ class UserFixtures extends Fixture
 
             $user->setEmail(
                 email: strtolower(
-                    string: $user->getFirstname().'.'.$user->getLastname()
-                ).
+                    string: $user->getFirstname() . '.' . $user->getLastname()
+                ) .
                 '@aperp.fr'
             );
 
@@ -62,7 +62,7 @@ class UserFixtures extends Fixture
             $user->setCreatedAt($immutable);
 
             $fixed = '06';
-            $number = $fixed.random_int(10000000, 99999999);
+            $number = $fixed . random_int(10000000, 99999999);
             $user->setTelephone(telephone: $number);
 
             $user->setAddress(address: $faker->streetAddress());
