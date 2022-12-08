@@ -70,15 +70,15 @@ jobs:
         run: make install
 
       ## —— Coding standards ✨ ————————————————————————————————————————————————
-      - name: Coding standards checks (php_codesniffer + php-cs-fixer)
-        run: |
-          make fix-php
-          php ./vendor/bin/phpcs -p --colors
+      #- name: Coding standards checks (php_codesniffer + php-cs-fixer)
+      #  run: |
+      #    make fix-php
+      #    php ./vendor/bin/phpcs -p --colors
 
       ## —— Static analysis ✨ —————————————————————————————————————————————————
       - name: Static analysis of PHP code (PHPStan)
         run: |
-          php bin/console about --env=test
+          php bin/console about --env=dev
           make static-analysis
 
       # —— Symfony 🎵 ——————————————————————————————————————————————————————————
@@ -90,11 +90,9 @@ jobs:
           php bin/console about
 
       ## —— Tests ✅ ———————————————————————————————————————————————————————————
-      # We use the dev env here
-      - name: Load Doctrine fixtures and populate the Elasticsearch indexes
+      - name: Load Doctrine fixtures
         run: |
-          make load-fixtures
-          make populate
+          make sf-dfl
 
       - name: Run functional and unit tests
         run: |
