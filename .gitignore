@@ -33,3 +33,8 @@ yarn-error.log
 /.phpcs-cache
 /phpcs.xml
 ###< squizlabs/php_codesniffer ###
+
+##> assets/uploads ###
+/public/uploads/
+/assets/uploads/
+##< assets/uploads ###
