@@ -10,21 +10,15 @@ jobs:
     name: Symfony 6.1 (PHP ${{ matrix.php-versions }})
     # https://hub.docker.com/_/ubuntu/
     runs-on: ubuntu-latest
-    # —— Setup Database MySql ⚠️ —————————————————————————————————————————————
     services:
+      # https://docs.docker.com/samples/library/mysql/
       mysql:
-        image: mariadb:latest
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: root
         ports:
           - 3306:3306
-        env:
-          MYSQL_ROOT_PASSWORD: ${{ secrets.CI_DB_PASSWORD }}
-        options: --health-cmd="mysqladmin ping" --health-interval 10s --health-timeout 5s --health-retries 5
-      env:
-        Pasteur_Db__Host: 127.0.0.1
-        Pasteur_Db__User: root
-        Pasteur_Db__Password: ${{ secrets.CI_DB_PASSWORD }}
-        Pasteur_Db__Database: db_pasteur
-
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     strategy:
       fail-fast: false
       matrix:
@@ -96,9 +90,9 @@ jobs:
           php bin/console about
 
       ## —— Tests ✅ ———————————————————————————————————————————————————————————
-      - name: Load Doctrine fixtures
-        run: |
-          make sf-dfl
+      # - name: Load Doctrine fixtures
+      #  run: |
+      #    make sf-dfl
 
       - name: Run functional and unit tests
         run: |
