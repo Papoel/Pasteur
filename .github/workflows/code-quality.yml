@@ -96,4 +96,5 @@ jobs:
 
       - name: Run functional and unit tests
         run: |
+          make init-db-test
           make tests
