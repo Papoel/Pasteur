@@ -96,5 +96,8 @@ jobs:
 
       - name: Run functional and unit tests
         run: |
-          make init-db-test
-          make tests
+          php bin/console cache:clear --env=test
+          php bin/console doctrine:database:drop --force --env=test
+          php bin/console doctrine:database:create --env=test
+          doctrine:schema:update --env=test --force
+          php vendor/phpunit/phpunit/phpunit --testdox
