@@ -79,7 +79,7 @@ jobs:
       - name: Static analysis of PHP code (PHPStan)
         run: |
           php bin/console about --env=dev
-          make static-analysis
+          make stan-1
 
       # —— Symfony 🎵 ——————————————————————————————————————————————————————————
       - name: Check Symfony requirements
