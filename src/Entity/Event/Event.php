@@ -78,7 +78,7 @@ class Event
     private Collection $creneaux;
 
     #[ORM\OneToOne(inversedBy: 'event', targetEntity: Image::class, cascade: ['persist', 'remove'])]
-    private Image $image;
+    private ?Image $image = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
     private ?\DateTimeImmutable $createdAt = null;
