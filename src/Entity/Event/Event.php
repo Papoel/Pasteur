@@ -23,7 +23,7 @@ class Event
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 150)]
+    #[ORM\Column(type: 'string', length: 150)]
     #[Assert\NotBlank(message: 'Veuillez renseigner un titre pour cet événement.')]
     #[Assert\Length(
         min: 3,
@@ -51,40 +51,40 @@ class Event
     #[Assert\GreaterThanOrEqual(0)]
     private ?string $price = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'datetime_immutable')]
     #[Assert\NotBlank]
     private ?\DateTimeImmutable $startsAt = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'datetime_immutable')]
     #[Assert\NotBlank]
     private ?\DateTimeImmutable $finishAt = null;
 
     #[ORM\Column(type: 'string', length: 255)]
     private string $status = Event::STATUS[0];
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $capacity = null;
 
-    #[ORM\Column(length: 255, nullable: true, options: ['default' => 'event.jpeg'])]
-    private ?string $imageFileName = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $updatedAt = null;
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $slug;
 
     #[ORM\Column(nullable: true)]
     private ?bool $helpNeeded = null;
-
-    #[ORM\Column(length: 255)]
-    private string $slug;
 
     #[ORM\OneToMany(mappedBy: 'event', targetEntity: Registration::class)]
     private Collection $registrations;
 
     #[ORM\ManyToMany(targetEntity: Creneau::class, mappedBy: 'event')]
     private Collection $creneaux;
+
+    #[ORM\OneToOne(inversedBy: 'event', targetEntity: Image::class, cascade: ['persist', 'remove'])]
+    private Image $image;
+
+    #[ORM\Column(type: 'datetime_immutable')]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column(type: 'datetime_immutable')]
+    private ?\DateTimeImmutable $updatedAt = null;
 
     public function __construct()
     {
@@ -94,6 +94,12 @@ class Event
         $this->registrations = new ArrayCollection();
         $this->creneaux = new ArrayCollection();
     }
+
+    public function __toString(): string
+    {
+        return $this->name;
+    }
+
 
     #[ORM\PrePersist]
     public function prePersist(): void
@@ -196,14 +202,14 @@ class Event
         return $this;
     }
 
-    public function getImageFileName(): ?string
+    public function isHelpNeeded(): ?bool
     {
-        return $this->imageFileName;
+        return $this->helpNeeded;
     }
 
-    public function setImageFileName(?string $imageFileName): self
+    public function setHelpNeeded(?bool $helpNeeded): self
     {
-        $this->imageFileName = $imageFileName;
+        $this->helpNeeded = $helpNeeded;
 
         return $this;
     }
@@ -228,18 +234,6 @@ class Event
     public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    public function isHelpNeeded(): ?bool
-    {
-        return $this->helpNeeded;
-    }
-
-    public function setHelpNeeded(?bool $helpNeeded): self
-    {
-        $this->helpNeeded = $helpNeeded;
 
         return $this;
     }
@@ -300,11 +294,6 @@ class Event
         return $this;
     }
 
-    public function __toString(): string
-    {
-        return $this->name;
-    }
-
     /**
      * @return Collection<int, Creneau>
      */
@@ -330,5 +319,15 @@ class Event
         }
 
         return $this;
+    }
+
+    public function getImage(): ?Image
+    {
+        return $this->image;
+    }
+
+    public function setImage(?Image $image): void
+    {
+        $this->image = $image;
     }
 }
