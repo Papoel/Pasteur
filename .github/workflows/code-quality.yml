@@ -13,17 +13,17 @@ jobs:
     # —— Setup Database MySql ⚠️ —————————————————————————————————————————————
     services:
       mysql:
-        image: mysql:8
+        image: mariadb:latest
         ports:
           - 3306:3306
         env:
           MYSQL_ROOT_PASSWORD: ${{ secrets.CI_DB_PASSWORD }}
         options: --health-cmd="mysqladmin ping" --health-interval 10s --health-timeout 5s --health-retries 5
       env:
-        Pasteur_Db__Host: localhost
+        Pasteur_Db__Host: 127.0.0.1
         Pasteur_Db__User: root
         Pasteur_Db__Password: ${{ secrets.CI_DB_PASSWORD }}
-        Pasteur_Db__Database: pasteur
+        Pasteur_Db__Database: db_pasteur
 
     strategy:
       fail-fast: false
