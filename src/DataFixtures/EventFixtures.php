@@ -27,7 +27,6 @@ class EventFixtures extends Fixture
         $randomStatus = random_int(min: 0, max: 3);
         $event->setStatus(Event::STATUS[$randomStatus]);
         $event->setCapacity(capacity: 50);
-        $event->setImageFileName(imageFileName: 'event.jpeg');
         $event->setCreatedAt(createdAt: new \DateTimeImmutable(datetime: 'now'));
         $event->setUpdatedAt(updatedAt: new \DateTimeImmutable(datetime: 'now + 1 day'));
         $event->setHelpNeeded(helpNeeded: true);
@@ -45,7 +44,6 @@ class EventFixtures extends Fixture
             $randomStatus = random_int(min: 0, max: 3);
             $event->setStatus(Event::STATUS[$randomStatus]);
             $event->setCapacity(capacity: $faker->numberBetween(10, 100));
-            $event->setImageFileName(imageFileName: 'event.jpeg');
             $event->setHelpNeeded(helpNeeded: $faker->boolean());
 
             $date = $faker->dateTimeBetween(startDate: 'now', endDate: '+6 months');
