@@ -92,6 +92,7 @@ jobs:
 
       - name: Check the Symfony console
         run: |
+          APP_ENV=test php bin/console cache:clear
           php bin/console about
 
       ## —— Tests ✅ ———————————————————————————————————————————————————————————
@@ -102,8 +103,7 @@ jobs:
       - name: Run functional and unit tests
         run: |
           php bin/console cache:clear --env=test
-          APP_ENV=test php bin/console cache:clear
           php bin/console doctrine:database:drop --force --env=test --if-exists
           php bin/console doctrine:database:create --env=test
-          doctrine:schema:update --env=test --force
+          php bin/console doctrine:schema:update --env=test --force
           php vendor/phpunit/phpunit/phpunit --testdox
