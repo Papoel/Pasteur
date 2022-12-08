@@ -13,12 +13,14 @@ jobs:
     services:
       # https://docs.docker.com/samples/library/mysql/
       mysql:
-        image: mysql:5.7
+        image: mariadb:latest
         env:
-          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: db_pasteur
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+        # DATABASE_URL
     strategy:
       fail-fast: false
       matrix:
