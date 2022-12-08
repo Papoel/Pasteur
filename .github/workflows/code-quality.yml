@@ -83,7 +83,7 @@ jobs:
       ## —— Static analysis ✨ —————————————————————————————————————————————————
       - name: Static analysis of PHP code (PHPStan)
         run: |
-          php bin/console about --env=dev
+          php bin/console about --env=test
           make stan-1
 
       # —— Symfony 🎵 ——————————————————————————————————————————————————————————
@@ -102,7 +102,7 @@ jobs:
       - name: Run functional and unit tests
         run: |
           php bin/console cache:clear --env=test
-          php bin/console doctrine:database:drop --force --env=test
+          php bin/console doctrine:database:drop --force --env=test --if-exists
           php bin/console doctrine:database:create --env=test
           doctrine:schema:update --env=test --force
           php vendor/phpunit/phpunit/phpunit --testdox
