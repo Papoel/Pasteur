@@ -1,6 +1,8 @@
 # Pasteur
 
-Pasteur est un projet permettant à une association de parent d'élèves de créer des évènements, et de permettre à des bénévoles de s'inscrire à ces dernier afin qu'ils apportent leur aide.
+[![Symfony 6 - Pipeline CI-CD](https://github.com/Papoel/Pasteur/actions/workflows/code-quality.yml/badge.svg?event=push)](https://github.com/Papoel/Pasteur/actions/workflows/code-quality.yml)
+
+Pasteur est un projet permettant à une association de parent d'élèves de créer des évènements, et de permettre à des bénévoles de s'inscrire à ces derniers afin qu'ils apportent leur aide.
 
 👉 L'admin donne la possibilité de s'enregistrer ou non à un événement.
 
@@ -26,15 +28,15 @@ Aller dans le repertoire du projet
 
 Vérifier si Docker est lancé
 
-**! Attention cette commande n'a été testée et validé que sur un Mac !**
+**! Attention cette commande n'a été testée et validée que sur un Mac !**
 
 
 ```bash
   if curl -s --unix-socket /var/run/docker.sock http/_ping 2>&1 >/dev/null
   then
-    echo "Docker Desktop est en cours d'éxécution"
+    echo "Docker Desktop est en cours d'exécution"
   else
-    echo "Docker Desktop est coupé ... Demarrage ..."
+    echo "Docker Desktop est coupé ... Démarrage ..."
     open /Applications/Docker.app
   fi
 ```
