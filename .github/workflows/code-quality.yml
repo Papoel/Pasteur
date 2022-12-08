@@ -72,8 +72,8 @@ jobs:
       ## —— Coding standards ✨ ————————————————————————————————————————————————
       - name: Coding standards checks (php_codesniffer + php-cs-fixer)
         run: |
-          make fix-php
-          make lint-php
+          # make fix-php
+          php ./vendor/bin/phpcs -p --colors
 
       ## —— Static analysis ✨ —————————————————————————————————————————————————
       - name: Static analysis of PHP code (PHPStan)
