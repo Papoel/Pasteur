@@ -95,10 +95,6 @@ jobs:
           php bin/console about
 
       ## —— Tests ✅ ———————————————————————————————————————————————————————————
-      # - name: Load Doctrine fixtures
-      #  run: |
-      #    make sf-dfl
-
       - name: Run functional and unit tests
         run: |
           php bin/console cache:clear --env=test
