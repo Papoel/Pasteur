@@ -59,4 +59,14 @@ class EventRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    public function countNotPastEvents()
+    {
+        $qb = $this->createQueryBuilder('events')
+            ->select(select: 'COUNT(events)')
+            ->andWhere('events.startsAt > :now')
+            ->setParameter(key: ':now', value: new \DateTime());
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
 }
