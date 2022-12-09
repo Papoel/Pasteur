@@ -9,8 +9,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 
 class UserCrudController extends AbstractCrudController
 {
@@ -35,41 +38,94 @@ class UserCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        return [
-            IdField::new(propertyName: 'id')->onlyOnIndex(),
 
-            TextField::new(propertyName: 'fullname', label: 'Nom Complet')->onlyOnIndex(),
+            yield IdField::new(propertyName: 'id')->onlyOnIndex();
 
-            TextField::new(propertyName: 'firstname', label: 'Prénom')->hideOnIndex(),
+            yield TextField::new(propertyName: 'fullname', label: 'Nom Complet')
+                ->onlyOnIndex()
+            ;
 
-            TextField::new(propertyName: 'lastname', label: 'Nom')->hideOnIndex(),
+            yield TextField::new(propertyName: 'firstname', label: 'Prénom')
+                ->hideOnIndex()
+                ->setColumns(cols: 'col-12 col-md-4')
+            ;
 
-            TextField::new(propertyName: 'pseudo', label: 'Pseudo'),
+            yield TextField::new(propertyName: 'lastname', label: 'Nom')
+                ->hideOnIndex()
+                ->setColumns(cols: 'col-12 col-md-4')
+            ;
 
-            TextField::new(propertyName: 'email', label: 'Email')->hideOnIndex(),
+            yield TextField::new(propertyName: 'pseudo', label: 'Pseudo')
+                ->setColumns(cols: 'col-12 col-md-4')
+            ;
 
-            TextField::new(propertyName: 'password', label: 'Mot de passe')->onlyWhenCreating(),
+            yield TextField::new(propertyName: 'email', label: 'Email')
+                ->hideOnIndex()
+                ->setColumns(cols: 'col-4 col-md-4')
+            ;
 
-            ChoiceField::new(propertyName: 'roles')->setChoices(
-                [
-                    'PRESIDENT' => 'ROLE_PRESIDENT',
-                    'ADMINISTRATEUR' => 'ROLE_ADMIN',
-                    'MEMBRE' => 'ROLE_USER',
-                ]
-            )->allowMultipleChoices()->hideOnIndex(),
+        yield ChoiceField::new(propertyName: 'roles')
+            ->setChoices([
+                'PRESIDENT' => 'ROLE_PRESIDENT',
+                'ADMINISTRATEUR' => 'ROLE_ADMIN',
+                'MEMBRE' => 'ROLE_USER',
+            ])
+            ->allowMultipleChoices()
+            ->renderAsBadges([
+                'ROLE_PRESIDENT' => 'danger',
+                'ROLE_ADMIN' => 'success',
+                'ROLE_USER' => 'primary',
+            ])
+            ->setColumns(cols: 'col-6 col-md-4')
+        ;
 
-            DateTimeField::new(propertyName: 'createdAt', label: 'Date de création')->onlyOnDetail(),
+        yield TextField::new(propertyName: 'telephone', label: 'Téléphone')
+            ->setColumns(cols: 'col-6 col-md-4')
+        ;
 
-            TextField::new(propertyName: 'telephone', label: 'Téléphone'),
+           /* yield TextField::new(propertyName: 'password', label: 'Mot de passe')
+                ->hideOnIndex()
+                ->setColumns(cols: 'col-12 col-md-6')
+            ;*/
 
-            TextField::new(propertyName: 'address', label: 'Adresse')->hideOnIndex(),
+            yield Field::new(propertyName: 'password', label: 'Confirmation du mot de passe')
+                ->onlyWhenCreating()
+                ->setFormType(RepeatedType::class)
+                ->setFormTypeOptions([
+                    'type' => PasswordType::class,
+                    'invalid_message' => 'Les mots de passe ne correspondent pas.',
+                    'first_options' => ['label' => 'Mot de passe'],
+                    'second_options' => ['label' => 'Confirmation du mot de passe'],
+                    'required' => true,
+                ])
+                ->setCssClass(cssClass: 'col-12 col-md-6')
+            ;
 
-            TextField::new(propertyName: 'complement_address', label: 'Complément d\'adresse')->hideOnIndex(),
+            yield DateTimeField::new(propertyName: 'createdAt', label: 'Date de création')
+                ->onlyOnDetail()
+                ->setColumns(cols: 'col-12')
+            ;
 
-            TextField::new(propertyName: 'postal_code', label: 'Code postal')->hideOnIndex(),
+            yield TextField::new(propertyName: 'address', label: 'Adresse')
+                ->hideOnIndex()
+                ->setColumns(cols: 'col-12 col-md-4')
+            ;
 
-            TextField::new(propertyName: 'town', label: 'Ville')->hideOnIndex(),
-        ];
+            yield TextField::new(propertyName: 'postal_code', label: 'Code postal')
+                ->hideOnIndex()
+                ->setColumns(cols: 'col-12 col-md-4')
+            ;
+
+            yield TextField::new(propertyName: 'town', label: 'Ville')
+                ->hideOnIndex()
+                ->setColumns(cols: 'col-12 col-md-4')
+            ;
+
+            yield TextField::new(propertyName: 'complement_address', label: 'Complément d\'adresse')
+                ->hideOnIndex()
+                ->setColumns(cols: 'col-12 col-md-6')
+            ;
+
     }
 
     public function configureActions(Actions $actions): Actions
