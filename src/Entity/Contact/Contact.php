@@ -57,7 +57,7 @@ class Contact
     #[Assert\NotNull]
     private ?\DateTimeImmutable $createdAt;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
     private ?bool $isReplied = null;
 
     public function __construct()
@@ -130,7 +130,7 @@ class Contact
         return $this;
     }
 
-    public function isIsReplied(): ?bool
+    public function getIsReplied(): ?bool
     {
         return $this->isReplied;
     }
