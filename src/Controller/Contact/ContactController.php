@@ -33,6 +33,8 @@ class ContactController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $contact = $form->getData();
 
+            $contact->setIsReplied(false);
+
             $entityManager->persist($contact);
             $entityManager->flush();
 
