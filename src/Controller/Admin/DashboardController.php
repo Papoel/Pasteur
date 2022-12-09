@@ -7,8 +7,12 @@ use App\Entity\Creneau\Creneau;
 use App\Entity\Event\Event;
 use App\Entity\Event\Registration;
 use App\Entity\User\User;
+use App\Repository\ContactRepository;
+use App\Repository\Event\EventRepository;
+use App\Repository\User\UserRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,10 +20,21 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DashboardController extends AbstractDashboardController
 {
+    public function __construct(
+        private readonly UserRepository    $userRepository,
+        private readonly EventRepository   $eventRepository,
+        private readonly ContactRepository $contactRepository,
+    ) {
+    }
+
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
-        $this->denyAccessUnlessGranted(attribute: 'ROLE_ADMIN', subject: "Accès à la section d'administration", message: 'Désolé, votre rôle ne vous donne pas accès a cette section.');
+        $this->denyAccessUnlessGranted(
+            attribute: 'ROLE_ADMIN',
+            subject: "Accès à la section d'administration",
+            message: 'Désolé, votre rôle ne vous donne pas accès a cette section.'
+        );
 
         return $this->render(view: 'admin/dashboard.html.twig');
     }
@@ -28,7 +43,9 @@ class DashboardController extends AbstractDashboardController
     {
         return Dashboard::new()
             ->setTitle(title: 'APE Rousies Pasteur - Administration')
-            ->renderContentMaximized();
+            ->renderContentMaximized()
+            ->setLocales(locales: ['fr' => '🇫🇷 Français'])
+        ;
     }
 
     public function configureMenuItems(): iterable
@@ -36,16 +53,22 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToDashboard(label: 'Dashboard', icon: 'fa fa-home');
 
         yield MenuItem::section();
-        yield MenuItem::linkToUrl(label: 'Site-Web', icon: 'fas fa-check', url: $this->generateUrl('app_home'));
+        yield MenuItem::linkToUrl(label: 'Site-Web', icon: 'fas fa-check', url: $this->generateUrl(route: 'app_home'));
 
-        yield MenuItem::section(label: 'Utilisateurs', icon: 'fa fa-users');
+        $totalUsers = $this->userRepository->count([]);
+        yield MenuItem::section(label: 'Utilisateurs', icon: 'fa fa-users')
+            ->setBadge($totalUsers)
+        ;
         yield MenuItem::subMenu(label: 'Action', icon: 'fas fa-bars')->setSubItems(subItems: [
             MenuItem::linkToCrud(label: 'Voir les utilisateurs', icon: 'fas fa-eye', entityFqcn: User::class),
             MenuItem::linkToCrud(label: 'Ajouter un membre', icon: 'fas fa-plus', entityFqcn: User::class)
                 ->setAction(actionName: Crud::PAGE_NEW),
         ]);
 
-        yield MenuItem::section(label: 'Événements', icon: 'fas fa-jedi');
+        $totalEvents = (string) $this->eventRepository->countNotPastEvents();
+        yield MenuItem::section(label: 'Événements', icon: 'fas fa-jedi')
+            ->setBadge($totalEvents, style: 'info')
+        ;
         yield MenuItem::subMenu(label: 'Action', icon: 'fas fa-bars')->setSubItems(subItems: [
             MenuItem::linkToCrud(label: 'Voir les événements', icon: 'fas fa-eye', entityFqcn: Event::class),
             MenuItem::linkToCrud(label: 'Ajouter un événement', icon: 'fas fa-plus', entityFqcn: Event::class)
@@ -66,10 +89,14 @@ class DashboardController extends AbstractDashboardController
                 ->setAction(actionName: Crud::PAGE_NEW),
         ]);
 
-        yield MenuItem::section(label: 'Demande de contact', icon: 'fas fa-envelope')->setPermission(permission: 'ROLE_PRESIDENT');
+        $totalMessages = $this->contactRepository->count(['isReplied' => false]);
+        yield MenuItem::section(label: 'Messages', icon: 'fas fa-envelope')
+            ->setBadge($totalMessages, style: 'warning')
+            ->setPermission(permission: 'ROLE_PRESIDENT')
+        ;
         yield MenuItem::subMenu(label: 'Action', icon: 'fas fa-bars')->setSubItems(subItems: [
-            MenuItem::linkToCrud(label: 'Voir les messages', icon: 'fas fa-eye', entityFqcn: Contact::class)->setPermission(permission: 'ROLE_PRESIDENT'),
-            MenuItem::linktoRoute(label: 'Répondre', icon: 'fa fa-pen', routeName: 'admin_email_response')->setPermission(permission: 'ROLE_PRESIDENT'),
-        ])->setPermission(permission: 'ROLE_PRESIDENT');
+            MenuItem::linkToCrud(label: 'Tous', icon: 'fas fa-eye', entityFqcn: Contact::class)
+                ->setPermission(permission: 'ROLE_PRESIDENT'),
+        ]);
     }
 }
