@@ -29,6 +29,13 @@
                     Message : <br>
                     <span class="font-semibold">{{ contact.message|raw }}</span>
                 </p>
+
+                {% if contact.response %}
+                    <hr class="w-1/4 border-gray-700">
+
+                    <p class="text-sm">Réponse de : {{ app.user.fullName }}<br>❤️ L'équipe APERP ❤️</p>
+                {% endif %}
+
                 <p class="text-sm">Continuons de nous amuser !<br>❤️ L'équipe APERP ❤️</p>
             </div>
 

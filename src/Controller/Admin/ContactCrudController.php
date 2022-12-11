@@ -18,6 +18,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\BooleanFilter;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 #[IsGranted('ROLE_PRESIDENT', message: 'Désolé, seul le Président a accès à cette section.')]
@@ -73,18 +75,31 @@ class ContactCrudController extends AbstractCrudController
             ->hideOnForm()
         ;
 
-
         yield BooleanField::new(propertyName: 'isReplied', label: 'Répondu ?')
             ->renderAsSwitch(isASwitch: false)
         ;
+
+        // display if the contact has been replied
+        if (Crud::PAGE_DETAIL === $pageName) {
+            yield DateTimeField::new(propertyName: 'replydAt', label: 'Date de réponse')
+                ->hideOnForm()
+            ;
+        }
     }
 
     public function configureActions(Actions $actions): Actions
     {
-        $email_response = Action::new(name: 'response', label: 'Répondre', icon: 'fa fa-file-invoice')
+        $email_response = Action::new('response', label: 'Répondre par email')
             ->linkToCrudAction(crudActionName: 'responseToEmail')
             ->addCssClass(cssClass: 'btn btn-primary')
-        ;
+            ->displayIf(static function ($entity) {
+                return !$entity->getIsReplied();
+            });
+
+        /*$email_response = Action::new(name: 'response', label: 'Répondre', icon: 'fa fa-file-invoice')
+            ->linkToCrudAction(crudActionName: 'responseToEmail')
+            ->addCssClass(cssClass: 'btn btn-primary')
+        ;*/
 
         return $actions
             ->remove(pageName: Crud::PAGE_INDEX, actionName: Action::NEW)
@@ -97,11 +112,11 @@ class ContactCrudController extends AbstractCrudController
 
             ->add(pageName: Crud::PAGE_INDEX, actionNameOrObject: 'detail')
 
-            // display if not replied
+            ->add(Crud::PAGE_DETAIL, $email_response)
 
-
-
-//            ->add(pageName: Crud::PAGE_DETAIL, actionNameOrObject: $email_response)
+            /*->add(pageName: Crud::PAGE_DETAIL, actionNameOrObject: $email_response[
+                'displayIf' => fn (Contact $contact): bool => !$contact->getIsReplied(),
+            ])*/
 
             ->setPermission(actionName: 'contact', permission: 'ROLE_PRESIDENT')
         ;
@@ -133,8 +148,17 @@ class ContactCrudController extends AbstractCrudController
     }
 
     // responseToEmail open new page with form to send email
-    public function responseToEmail(): Response
+    public function responseToEmail(Request $request): Response
     {
-        return $this->render(view: 'admin/contact/response.html.twig');
+        $queryString = $request->getQueryString('entityId');
+
+        parse_str(string: $queryString, result: $params);
+        $entityId = $params['entityId'];
+
+        return $this->forward(controller: 'App\Controller\Admin\Contact\EmailResponseController::index', path: [
+            'entityId' => $entityId,
+        ]);
+        // return $this->redirectToRoute(route: 'app_response_message');
+        // return $this->render(view: 'admin/contact/response.html.twig');
     }
 }

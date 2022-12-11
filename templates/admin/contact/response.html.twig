@@ -1,53 +1,76 @@
 {# ea_url > adminContextProvider > requestStack > requests > attributes > parameters > entityDto > instance > email #}
 
+{% extends ('base.html.twig') %}
 
+    {% block body %}
+        {% include('components/_navbar.html.twig') %}
 
-{% extends "@EasyAdmin/page/content.html.twig" %}
-{%  set name = ea.entity.instance.fullname %}
-{%  set email = ea.entity.instance.email %}
-{%  set sujet = ea.entity.instance.subject %}
+        <section class="text-gray-600 body-font overflow-hidden">
+            <div class="container px-5 py-24 mx-auto">
+                <div class="my-8 divide-y-4 divide-indigo-300">
 
-    {% block body_id 'easyadmin-reply-message' %}
-        {% block body_class '' %}
-            {% block content_title %}
-                <h1 class="text-extrabold text-indigo-400">Réponde au message de : {{ name }}</h1>
-            {% endblock %}
-
-        {% block content_footer_wrapper '' %}
-            {% block main %}
-                <!--Section: Contact v.2-->
-                <section class="mb-4">
-                    <div class="row">
-
-                        <div class="col-md-9 mb-md-0 mb-5">
-                            <form id="contact-form" name="contact-form" action="#" method="POST">
-
-                                <div class="row my-4">
-                                    <div class="col-md-12">
-                                        <div class="md-form mb-0">
-                                            <label for="subject" class="">Sujet</label>
-                                            <input type="text" id="subject" name="subject" class="form-control" value="{{ sujet }}" disabled>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row my-4">
-                                    <div class="col-md-12">
-                                        <div class="md-form">
-                                            <label for="message">Votre message</label>
-                                            <textarea type="text" id="message" name="message" rows="2" class="form-control md-textarea"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-
-                            <div class="text-center text-md-left">
-                                <a class="btn btn-primary" onclick="document.getElementById('contact-form').submit();">
-                                    Envoyer le message
-                                </a>
-                            </div>
+                    <div class="py-8 px-2 flex flex-wrap md:flex-nowrap bg-indigo-50 rounded-t">
+                        <div class="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
+                            <span class="font-semibold title-font text-gray-700">{{ contact.fullName }}</span>
+                            <span class="mt-1 text-gray-500 text-sm">
+                                {{ contact.createdAt|format_datetime('short', 'none', locale='fr') }} à
+                                {{ contact.createdAt|date('H:i') }}
+                            </span>
+                        </div>
+                        <div class="md:flex-grow">
+                            <h2 class="text-2xl font-medium text-gray-900 title-font mb-2">{{ contact.subject }}</h2>
+                            <p class="leading-relaxed">{{ contact.message }}</p>
                         </div>
                     </div>
 
-                </section>
-            {% endblock %}
+                    <div class="py-8 flex flex-wrap md:flex-nowrap">
+                        <div class="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
+                            <span class="font-semibold title-font text-gray-700">{{ app.user.fullName }}</span>
+                            <span id="time" class="mt-1 text-gray-500 text-sm">{{ "now"|date("H:i:s") }}</span>
+
+                            <script>
+                                setInterval(function() {
+                                    let date = new Date();
+                                    let hours = date.getHours();
+                                    let minutes = date.getMinutes();
+                                    let seconds = date.getSeconds();
+                                    document.getElementById('time').innerHTML =
+                                        hours + ':' +
+                                        (minutes < 10 ? '0' : '') +
+                                        minutes + ':' +
+                                        (seconds < 10 ? '0' : '') + seconds;
+                                }, 1000);
+                            </script>
+
+                            {#<span class="mt-1 text-gray-500 text-sm">{{ now }}</span>#}
+                        </div>
+                        <div class="md:flex-grow">
+                            <h2 class="text-2xl font-medium text-gray-900 title-font mb-2">Réponse :</h2>
+                            {{ form_start(form) }}
+                                <div id="response" class="col-span-6 py-2">
+                                    {{ form_row(form.response, {
+                                        row_class: 'mt-2 px-3',
+                                        label_class: 'font-semibold text-gray-600',
+                                        widget_class: 'border border-red-200 bg-gray-50',
+                                        error_item_class: 'text-red-700 font-semibold',
+                                        widget_errors_class: 'border-double border-4 border-red-500 bg-red-50',
+                                    }) }}
+                                </div>
+
+                                <div id="submit" class="col-span-6 py-2">
+                                    {{ form_row(form.submit, {
+                                        row_class: 'mt-2 px-3',
+                                        label_class: 'font-semibold text-gray-600',
+                                        widget_class: 'border border-red-200 bg-gray-50',
+                                    }) }}
+                                </div>
+                            {{ form_end(form) }}
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    {% endblock %}

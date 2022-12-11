@@ -1,0 +1,40 @@
+{% apply inky_to_html %}
+    <!DOCTYPE html>
+    <html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <title>APERP | Réponse-Email</title>
+    </head>
+
+    <body class="bg-gray-900 text-gray-400">
+    <div class="container">
+        <h1 class="text-purple-degrade text-5xl">L'APERP vous répond</h1>
+        {% if contact.fullname %}
+            <p class="text-2xl">{{ contact.fullname }}</p>
+        {% else %}
+            <p class="text-2xl animate-pulse uppercase">Anonyme</p>
+        {% endif %}
+    </div>
+
+    <div class="border-b">
+        {% if contact.subject %}
+            <p>Sujet : <span class="font-semibold">{{ contact.subject }}</span> </p>
+        {% else %}
+            <p>Sujet : <span class="font-semibold text-gray-300 italic">Aucun</span> </p>
+        {% endif %}
+
+        <hr class="w-1/4 border-gray-700">
+
+        <p>contact.Initial <br>
+            <span class="font-semibold">{{ contact.response|raw }}</span>
+        </p>
+
+        <hr class="w-1/4 border-gray-700">
+
+        <p class="text-sm">Réponse de : {{ app.user.fullName }}<br>❤️ L'équipe APERP ❤️</p>
+    </div>
+
+    </body>
+
+    </html>
+{% endapply %}

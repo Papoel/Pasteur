@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Contact;
 
 use App\Entity\Contact\Contact;
@@ -19,6 +21,7 @@ class ContactController extends AbstractController
         EntityManagerInterface $entityManager,
         MailService $mailService,
     ): Response {
+
         $contact = new Contact();
 
         // Renseigné les informations de l'utilisateur connecté dans le formulaire
@@ -28,8 +31,8 @@ class ContactController extends AbstractController
         }
 
         $form = $this->createForm(type: ContactFormType::class, data: $contact);
-
         $form->handleRequest(request: $request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $contact = $form->getData();
 
@@ -42,6 +45,7 @@ class ContactController extends AbstractController
             if (null === $contact->getSubject()) {
                 $contact->setSubject(subject: 'Aperp - Nouveau message sans sujet');
             }
+
             $mailService->sendEmail(
                 from: $contact->getEmail(),
                 subject: $contact->getSubject(),
