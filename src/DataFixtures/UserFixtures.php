@@ -54,7 +54,7 @@ class UserFixtures extends Fixture
             );
 
             $user->setRoles(['ROLE_USER']);
-            $hash = $this->passwordHasher->hashPassword($user, plainPassword: 'password');
+            $hash = $this->passwordHasher->hashPassword($user, plainPassword: 'Password1234!');
             $user->setPassword($hash);
 
             $date = $faker->dateTimeBetween(startDate: '-3 years', endDate: 'now');
