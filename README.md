@@ -24,7 +24,7 @@ Aller dans le repertoire du projet
 ```bash
   cd Pasteur
 ```
-### Première installation
+### Première installation (Utilisateur Linux / Mac)
 
 Vérifier si Docker est lancé
 
@@ -41,7 +41,7 @@ Vérifier si Docker est lancé
   fi
 ```
 
-Installer toutes les dépendances
+### Installer toutes les dépendances
 
 ```bash
   make first-install
@@ -59,6 +59,35 @@ Installer toutes les dépendances
   make stop
 ```
 
+### [Première installation (Utilisateur Windows)](https://stackoverflow.com/questions/32127524/how-to-install-and-use-make-in-windows)
+
+
+
+`make` est une commande GNU, donc la seule façon de l'obtenir sous Windows est d'installer une version de Windows 
+comme celle fournie par GNUWin32.
+Quoi qu'il en soit, il existe plusieurs options pour l'obtenir.
+
+Le choix le plus simple consiste à utiliser `Chocolatey`. <br/>
+[Cliquez ici](https://lecrabeinfo.net/chocolatey-gestionnaire-paquets-windows.html) pour installer `Chocolatey` : 
+Vous devez d'abord installer ce gestionnaire de paquets. 
+Une fois installé, vous devez simplement installer `make` :
+
+```bash
+  choco install make
+```
+
+Une fois `make` installé, vous pouvez l'utiliser comme vous le feriez sur Linux ou Mac, je vous invite donc
+à suivre la procédure d'installation ci-dessus.
+
+## Se connecter à l'application
+| Identifiant          | Mot de passe  | Rôle      |
+|----------------------|---------------|-----------|
+| bruce.wayne@admin.fr | Password1234! | PRESIDENT |
+
+Le Président est le seul à pouvoir avoir accès aux messages.
+
+Reste des privilèges à définir...
+
 ## Contributions
 
 Les contributions sont toujours les bienvenues !
@@ -67,4 +96,4 @@ Les contributions sont toujours les bienvenues !
 
 **Client:** Twig, Tailwind CSS
 
-**Server:** PHP 8.1, Symfony 6.1
+**Server:** PHP 8.1, Symfony 6.1, Node.js, Docker, Makefile
