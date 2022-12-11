@@ -136,7 +136,7 @@ assets: purge ## Installez les actifs avec des liens symboliques dans le dossier
 .PHONY: assets
 
 purge: ## Purger le cache et les journaux
-	rm -rf var/cache/* var/logs/*
+	rm -rf var/cache/* var/logs/* && mkdir -p var/logs && touch var/logs/dev.log
 .PHONY: purge
 
 ## —— Symfony binaire 💻         ———————————————————————————————————————————————————————————————————————————————————————————————————————————
