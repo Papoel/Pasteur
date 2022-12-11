@@ -12,7 +12,6 @@ use App\Repository\Event\EventRepository;
 use App\Repository\User\UserRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
@@ -57,7 +56,7 @@ class DashboardController extends AbstractDashboardController
 
         $totalUsers = $this->userRepository->count([]);
         yield MenuItem::section(label: 'Utilisateurs', icon: 'fa fa-users')
-            ->setBadge($totalUsers)
+            ->setBadge(content: $totalUsers)
         ;
         yield MenuItem::subMenu(label: 'Action', icon: 'fas fa-bars')->setSubItems(subItems: [
             MenuItem::linkToCrud(label: 'Voir les utilisateurs', icon: 'fas fa-eye', entityFqcn: User::class),
@@ -95,7 +94,7 @@ class DashboardController extends AbstractDashboardController
             ->setPermission(permission: 'ROLE_PRESIDENT')
         ;
         yield MenuItem::subMenu(label: 'Action', icon: 'fas fa-bars')->setSubItems(subItems: [
-            MenuItem::linkToCrud(label: 'Tous', icon: 'fas fa-eye', entityFqcn: Contact::class)
+            MenuItem::linkToCrud(label: 'Voir tous les messages', icon: 'fas fa-eye', entityFqcn: Contact::class)
                 ->setPermission(permission: 'ROLE_PRESIDENT'),
         ]);
     }
