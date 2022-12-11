@@ -60,6 +60,12 @@ class Contact
     #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
     private ?bool $isReplied = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $response = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $replyAt = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -138,6 +144,30 @@ class Contact
     public function setIsReplied(?bool $isReplied): self
     {
         $this->isReplied = $isReplied;
+
+        return $this;
+    }
+
+    public function getResponse(): ?string
+    {
+        return $this->response;
+    }
+
+    public function setResponse(?string $response): self
+    {
+        $this->response = $response;
+
+        return $this;
+    }
+
+    public function getReplyAt(): ?\DateTimeImmutable
+    {
+        return $this->replyAt;
+    }
+
+    public function setReplyAt(?\DateTimeImmutable $replyAt): self
+    {
+        $this->replyAt = $replyAt;
 
         return $this;
     }
