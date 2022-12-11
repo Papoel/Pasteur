@@ -94,3 +94,6 @@ Ajouter dans Entity User:
 
 - [ ] Ajouter une option consulter les messages.
 - [ ] Ajouter une option pour répondre aux messages.
+
+## Phrase d'accroche pour homepage :
+- [ ] "Ensemble, nous pouvons faire la différence en soutenant les événements organisés par l'école et en offrant une expérience enrichissante pour nos enfants."
