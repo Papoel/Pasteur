@@ -20,20 +20,20 @@ class UserFixtures extends Fixture
         $users = [];
         $userAdmin = new User();
 
-        $userAdmin->setFirstname(firstname: 'Aude');
-        $userAdmin->setLastname(lastname: 'Lamy');
+        $userAdmin->setFirstname(firstname: 'Bruce');
+        $userAdmin->setLastname(lastname: 'Wayne');
         $userAdmin->setEmail(
             email: strtolower(
                 string: $userAdmin->getFirstname() . '.' . $userAdmin->getLastname()
             ) .
-            '@aperp.fr'
+            '@admin.fr'
         );
         $userAdmin->setRoles(['ROLE_PRESIDENT']);
         $hash = $this->passwordHasher->hashPassword($userAdmin, plainPassword: 'Password1234!');
         $userAdmin->setPassword($hash);
         $userAdmin->setCreatedAt(createdAt: new \DateTimeImmutable(datetime: '2015/11/28'));
-        $userAdmin->setTelephone(telephone: '0650017440');
-        $userAdmin->setAddress(address: '15 rue de la Liberté');
+        $userAdmin->setTelephone(telephone: '0123456789');
+        $userAdmin->setAddress(address: '15 rue du Pingouin');
         $userAdmin->setPostalCode(postalCode: '59600');
         $userAdmin->setTown(town: 'Maubeuge');
 
