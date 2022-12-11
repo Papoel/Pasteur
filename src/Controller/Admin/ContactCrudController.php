@@ -154,13 +154,9 @@ class ContactCrudController extends AbstractCrudController
         parse_str(string: $queryString, result: $params);
         $entityId = $params['entityId'];
 
-        // add in headers of request a new parameter named response_action
-        $request->headers->set(key: 'response_action', values: true);
-
         return $this->forward(controller: 'App\Controller\Admin\Contact\EmailResponseController::index', path: [
-            'id' => $entityId,
+            'entityId' => $entityId,
         ]);
-
         // return $this->redirectToRoute(route: 'app_response_message');
         // return $this->render(view: 'admin/contact/response.html.twig');
     }
