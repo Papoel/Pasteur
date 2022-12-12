@@ -72,7 +72,7 @@ class ContactCrudController extends AbstractCrudController
 
         yield TextareaField::new(propertyName: 'message', label: 'Message')
             ->hideOnIndex()
-            ->setFormType(formTypeFqcn: CKEditorType::class);
+        ;
 
         yield DateTimeField::new(propertyName: 'createdAt', label: 'Date de réception')
             ->hideOnForm()
