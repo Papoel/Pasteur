@@ -33,6 +33,11 @@ class EventCrudController extends AbstractCrudController
                 pageName: 'detail',
                 title: fn (Event $event) => 'Fiche événement - ' . $event->getName()
             )
+
+            ->setFormOptions([
+                'validation_groups' => ['Default']
+            ])
+
         ;
     }
 
@@ -83,15 +88,21 @@ class EventCrudController extends AbstractCrudController
 
         yield AssociationField::new(propertyName: 'creneaux', label: 'Créneaux')
             ->setColumns(cols: 'col-12')
+            ->formatValue(function ($value, $entity) {
+                $str = $entity->getCreneaux()[0];
+                for ($i = 1; $i < $entity->getCreneaux()->count(); $i++) {
+                    $str = $str . ", " . $entity->getCreneaux()[$i];
+                }
+                return $str;
+            })
+            ->hideOnIndex()
         ;
-
 
         yield IntegerField::new(propertyName: 'capacity', label: 'Nombre de places maximales')
             ->hideOnIndex()
             ->addCssClass(cssClass: 'text-primary')
             ->setColumns(cols: 'col-2')
         ;
-
     }
 
     public function configureActions(Actions $actions): Actions
@@ -102,6 +113,19 @@ class EventCrudController extends AbstractCrudController
 
     public function persistEntity(EntityManagerInterface $entityManager , $entityInstance): void
     {
-        //dd($entityInstance);
+        // get all events
+        $events = $entityManager->getRepository(Event::class)->findAll();
+        // check if the event is already in the database
+        foreach ($events as $event) {
+            if ($event->getName() === $entityInstance->getName()) {
+                $this->addFlash(
+                    type: 'danger',
+                    message: 'L\'événement ' . $entityInstance->getName() . ' existe déjà !'
+                );
+                return;
+            }
+        }
+        parent::persistEntity($entityManager , $entityInstance);
     }
+
 }
