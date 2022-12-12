@@ -26,12 +26,20 @@ class UserCrudController extends AbstractCrudController
     {
         return $crud
             ->setEntityLabelInSingular(label: 'Utilisateur')
+
             ->setEntityLabelInPlural(label: 'Utilisateurs')
+
             ->setPageTitle(pageName: 'index', title: 'Aperp - Administration des utilisateurs')
+
             ->setPaginatorPageSize(maxResultsPerPage: 20)
+
             ->setPageTitle(
                 pageName: 'detail',
-                title: fn (User $user) => $user->getFullName()
+                title: fn (User $user) => 'Fiche contact - ' .$user->getFullName()
+            )
+
+            ->setDateTimeFormat(
+                dateFormatOrPattern: dateTimeField::FORMAT_LONG
             )
         ;
     }
