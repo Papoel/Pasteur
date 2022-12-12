@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Contact;
 
-use App\Entity\Contact\Contact;
 use App\Form\ResponseEmailFormType;
 use App\Repository\ContactRepository;
 use App\Services\MailService;
