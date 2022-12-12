@@ -74,9 +74,6 @@ class Event
     #[ORM\OneToMany(mappedBy: 'event', targetEntity: Registration::class)]
     private Collection $registrations;
 
-    #[ORM\ManyToMany(targetEntity: Creneau::class, mappedBy: 'event')]
-    private Collection $creneaux;
-
     #[ORM\OneToOne(inversedBy: 'event', targetEntity: Image::class, cascade: ['persist', 'remove'])]
     private ?Image $image = null;
 
@@ -85,6 +82,10 @@ class Event
 
     #[ORM\Column(type: 'datetime_immutable')]
     private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\ManyToMany(targetEntity: Creneau::class, inversedBy: 'events')]
+    #[ORM\JoinTable(name: 'event_creneau')]
+    private Collection $creneaux;
 
     public function __construct()
     {
@@ -294,6 +295,16 @@ class Event
         return $this;
     }
 
+    public function getImage(): ?Image
+    {
+        return $this->image;
+    }
+
+    public function setImage(?Image $image): void
+    {
+        $this->image = $image;
+    }
+
     /**
      * @return Collection<int, Creneau>
      */
@@ -306,7 +317,6 @@ class Event
     {
         if (!$this->creneaux->contains($creneaux)) {
             $this->creneaux->add($creneaux);
-            $creneaux->addEvent($this);
         }
 
         return $this;
@@ -314,20 +324,8 @@ class Event
 
     public function removeCreneaux(Creneau $creneaux): self
     {
-        if ($this->creneaux->removeElement($creneaux)) {
-            $creneaux->removeEvent($this);
-        }
+        $this->creneaux->removeElement($creneaux);
 
         return $this;
-    }
-
-    public function getImage(): ?Image
-    {
-        return $this->image;
-    }
-
-    public function setImage(?Image $image): void
-    {
-        $this->image = $image;
     }
 }

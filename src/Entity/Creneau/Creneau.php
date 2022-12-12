@@ -29,12 +29,12 @@ class Creneau
     #[Assert\GreaterThan(propertyPath: 'startsAt')]
     private ?\DateTimeInterface $endsAt = null;
 
-    #[ORM\ManyToMany(targetEntity: Event::class, inversedBy: 'creneaux')]
-    private Collection $event;
+    #[ORM\ManyToMany(targetEntity: Event::class, mappedBy: 'creneaux')]
+    private Collection $events;
 
     public function __construct()
     {
-        $this->event = new ArrayCollection();
+        $this->events = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -66,30 +66,6 @@ class Creneau
         return $this;
     }
 
-    /**
-     * @return Collection<int, Event>
-     */
-    public function getEvent(): Collection
-    {
-        return $this->event;
-    }
-
-    public function addEvent(Event $event): self
-    {
-        if (!$this->event->contains($event)) {
-            $this->event->add($event);
-        }
-
-        return $this;
-    }
-
-    public function removeEvent(Event $event): self
-    {
-        $this->event->removeElement($event);
-
-        return $this;
-    }
-
     public function getPlage(Event $event): bool
     {
         return $this->startsAt->format(format: 'H:i') . ' - ' . $this->endsAt->format(format: 'H:i');
@@ -98,5 +74,32 @@ class Creneau
     public function __toString(): string
     {
         return $this->startsAt->format(format: 'H:i') . ' - ' . $this->endsAt->format(format: 'H:i');
+    }
+
+    /**
+     * @return Collection<int, Event>
+     */
+    public function getEvents(): Collection
+    {
+        return $this->events;
+    }
+
+    public function addEvent(Event $event): self
+    {
+        if (!$this->events->contains($event)) {
+            $this->events->add($event);
+            $event->addCreneaux($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): self
+    {
+        if ($this->events->removeElement($event)) {
+            $event->removeCreneaux($this);
+        }
+
+        return $this;
     }
 }
