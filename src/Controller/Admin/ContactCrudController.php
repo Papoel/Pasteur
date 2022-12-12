@@ -64,7 +64,11 @@ class ContactCrudController extends AbstractCrudController
 
         yield TextField::new(propertyName: 'fullname', label: 'Nom complet');
 
-        yield TextField::new(propertyName: 'email', label: 'Email');
+        yield TextField::new(propertyName: 'subject', label: 'Sujet');
+
+        yield TextField::new(propertyName: 'email', label: 'Email')
+            ->hideOnIndex()
+        ;
 
         yield TextareaField::new(propertyName: 'message', label: 'Message')
             ->hideOnIndex()
@@ -80,7 +84,7 @@ class ContactCrudController extends AbstractCrudController
 
         // display if the contact has been replied
         if (Crud::PAGE_DETAIL === $pageName) {
-            yield DateTimeField::new(propertyName: 'replydAt', label: 'Date de réponse')
+            yield DateTimeField::new(propertyName: 'replyAt', label: 'Date de réponse')
                 ->hideOnForm()
             ;
         }
