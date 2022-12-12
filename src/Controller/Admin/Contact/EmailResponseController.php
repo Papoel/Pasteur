@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Contact;
 
+use App\Entity\Contact\Contact;
 use App\Form\ResponseEmailFormType;
 use App\Repository\ContactRepository;
 use App\Services\MailService;
@@ -38,6 +39,9 @@ class EmailResponseController extends AbstractController
         // Récupération des données du formulaire
         $form->handleRequest(request: $request);
 
+        // current user
+        $user = $this->getUser()->getFullName();
+
         if ($form->isSubmitted() && $form->isValid()) {
             // Récupérer le message de réponse
             $response = $form->getData();
@@ -59,6 +63,7 @@ class EmailResponseController extends AbstractController
                 htmlTemplate: 'emails/response.html.twig',
                 context: [
                     'contact' => $contact,
+                    'user'    => $user,
                 ],
             );
 
