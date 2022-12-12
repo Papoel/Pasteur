@@ -38,6 +38,11 @@ class ContactController extends AbstractController
 
             $contact->setIsReplied(false);
 
+            if ($contact->getEmail() !== $this->getUser()->getEmail() || $contact->getFullName() !== $this->getUser()->getFullName()) {
+                $contact->setEmail($this->getUser()->getEmail());
+                $contact->setFullName($this->getUser()->getFullName());
+            }
+
             $entityManager->persist($contact);
             $entityManager->flush();
 
