@@ -18,7 +18,8 @@ class AppExtension extends AbstractExtension
             // If your filter generates SAFE HTML, you should add a third
             // parameter: ['is_safe' => ['html']]
             // Reference: https://twig.symfony.com/doc/2.x/advanced.html#automatic-escaping
-            new TwigFilter('dateTime', [$this, 'formatDateTime']),
+            new TwigFilter(name: 'dateTime', callable: [$this, 'formatDateTime']),
+            new TwigFilter(name: 'html', callable: [$this, 'html'], options: ['is_safe' => ['html']]),
         ];
     }
 
@@ -44,10 +45,23 @@ class AppExtension extends AbstractExtension
     }
 
     /**
-     * @throws RuntimeError
+     * @param \DateTimeInterface $dateTime
+     * @return string
      */
     public function formatDateTime(\DateTimeInterface $dateTime): string
     {
         return $dateTime->format(format: 'F d, Y \a\t h:i A');
     }
+
+    /**
+     * @param $html
+     * @return mixed
+     * @description Supprime toutes les balises html d'une chaîne de caractères.
+     */
+    public function html($html)
+    {
+        return $html;
+    }
+
+
 }
