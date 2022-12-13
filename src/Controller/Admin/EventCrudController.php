@@ -16,6 +16,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Vich\UploaderBundle\Mapping\Annotation\UploadableField;
 
 class EventCrudController extends AbstractCrudController
 {
@@ -86,13 +87,16 @@ class EventCrudController extends AbstractCrudController
             ->setColumns(cols: 'col-12')
         ;
 
+        // add image field who is in relation with Event/Image entity
+
+
         yield AssociationField::new(propertyName: 'creneaux', label: 'Créneaux horaires pour l\'aide')
             ->setColumns(cols: 'col-12')
 
             ->formatValue(function ($value, $entity) {
                 $str = $entity->getCreneaux()[0];
                 for ($i = 1; $i < $entity->getCreneaux()->count(); $i++) {
-                    $str = $str . ", " . $entity->getCreneaux()[$i];
+                    $str = $str . " | " . $entity->getCreneaux()[$i];
                 }
                 return $str;
             })
