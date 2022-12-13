@@ -2,7 +2,7 @@
 
 namespace App\Entity\Contact;
 
-use App\Repository\ContactRepository;
+use App\Repository\Contact\ContactRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
