@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Admin\Contact;
 
 use App\Form\ResponseEmailFormType;
-use App\Repository\ContactRepository;
+use App\Repository\Contact\ContactRepository;
 use App\Services\MailService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
