@@ -20,11 +20,15 @@
                     <div class="{{ event.helpNeeded is not empty ? 'bg-indigo-600' : 'bg-gray-400' }} absolute left-[-34px] top-[32px] w-[170px] transform -rotate-45 text-center text-white font-semibold py-1 text-sm tracking-tight">
                         {{ event.startsAt|date("d / m / Y") }}
                     </div>
-                    {% if event.image %}
-                        <img class="w-full" src="{{ vich_uploader_asset(event.image, 'imageFile') }}" alt="{{ event.image.imageName }}">
-                    {% else %}
+
+                    {% if event.imageName == "event.jpeg" %}
                         <img class="w-full" src="{{ asset('build/uploads/images/events/event.jpeg') }}" alt="{{ event.name }}">
+                    {% else %}
+                        <img style="max-height: 250px; max-width: 440px" class="object-fill" src="{{ vich_uploader_asset(event, 'imageFile') }}" alt="{{ event.name }}">
                     {% endif %}
+
+
+
                     <div class="flex justify-between m-2">
                         <div class="font-bold text-lg">{{ event.name }}</div>
                             <div class="flex justify-between">

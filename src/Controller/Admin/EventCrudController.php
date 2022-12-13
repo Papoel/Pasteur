@@ -11,18 +11,19 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use Vich\UploaderBundle\Mapping\Annotation\UploadableField;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class EventCrudController extends AbstractCrudController
 {
-    public const EVENT_BASE_PATH = 'public/uploads/images/events/';
-    public const EVENT_UPLOAD_DIR = 'assets/uploads/images/events/';
-
+    public function __construct(private string $uploadDir)
+    {
+    }
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
@@ -67,14 +68,20 @@ class EventCrudController extends AbstractCrudController
             ->setColumns(cols: 'col-12 col-sm-4')
         ;
 
-        yield DateTimeField::new(propertyName: 'startsAt', label: 'Date de l\'événement')
-            ->setColumns(cols: 'col-12 col-sm-6')
+        yield TextField::new(propertyName: 'imageFile', label: 'Fichier Image')
+            ->setFormType(formTypeFqcn: VichImageType::class)
+            ->onlyOnForms()
+            ->setColumns(cols: 'col-12 col-sm-4')
+        ;
+
+        yield DateTimeField::new(propertyName: 'startsAt', label: 'Début')
+            ->setColumns(cols: 'col-12 col-sm-4')
             ->renderAsNativeWidget()
         ;
 
         yield DateTimeField::new(propertyName: 'finishAt', label: 'Fini')
             ->hideOnIndex()
-            ->setColumns(cols: 'col-12 col-sm-6')
+            ->setColumns(cols: 'col-12 col-sm-4')
             ->renderAsNativeWidget()
         ;
 
@@ -86,9 +93,6 @@ class EventCrudController extends AbstractCrudController
             ->hideOnIndex()
             ->setColumns(cols: 'col-12')
         ;
-
-        // add image field who is in relation with Event/Image entity
-
 
         yield AssociationField::new(propertyName: 'creneaux', label: 'Créneaux horaires pour l\'aide')
             ->setColumns(cols: 'col-12')
@@ -107,13 +111,17 @@ class EventCrudController extends AbstractCrudController
             ->setCurrency(currencyCode: 'EUR')
             ->setCustomOption(optionName: 'storedAsCents', optionValue: false)
             ->setColumns(cols: 'col-12 col-sm-4')
-
         ;
 
         yield IntegerField::new(propertyName: 'capacity', label: 'Nombre de places maximales')
             ->hideOnIndex()
             ->setColumns(cols: 'col-12 col-sm-4')
+        ;
 
+        yield ImageField::new(propertyName: 'imageName', label: 'Image')
+            ->setBasePath($this->uploadDir)
+            ->hideOnForm()
+            ->setColumns(cols: 'col-12')
         ;
     }
 
@@ -136,7 +144,6 @@ class EventCrudController extends AbstractCrudController
         $eventDetails = $entityInstance->getSlug() . $entityInstance->getStartsAt()->format('d-m-Y H:i:s');
 
         foreach ($events as $event) {
-             //$eventDetails = $event->getName() . $event->getStartsAt()->format('d-m-Y H:i:s');
             if ($eventDetails === $event->getSlug() . $event->getStartsAt()->format('d-m-Y H:i:s')) {
                 $this->addFlash(
                     type: 'danger',

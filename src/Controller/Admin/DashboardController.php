@@ -4,9 +4,8 @@ namespace App\Controller\Admin;
 
 use App\Entity\Contact\Contact;
 use App\Entity\Event\Event;
-use App\Entity\Event\Registration;
 use App\Entity\User\User;
-use App\Repository\ContactRepository;
+use App\Repository\Contact\ContactRepository;
 use App\Repository\Event\EventRepository;
 use App\Repository\User\UserRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
