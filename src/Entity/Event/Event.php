@@ -14,7 +14,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: EventRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#[UniqueEntity('slug', message: 'Cet événement existe déjà.')]
+#[UniqueEntity(
+    fields: ['slug', 'startsAt'],
+    message: 'L\'événement {{ value }} est déjà programmé à cette date et heure.'
+)]
 class Event
 {
     public const STATUS = ['IDEE', 'APPROUVE', 'REFUSE', 'ANNULE'];
@@ -57,6 +60,7 @@ class Event
 
     #[ORM\Column(type: 'datetime_immutable')]
     #[Assert\NotBlank]
+    #[Assert\GreaterThan(propertyPath: 'startsAt')]
     private ?\DateTimeImmutable $finishAt = null;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -101,17 +105,16 @@ class Event
         return $this->name;
     }
 
+    #[ORM\PreUpdate]
+    public function preUpdate(): void
+    {
+        $this->updatedAt = new \DateTimeImmutable();
+    }
 
     #[ORM\PrePersist]
     public function prePersist(): void
     {
         $this->slug = (new Slugify())->slugify($this->name);
-    }
-
-    #[ORM\PreUpdate]
-    public function preUpdate(): void
-    {
-        $this->updatedAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -203,6 +206,18 @@ class Event
         return $this;
     }
 
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
     public function isHelpNeeded(): ?bool
     {
         return $this->helpNeeded;
@@ -252,18 +267,6 @@ class Event
     public function setPrice(?float $price): self
     {
         $this->price = $price;
-
-        return $this;
-    }
-
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
-
-    public function setSlug(string $slug): self
-    {
-        $this->slug = $slug;
 
         return $this;
     }

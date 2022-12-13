@@ -13,6 +13,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
@@ -51,43 +52,43 @@ class EventCrudController extends AbstractCrudController
         yield IdField::new(propertyName: 'id')->hideOnForm();
 
         yield TextField::new(propertyName: 'name', label: 'Titre de l\'événement')
-            ->setColumns(cols: 'col-4')
+            ->setColumns(cols: 'col-12 col-sm-4')
+        ;
+
+        yield SlugField::new(propertyName: 'slug', label: 'Slug')
+            ->setTargetFieldName(fieldName: 'name')
+            ->setColumns(cols: 'col-12 col-sm-4')
+            ->hideOnIndex()
         ;
 
         yield TextField::new(propertyName: 'location', label: 'Se déroulera à')
             ->hideOnIndex()
-            ->setColumns(cols: 'col-4')
+            ->setColumns(cols: 'col-12 col-sm-4')
         ;
 
-        yield MoneyField::new(propertyName: 'price', label: 'Prix')
-            ->setCurrency(currencyCode: 'EUR')
-            ->setCustomOption(optionName: 'storedAsCents', optionValue: false)
-            ->setColumns(cols: 'col-4')
-        ;
-
-        yield DateTimeField::new(propertyName: 'startsAt', label: 'Commence')
-            ->renderAsChoice()
-            ->setColumns(cols: 'col-6')
+        yield DateTimeField::new(propertyName: 'startsAt', label: 'Date de l\'événement')
+            ->setColumns(cols: 'col-12 col-sm-6')
+            ->renderAsNativeWidget()
         ;
 
         yield DateTimeField::new(propertyName: 'finishAt', label: 'Fini')
             ->hideOnIndex()
-            ->renderAsChoice()
-            ->setColumns(cols: 'col-6')
+            ->setColumns(cols: 'col-12 col-sm-6')
+            ->renderAsNativeWidget()
         ;
 
         yield BooleanField::new(propertyName: 'helpNeeded', label: 'Besoin d\'Aide ?')
-            ->setColumns(cols: 'md-col-2')
+            ->setColumns(cols: 'col-12')
         ;
 
         yield TextareaField::new(propertyName: 'description', label: 'Décrivez l\'événement')
             ->hideOnIndex()
             ->setColumns(cols: 'col-12')
-            ->setCssClass(cssClass: 'uppercase')
         ;
 
-        yield AssociationField::new(propertyName: 'creneaux', label: 'Créneaux')
+        yield AssociationField::new(propertyName: 'creneaux', label: 'Créneaux horaires pour l\'aide')
             ->setColumns(cols: 'col-12')
+
             ->formatValue(function ($value, $entity) {
                 $str = $entity->getCreneaux()[0];
                 for ($i = 1; $i < $entity->getCreneaux()->count(); $i++) {
@@ -98,10 +99,17 @@ class EventCrudController extends AbstractCrudController
             ->hideOnIndex()
         ;
 
+        yield MoneyField::new(propertyName: 'price', label: 'Prix')
+            ->setCurrency(currencyCode: 'EUR')
+            ->setCustomOption(optionName: 'storedAsCents', optionValue: false)
+            ->setColumns(cols: 'col-12 col-sm-4')
+
+        ;
+
         yield IntegerField::new(propertyName: 'capacity', label: 'Nombre de places maximales')
             ->hideOnIndex()
-            ->addCssClass(cssClass: 'text-primary')
-            ->setColumns(cols: 'col-2')
+            ->setColumns(cols: 'col-12 col-sm-4')
+
         ;
     }
 
@@ -111,21 +119,39 @@ class EventCrudController extends AbstractCrudController
             ->add(pageName: Crud::PAGE_INDEX, actionNameOrObject: 'detail');
     }
 
-    public function persistEntity(EntityManagerInterface $entityManager , $entityInstance): void
+    /**
+     * @param EntityManagerInterface $entityManager
+     * @param                        $entityInstance
+     * @return void
+     * Permet de vérifier si un événement du même nom existe déjà dans la base de données.
+     */
+    public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
-        // get all events
+        // Ajouter la contrainte d'unicité de l'entité.
         $events = $entityManager->getRepository(Event::class)->findAll();
-        // check if the event is already in the database
+        $eventDetails = $entityInstance->getSlug() . $entityInstance->getStartsAt()->format('d-m-Y H:i:s');
+
         foreach ($events as $event) {
-            if ($event->getName() === $entityInstance->getName()) {
+             //$eventDetails = $event->getName() . $event->getStartsAt()->format('d-m-Y H:i:s');
+            if ($eventDetails === $event->getSlug() . $event->getStartsAt()->format('d-m-Y H:i:s')) {
                 $this->addFlash(
                     type: 'danger',
-                    message: 'L\'événement ' . $entityInstance->getName() . ' existe déjà !'
+                    message: 'Un événement du même nom existe déjà dans la base de données.'
                 );
                 return;
             }
         }
-        parent::persistEntity($entityManager , $entityInstance);
-    }
 
+        // Vérifier si un événement du même nom avec la même date de début existe déjà dans la base de données.
+        foreach ($events as $event) {
+            if ($event->getName() === $entityInstance->getName() && $event->getStartsAt() === $entityInstance->getStartsAt()) {
+                $this->addFlash(
+                    type: 'danger',
+                    message: 'Un événement du même nom avec la même date de début existe déjà dans la base de données.'
+                );
+                return;
+            }
+        }
+        parent::persistEntity($entityManager, $entityInstance);
+    }
 }
