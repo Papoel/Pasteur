@@ -3,7 +3,6 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Contact\Contact;
-use App\Entity\Creneau\Creneau;
 use App\Entity\Event\Event;
 use App\Entity\Event\Registration;
 use App\Entity\User\User;
@@ -78,13 +77,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::subMenu(label: 'Action', icon: 'fas fa-bars')->setSubItems(subItems: [
             MenuItem::linkToCrud(label: 'Voir les inscriptions', icon: 'fas fa-eye', entityFqcn: Registration::class),
             MenuItem::linkToCrud(label: 'Ajouter une inscription', icon: 'fas fa-plus', entityFqcn: Registration::class)
-                ->setAction(actionName: Crud::PAGE_NEW),
-        ]);
-
-        yield MenuItem::section(label: 'Créneaux', icon: 'fas fa-clock');
-        yield MenuItem::subMenu(label: 'Action', icon: 'fas fa-bars')->setSubItems(subItems: [
-            MenuItem::linkToCrud(label: 'Voir les créneaux', icon: 'fas fa-eye', entityFqcn: Creneau::class),
-            MenuItem::linkToCrud(label: 'Ajouter un créneau', icon: 'fas fa-plus', entityFqcn: Creneau::class)
                 ->setAction(actionName: Crud::PAGE_NEW),
         ]);
 
