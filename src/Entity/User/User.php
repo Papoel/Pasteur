@@ -118,6 +118,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?\DateTimeImmutable $updatedAt = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $birthday = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -323,6 +326,37 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->updatedAt = $updatedAt;
 
         return $this;
+    }
+
+    public function getBirthday(): ?\DateTimeImmutable
+    {
+        return $this->birthday;
+    }
+
+    public function setBirthday(\DateTimeImmutable $birthday): self
+    {
+        $this->birthday = $birthday;
+
+        return $this;
+    }
+
+    // Count age from birthday
+    public function getAge(): int
+    {
+        $now = new \DateTimeImmutable();
+        $age = $now->diff($this->birthday)->y;
+
+        return $age;
+    }
+
+    // Create function to know if today is birthday
+    public function isBirthday(): bool
+    {
+        $now = new \DateTimeImmutable();
+        $birthday = $this->birthday->format('d-m');
+        $today = $now->format('d-m');
+
+        return $birthday === $today;
     }
 
     public function getFullName(): ?string

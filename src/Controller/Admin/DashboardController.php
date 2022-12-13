@@ -21,8 +21,10 @@ class DashboardController extends AbstractDashboardController
         private readonly UserRepository    $userRepository,
         private readonly EventRepository   $eventRepository,
         private readonly ContactRepository $contactRepository,
+        private readonly UserRepository    $user
     ) {
     }
+
 
     #[Route('/admin', name: 'admin')]
     public function index(): Response
@@ -32,6 +34,9 @@ class DashboardController extends AbstractDashboardController
             subject: "Accès à la section d'administration",
             message: 'Désolé, votre rôle ne vous donne pas accès a cette section.'
         );
+
+        // TODO: Lister les anniversaires du mois
+        // TODO; Trouver quelque chose de sympa pour les anniversaire du jour.
 
         return $this->render(view: 'admin/dashboard.html.twig');
     }

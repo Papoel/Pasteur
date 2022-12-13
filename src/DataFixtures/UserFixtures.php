@@ -36,6 +36,7 @@ class UserFixtures extends Fixture
         $userAdmin->setAddress(address: '15 rue du Pingouin');
         $userAdmin->setPostalCode(postalCode: '59600');
         $userAdmin->setTown(town: 'Maubeuge');
+        $userAdmin->setBirthday(birthday: new \DateTimeImmutable(datetime: '1985/02/20'));
 
         $manager->persist($userAdmin);
         $users[] = $userAdmin;

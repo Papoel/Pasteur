@@ -8,6 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -55,21 +56,21 @@ class UserCrudController extends AbstractCrudController
 
             yield TextField::new(propertyName: 'firstname', label: 'Prénom')
                 ->hideOnIndex()
-                ->setColumns(cols: 'col-12 col-md-4')
+                ->setColumns(cols: 'col-12 col-sm-4')
             ;
 
             yield TextField::new(propertyName: 'lastname', label: 'Nom')
                 ->hideOnIndex()
-                ->setColumns(cols: 'col-12 col-md-4')
+                ->setColumns(cols: 'col-12 col-sm-4')
             ;
 
             yield TextField::new(propertyName: 'pseudo', label: 'Pseudo')
-                ->setColumns(cols: 'col-12 col-md-4')
+                ->setColumns(cols: 'col-12 col-sm-4')
             ;
 
             yield TextField::new(propertyName: 'email', label: 'Email')
                 ->hideOnIndex()
-                ->setColumns(cols: 'col-4 col-md-4')
+                ->setColumns(cols: 'col-12 col-sm-4')
             ;
 
         yield ChoiceField::new(propertyName: 'roles')
@@ -84,11 +85,15 @@ class UserCrudController extends AbstractCrudController
                 'ROLE_ADMIN' => 'success',
                 'ROLE_USER' => 'primary',
             ])
-            ->setColumns(cols: 'col-6 col-md-4')
+            ->setColumns(cols: 'col-12 col-sm-4')
         ;
 
         yield TextField::new(propertyName: 'telephone', label: 'Téléphone')
-            ->setColumns(cols: 'col-6 col-md-4')
+            ->setColumns(cols: 'col-12 col-sm-4')
+        ;
+
+        yield DateField::new(propertyName: 'birthday', label: 'Date de naissance')
+            ->setColumns(cols: 'col-12 col-sm-4')
         ;
 
            /* yield TextField::new(propertyName: 'password', label: 'Mot de passe')
@@ -106,32 +111,32 @@ class UserCrudController extends AbstractCrudController
                     'second_options' => ['label' => 'Confirmation du mot de passe'],
                     'required' => true,
                 ])
-                ->setCssClass(cssClass: 'col-12 col-md-6')
+                ->setColumns(cols: 'col-12 col-sm-4')
             ;
 
             yield DateTimeField::new(propertyName: 'createdAt', label: 'Date de création')
                 ->onlyOnDetail()
-                ->setColumns(cols: 'col-12')
+                ->setColumns(cols: 'col-12 col-sm-4')
             ;
 
             yield TextField::new(propertyName: 'address', label: 'Adresse')
                 ->hideOnIndex()
-                ->setColumns(cols: 'col-12 col-md-4')
+                ->setColumns(cols: 'col-12 col-sm-4')
             ;
 
             yield TextField::new(propertyName: 'postal_code', label: 'Code postal')
                 ->hideOnIndex()
-                ->setColumns(cols: 'col-12 col-md-4')
+                ->setColumns(cols: 'col-12 col-sm-4')
             ;
 
             yield TextField::new(propertyName: 'town', label: 'Ville')
                 ->hideOnIndex()
-                ->setColumns(cols: 'col-12 col-md-4')
+                ->setColumns(cols: 'col-12 col-sm-4')
             ;
 
             yield TextField::new(propertyName: 'complement_address', label: 'Complément d\'adresse')
                 ->hideOnIndex()
-                ->setColumns(cols: 'col-12 col-md-6')
+                ->setColumns(cols: 'col-12 col-sm-4')
             ;
 
     }
