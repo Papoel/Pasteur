@@ -3,6 +3,7 @@
 namespace App\Entity\Contact;
 
 use App\Repository\Contact\ContactRepository;
+use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -55,20 +56,20 @@ class Contact
 
     #[ORM\Column]
     #[Assert\NotNull]
-    private ?\DateTimeImmutable $createdAt;
+    private DateTimeImmutable $createdAt;
 
     #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
-    private ?bool $isReplied = null;
+    private bool $isReplied = false;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $response = null;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $replyAt = null;
+    private ?DateTimeImmutable $replyAt = null;
 
     public function __construct()
     {
-        $this->createdAt = new \DateTimeImmutable();
+        $this->createdAt = new DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -124,12 +125,12 @@ class Contact
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    public function setCreatedAt(DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 
@@ -160,12 +161,12 @@ class Contact
         return $this;
     }
 
-    public function getReplyAt(): ?\DateTimeImmutable
+    public function getReplyAt(): ?DateTimeImmutable
     {
         return $this->replyAt;
     }
 
-    public function setReplyAt(?\DateTimeImmutable $replyAt): self
+    public function setReplyAt(?DateTimeImmutable $replyAt): self
     {
         $this->replyAt = $replyAt;
 

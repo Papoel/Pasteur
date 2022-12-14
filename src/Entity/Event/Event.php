@@ -38,7 +38,7 @@ class Event
         minMessage: 'Le titre doit comporter au moins {{ limit }} caractères.',
         maxMessage: 'Le titre ne peut pas comporter plus de {{ limit }} caractères.'
     )]
-    private ?string $name = null;
+    private string $name;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     #[Assert\NotBlank]
@@ -52,7 +52,7 @@ class Event
         minMessage: 'Le lieu doit comporter au moins {{ limit }} caractères.',
         maxMessage: 'Le lieu ne peut pas comporter plus de {{ limit }} caractères.'
     )]
-    private ?string $location = null;
+    private string $location;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 4, scale: 2, nullable: true)]
     #[Assert\GreaterThanOrEqual(0)]
@@ -82,7 +82,7 @@ class Event
     #[UploadableField(mapping: 'event_image', fileNameProperty: 'imageName')]
     private ?File $imageFile = null;
 
-    #[ORM\Column(type: 'string', options: ['default' => 'event.jpeg'])]
+    #[ORM\Column(type: 'string', nullable: true, options: ['default' => 'event.jpeg'])]
     private ?string $imageName = null;
 
     #[ORM\OneToMany(mappedBy: 'event', targetEntity: Registration::class)]
@@ -129,7 +129,7 @@ class Event
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -141,7 +141,7 @@ class Event
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -153,7 +153,7 @@ class Event
         return $this;
     }
 
-    public function getLocation(): ?string
+    public function getLocation(): string
     {
         return $this->location;
     }
@@ -213,7 +213,7 @@ class Event
         return $this;
     }
 
-    public function getSlug(): ?string
+    public function getSlug(): string
     {
         return $this->slug;
     }
@@ -225,7 +225,7 @@ class Event
         return $this;
     }
 
-    public function isHelpNeeded(): ?bool
+    public function isHelpNeeded(): bool
     {
         return $this->helpNeeded;
     }

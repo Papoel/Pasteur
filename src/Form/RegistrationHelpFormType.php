@@ -28,7 +28,10 @@ class RegistrationHelpFormType extends AbstractType
                 ],
                 'attr' => [
                     'placeholder' => 'Bruce Wayne',
-                    'class' => 'w-full bg-white rounded focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out',
+                    'class' =>
+                        'w-full bg-white rounded focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base 
+                        outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out'
+                    ,
                 ],
                 'required' => false,
             ])
@@ -39,7 +42,10 @@ class RegistrationHelpFormType extends AbstractType
                 ],
                 'attr' => [
                     'placeholder' => 'batman@goham.city',
-                    'class' => 'w-full bg-white rounded focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out',
+                    'class' =>
+                        'w-full bg-white rounded focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base 
+                        outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out'
+                    ,
                 ],
                 'required' => false,
             ])
@@ -51,7 +57,10 @@ class RegistrationHelpFormType extends AbstractType
                 'attr' => [
                     'placeholder' => '06 66 66 66 66',
                     'type' => 'tel',
-                    'class' => 'w-full bg-white rounded focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out',
+                    'class' =>
+                        'w-full bg-white rounded focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base 
+                        outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out'
+                    ,
                 ],
                 'required' => false,
             ])
@@ -62,7 +71,10 @@ class RegistrationHelpFormType extends AbstractType
                     'class' => 'block text-gray-500 uppercase tracking-wider text-sm font-bold',
                 ],
                 'attr' => [
-                    'class' => 'w-full bg-white rounded focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out',
+                    'class' =>
+                        'w-full bg-white rounded focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base 
+                        outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out'
+                    ,
                 ],
                 'choices' => [
                     'Installation' => 'Installation',
@@ -79,7 +91,10 @@ class RegistrationHelpFormType extends AbstractType
                 ],
                 'attr' => [
                     'placeholder' => 'Un petit message pour nous, mais ce n\'est pas obligatoire ! ❤️',
-                    'class' => 'w-full bg-white rounded focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out',
+                    'class' =>
+                        'w-full bg-white rounded focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base 
+                        outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out'
+                    ,
                     'rows' => 3,
                 ],
             ])
@@ -89,7 +104,11 @@ class RegistrationHelpFormType extends AbstractType
                     'class' => 'block text-gray-500 uppercase tracking-wider text-sm font-bold',
                 ],
                 'attr' => [
-                    'class' => 'w-full bg-white rounded border border-gray-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out',
+                    'class' =>
+                        'w-full bg-white rounded border border-gray-500 focus:border-indigo-500 focus:ring-2 
+                        focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 
+                        transition-colors duration-200 ease-in-out
+                    ',
                 ],
                 'choices' => $options['event_creneaux'],
 

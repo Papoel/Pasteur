@@ -155,7 +155,10 @@ class EventCrudController extends AbstractCrudController
 
         // Vérifier si un événement du même nom avec la même date de début existe déjà dans la base de données.
         foreach ($events as $event) {
-            if ($event->getName() === $entityInstance->getName() && $event->getStartsAt() === $entityInstance->getStartsAt()) {
+            if (
+                $event->getName() === $entityInstance->getName() &&
+                $event->getStartsAt() === $entityInstance->getStartsAt()
+            ) {
                 $this->addFlash(
                     type: 'danger',
                     message: 'Un événement du même nom avec la même date de début existe déjà dans la base de données.'

@@ -17,14 +17,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private int $id;
 
     #[ORM\Column(length: 180, unique: true)]
     #[Assert\NotBlank]
     #[Assert\Email(
         message: 'Cet email {{ value }} n\'est pas une adresse valide.',
     )]
-    private ?string $email = null;
+    private string $email;
 
     #[ORM\Column]
     private array $roles = ['ROLE_USER'];
@@ -33,7 +33,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank]
     #[Assert\Regex(
         pattern: '/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W)/',
-        message: 'Le mot de passe doit contenir au moins une minuscule, une majuscule, un chiffre et un caractère spécial',
+        message: 'Le mot de passe doit contenir au moins une minuscule, 
+                  une majuscule, un chiffre et un caractère spécial',
     )]
     #[Assert\Length(
         min: 8,
@@ -41,7 +42,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         minMessage: 'Le mot de passe doit faire au moins {{ limit }} caractères',
         maxMessage: 'Le mot de passe doit faire au plus {{ limit }} caractères',
     )]
-    private ?string $password = null;
+    private string $password;
 
     #[ORM\Column(length: 50)]
     #[Assert\Length(
@@ -51,7 +52,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         maxMessage: 'Le prénom doit faire au plus {{ limit }} caractères',
     )]
     #[Assert\Type(type: 'string')]
-    private ?string $firstname = null;
+    private string $firstname;
 
     #[ORM\Column(length: 50)]
     #[Assert\Length(
@@ -60,7 +61,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         minMessage: 'Le nom doit faire au moins {{ limit }} caractères',
         maxMessage: 'Le nom doit faire au plus {{ limit }} caractères',
     )]
-    private ?string $lastname = null;
+    private string $lastname;
 
     #[ORM\Column(length: 50, nullable: true)]
     #[Assert\Length(
@@ -143,7 +144,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
-    public function getEmail(): ?string
+    public function getEmail(): string
     {
         return $this->email;
     }
@@ -208,7 +209,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function getFirstname(): ?string
+    public function getFirstname(): string
     {
         return $this->firstname;
     }
@@ -220,7 +221,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getLastname(): ?string
+    public function getLastname(): string
     {
         return $this->lastname;
     }

@@ -36,7 +36,7 @@ class UserCrudController extends AbstractCrudController
 
             ->setPageTitle(
                 pageName: 'detail',
-                title: fn (User $user) => 'Fiche contact - ' .$user->getFullName()
+                title: fn (User $user) => 'Fiche contact - ' . $user->getFullName()
             )
 
             ->setDateTimeFormat(
@@ -138,7 +138,6 @@ class UserCrudController extends AbstractCrudController
                 ->hideOnIndex()
                 ->setColumns(cols: 'col-12 col-sm-4')
             ;
-
     }
 
     public function configureActions(Actions $actions): Actions

@@ -27,7 +27,7 @@ class AppExtension extends AbstractExtension
     {
         return [
             new TwigFunction(name: 'pluralize', callable: [$this, 'pluralize']),
-            new TwigFunction(name: 'format_price', callable: [$this, 'format_price']),
+            new TwigFunction(name: 'format_price', callable: [$this, 'formatPrice']),
         ];
     }
 
@@ -39,7 +39,7 @@ class AppExtension extends AbstractExtension
         return "$count $string";
     }
 
-    public function format_price(Event $event): string
+    public function formatPrice(Event $event): string
     {
         return $event->isFree() ? 'Gratuit' : $event->getPrice() . ' €';
     }
@@ -62,6 +62,4 @@ class AppExtension extends AbstractExtension
     {
         return $html;
     }
-
-
 }

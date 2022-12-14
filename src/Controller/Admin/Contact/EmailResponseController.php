@@ -17,10 +17,10 @@ class EmailResponseController extends AbstractController
 {
     #[Route('/admin/response-message', name: 'app_response_message')]
     public function index(
-        Request                $request,
-        ContactRepository      $contactRepository,
+        Request $request,
+        ContactRepository $contactRepository,
         EntityManagerInterface $entityManager,
-        MailService            $mailService,
+        MailService $mailService,
     ): Response {
 
         // Récupérer l'id du message à répondre

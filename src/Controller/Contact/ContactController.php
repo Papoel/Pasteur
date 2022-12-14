@@ -38,7 +38,10 @@ class ContactController extends AbstractController
 
             $contact->setIsReplied(false);
 
-            if ($contact->getEmail() !== $this->getUser()->getEmail() || $contact->getFullName() !== $this->getUser()->getFullName()) {
+            if (
+                $contact->getEmail() !== $this->getUser()->getEmail() ||
+                $contact->getFullName() !== $this->getUser()->getFullName()
+            ) {
                 $contact->setEmail($this->getUser()->getEmail());
                 $contact->setFullName($this->getUser()->getFullName());
             }
@@ -60,7 +63,9 @@ class ContactController extends AbstractController
                 ],
             );
 
-            $this->addFlash(type: 'success', message: 'Merci 🙏  ' . $contact->getFullname() . ', votre message a bien été envoyé.');
+            $this->addFlash(type: 'success', message: 'Merci 🙏  '
+                . $contact->getFullname() .
+                ', votre message a bien été envoyé.');
 
             return $this->redirectToRoute(route: 'app_contact');
         }

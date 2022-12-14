@@ -19,7 +19,9 @@ class EventFixtures extends Fixture
 
         $event = new Event();
         $event->setName(name: 'Apéro PHP');
-        $event->setDescription(description: 'Apéro PHP est un événement mensuel qui a lieu à Maubeuge. Il est organisé par la communauté PHP francophone.');
+        $event->setDescription(description:
+            'Apéro PHP est un événement mensuel qui a lieu à Maubeuge. 
+            Il est organisé par la communauté PHP francophone.');
         $event->setLocation(location: 'Maubeuge');
         $event->setPrice(price: 0);
         $event->setStartsAt(startsAt: new \DateTimeImmutable(datetime: '2023/06/14 11:00'));

@@ -102,14 +102,15 @@ class RegistrationCrudController extends AbstractCrudController
             });
 
         return $actions
-            ->add(Crud::PAGE_NEW ,$data_creneaux_for_event);
+            ->add(Crud::PAGE_NEW, $data_creneaux_for_event);
     }
 
-    public function LoadCreneauxForEvent(Request $request): Response
+    // TODO : Charger les créneaux horaire disponible par event
+    public function loadCreneauxForEvent(Request $request): Response
     {
         dd($request);
 
-        return $this->forward(controller: 'App\Controller\Admin\Event\LoadCreneauxByEvent::index');
+        return $this->forward(controller: 'App\Controller\Admin\Event\loadCreneauxByEvent::index');
         // return $this->redirectToRoute(route: 'app_response_message');
         // return $this->render(view: 'admin/contact/response.html.twig');
     }

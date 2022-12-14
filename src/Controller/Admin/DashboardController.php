@@ -18,10 +18,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class DashboardController extends AbstractDashboardController
 {
     public function __construct(
-        private readonly UserRepository    $userRepository,
-        private readonly EventRepository   $eventRepository,
+        private readonly UserRepository $userRepository,
+        private readonly EventRepository $eventRepository,
         private readonly ContactRepository $contactRepository,
-        private readonly UserRepository    $user
+        private readonly UserRepository $user
     ) {
     }
 

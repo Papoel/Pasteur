@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class UserTest extends KernelTestCase
 {
-    public function test_my_env_is_in_test(): void
+    public function testMyEnvIsInTest(): void
     {
         $kernel = self::bootKernel();
         self::assertSame(expected: 'test', actual: $kernel->getEnvironment());
@@ -33,6 +33,7 @@ class UserTest extends KernelTestCase
         $user->setTown(town: 'Maubeuge');
         $user->setCreatedAt(new \DateTimeImmutable());
         $user->setUpdatedAt(new \DateTimeImmutable(datetime: 'now + 1 month'));
+        $user->setBirthday(birthday: new \DateTimeImmutable(datetime: '1085-02-20'));
 
         return $user;
     }
@@ -49,15 +50,19 @@ class UserTest extends KernelTestCase
                 . ucfirst($violation->getPropertyPath()) . ' => ' . $violation->getMessage();
         }
 
-        $this->assertCount(expectedCount: $count, haystack: $violations, message: implode(separator:PHP_EOL, array: $messages));
+        $this->assertCount(
+            expectedCount: $count,
+            haystack: $violations,
+            message: implode(separator:PHP_EOL, array: $messages)
+        );
     }
 
-    public function test_entity_user_is_valid(): void
+    public function testEntityUserIsValid(): void
     {
         $this->assertValidationErrorsCount($this->getEntityUser(), count: 0);
     }
 
-    public function test_constraint_error_if_email_is_blank(): void
+    public function testConstraintErrorIfEmailIsBlank(): void
     {
         $userEmail = $this->getEntityUser()->setEmail(email: '');
         self::assertSame(expected: '', actual: $userEmail->getEmail());
@@ -65,7 +70,7 @@ class UserTest extends KernelTestCase
         $this->assertValidationErrorsCount(entity: $userEmail, count: 1);
     }
 
-    public function test_firstname_is_string(): void
+    public function testFirstnameIsString(): void
     {
         $userFirstname = $this->getEntityUser()->setFirstname(firstname: 'Firstname');
         self::assertIsString($userFirstname->getFirstname());
@@ -81,7 +86,7 @@ class UserTest extends KernelTestCase
         $this->assertValidationErrorsCount(entity: $userFirstname, count: 0);
     }*/
 
-    public function test_firstname_is_greater_than_50_characters(): void
+    public function testFirstnameIsGreaterThan50Characters(): void
     {
         $userFirstname = $this->getEntityUser()->setFirstname(firstname: str_repeat(string: 'a', times: 51));
         self::assertSame(expected: str_repeat(string: 'a', times: 51), actual: $userFirstname->getFirstname());
@@ -89,7 +94,7 @@ class UserTest extends KernelTestCase
         $this->assertValidationErrorsCount(entity: $userFirstname, count: 1);
     }
 
-    public function test_email_is_valid(): void
+    public function testEmailIsValid(): void
     {
         $userEmail = $this->getEntityUser()->setEmail(email: 'papoel@email.fr');
         self::assertSame(expected: 'papoel@email.fr', actual: $userEmail->getEmail());
@@ -97,7 +102,7 @@ class UserTest extends KernelTestCase
         $this->assertValidationErrorsCount($userEmail, count: 0);
     }
 
-    public function test_firstname_is_smaller_than_3_characters(): void
+    public function testFirstnameIsSmallerThan3Characters(): void
     {
         $userFirstname = $this->getEntityUser()->setFirstname(firstname: 'aa');
         self::assertSame(expected: 'aa', actual: $userFirstname->getFirstname());
@@ -105,7 +110,7 @@ class UserTest extends KernelTestCase
         $this->assertValidationErrorsCount(entity: $userFirstname, count: 1);
     }
 
-    public function test_lastname_is_greater_than_50_characters(): void
+    public function testLastnameIsGreaterThan50Characters(): void
     {
         $userLastname = $this->getEntityUser()->setLastname(lastname: str_repeat(string: 'a', times: 51));
         self::assertSame(expected: str_repeat(string: 'a', times: 51), actual: $userLastname->getLastname());
@@ -113,7 +118,7 @@ class UserTest extends KernelTestCase
         $this->assertValidationErrorsCount(entity: $userLastname, count: 1);
     }
 
-    public function test_lastname_is_smaller_than_3_characters(): void
+    public function testLastnameIsSmallerThan3Characters(): void
     {
         $userLastname = $this->getEntityUser()->setLastname(lastname: 'aa');
         self::assertSame(expected: 'aa', actual: $userLastname->getLastname());
@@ -121,7 +126,7 @@ class UserTest extends KernelTestCase
         $this->assertValidationErrorsCount(entity: $userLastname, count: 1);
     }
 
-    public function test_pseudo_is_greater_than_50_characters(): void
+    public function testPseudoIsGreaterThan50Characters(): void
     {
         $userPseudo = $this->getEntityUser()->setPseudo(pseudo: str_repeat(string: 'a', times: 51));
         self::assertSame(expected: str_repeat(string: 'a', times: 51), actual: $userPseudo->getPseudo());
@@ -129,7 +134,7 @@ class UserTest extends KernelTestCase
         $this->assertValidationErrorsCount(entity: $userPseudo, count: 1);
     }
 
-    public function test_pseudo_is_smaller_than_3_characters(): void
+    public function testPseudoIsSmallerThan3Characters(): void
     {
         $userPseudo = $this->getEntityUser()->setPseudo(pseudo: 'aa');
         self::assertSame(expected: 'aa', actual: $userPseudo->getPseudo());
@@ -137,7 +142,7 @@ class UserTest extends KernelTestCase
         $this->assertValidationErrorsCount(entity: $userPseudo, count: 1);
     }
 
-    public function test_telephone_is_greater_than_10_characters(): void
+    public function testTelephoneIsGreaterThan10Characters(): void
     {
         $userTelephone = $this->getEntityUser()->setTelephone(telephone: '01234567890');
         self::assertSame(expected: '01234567890', actual: $userTelephone->getTelephone());
@@ -145,7 +150,7 @@ class UserTest extends KernelTestCase
         $this->assertValidationErrorsCount(entity: $userTelephone, count: 1);
     }
 
-    public function test_telephone_is_smaller_than_10_characters(): void
+    public function testTelephoneIsSmallerThan10Characters(): void
     {
         $userTelephone = $this->getEntityUser()->setTelephone(telephone: '0123456');
         self::assertSame(expected: '0123456', actual: $userTelephone->getTelephone());
@@ -153,7 +158,7 @@ class UserTest extends KernelTestCase
         $this->assertValidationErrorsCount(entity: $userTelephone, count: 1);
     }
 
-    public function test_address_is_greater_than_150_characters(): void
+    public function testAddressIsGreaterThan150Characters(): void
     {
         $userAddress = $this->getEntityUser()->setAddress(address: str_repeat(string: 'a', times: 151));
         self::assertSame(expected: str_repeat(string: 'a', times: 151), actual: $userAddress->getAddress());
@@ -161,15 +166,23 @@ class UserTest extends KernelTestCase
         $this->assertValidationErrorsCount(entity: $userAddress, count: 1);
     }
 
-    public function test_complement_address_is_greater_than_200_characters(): void
+    public function testComplementAddressIsGreaterThan200Characters(): void
     {
-        $userComplementAddress = $this->getEntityUser()->setComplementAddress(complementAddress: str_repeat(string: 'a', times: 201));
-        self::assertSame(expected: str_repeat(string: 'a', times: 201), actual: $userComplementAddress->getComplementAddress());
+        $userComplementAddress =
+            $this->getEntityUser()
+                ->setComplementAddress(complementAddress: str_repeat(string: 'a', times: 201));
+        self::assertSame(
+            expected: str_repeat(
+                string: 'a',
+                times: 201
+            ),
+            actual: $userComplementAddress->getComplementAddress()
+        );
 
         $this->assertValidationErrorsCount(entity: $userComplementAddress, count: 1);
     }
 
-    public function test_complement_address_is_smaller_than_5_characters(): void
+    public function testComplementAddressIsSmallerThan5Characters(): void
     {
         $userComplementAddress = $this->getEntityUser()->setComplementAddress(complementAddress: 'cool');
         self::assertSame(expected: 'cool', actual: $userComplementAddress->getComplementAddress());
@@ -177,7 +190,7 @@ class UserTest extends KernelTestCase
         $this->assertValidationErrorsCount(entity: $userComplementAddress, count: 1);
     }
 
-    public function test_code_postal_is_greater_than_5_characters(): void
+    public function testCodePostalIsGreaterThan5Characters(): void
     {
         $postal = $this->getEntityUser()->setPostalCode('123456');
         self::assertSame(expected: '123456', actual: $postal->getPostalCode());
@@ -185,7 +198,7 @@ class UserTest extends KernelTestCase
         $this->assertValidationErrorsCount(entity: $postal, count: 1);
     }
 
-    public function test_code_postal_is_smaller_than_5_characters(): void
+    public function testCodePostalIsSmallerThan5Characters(): void
     {
         $postal = $this->getEntityUser()->setPostalCode('123');
         self::assertSame(expected: '123', actual: $postal->getPostalCode());
@@ -193,7 +206,7 @@ class UserTest extends KernelTestCase
         $this->assertValidationErrorsCount(entity: $postal, count: 1);
     }
 
-    public function test_town_is_greater_than_50_characters(): void
+    public function testTownIsGreaterThan50Characters(): void
     {
         $town = $this->getEntityUser()->setTown(town: str_repeat(string: 'a', times: 51));
         self::assertSame(expected: str_repeat(string: 'a', times: 51), actual: $town->getTown());
@@ -201,7 +214,7 @@ class UserTest extends KernelTestCase
         $this->assertValidationErrorsCount(entity: $town, count: 1);
     }
 
-    public function test_town_is_smaller_than_3_characters(): void
+    public function testTownIsSmallerThan3Characters(): void
     {
         $town = $this->getEntityUser()->setTown(town: 'aa');
         self::assertSame(expected: 'aa', actual: $town->getTown());
@@ -209,7 +222,7 @@ class UserTest extends KernelTestCase
         $this->assertValidationErrorsCount(entity: $town, count: 1);
     }
 
-    public function test_roles_admin_extend_user(): void
+    public function testRolesAdminExtendUser(): void
     {
         $userRole = $this->getEntityUser()->setRoles(roles: ["ROLE_ADMIN"]);
         self::assertSame(expected: [0 => "ROLE_ADMIN", 1 => "ROLE_USER"], actual: $userRole->getRoles());
@@ -217,7 +230,7 @@ class UserTest extends KernelTestCase
         $this->assertValidationErrorsCount(entity: $userRole, count: 0);
     }
 
-    public function test_roles_user_extend_no_other_role(): void
+    public function testRolesUserExtendNoOtherRole(): void
     {
         $userRole = $this->getEntityUser()->setRoles(roles: ["ROLE_USER"]);
         self::assertSame(expected: [0 => "ROLE_USER"], actual: $userRole->getRoles());
@@ -225,7 +238,7 @@ class UserTest extends KernelTestCase
         $this->assertValidationErrorsCount(entity: $userRole, count: 0);
     }
 
-    public function test_password_is_not_blank(): void
+    public function testPasswordIsNotBlank(): void
     {
         $userPassword = $this->getEntityUser()->setPassword(password: '');
         self::assertSame(expected: '', actual: $userPassword->getPassword());
@@ -235,7 +248,7 @@ class UserTest extends KernelTestCase
         $this->assertValidationErrorsCount(entity: $userPassword, count: 2);
     }
 
-    public function test_password_has_no_majuscule(): void
+    public function testPasswordHasNoMajuscule(): void
     {
         $userPassword = $this->getEntityUser()->setPassword(password: 'password1234!');
         self::assertSame(expected: 'password1234!', actual: $userPassword->getPassword());
@@ -244,7 +257,7 @@ class UserTest extends KernelTestCase
         $this->assertValidationErrorsCount($userPassword, count: 1);
     }
 
-    public function test_password_has_no_number(): void
+    public function testPasswordHasNoNumber(): void
     {
         $userPassword = $this->getEntityUser()->setPassword(password: 'Password!');
         self::assertSame(expected: 'Password!', actual: $userPassword->getPassword());
@@ -253,7 +266,7 @@ class UserTest extends KernelTestCase
         $this->assertValidationErrorsCount($userPassword, count: 1);
     }
 
-    public function test_password_has_no_special_character(): void
+    public function testPasswordHasNoSpecialCharacter(): void
     {
         $userPassword = $this->getEntityUser()->setPassword(password: 'Password1234');
         self::assertSame(expected: 'Password1234', actual: $userPassword->getPassword());
@@ -262,7 +275,7 @@ class UserTest extends KernelTestCase
         $this->assertValidationErrorsCount($userPassword, count: 1);
     }
 
-    public function test_password_has_no_lowercase(): void
+    public function testPasswordHasNoLowercase(): void
     {
         $userPassword = $this->getEntityUser()->setPassword(password: 'PASSWORD1234!');
         self::assertSame(expected: 'PASSWORD1234!', actual: $userPassword->getPassword());
@@ -271,7 +284,7 @@ class UserTest extends KernelTestCase
         $this->assertValidationErrorsCount($userPassword, count: 1);
     }
 
-    public function test_password_is_greater_than_50_characters(): void
+    public function testPasswordIsGreaterThan50Characters(): void
     {
         $userPassword = $this->getEntityUser()->setPassword(password: str_repeat(string: 'Password1234!', times: 7));
         self::assertSame(expected: str_repeat(string: 'Password1234!', times: 7), actual: $userPassword->getPassword());
@@ -280,7 +293,7 @@ class UserTest extends KernelTestCase
         $this->assertValidationErrorsCount($userPassword, count: 1);
     }
 
-    public function test_password_is_smaller_than_8_characters(): void
+    public function testPasswordIsSmallerThan8Characters(): void
     {
         $userPassword = $this->getEntityUser()->setPassword(password: 'Pas23!');
         self::assertSame(expected: 'Pas23!', actual: $userPassword->getPassword());
@@ -288,7 +301,7 @@ class UserTest extends KernelTestCase
         $this->assertValidationErrorsCount($userPassword, count: 1);
     }
 
-    public function test_password_is_valid(): void
+    public function testPasswordIsValid(): void
     {
         $userPassword = $this->getEntityUser()->setPassword(password: 'Papoel59$ForTheWin');
         self::assertSame(expected: 'Papoel59$ForTheWin', actual: $userPassword->getPassword());

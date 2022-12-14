@@ -17,12 +17,12 @@ class Registration
 
     #[ORM\Column(length: 100)]
     #[Assert\NotBlank(message: 'Renseigner votre pseudo ou votre prénom et nom.')]
-    private ?string $name = null;
+    private string $name;
 
     #[ORM\Column(length: 150)]
     #[Assert\NotBlank(message: 'Renseigner votre email.')]
     #[Assert\Email]
-    private ?string $email = null;
+    private string $email;
 
     #[ORM\Column(length: 10, nullable: true)]
     #[Assert\Type(type: 'numeric', message: 'Seuls les chiffres sont acceptés.')]
@@ -31,13 +31,13 @@ class Registration
 
     #[ORM\Column(length: 150)]
     #[Assert\NotBlank]
-    private ?string $activity;
+    private string $activity;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $message = null;
 
     #[ORM\ManyToOne(inversedBy: 'registrations')]
-    private ?Event $event = null;
+    private Event $event;
 
     #[ORM\Column]
     private array $creneau_choices = [];
@@ -57,7 +57,7 @@ class Registration
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -69,7 +69,7 @@ class Registration
         return $this;
     }
 
-    public function getEmail(): ?string
+    public function getEmail(): string
     {
         return $this->email;
     }
@@ -93,7 +93,7 @@ class Registration
         return $this;
     }
 
-    public function getActivity(): ?string
+    public function getActivity(): string
     {
         return $this->activity;
     }
@@ -117,12 +117,12 @@ class Registration
         return $this;
     }
 
-    public function getEvent(): ?Event
+    public function getEvent(): Event
     {
         return $this->event;
     }
 
-    public function setEvent(?Event $event): self
+    public function setEvent(Event $event): self
     {
         $this->event = $event;
 
