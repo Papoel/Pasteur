@@ -1,4 +1,4 @@
-name: Symfony 6 Tests
+name: Code Quality
 on:
   push:
     branches:
@@ -74,13 +74,12 @@ jobs:
         run: make install
 
       ## —— Coding standards ✨ ————————————————————————————————————————————————
-      #- name: Coding standards checks (php_codesniffer + php-cs-fixer)
-      #  run: |
-      #    make fix-php
-      #    php ./vendor/bin/phpcs -p --colors
+      - name: Run php-cs-fixer
+        run: |
+          make lint-php
 
       ## —— Static analysis ✨ —————————————————————————————————————————————————
-      - name: Static analysis of PHP code (PHPStan)
+      - name: Run php-stan
         run: |
           php bin/console about --env=test
           make stan-1
