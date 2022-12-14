@@ -97,3 +97,5 @@ Ajouter dans Entity User:
 
 ## Phrase d'accroche pour homepage :
 - [ ] "Ensemble, nous pouvons faire la différence en soutenant les événements organisés par l'école et en offrant une expérience enrichissante pour nos enfants."
+
+## Modifier le type de price => float to integer et donner les prix en centimes
