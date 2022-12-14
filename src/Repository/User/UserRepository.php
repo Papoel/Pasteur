@@ -56,6 +56,16 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         }
     }
 
+    public function findByRole(string $role)
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.roles LIKE :role')
+            ->setParameter('role', '%' . $role . '%')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // TODO: Retourner un tableau d'entités User dont la date de naissance est aujourd'hui
     /*public function findBirthday(): array
     {
