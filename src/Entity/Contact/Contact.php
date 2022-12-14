@@ -18,11 +18,10 @@ class Contact
 
     #[ORM\Column(length: 50, nullable: true)]
     #[Assert\Length(
-        min: 3,
         max: 50,
-        minMessage: 'Le nom doit faire au moins {{ limit }} caractères',
-        maxMessage: 'Le nom doit faire au maximum {{ limit }} caractères'
+        maxMessage: 'Le nom ne doit pas excéder {{ limit }} caractères.'
     )]
+    #[Assert\Type('string', message: 'Les chiffres ne sont pas acceptés.')]
     private ?string $fullName = null;
 
     #[ORM\Column(length: 180)]
@@ -31,17 +30,14 @@ class Contact
         message: 'L\'adresse email "{{ value }}" n\'est pas valide',
     )]
     #[Assert\Length(
-        min: 6,
         max: 180,
-        maxMessage: 'L\'adresse email doit faire au maximum {{ limit }} caractères'
+        maxMessage: 'L\'email ne doit pas excéder {{ limit }} caractères.'
     )]
     private string $email;
 
     #[ORM\Column(length: 100, nullable: true)]
     #[Assert\Length(
-        min: 3,
         max: 100,
-        minMessage: 'Le sujet doit faire au moins {{ limit }} caractères',
         maxMessage: 'Le sujet doit faire au maximum {{ limit }} caractères'
     )]
     private ?string $subject = null;
