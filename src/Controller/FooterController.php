@@ -17,7 +17,7 @@ class FooterController extends AbstractController
         $secretaire = $user->findByRole(role: "SECRETAIRE");
         $administrateur = $user->findByRole(role: "ADMIN");
 
-        return $this->render(view: 'components/_card-member.html.twig', parameters: [
+        return $this->render(view: 'components/Footer/_card-member.html.twig', parameters: [
             'president' => $president,
             'tresorier' => $tresorier,
             'secretaire' => $secretaire,
