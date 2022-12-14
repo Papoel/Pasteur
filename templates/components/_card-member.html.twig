@@ -1,0 +1,59 @@
+<!-- ############################################# Carte du Président ############################################# -->
+<div class="flex items-center p-4 bg-white rounded-lg shadow-xl mx-auto max-w-xs relative m-1">
+    <span
+        class="text-xs font-bold uppercase px-2 mt-2 mr-2 text-white bg-pink-600 border
+        rounded-full absolute top-0 right-0">
+        Président
+    </span>
+    <img class="h-12 w-12 rounded-full" alt="president avatar"
+         src="{{ asset('build/uploads/images/aude_lamy.jpeg') }}" />
+    <div class="ml-5 mt-2">
+        <h2 class="text-lg font-semibold leading-tight text-gray-900">{{ president[0].fullname }}</h2>
+        <p class="text-sm text-gray-600"></p>
+    </div>
+</div>
+
+<!-- ############################################# Carte du Trésorier ############################################# -->
+<div class="flex items-center p-4 bg-white rounded-lg shadow-xl mx-auto max-w-xs relative m-1">
+    <span
+        class="text-xs font-bold uppercase px-2 mt-2 mr-2 text-white bg-cyan-600 border
+        rounded-full absolute top-0 right-0">
+        Trésorier
+    </span>
+    <img class="h-12 w-12 rounded-full" alt="trésorier avatar"
+         src="{{ asset('build/uploads/images/Avatar-Batman.svg') }}" />
+    <div class="ml-5 mt-2">
+        <h2 class="text-lg font-semibold leading-tight text-gray-900">{{ tresorier[0].fullname }}</h2>
+        <p class="text-sm text-gray-600"></p>
+    </div>
+</div>
+
+<!-- ############################################# Carte du Secrétaire ############################################# -->
+<div class="flex items-center p-4 bg-white rounded-lg shadow-xl mx-auto max-w-xs relative m-1">
+    <span
+        class="text-xs font-bold uppercase px-2 mt-2 mr-2 text-white bg-blue-600 border
+        rounded-full absolute top-0 right-0">
+        Secrétaire
+    </span>
+    <img class="h-12 w-12 rounded-full" alt="secrétaire avatar"
+         src="{{ asset('build/uploads/images/Avatar-Batman.svg') }}" />
+    <div class="ml-5 mt-2">
+        <h2 class="text-lg font-semibold leading-tight text-gray-900">{{ secretaire[0].fullname }}</h2>
+        <p class="text-sm text-gray-600"></p>
+    </div>
+</div>
+
+<!-- ############################################ Carte Administrateur ############################################ -->
+<div class="flex items-center p-4 bg-white rounded-lg shadow-xl mx-auto max-w-xs relative m-1">
+    <span
+        class="text-xs font-bold uppercase px-2 mt-2 mr-2 text-white bg-green-600 border
+        rounded-full absolute top-0 right-0">
+        Administrateur
+    </span>
+    <img class="h-12 w-12 rounded-full" alt="secrétaire avatar"
+         src="{{ asset('build/uploads/images/Avatar-Batman.svg') }}" />
+    <div class="ml-5 mt-2">
+        <h2 class="text-lg font-semibold leading-tight text-gray-900">{{ administrateur[0].pseudo }}</h2>
+        <p class="text-sm text-gray-600"></p>
+    </div>
+</div>

@@ -5,56 +5,7 @@
         <div class="rid grid-rows-4 grid-flow-col gap-4">
 
             <!-- Carte de la Présidente -->
-            <div class="flex items-center p-4 bg-white rounded-lg shadow-xl mx-auto max-w-xs relative m-1">
-                <span class="text-xs font-bold uppercase px-2 mt-2 mr-2 text-white bg-indigo-600 border rounded-full absolute top-0 right-0">
-                    Présidente
-                </span>
-                <img class="h-12 w-12 rounded-full" alt="president avatar"
-                     src="{{ asset('build/uploads/images/aude_lamy.jpeg') }}" />
-                <div class="ml-5 mt-2">
-                    <h2 class="text-lg font-semibold leading-tight text-gray-900">Aude Lamy</h2>
-                    <p class="text-sm text-gray-600"></p>
-                </div>
-            </div>
-
-            <!-- Carte du Trésorier -->
-            <div class="flex items-center p-4 bg-white rounded-lg shadow-xl mx-auto max-w-xs relative m-1">
-                <span class="text-xs font-bold uppercase px-2 mt-2 mr-2 text-white bg-indigo-600 border rounded-full absolute top-0 right-0">
-                    Trésorier
-                </span>
-                <img class="h-12 w-12 rounded-full" alt="trésorier avatar"
-                     src="{{ asset('build/uploads/images/Avatar-Batman.svg') }}" />
-                <div class="ml-5 mt-2">
-                    <h2 class="text-lg font-semibold leading-tight text-gray-900">Abdel Trésorier</h2>
-                    <p class="text-sm text-gray-600"></p>
-                </div>
-            </div>
-
-            <!-- Carte de la Secrétaire -->
-            <div class="flex items-center p-4 bg-white rounded-lg shadow-xl mx-auto max-w-xs relative m-1">
-                <span class="text-xs font-bold uppercase px-2 mt-2 mr-2 text-white bg-indigo-600 border rounded-full absolute top-0 right-0">
-                    Secrétaire
-                </span>
-                <img class="h-12 w-12 rounded-full" alt="secrétaire avatar"
-                     src="{{ asset('build/uploads/images/Avatar-Batman.svg') }}" />
-                <div class="ml-5 mt-2">
-                    <h2 class="text-lg font-semibold leading-tight text-gray-900">Séverine Lecoq</h2>
-                    <p class="text-sm text-gray-600"></p>
-                </div>
-            </div>
-
-            <!-- Carte Membre -->
-            <div class="flex items-center p-4 bg-white rounded-lg shadow-xl mx-auto max-w-xs relative m-1">
-                <span class="text-xs font-bold uppercase px-2 mt-2 mr-2 text-white bg-teal-600 border rounded-full absolute top-0 right-0">
-                    Membre actif
-                </span>
-                <img class="h-12 w-12 rounded-full" alt="president avatar"
-                     src="{{ asset('build/uploads/images/Avatar-Batman.svg') }}" />
-                <div class="ml-5 mt-2">
-                    <h2 class="text-lg font-semibold leading-tight text-gray-900">Membre Actif</h2>
-                    <p class="text-sm text-gray-600"></p>
-                </div>
-            </div>
+            {{ render(controller('App\\Controller\\FooterController::apeTeam')) }}
 
         </div>
 
