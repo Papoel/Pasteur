@@ -20,9 +20,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private int $id;
 
     #[ORM\Column(length: 180, unique: true)]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: 'L\'email est obligatoire')]
     #[Assert\Email(
-        message: 'Cet email {{ value }} n\'est pas une adresse valide.',
+        message: 'L\'adresse email "{{ value }}" n\'est pas valide',
     )]
     private string $email;
 

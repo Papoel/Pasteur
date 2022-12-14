@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Functional\Entity;
+namespace App\Tests\Unit\Entity;
 
 use App\Entity\User\User;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -87,7 +87,7 @@ class UserTest extends KernelTestCase
         $this->assertValidationErrorsCount(entity: $userFirstname, count: 0);
     }
 
-    /*public function test_firstname_is_not_a_string():void
+    /*public function testFirstnameIsInteger():void
     {
         $userFirstname = $this->getEntityUser()->setFirstname(firstname: 123);
         self::assertIsString($userFirstname->getFirstname());
