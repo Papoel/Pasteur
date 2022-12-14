@@ -22,6 +22,7 @@ class UserFixtures extends Fixture
 
         $userAdmin->setFirstname(firstname: 'Bruce');
         $userAdmin->setLastname(lastname: 'Wayne');
+        $userAdmin->setPseudo(pseudo: 'Batman');
         $userAdmin->setEmail(
             email: strtolower(
                 string: $userAdmin->getFirstname() . '.' . $userAdmin->getLastname()
@@ -54,7 +55,6 @@ class UserFixtures extends Fixture
                 '@aperp.fr'
             );
 
-            $user->setRoles(['ROLE_USER']);
             $hash = $this->passwordHasher->hashPassword($user, plainPassword: 'Password1234!');
             $user->setPassword($hash);
 
@@ -71,6 +71,10 @@ class UserFixtures extends Fixture
             $user->setTown(town: $faker->city());
             $user->setPostalCode(postalCode: $faker->numberBetween(int1: 10000, int2: 85500));
             $user->setPseudo(pseudo: $faker->userName());
+
+            $date = $faker->dateTimeBetween(startDate: '-40 years', endDate: '-15 years');
+            $immutable = \DateTimeImmutable::createFromMutable($date);
+            $user->setBirthday($immutable);
 
             $manager->persist($user);
             $users[] = $user;
