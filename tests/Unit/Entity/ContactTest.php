@@ -75,10 +75,11 @@ class ContactTest extends KernelTestCase
         $this->assertValidationErrorsCount($contactEmail, count: 1);
     }
 
-    public function testEmailIsNull(): void
+    public function testEmailIsEmpty(): void
     {
         $contactEmail = $this->getEntityContact()->setEmail(email: '');
-        self::assertSame(expected: '', actual: $contactEmail->getEmail(),message: 'Email est vide');
+        self::assertSame(expected: '', actual: $contactEmail->getEmail());
+        self::assertEmpty(actual: $contactEmail->getEmail());
 
         $this->assertValidationErrorsCount($contactEmail, count: 1);
     }
