@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Functional;
+namespace App\Tests\Functional\Entity;
 
 use App\Entity\User\User;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -10,13 +10,6 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class UserTest extends KernelTestCase
 {
-    public function testMyEnvIsInTest(): void
-    {
-        $kernel = self::bootKernel();
-        self::assertSame(expected: 'test', actual: $kernel->getEnvironment());
-        self::assertTrue(condition: true);
-    }
-
     public function getEntityUser(): User
     {
         $user = new User();
@@ -62,12 +55,28 @@ class UserTest extends KernelTestCase
         $this->assertValidationErrorsCount($this->getEntityUser(), count: 0);
     }
 
-    public function testConstraintErrorIfEmailIsBlank(): void
+    public function testEmailIsBlank(): void
     {
         $userEmail = $this->getEntityUser()->setEmail(email: '');
         self::assertSame(expected: '', actual: $userEmail->getEmail());
 
         $this->assertValidationErrorsCount(entity: $userEmail, count: 1);
+    }
+
+    public function testEmailIsValid(): void
+    {
+        $userEmail = $this->getEntityUser()->setEmail(email: 'papoel@email.fr');
+        self::assertSame(expected: 'papoel@email.fr', actual: $userEmail->getEmail());
+
+        $this->assertValidationErrorsCount($userEmail, count: 0);
+    }
+
+    public function testEmailIsInvalid(): void
+    {
+        $userEmail = $this->getEntityUser()->setEmail(email: 'papoel.email.fr');
+        self::assertSame(expected: 'papoel.email.fr', actual: $userEmail->getEmail());
+
+        $this->assertValidationErrorsCount($userEmail, count: 1);
     }
 
     public function testFirstnameIsString(): void
@@ -92,14 +101,6 @@ class UserTest extends KernelTestCase
         self::assertSame(expected: str_repeat(string: 'a', times: 51), actual: $userFirstname->getFirstname());
 
         $this->assertValidationErrorsCount(entity: $userFirstname, count: 1);
-    }
-
-    public function testEmailIsValid(): void
-    {
-        $userEmail = $this->getEntityUser()->setEmail(email: 'papoel@email.fr');
-        self::assertSame(expected: 'papoel@email.fr', actual: $userEmail->getEmail());
-
-        $this->assertValidationErrorsCount($userEmail, count: 0);
     }
 
     public function testFirstnameIsSmallerThan3Characters(): void
