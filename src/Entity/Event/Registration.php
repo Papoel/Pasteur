@@ -17,11 +17,19 @@ class Registration
 
     #[ORM\Column(length: 100)]
     #[Assert\NotBlank(message: 'Renseigner votre pseudo ou votre prénom et nom.')]
+    #[Assert\Length(
+        max: 100,
+        maxMessage: 'Votre Nom ne doit pas dépasser {{ value }} caractères.'
+    )]
     private string $name;
 
-    #[ORM\Column(length: 150)]
+    #[ORM\Column(length: 180)]
     #[Assert\NotBlank(message: 'Renseigner votre email.')]
     #[Assert\Email]
+    #[Assert\Length(
+        max: 180,
+        maxMessage: 'L\'email ne doit pas excéder {{ limit }} caractères.'
+    )]
     private string $email;
 
     #[ORM\Column(length: 10, nullable: true)]
