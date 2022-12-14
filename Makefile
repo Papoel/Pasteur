@@ -351,7 +351,7 @@ qa-lint-schema: ## Vérification du schéma de base de données.
 ## —— 🔎  TESTS                  ———————————————————————————————————————————————————————————————————————————————————————————————————————————
 tests: ## Exécuter les tests.
 	@echo "\n==> Exécution de tous les Tests (Unitaires et Fonctionnelles) <==\n"
-	$(PHPUNIT) --testdox
+	$(PHPUNIT) --testdox --verbose
 .PHONY: tests
 
 tests-coverage: ## Exécuter les tests-coverage.
@@ -421,3 +421,6 @@ env-local:
 	touch .env.local
 	@echo "DATABASE_URL=$(DATABASE_URL)" > .env.local
 .PHONY: dev-env
+
+# Ne lancer les tests que dans un seul dossier :
+# php bin/phpunit --testdox --verbose tests/Functional/Entity/ContactTest.php
