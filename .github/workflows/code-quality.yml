@@ -76,6 +76,7 @@ jobs:
       ## —— Coding standards ✨ ————————————————————————————————————————————————
       - name: Run php-cs-fixer
         run: |
+          make fix-php
           make lint-php
 
       ## —— Static analysis ✨ —————————————————————————————————————————————————
