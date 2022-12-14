@@ -40,9 +40,11 @@ class UserCrudController extends AbstractCrudController
             )
 
             ->setDateTimeFormat(
-                dateFormatOrPattern: dateTimeField::FORMAT_LONG
+                dateFormatOrPattern: dateTimeField::FORMAT_LONG,
+                timeFormat: dateTimeField::FORMAT_SHORT
             )
-        ;
+
+            ;
     }
 
     public function configureFields(string $pageName): iterable
@@ -74,9 +76,11 @@ class UserCrudController extends AbstractCrudController
             ;
 
         yield ChoiceField::new(propertyName: 'roles')
-            ->setChoices([
+            ->setChoices(choiceGenerator: [
                 'PRESIDENT' => 'ROLE_PRESIDENT',
                 'ADMINISTRATEUR' => 'ROLE_ADMIN',
+                'SECRETAIRE' => 'ROLE_SECRETAIRE',
+                'TRESORIER' => 'ROLE_TRESORIER',
                 'MEMBRE' => 'ROLE_USER',
             ])
             ->allowMultipleChoices()
@@ -84,6 +88,8 @@ class UserCrudController extends AbstractCrudController
                 'ROLE_PRESIDENT' => 'danger',
                 'ROLE_ADMIN' => 'success',
                 'ROLE_USER' => 'primary',
+                'ROLE_SECRETAIRE' => 'info',
+                'ROLE_TRESORIER' => 'warning',
             ])
             ->setColumns(cols: 'col-12 col-sm-4')
         ;
