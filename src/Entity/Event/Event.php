@@ -56,6 +56,11 @@ class Event
 
     #[ORM\Column(type: Types::DECIMAL, precision: 4, scale: 2, nullable: true)]
     #[Assert\GreaterThanOrEqual(0)]
+    #[Assert\LessThan(
+        100,
+        message: 'Le prix ne doit pas dépasser {{ value }} €'
+    )
+    ]
     private ?string $price = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
@@ -64,7 +69,10 @@ class Event
 
     #[ORM\Column(type: 'datetime_immutable')]
     #[Assert\NotBlank]
-    #[Assert\GreaterThan(propertyPath: 'startsAt')]
+    #[Assert\GreaterThan(
+        propertyPath: 'startsAt',
+        message: 'La date de fin doit être supérieur à la dae de début.'
+    )]
     private ?\DateTimeImmutable $finishAt = null;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -83,7 +91,7 @@ class Event
     private ?File $imageFile = null;
 
     #[ORM\Column(type: 'string', nullable: true, options: ['default' => 'event.jpeg'])]
-    private ?string $imageName = null;
+    private ?string $imageName = 'event.jpeg';
 
     #[ORM\OneToMany(mappedBy: 'event', targetEntity: Registration::class)]
     private Collection $registrations;
