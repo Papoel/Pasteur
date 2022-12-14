@@ -145,5 +145,4 @@ class RegistrationTest extends KernelTestCase
 
         $this->assertValidationErrorsCount($registrationActivity, count: 1);
     }
-
 }
