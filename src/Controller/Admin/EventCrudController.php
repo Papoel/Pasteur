@@ -109,7 +109,7 @@ class EventCrudController extends AbstractCrudController
 
         yield MoneyField::new(propertyName: 'price', label: 'Prix')
             ->setCurrency(currencyCode: 'EUR')
-            ->setCustomOption(optionName: 'storedAsCents', optionValue: false)
+            ->setCustomOption(optionName: 'storedAsCents', optionValue: true)
             ->setColumns(cols: 'col-12 col-sm-4')
         ;
 
@@ -123,6 +123,8 @@ class EventCrudController extends AbstractCrudController
             ->hideOnForm()
             ->setColumns(cols: 'col-12')
         ;
+
+        yield BooleanField::new(propertyName: 'published', label: 'Publié ?');
     }
 
     public function configureActions(Actions $actions): Actions

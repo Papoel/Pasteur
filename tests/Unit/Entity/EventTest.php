@@ -187,13 +187,13 @@ class EventTest extends KernelTestCase
         $this->assertValidationErrorsCount($eventPrice, count: 1);
     }
 
-    public function testPriceIsGreaterThan100(): void
+    public function testPriceIsGreaterThan10000(): void
     {
-        $expected = 99;
-        $eventPrice = $this->getEntityEvent()->setPrice(price: $expected + 1);
+        $expected = 9900;
+        $eventPrice = $this->getEntityEvent()->setPrice(price: $expected + 100);
 
 
-        $this->assertGreaterThanOrEqual(expected: $expected + 1, actual: $eventPrice->getPrice());
+        $this->assertGreaterThanOrEqual(expected: $expected + 100, actual: $eventPrice->getPrice());
 
         $this->assertValidationErrorsCount($eventPrice, count: 1);
     }
