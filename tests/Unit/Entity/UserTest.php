@@ -267,15 +267,6 @@ class UserTest extends KernelTestCase
         $this->assertValidationErrorsCount($userPassword, count: 1);
     }
 
-    public function testPasswordHasNoSpecialCharacter(): void
-    {
-        $userPassword = $this->getEntityUser()->setPassword(password: 'Password1234');
-        self::assertSame(expected: 'Password1234', actual: $userPassword->getPassword());
-
-        // Erreur 1 : Le mot de passe doit contenir au moins 1 caractère spécial
-        $this->assertValidationErrorsCount($userPassword, count: 1);
-    }
-
     public function testPasswordHasNoLowercase(): void
     {
         $userPassword = $this->getEntityUser()->setPassword(password: 'PASSWORD1234!');
