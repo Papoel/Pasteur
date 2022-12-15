@@ -32,9 +32,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     #[Assert\NotBlank]
     #[Assert\Regex(
-        pattern: '/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W)/',
+        pattern: '/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/',
         message: 'Le mot de passe doit contenir au moins une minuscule, 
-                  une majuscule, un chiffre et un caractère spécial',
+                  une majuscule, et un chiffre.',
     )]
     #[Assert\Length(
         min: 8,
