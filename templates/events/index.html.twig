@@ -6,8 +6,8 @@
     {% include('components/_navbar.html.twig') %}
     <section>
         <div id="header">
-            <h1 class="text-center py-24 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-3xl lg:text-6xl">
-                Découvrez nos<mark class="ml-2 btn-purple-degrade">événements</mark>à venir.
+            <h1 class="text-center py-8 md:py12 xl:py-24 text-4xl md:text-5xl">
+                Découvrez nos<span class="mx-2 text-purple-degrade uppercase font-extrabold">événements</span>à venir.
             </h1>
             <p class="text-center text-lg font-normal text-gray-500 lg:text-xl">
                 L'APE à besoin d'aide, ne soyez pas timide, nous vous attendons 😀.
@@ -26,8 +26,6 @@
                     {% else %}
                         <img style="max-height: 250px; max-width: 440px" class="object-fill" src="{{ vich_uploader_asset(event, 'imageFile') }}" alt="{{ event.name }}">
                     {% endif %}
-
-
 
                     <div class="flex justify-between m-2">
                         <div class="font-bold text-lg">{{ event.name }}</div>
