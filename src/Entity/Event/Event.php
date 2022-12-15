@@ -57,7 +57,7 @@ class Event
     #[ORM\Column(type: Types::INTEGER, precision: 4, scale: 2, nullable: true)]
     #[Assert\GreaterThanOrEqual(0)]
     #[Assert\LessThan(
-        100,
+        10000,
         message: 'Le prix ne doit pas dépasser {{ value }} €'
     )
     ]
