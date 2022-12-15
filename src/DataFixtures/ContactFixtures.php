@@ -18,7 +18,7 @@ class ContactFixtures extends Fixture
 
             $contact->setFullName(fullName: $faker->name())
                 ->setEmail(email: $faker->email())
-                ->setSubject(subject: 'Demande n°' . $i + 1)
+                ->setSubject(subject: 'Demande n°' . ++$i)
                 ->setMessage(message: $faker->text())
                 ->setIsReplied(isReplied: $faker->boolean())
             ;

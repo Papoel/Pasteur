@@ -6,6 +6,7 @@ namespace App\Controller\Contact;
 
 use App\Entity\Contact\Contact;
 use App\Form\ContactFormType;
+use App\Repository\User\UserRepository;
 use App\Services\MailService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,14 +21,19 @@ class ContactController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
         MailService $mailService,
+        UserRepository $userRepository,
     ): Response {
 
         $contact = new Contact();
+        $userName = $userRepository->find($this->getUser())
+            ->getFullName();
+        $userEmail = $userRepository->find($this->getUser())
+            ->getEmail();
 
         // Renseigné les informations de l'utilisateur connecté dans le formulaire
         if ($this->getUser()) {
-            $contact->setFullName($this->getUser()->getFullName());
-            $contact->setEmail($this->getUser()->getEmail());
+            $contact->setFullName($userName);
+            $contact->setEmail($userEmail);
         }
 
         $form = $this->createForm(type: ContactFormType::class, data: $contact);
@@ -40,11 +46,11 @@ class ContactController extends AbstractController
 
             if ($this->getUser()) {
                 if (
-                    $contact->getEmail() !== $this->getUser()->getEmail() ||
-                    $contact->getFullName() !== $this->getUser()->getFullName()
+                    $contact->getEmail() !== $userEmail ||
+                    $contact->getFullName() !== $userName
                 ) {
-                    $contact->setEmail($this->getUser()->getEmail());
-                    $contact->setFullName($this->getUser()->getFullName());
+                    $contact->setEmail($userEmail);
+                    $contact->setFullName($userName);
                 }
             }
 

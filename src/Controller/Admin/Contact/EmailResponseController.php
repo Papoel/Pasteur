@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Contact;
 
+use App\Entity\User\User;
 use App\Form\ResponseEmailFormType;
 use App\Repository\Contact\ContactRepository;
+use App\Repository\User\UserRepository;
 use App\Services\MailService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,11 +22,12 @@ class EmailResponseController extends AbstractController
         Request $request,
         ContactRepository $contactRepository,
         EntityManagerInterface $entityManager,
+        UserRepository $userRepository,
         MailService $mailService,
     ): Response {
 
         // Récupérer l'id du message à répondre
-        $queryString = $request->getQueryString('entityId');
+        $queryString = $request->getQueryString();
         // Récupérer uniquement l'id'
         parse_str(string: $queryString, result: $params);
         // Transformer la valeur en entier
@@ -38,8 +41,7 @@ class EmailResponseController extends AbstractController
         // Récupération des données du formulaire
         $form->handleRequest(request: $request);
 
-        // current user
-        $user = $this->getUser()->getFullName();
+        $user = $userRepository->find($this->getUser())->getFullName();
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Récupérer le message de réponse

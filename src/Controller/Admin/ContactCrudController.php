@@ -156,7 +156,7 @@ class ContactCrudController extends AbstractCrudController
     // responseToEmail open new page with form to send email
     public function responseToEmail(Request $request): Response
     {
-        $queryString = $request->getQueryString('entityId');
+        $queryString = $request->getQueryString();
 
         parse_str(string: $queryString, result: $params);
         $entityId = $params['entityId'];
