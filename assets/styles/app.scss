@@ -15,11 +15,13 @@ table, caption, tbody, tfoot, thead, tr, th, td,
 article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
+time, mark, audio, video
+{
     margin: 0;
     padding: 0;
     font: inherit;
     vertical-align: baseline;
+}
 
 @layer components {
     .text-purple-degrade {
@@ -33,5 +35,5 @@ time, mark, audio, video {
     .border-degrade {
         @apply  hover:border-indigo-600 hover:border-l-4 hover:transition hover:duration-700 ease-in-out;
     }
-}
+
 }
