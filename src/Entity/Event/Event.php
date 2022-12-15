@@ -54,14 +54,14 @@ class Event
     )]
     private string $location;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 4, scale: 2, nullable: true)]
+    #[ORM\Column(type: Types::INTEGER, precision: 4, scale: 2, nullable: true)]
     #[Assert\GreaterThanOrEqual(0)]
     #[Assert\LessThan(
         100,
         message: 'Le prix ne doit pas dépasser {{ value }} €'
     )
     ]
-    private ?string $price = null;
+    private ?int $price = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
     #[Assert\NotBlank]
@@ -298,12 +298,12 @@ class Event
         return (0 == $this->getPrice()) || is_null($this->getPrice());
     }
 
-    public function getPrice(): ?string
+    public function getPrice(): ?int
     {
         return $this->price;
     }
 
-    public function setPrice(?float $price): self
+    public function setPrice(?int $price): self
     {
         $this->price = $price;
 

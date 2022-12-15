@@ -41,7 +41,10 @@ class AppExtension extends AbstractExtension
 
     public function formatPrice(Event $event): string
     {
-        return $event->isFree() ? 'Gratuit' : $event->getPrice() . ' €';
+        $price = $event->getPrice() / 100;
+        $price = number_format($price, 2);
+
+        return $event->isFree() ? 'Gratuit' : $price  . ' €';
     }
 
     /**
