@@ -92,10 +92,10 @@ Ajouter dans Entity User:
     </p>
   </div>
 
-- [ ] Ajouter une option consulter les messages.
-- [ ] Ajouter une option pour répondre aux messages.
-
-## Phrase d'accroche pour homepage :
-- [ ] "Ensemble, nous pouvons faire la différence en soutenant les événements organisés par l'école et en offrant une expérience enrichissante pour nos enfants."
+- [X] Ajouter une option consulter les messages.
+- [X] Ajouter une option pour répondre aux messages.
 
 ## Modifier le type de price => float to integer et donner les prix en centimes
+
+Tests :
+  - Rendre conditionnel l'affichage des cartes dans le footer (sinon erreur si pas de rôle correspondant)
