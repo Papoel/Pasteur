@@ -25,10 +25,12 @@ class ContactController extends AbstractController
     ): Response {
 
         $contact = new Contact();
-        $userName = $userRepository->find($this->getUser())
-            ->getFullName();
-        $userEmail = $userRepository->find($this->getUser())
-            ->getEmail();
+        if ($this->getUser()) {
+            $userName = $userRepository->find($this->getUser())
+                ->getFullName();
+            $userEmail = $userRepository->find($this->getUser())
+                ->getEmail();
+        }
 
         // Renseigné les informations de l'utilisateur connecté dans le formulaire
         if ($this->getUser()) {

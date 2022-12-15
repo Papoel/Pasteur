@@ -19,7 +19,8 @@ class AdminPasswordHashSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @return array<string, array<string, int>>
+     * @return array<string, array<int, string>>
+     *
      */
     public static function getSubscribedEvents(): array
     {

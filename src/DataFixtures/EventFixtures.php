@@ -42,7 +42,7 @@ class EventFixtures extends Fixture
             $event->setName(name: $faker->sentence(nbWords: 3, variableNbWords: true));
             $event->setDescription(description: $faker->paragraph(nbSentences: 3, variableNbSentences: true));
             $event->setLocation(location: $faker->city());
-            $event->setPrice(price: $faker->randomFloat(nbMaxDecimals: 2, min: 0, max: 50));
+            $event->setPrice(price: $faker->numberBetween(int1: 0, int2: 9999));
             $randomStatus = random_int(min: 0, max: 3);
             $event->setStatus(Event::STATUS[$randomStatus]);
             $event->setCapacity(capacity: $faker->numberBetween(10, 100));

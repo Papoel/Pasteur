@@ -334,7 +334,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->birthday;
     }
 
-    public function setBirthday(\DateTimeImmutable $birthday): self
+    public function setBirthday(?\DateTimeImmutable $birthday): self
     {
         $this->birthday = $birthday;
 

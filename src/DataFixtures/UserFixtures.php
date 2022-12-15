@@ -18,29 +18,123 @@ class UserFixtures extends Fixture
     {
         $faker = Factory::create();
         $users = [];
-        $userAdmin = new User();
+        $userPresident = new User();
 
-        $userAdmin->setFirstname(firstname: 'Bruce');
-        $userAdmin->setLastname(lastname: 'Wayne');
-        $userAdmin->setPseudo(pseudo: 'Batman');
-        $userAdmin->setEmail(
+        $userPresident->setFirstname(firstname: 'Aude');
+        $userPresident->setLastname(lastname: 'Lamy');
+        $userPresident->setPseudo(pseudo: 'Nounou');
+        $userPresident->setEmail(
             email: strtolower(
-                string: $userAdmin->getFirstname() . '.' . $userAdmin->getLastname()
+                string: $userPresident->getFirstname() . '.' . $userPresident->getLastname()
             ) .
-            '@admin.fr'
+            '@aperp.fr'
         );
-        $userAdmin->setRoles(['ROLE_PRESIDENT']);
-        $hash = $this->passwordHasher->hashPassword($userAdmin, plainPassword: 'Password1234!');
-        $userAdmin->setPassword($hash);
-        $userAdmin->setCreatedAt(createdAt: new \DateTimeImmutable(datetime: '2015/11/28'));
-        $userAdmin->setTelephone(telephone: '0123456789');
-        $userAdmin->setAddress(address: '15 rue du Pingouin');
-        $userAdmin->setPostalCode(postalCode: '59600');
-        $userAdmin->setTown(town: 'Maubeuge');
-        $userAdmin->setBirthday(birthday: new \DateTimeImmutable(datetime: '1985/02/20'));
+        $userPresident->setRoles(['ROLE_PRESIDENT']);
+        $hash = $this->passwordHasher->hashPassword($userPresident, plainPassword: 'Password1234!');
+        $userPresident->setPassword($hash);
+        $userPresident->setCreatedAt(createdAt: new \DateTimeImmutable(datetime: '2015/11/28'));
+        $userPresident->setTelephone(telephone: '0123456789');
+        $userPresident->setAddress(address: '15 rue du Pingouin');
+        $userPresident->setPostalCode(postalCode: '59600');
+        $userPresident->setTown(town: 'Maubeuge');
+        $userPresident->setBirthday(birthday: new \DateTimeImmutable(datetime: '1986/01/10'));
 
-        $manager->persist($userAdmin);
-        $users[] = $userAdmin;
+        $manager->persist($userPresident);
+        $users[] = $userPresident;
+
+        // ############################################## ADMINISTRATEUR ##############################################
+        $userAdministrateur = new User();
+
+        $userAdministrateur->setFirstname(firstname: 'Pascal');
+        $userAdministrateur->setLastname(lastname: 'Briffard');
+        $userAdministrateur->setPseudo(pseudo: 'Papoel');
+        $userAdministrateur->setEmail(
+            email: strtolower(
+                string: $userAdministrateur->getFirstname() . '.' . $userAdministrateur->getLastname()
+            ) .
+            '@aperp.fr'
+        );
+        $userAdministrateur->setRoles(['ROLE_ADMIN']);
+        $hash = $this->passwordHasher->hashPassword($userAdministrateur, plainPassword: 'Password1234!');
+        $userAdministrateur->setPassword($hash);
+        $userAdministrateur->setCreatedAt(createdAt: new \DateTimeImmutable(datetime: '2022/11/14'));
+        $fixed = '06';
+        $number = $fixed . random_int(10000000, 99999999);
+        $userAdministrateur->setTelephone(telephone: $number);
+        $userAdministrateur->setAddress(address: '12 res Kennedy rue des Roquelles');
+        $userAdministrateur->setPostalCode(postalCode: '59460');
+        $userAdministrateur->setTown(town: 'Jeumont');
+        $userAdministrateur->setBirthday(birthday: new \DateTimeImmutable(datetime: '1985/02/20'));
+
+        $manager->persist($userAdministrateur);
+        $users[] = $userAdministrateur;
+
+        // ############################################## TRESORIER ##############################################
+        $userTresorier = new User();
+
+        $userTresorier->setFirstname(firstname: $faker->firstName());
+        $userTresorier->setLastname(lastname: $faker->lastName());
+        $userTresorier->setEmail(
+            email: strtolower(
+                string: $userTresorier->getFirstname() . '.' . $userTresorier->getLastname()
+            ) .
+            '@aperp.fr'
+        );
+        $userTresorier->setRoles(['ROLE_TRESORIER']);
+        $hash = $this->passwordHasher->hashPassword($userTresorier, plainPassword: 'Password1234!');
+        $userTresorier->setPassword($hash);
+
+        $date = $faker->dateTimeBetween(startDate: '-3 years');
+        $immutable = \DateTimeImmutable::createFromMutable($date);
+        $userTresorier->setCreatedAt($immutable);
+
+        $fixed = '06';
+        $number = $fixed . random_int(10000000, 99999999);
+        $userTresorier->setTelephone(telephone: $number);
+        $userTresorier->setAddress(address: $faker->streetAddress());
+        $userTresorier->setPostalCode(postalCode: $faker->numberBetween(int1: 10000, int2: 85500));
+        $userTresorier->setTown(town: $faker->city());
+
+        $date = $faker->dateTimeBetween(startDate: '-40 years', endDate: '-15 years');
+        $immutable = \DateTimeImmutable::createFromMutable($date);
+        $userTresorier->setBirthday($immutable);
+
+        $manager->persist($userTresorier);
+        $users[] = $userTresorier;
+
+        // ############################################## SECRETAIRE ##############################################
+        $userSecretaire = new User();
+
+        $userSecretaire->setFirstname(firstname: $faker->firstName());
+        $userSecretaire->setLastname(lastname: $faker->lastName());
+        $userSecretaire->setEmail(
+            email: strtolower(
+                string: $userSecretaire->getFirstname() . '.' . $userSecretaire->getLastname()
+            ) .
+            '@aperp.fr'
+        );
+        $userSecretaire->setRoles(['ROLE_SECRETAIRE']);
+        $hash = $this->passwordHasher->hashPassword($userSecretaire, plainPassword: 'Password1234!');
+        $userSecretaire->setPassword($hash);
+
+        $date = $faker->dateTimeBetween(startDate: '-3 years');
+        $immutable = \DateTimeImmutable::createFromMutable($date);
+        $userSecretaire->setCreatedAt($immutable);
+
+        $fixed = '06';
+        $number = $fixed . random_int(10000000, 99999999);
+        $userSecretaire->setTelephone(telephone: $number);
+        $userSecretaire->setAddress(address: $faker->streetAddress());
+        $userSecretaire->setPostalCode(postalCode: $faker->numberBetween(int1: 10000, int2: 85500));
+        $userSecretaire->setTown(town: $faker->city());
+
+        $date = $faker->dateTimeBetween(startDate: '-40 years', endDate: '-15 years');
+        $immutable = \DateTimeImmutable::createFromMutable($date);
+        $userSecretaire->setBirthday($immutable);
+
+        $manager->persist($userSecretaire);
+        $users[] = $userSecretaire;
+
 
         for ($newUser = 1; $newUser <= 3; ++$newUser) {
             $user = new User();
