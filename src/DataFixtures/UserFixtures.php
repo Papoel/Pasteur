@@ -42,7 +42,7 @@ class UserFixtures extends Fixture
         $manager->persist($userPresident);
         $users[] = $userPresident;
 
-        // ############################################## ADMINISTRATEUR ##############################################
+        // ############################################## WEBMASTER ##############################################
         $userAdministrateur = new User();
 
         $userAdministrateur->setFirstname(firstname: 'Pascal');
@@ -54,7 +54,7 @@ class UserFixtures extends Fixture
             ) .
             '@aperp.fr'
         );
-        $userAdministrateur->setRoles(['ROLE_ADMIN']);
+        $userAdministrateur->setRoles(['ROLE_WEBMASTER']);
         $hash = $this->passwordHasher->hashPassword($userAdministrateur, plainPassword: 'Password1234!');
         $userAdministrateur->setPassword($hash);
         $userAdministrateur->setCreatedAt(createdAt: new \DateTimeImmutable(datetime: '2022/11/14'));
@@ -152,7 +152,7 @@ class UserFixtures extends Fixture
             $hash = $this->passwordHasher->hashPassword($user, plainPassword: 'Password1234!');
             $user->setPassword($hash);
 
-            $date = $faker->dateTimeBetween(startDate: '-3 years', endDate: 'now');
+            $date = $faker->dateTimeBetween(startDate: '-3 years');
             $immutable = \DateTimeImmutable::createFromMutable($date);
             $user->setCreatedAt($immutable);
 

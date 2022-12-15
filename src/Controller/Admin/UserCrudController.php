@@ -80,7 +80,7 @@ class UserCrudController extends AbstractCrudController
                 'PRESIDENT' => 'ROLE_PRESIDENT',
                 'SECRETAIRE' => 'ROLE_SECRETAIRE',
                 'TRESORIER' => 'ROLE_TRESORIER',
-                'WEBMASTER' => 'ROLE_ADMIN',
+                'WEBMASTER' => 'ROLE_WEBMASTER',
             ])
             ->allowMultipleChoices()
             ->renderAsBadges([
