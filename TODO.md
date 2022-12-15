@@ -98,4 +98,8 @@ Ajouter dans Entity User:
 ## Modifier le type de price => float to integer et donner les prix en centimes
 
 Tests :
-  - Rendre conditionnel l'affichage des cartes dans le footer (sinon erreur si pas de rôle correspondant)
+  - [X] Rendre conditionnel l'affichage des cartes dans le footer (sinon erreur si pas de rôle correspondant)
+  - [X] Pas de caractères spécial pour le mot de passe
+  - [] Inscription aux événements
+  - [] Ajouter un bouton publié pour gérer l'affichage des événements
+  - [] ?? Paiement en ligne des événements payant
