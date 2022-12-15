@@ -10,9 +10,46 @@
             {{ include("components/_flash-messages.html.twig") }}
         </div>
         <main>
-            <div class="mx-auto max-w-3xl pt-20 pb-32 sm:pt-48 sm:pb-40">
+            <div class="mx-auto max-w-3xl py-12 sm:pt-24 sm:pb-40">
                 <h1 class="text-purple-degrade text-4xl font-semibold uppercase text-center sm:text-6xl">Association des Parents d'Élèves</h1>
-                <p class="text-center mt-6 text-lg leading-8 text-gray-600 sm:text-center">École primaire Pasteur - Rousies</p>
+                <p class="text-center mt-6 text-lg leading-8 text-gray-600 sm:text-center animate-bounce">École primaire Pasteur - Rousies</p>
+
+                <div class="dark:bg-gray-900 bg-gradient-to-r from-indigo-200 via-purple-200 to-pink-200 rounded shadow-2xl">
+
+                    <div class="max-w-screen-xl px-4 py-8 mx-auto text-center lg:py-16 lg:px-6">
+                        <figure class="max-w-screen-md mx-auto">
+                            <svg class="h-12 mx-auto mb-3 text-purple-500 dark:text-gray-600" viewBox="0 0 24 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M14.017 18L14.017 10.609C14.017 4.905 17.748 1.039 23 0L23.995 2.151C21.563 3.068 20 5.789 20 8H24V18H14.017ZM0 18V10.609C0 4.905 3.748 1.038 9 0L9.996 2.151C7.563 3.068 6 5.789 6 8H9.983L9.983 18L0 18Z" fill="currentColor"/>
+                            </svg>
+                            <blockquote>
+                                <p class="lead text-xl text-left text-gray-700 dark:text-white">
+                                    <span class="block pb-4">
+                                        Nous sommes une association de parents d'élèves qui travaillons en étroite
+                                        collaboration avec l'école pour améliorer les conditions d'apprentissage
+                                        de nos enfants.
+                                    </span>
+
+                                    <span class="block pb-4">
+                                        Nous organisons régulièrement des réunions pour discuter de sujets importants
+                                        et préparer des événements pour les élèves et les parents.
+                                    </span>
+
+                                    <span class="block">
+                                        Si vous souhaitez en savoir plus sur notre association ou si vous souhaitez
+                                        vous impliquer, n'hésitez pas à nous contacter via la page de
+                                        <a href="{{ path('app_contact') }}">contact</a> ou à vous rendre à une de nos réunions ouvertes à tous.
+                                    </span>
+                                </p>
+                            </blockquote>
+                        </figure>
+                    </div>
+                </div>
+
+                <p class="text-center mt-6 text-lg text-gray-600 sm:text-center">
+
+                </p>
+
+
                 <div class="mt-8 flex gap-x-4 justify-center">
                     <a href="{{ path('app_events') }}" class="inline-block  shadow-sm btn-purple-degrade">
                         Nos prochains événements
