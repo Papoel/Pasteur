@@ -89,7 +89,7 @@ class ContactCrudController extends AbstractCrudController
             ;
         }
 
-        yield TextareaField::new(propertyName: 'response',label: 'La réponse de l\'APE :')
+        yield TextareaField::new(propertyName: 'response', label: 'La réponse de l\'APE :')
             ->onlyOnDetail();
     }
 
