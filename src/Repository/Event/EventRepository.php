@@ -39,34 +39,45 @@ class EventRepository extends ServiceEntityRepository
         }
     }
 
-    public function findUpcoming()
+    public function findUpcoming(): array
     {
-        $qb = $this->createQueryBuilder('events')
+        $qb = $this->createQueryBuilder(alias: 'events')
             ->andWhere('events.startsAt > :now')
-            ->setParameter(':now', new \DateTime())
-            ->orderBy('events.startsAt', 'ASC');
+            ->setParameter(key: ':now', value: new \DateTime())
+            ->orderBy(sort: 'events.startsAt', order: 'ASC');
 
         return $qb->getQuery()->getResult();
     }
 
     // query for select creneaux from event
-    public function findCreneaux(Event $event)
+    public function findCreneaux(Event $event): Event
     {
-        $qb = $this->createQueryBuilder('events')
+        $qb = $this->createQueryBuilder(alias: 'events')
             ->andWhere('events.slug = :event')
-            ->setParameter(':event', $event->getSlug())
-            ->orderBy('events.startsAt', 'ASC');
+            ->setParameter(key: ':event', value: $event->getSlug())
+            ->orderBy(sort: 'events.startsAt', order: 'ASC');
 
         return $qb->getQuery()->getResult();
     }
 
-    public function countNotPastEvents()
+    public function countNotPastEvents(): int
     {
-        $qb = $this->createQueryBuilder('events')
+        $query = $this->createQueryBuilder(alias: 'events')
             ->select(select: 'COUNT(events)')
             ->andWhere('events.startsAt > :now')
             ->setParameter(key: ':now', value: new \DateTime());
 
-        return $qb->getQuery()->getSingleScalarResult();
+        return $query->getQuery()->getSingleScalarResult();
     }
+
+    public function countPublishedEvents(): int
+    {
+        $query = $this->createQueryBuilder(alias: 'e')
+            ->select(select: 'count(e.id)')
+            ->andWhere('e.published = true')
+            ->getQuery();
+
+        return $query->getSingleScalarResult();
+    }
+
 }

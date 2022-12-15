@@ -14,8 +14,12 @@ class EventsController extends AbstractController
     public function index(EventRepository $eventRepository): Response
     {
         $events = $eventRepository->findUpcoming();
+        $eventsPublished = $eventRepository->countPublishedEvents();
 
-        return $this->render(view: 'events/index.html.twig', parameters: compact(var_name: 'events'));
+        return $this->render(view: 'events/index.html.twig', parameters: [
+            'events' => $events,
+            'eventsPublished' => $eventsPublished
+        ]);
     }
 
     #[Route('/evenement/{slug}', name: 'app_event_show')]

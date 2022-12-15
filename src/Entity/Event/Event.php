@@ -87,6 +87,9 @@ class Event
     #[ORM\Column(nullable: true)]
     private ?bool $helpNeeded = null;
 
+    #[ORM\Column]
+    private bool $published = false;
+
     #[UploadableField(mapping: 'event_image', fileNameProperty: 'imageName')]
     private ?File $imageFile = null;
 
@@ -241,6 +244,18 @@ class Event
     public function setHelpNeeded(?bool $helpNeeded): self
     {
         $this->helpNeeded = $helpNeeded;
+
+        return $this;
+    }
+
+    public function isPublished(): bool
+    {
+        return $this->published;
+    }
+
+    public function setPublished(bool $published): self
+    {
+        $this->published = $published;
 
         return $this;
     }
