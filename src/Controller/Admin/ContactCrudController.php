@@ -88,6 +88,9 @@ class ContactCrudController extends AbstractCrudController
                 ->hideOnForm()
             ;
         }
+
+        yield TextareaField::new(propertyName: 'response',label: 'La réponse de l\'APE :')
+            ->onlyOnDetail();
     }
 
     public function configureActions(Actions $actions): Actions
