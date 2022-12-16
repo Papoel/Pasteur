@@ -100,6 +100,7 @@ Ajouter dans Entity User:
 Tests :
   - [X] Rendre conditionnel l'affichage des cartes dans le footer (sinon erreur si pas de rôle correspondant)
   - [X] Pas de caractères spécial pour le mot de passe
+  - [x] Ajouter un bouton publié pour gérer l'affichage des événements
+  - [x] Template si aucun event n'est publié
   - [] Inscription aux événements
-  - [] Ajouter un bouton publié pour gérer l'affichage des événements
   - [] ?? Paiement en ligne des événements payant

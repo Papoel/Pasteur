@@ -79,5 +79,4 @@ class EventRepository extends ServiceEntityRepository
 
         return $query->getSingleScalarResult();
     }
-
 }
