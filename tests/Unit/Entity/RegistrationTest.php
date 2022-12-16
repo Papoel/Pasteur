@@ -2,16 +2,16 @@
 
 namespace App\Tests\Unit\Entity;
 
-use App\Entity\Event\Registration;
+use App\Entity\Event\RegistrationHelp;
 use App\Repository\Event\EventRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class RegistrationTest extends KernelTestCase
 {
-    public function getEntityRegistration(): Registration
+    public function getEntityRegistration(): RegistrationHelp
     {
-        $registration = new Registration();
+        $registration = new RegistrationHelp();
         $registration->setName(name: 'El Batman !');
         $registration->setEmail(email: 'batman@gotham.city');
         $phone = '0123456789';
@@ -23,7 +23,7 @@ class RegistrationTest extends KernelTestCase
         return $registration;
     }
 
-    public function assertValidationErrorsCount(Registration $entity, int $count): void
+    public function assertValidationErrorsCount(RegistrationHelp $entity, int $count): void
     {
         $validator = static::getContainer()->get(ValidatorInterface::class);
         $violations = $validator->validate($entity);

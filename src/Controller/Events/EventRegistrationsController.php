@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Events;
 
 use App\Entity\Event\Event;
-use App\Entity\Event\Registration;
+use App\Entity\Event\RegistrationHelp;
 use App\Form\RegistrationHelpFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,7 +22,7 @@ class EventRegistrationsController extends AbstractController
     )]
     public function create(Event $event, Request $request, EntityManagerInterface $em): Response
     {
-        $registration = new Registration();
+        $registration = new RegistrationHelp();
         $event_creneaux = $event->getCreneaux()->toArray();
 
         $form = $this->createForm(type: RegistrationHelpFormType::class, data: $registration, options: [
@@ -39,7 +39,7 @@ class EventRegistrationsController extends AbstractController
             $email = $registration->getEmail();
             // 2. Je récupère toutes les inscriptions de l'aidant à l'événement
             $existingRegistration = $em->getRepository(
-                entityName: Registration::class
+                entityName: RegistrationHelp::class
             )->findBy(
                 ['email' => $email, 'event' => $event, 'activity' => $form->getData()->getActivity()]
             );

@@ -2,13 +2,13 @@
 
 namespace App\Entity\Event;
 
-use App\Repository\Event\RegistrationRepository;
+use App\Repository\Event\RegistrationHelpRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: RegistrationRepository::class)]
-class Registration
+#[ORM\Entity(repositoryClass: RegistrationHelpRepository::class)]
+class RegistrationHelp
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

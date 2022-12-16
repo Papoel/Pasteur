@@ -3,26 +3,26 @@
 namespace App\Repository\Event;
 
 use App\Entity\Event\Event;
-use App\Entity\Event\Registration;
+use App\Entity\Event\RegistrationHelp;;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Registration>
+ * @extends ServiceEntityRepository<RegistrationHelp>
  *
- * @method Registration|null find($id, $lockMode = null, $lockVersion = null)
- * @method Registration|null findOneBy(array $criteria, array $orderBy = null)
- * @method Registration[]    findAll()
- * @method Registration[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method RegistrationHelp|null find($id, $lockMode = null, $lockVersion = null)
+ * @method RegistrationHelp|null findOneBy(array $criteria, array $orderBy = null)
+ * @method RegistrationHelp[]    findAll()
+ * @method RegistrationHelp[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class RegistrationRepository extends ServiceEntityRepository
+class RegistrationHelpRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Registration::class);
+        parent::__construct($registry, RegistrationHelp::class);
     }
 
-    public function save(Registration $entity, bool $flush = false): void
+    public function save(RegistrationHelp $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -31,7 +31,7 @@ class RegistrationRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Registration $entity, bool $flush = false): void
+    public function remove(RegistrationHelp $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 

@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Event\Registration;
+use App\Entity\Event\RegistrationHelp;
 use App\Repository\Event\EventRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -128,7 +128,7 @@ class RegistrationHelpFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Registration::class,
+            'data_class' => RegistrationHelp::class,
             'event_creneaux' => [],
         ]);
         $resolver->setAllowedTypes(option: 'event_creneaux', allowedTypes: 'array');

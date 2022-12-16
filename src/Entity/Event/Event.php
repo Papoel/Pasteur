@@ -96,7 +96,7 @@ class Event
     #[ORM\Column(type: 'string', nullable: true, options: ['default' => 'event.jpeg'])]
     private ?string $imageName = 'event.jpeg';
 
-    #[ORM\OneToMany(mappedBy: 'event', targetEntity: Registration::class)]
+    #[ORM\OneToMany(mappedBy: 'event', targetEntity: RegistrationHelp::class)]
     private Collection $registrations;
 
     #[ORM\Column(type: 'datetime_immutable')]

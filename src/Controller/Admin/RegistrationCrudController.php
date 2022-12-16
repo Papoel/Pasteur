@@ -3,9 +3,9 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Event\Event;
-use App\Entity\Event\Registration;
+use App\Entity\Event\RegistrationHelp;
 use App\Repository\Event\EventRepository;
-use App\Repository\Event\RegistrationRepository;
+use App\Repository\Event\RegistrationHelpRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -26,13 +26,13 @@ class RegistrationCrudController extends AbstractCrudController
 {
     public function __construct(
         private EventRepository $eventRepository,
-        private RegistrationRepository $registrationRepository
+        private RegistrationHelpRepository $registrationHelpRepository
     ) {
     }
 
     public static function getEntityFqcn(): string
     {
-        return Registration::class;
+        return RegistrationHelp::class;
     }
     public function configureCrud(Crud $crud): Crud
     {
@@ -108,7 +108,7 @@ class RegistrationCrudController extends AbstractCrudController
     // TODO : Charger les créneaux horaire disponible par event
     public function loadCreneauxForEvent(Request $request): Response
     {
-        dd($request);
+        //dd($request);
 
         return $this->forward(controller: 'App\Controller\Admin\Event\loadCreneauxByEvent::index');
         // return $this->redirectToRoute(route: 'app_response_message');
