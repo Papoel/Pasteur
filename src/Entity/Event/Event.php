@@ -25,6 +25,7 @@ use Vich\UploaderBundle\Mapping\Annotation\UploadableField;
 class Event
 {
     public const STATUS = ['IDEE', 'APPROUVE', 'REFUSE', 'ANNULE'];
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -96,9 +97,6 @@ class Event
     #[ORM\Column(type: 'string', nullable: true, options: ['default' => 'event.jpeg'])]
     private ?string $imageName = 'event.jpeg';
 
-    #[ORM\OneToMany(mappedBy: 'event', targetEntity: RegistrationHelp::class)]
-    private Collection $registrations;
-
     #[ORM\Column(type: 'datetime_immutable')]
     private ?\DateTimeImmutable $createdAt = null;
 
@@ -108,6 +106,9 @@ class Event
     #[ORM\ManyToMany(targetEntity: Creneau::class, inversedBy: 'events')]
     #[ORM\JoinTable(name: 'event_creneau')]
     private Collection $creneaux;
+
+    #[ORM\OneToMany(mappedBy: 'event', targetEntity: RegistrationHelp::class)]
+    private Collection $registrations;
 
     #[ORM\OneToMany(mappedBy: 'event', targetEntity: RegistrationEvent::class)]
     private Collection $registrationEvents;
@@ -334,7 +335,7 @@ class Event
         return $this->registrations;
     }
 
-    public function addRegistration(Registration $registration): self
+    public function addRegistration(RegistrationHelp $registration): self
     {
         if (!$this->registrations->contains($registration)) {
             $this->registrations->add($registration);
@@ -344,7 +345,7 @@ class Event
         return $this;
     }
 
-    public function removeRegistration(Registration $registration): self
+    public function removeRegistration(RegistrationHelp $registration): self
     {
         if ($this->registrations->removeElement($registration)) {
             // set the owning side to null (unless already changed)

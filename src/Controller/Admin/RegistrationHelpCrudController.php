@@ -22,7 +22,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class RegistrationCrudController extends AbstractCrudController
+class RegistrationHelpCrudController extends AbstractCrudController
 {
     public function __construct(
         private EventRepository $eventRepository,
