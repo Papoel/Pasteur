@@ -102,5 +102,16 @@ Tests :
   - [X] Pas de caractères spécial pour le mot de passe
   - [x] Ajouter un bouton publié pour gérer l'affichage des événements
   - [x] Template si aucun event n'est publié
-  - [] Inscription aux événements
-  - [] ?? Paiement en ligne des événements payant
+  - [x] Renommer registration en registrationHelp et faire toutes les modifs
+  - [ ] Afficher pour l'admin la liste des inscrits à chaque event
+  - [ ] Creer Entity Registraton Event
+    - firstname
+    - lastname
+    - email
+    - quantity
+    - childrens (tableau de x quantity)
+      - firstname
+      - lastname
+      - classroom
+  - [ ] Inscription aux événements
+  - [ ] ?? Paiement en ligne des événements payant
