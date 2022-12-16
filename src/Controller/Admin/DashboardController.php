@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Contact\Contact;
 use App\Entity\Event\Event;
+use App\Entity\Event\RegistrationEvent;
 use App\Entity\User\User;
 use App\Repository\Contact\ContactRepository;
 use App\Repository\Event\EventRepository;
@@ -77,12 +78,14 @@ class DashboardController extends AbstractDashboardController
                 ->setAction(actionName: Crud::PAGE_NEW),
         ]);
 
-        /*yield MenuItem::section(label: 'Inscriptions', icon: 'fas fa-calendar-check');
-        yield MenuItem::subMenu(label: 'Action', icon: 'fas fa-bars')->setSubItems(subItems: [
-            MenuItem::linkToCrud(label: 'Voir les inscriptions', icon: 'fas fa-eye', entityFqcn: Registration::class),
-            MenuItem::linkToCrud(label: 'Ajouter une inscription', icon: 'fas fa-plus', entityFqcn: Registration::class)
-                ->setAction(actionName: Crud::PAGE_NEW),
-        ]);*/
+        yield MenuItem::section(label: 'Inscriptions', icon: 'fas fa-calendar-check');
+        yield MenuItem::subMenu(label: 'Action', icon: 'fas fa-bars')
+            ->setSubItems(subItems: [
+                MenuItem::linkToCrud(label: 'Voir les inscriptions', icon: 'fas fa-eye', entityFqcn: RegistrationEvent::class),
+                MenuItem::linkToCrud(label: 'Ajouter une inscription', icon: 'fas fa-plus', entityFqcn: RegistrationEvent::class)
+                    ->setAction(actionName: Crud::PAGE_NEW),
+            ])
+        ;
 
         $totalMessages = $this->contactRepository->count(['isReplied' => false]);
         yield MenuItem::section(label: 'Messages', icon: 'fas fa-envelope')
