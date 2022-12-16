@@ -109,6 +109,9 @@ class Event
     #[ORM\JoinTable(name: 'event_creneau')]
     private Collection $creneaux;
 
+    #[ORM\OneToMany(mappedBy: 'event', targetEntity: RegistrationEvent::class)]
+    private Collection $registrationEvents;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -116,6 +119,7 @@ class Event
 
         $this->registrations = new ArrayCollection();
         $this->creneaux = new ArrayCollection();
+        $this->registrationEvents = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -372,6 +376,36 @@ class Event
     public function removeCreneaux(Creneau $creneaux): self
     {
         $this->creneaux->removeElement($creneaux);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RegistrationEvent>
+     */
+    public function getRegistrationEvents(): Collection
+    {
+        return $this->registrationEvents;
+    }
+
+    public function addRegistrationEvent(RegistrationEvent $registrationEvent): self
+    {
+        if (!$this->registrationEvents->contains($registrationEvent)) {
+            $this->registrationEvents->add($registrationEvent);
+            $registrationEvent->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRegistrationEvent(RegistrationEvent $registrationEvent): self
+    {
+        if ($this->registrationEvents->removeElement($registrationEvent)) {
+            // set the owning side to null (unless already changed)
+            if ($registrationEvent->getEvent() === $this) {
+                $registrationEvent->setEvent(null);
+            }
+        }
 
         return $this;
     }
