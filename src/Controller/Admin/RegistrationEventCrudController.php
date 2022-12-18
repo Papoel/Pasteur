@@ -3,9 +3,13 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Event\RegistrationEvent;
+use App\Form\ChildrenFormType;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -19,25 +23,65 @@ class RegistrationEventCrudController extends AbstractCrudController
         return RegistrationEvent::class;
     }
 
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setDateTimeFormat(
+                dateFormatOrPattern: dateTimeField::FORMAT_LONG,
+                timeFormat: dateTimeField::FORMAT_SHORT
+            )
+
+            ->setPageTitle(
+                pageName: 'detail',
+                title: fn (RegistrationEvent $registrationEvent) => 'Inscription - ' .$registrationEvent
+                        ->getEvent()
+                        ->getName()
+            )
+
+            ->setFormOptions([
+                'validation_groups' => ['Default']
+            ])
+
+        ;
+        return Crud::new();
+
+    }
+
+    public function configureActions(Actions $actions): Actions
+    {
+        return $actions
+            ->add(pageName: Crud::PAGE_INDEX, actionNameOrObject: 'detail');
+    }
+
 
     public function configureFields(string $pageName): iterable
     {
         yield IdField::new(propertyName: 'id')
             ->onlyOnIndex()
         ;
-        yield TextField::new(propertyName: 'firstname');
-        yield TextField::new(propertyName: 'lastname');
-        yield EmailField::new(propertyName: 'email');
-        yield TelephoneField::new(propertyName: 'telephone');
-        yield AssociationField::new(propertyName: 'event', label: 'Événement');
+        yield TextField::new(propertyName: 'firstname', label: 'Prénom');
+
+        yield TextField::new(propertyName: 'lastname', label: 'Nom');
+
+        yield EmailField::new(propertyName: 'email',label: 'Email');
+
+        yield TelephoneField::new(propertyName: 'telephone', label: 'Téléphone');
+
+        yield AssociationField::new(propertyName: 'event', label: 'Événement')
+            ->setCrudController(crudControllerFqcn: EventCrudController::class)
+        ;
+
         yield FormField::addPanel(label: 'Inscrire des enfants')
             ->collapsible()
             ->setIcon(iconCssClass: 'fa fa-info')
-            ->setHelp(help: 'Ajouter des enfants');
+            ->setHelp(help: 'Ajouter des enfants')
         ;
-        yield ArrayField::new('children');
 
+        yield CollectionField::new(propertyName: 'children', label: 'Enfants inscrits')
+            ->setEntryIsComplex(isComplex: true)
+            ->setEntryType(formTypeFqcn: ChildrenFormType::class)
+            ->setTemplatePath(path: 'admin/registration/add_children.html.twig')
+        ;
 
     }
-
 }

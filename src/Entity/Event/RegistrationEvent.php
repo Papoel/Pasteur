@@ -117,7 +117,11 @@ class RegistrationEvent
 
     public function getChildren(): array
     {
-        return $this->children;
+        $children = $this->children;
+
+        $children[] = '';
+
+        return array();
     }
 
     public function setChildren(array $children): self
@@ -141,6 +145,7 @@ class RegistrationEvent
 
     public function getEvent(): ?Event
     {
+
         return $this->event;
     }
 

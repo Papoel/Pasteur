@@ -3,7 +3,9 @@
 namespace App\Repository\Event;
 
 use App\Entity\Event\Event;
-use App\Entity\Event\RegistrationHelp;;
+use App\Entity\Event\RegistrationHelp;
+
+;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
