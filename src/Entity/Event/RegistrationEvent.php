@@ -3,6 +3,8 @@
 namespace App\Entity\Event;
 
 use App\Repository\Event\RegistrationEventRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -51,16 +53,19 @@ class RegistrationEvent
     private ?string $telephone = null;
 
     #[ORM\Column]
-    #[Assert\NotNull]
-    #[Assert\NotBlank]
-    private array $children = [];
-
-    #[ORM\Column]
     private bool $Paid = false;
 
     #[ORM\ManyToOne(inversedBy: 'registrationEvents')]
     #[Assert\Valid]
     private Event $event;
+
+    #[ORM\OneToMany(mappedBy: 'registrationEvent', targetEntity: Children::class, cascade: ['persist', 'remove'])]
+    private Collection $children;
+
+    public function __construct()
+    {
+        $this->children = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -115,22 +120,6 @@ class RegistrationEvent
         return $this;
     }
 
-    public function getChildren(): array
-    {
-        $children = $this->children;
-
-        $children[] = '';
-
-        return array();
-    }
-
-    public function setChildren(array $children): self
-    {
-        $this->children = $children;
-
-        return $this;
-    }
-
     public function isPaid(): ?bool
     {
         return $this->Paid;
@@ -152,6 +141,36 @@ class RegistrationEvent
     public function setEvent(?Event $event): self
     {
         $this->event = $event;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Children>
+     */
+    public function getChildren(): Collection
+    {
+        return $this->children;
+    }
+
+    public function addChild(Children $child): self
+    {
+        if (!$this->children->contains($child)) {
+            $this->children->add($child);
+            $child->setRegistrationEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChild(Children $child): self
+    {
+        if ($this->children->removeElement($child)) {
+            // set the owning side to null (unless already changed)
+            if ($child->getRegistrationEvent() === $this) {
+                $child->setRegistrationEvent(null);
+            }
+        }
 
         return $this;
     }

@@ -4,11 +4,11 @@
 {# @var entity \EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto #}
 
 {% if ea.crud.currentAction == 'detail' %}
-    <ul class="list-group">
+    <ul class="list-group bg-none">
         {#{{ dump( field) }}#}
         {% for children in field.value  %}
-            <li class="list-group-item flex justify-content-between align-items-center">
-                <span class="d-flex flex-wrap">{{ children }}</span>
+            <li class="list-group-item">
+                <span class="">{{ children }}</span>
             </li>
         {% endfor %}
     </ul>
