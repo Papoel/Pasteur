@@ -98,7 +98,9 @@ class RegistrationEventCrudController extends AbstractCrudController
     {
         $slug = $entityInstance->getEvent()->getSlug();
 
-        if (!$entityInstance instanceof RegistrationEvent) return;
+        if (!$entityInstance instanceof RegistrationEvent) {
+            return;
+        }
 
         $entityInstance->setEvent($entityInstance->getEvent());
 
