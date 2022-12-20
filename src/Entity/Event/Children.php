@@ -4,6 +4,7 @@ namespace App\Entity\Event;
 
 use App\Repository\Event\ChildrenRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ChildrenRepository::class)]
 class Children
@@ -13,13 +14,31 @@ class Children
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 100)]
-    private ?string $firstname = null;
+    #[ORM\Column(length: 50)]
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 3,
+        max: 50,
+        minMessage: 'Le prénom doit faire plus de {{ limit }} caractères.',
+        maxMessage: 'Le prénom ne doit pas faire plus de {{ limit }} caractères.'
+    )]
+    private string $firstname;
 
-    #[ORM\Column(length: 100)]
-    private ?string $lastname = null;
+    #[ORM\Column(length: 50)]
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 2,
+        max: 50,
+        minMessage: 'Le nom doit faire plus de {{ limit }} caractères.',
+        maxMessage: 'Le nom ne doit pas faire plus de {{ limit }} caractères.'
+    )]
+    private string $lastname;
 
-    #[ORM\Column(length: 5, nullable: true)]
+    #[ORM\Column(length: 4, nullable: true)]
+    #[Assert\Length(
+        max: 4,
+        maxMessage: 'Veuillez entrer une classe au format CP, CE1, 4eme...'
+    )]
     private ?string $classroom = null;
 
     #[ORM\ManyToOne(cascade: ['persist', 'remove'] , inversedBy: 'children')]
@@ -35,7 +54,7 @@ class Children
         return $this->id;
     }
 
-    public function getFirstname(): ?string
+    public function getFirstname(): string
     {
         return $this->firstname;
     }
@@ -47,7 +66,7 @@ class Children
         return $this;
     }
 
-    public function getLastname(): ?string
+    public function getLastname(): string
     {
         return $this->lastname;
     }
