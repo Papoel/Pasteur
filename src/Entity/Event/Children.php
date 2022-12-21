@@ -37,12 +37,12 @@ class Children
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $classroom = null;
 
-    #[ORM\ManyToOne(cascade: ['persist', 'remove'] , inversedBy: 'children')]
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'], inversedBy: 'children')]
     private ?RegistrationEvent $registrationEvent = null;
 
     public function __toString(): string
     {
-       return $this->firstname .' '. $this->lastname .' ('. $this->classroom .')';
+        return $this->firstname . ' ' . $this->lastname . ' (' . $this->classroom . ')';
     }
 
     public function getId(): ?int

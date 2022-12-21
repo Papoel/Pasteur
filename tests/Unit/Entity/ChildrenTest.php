@@ -137,14 +137,14 @@ class ChildrenTest extends KernelTestCase
         $lgName = strlen($childrenLastname->getLastname());
 
         self::assertLessThan(
-            expected: 'a' ,
-            actual: strlen($childrenLastname->getLastname()) ,
+            expected: 'a',
+            actual: strlen($childrenLastname->getLastname()),
             message: 'Longueur calculée : '
             . $lgName .
             ' => Il est attendu + de ' . $expected . ' caractères.'
         );
 
-        $this->assertValidationErrorsCount($childrenLastname , count: 1);
+        $this->assertValidationErrorsCount($childrenLastname, count: 1);
     }
 
     public function testClassroomIsGreaterThan4Characters(): void

@@ -36,7 +36,7 @@ class RegistrationEventCrudController extends AbstractCrudController
 
             ->setPageTitle(
                 pageName: 'detail',
-                title: fn (RegistrationEvent $registrationEvent) => 'Inscription - ' .$registrationEvent
+                title: fn (RegistrationEvent $registrationEvent) => 'Inscription - ' . $registrationEvent
                         ->getEvent()
                         ->getName()
             )
@@ -47,7 +47,6 @@ class RegistrationEventCrudController extends AbstractCrudController
 
         ;
         return Crud::new();
-
     }
 
     public function configureActions(Actions $actions): Actions
@@ -66,7 +65,7 @@ class RegistrationEventCrudController extends AbstractCrudController
 
         yield TextField::new(propertyName: 'lastname', label: 'Nom');
 
-        yield EmailField::new(propertyName: 'email',label: 'Email');
+        yield EmailField::new(propertyName: 'email', label: 'Email');
 
         yield TelephoneField::new(propertyName: 'telephone', label: 'Téléphone');
 
@@ -96,12 +95,9 @@ class RegistrationEventCrudController extends AbstractCrudController
         yield BooleanField::new(propertyName: 'paid', label: 'Payé')
             ->renderAsSwitch(isASwitch: false)
         ;
-
-
-
     }
 
-    public function persistEntity(EntityManagerInterface $em, $entityInstance):void
+    public function persistEntity(EntityManagerInterface $em, $entityInstance): void
     {
         $slug = $entityInstance->getEvent()->getSlug();
 

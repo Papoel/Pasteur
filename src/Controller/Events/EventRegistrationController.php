@@ -14,19 +14,19 @@ use Symfony\Component\Routing\Annotation\Route;
 class EventRegistrationController extends AbstractController
 {
     // TODO : Renvoyer la liste des inscrits pour les ADMINS
-    #[Route('/evenement/{slug}/inscription-evenement', name: 'app_event_registrations_index' , methods: ['GET'])]
+    #[Route('/evenement/{slug}/inscription-evenement', name: 'app_event_registrations_index', methods: ['GET'])]
     public function index(Event $event): Response
     {
         $registrations = $event->getRegistrationEvents()->toArray();
 
-        return $this->render(view: 'events/registrations/list.html.twig' , parameters: [
+        return $this->render(view: 'events/registrations/list.html.twig', parameters: [
             'event' => $event,
             'registrations' => $registrations
         ]);
     }
 
 
-    #[Route('/evenement/{slug}/inscription-evenement/create', name: 'app_event_registrations_create' , methods: ['GET', 'POST'])]
+    #[Route('/evenement/{slug}/inscription-evenement/create', name: 'app_event_registrations_create', methods: ['GET', 'POST'])]
     public function create(Event $event, Request $request, EntityManagerInterface $em): Response
     {
         $registration = new RegistrationEvent();
@@ -51,5 +51,4 @@ class EventRegistrationController extends AbstractController
             'form' => $form
         ]);
     }
-
 }

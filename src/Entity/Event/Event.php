@@ -429,5 +429,4 @@ class Event
     {
         return $this->getSpotsLeft() === 0;
     }
-
 }

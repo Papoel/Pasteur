@@ -77,7 +77,7 @@ class EventRegistrationFormType extends AbstractType
                 'required' => false,
             ])
 
-            ->add(child: 'children', type: CollectionType::class,options: [
+            ->add(child: 'children', type: CollectionType::class, options: [
                 'allow_add' => true,
                 'allow_delete' => true,
                 'entry_type' => AddChildrenFormType::class,
