@@ -80,6 +80,7 @@ class Event
     private string $status = Event::STATUS[0];
 
     #[ORM\Column(type: 'integer', nullable: true)]
+    #[Assert\Positive]
     private ?int $capacity = null;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -313,11 +314,6 @@ class Event
         return $this;
     }
 
-    public function isFree(): bool
-    {
-        return (0 == $this->getPrice()) || is_null($this->getPrice());
-    }
-
     public function getPrice(): ?int
     {
         return $this->price;
@@ -410,4 +406,28 @@ class Event
 
         return $this;
     }
+    /**
+     * Vérifiez si l'événement est gratuit ou non.
+     */
+    public function isFree(): bool
+    {
+        return (0 == $this->getPrice()) || is_null($this->getPrice());
+    }
+
+    /**
+     * Le nombre de places restantes pour cet événement.
+     */
+    public function getSpotsLeft(): int
+    {
+        return $this->getCapacity() - $this->getRegistrationEvents()->count();
+    }
+
+    /**
+     * Vérifiez s'il n'y a plus de places disponibles pour cet événement.
+     */
+    public function isSoldOut(): bool
+    {
+        return $this->getSpotsLeft() === 0;
+    }
+
 }
