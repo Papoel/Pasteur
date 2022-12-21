@@ -34,11 +34,7 @@ class Children
     )]
     private string $lastname;
 
-    #[ORM\Column(length: 4, nullable: true)]
-    #[Assert\Length(
-        max: 4,
-        maxMessage: 'Veuillez entrer une classe au format CP, CE1, 4eme...'
-    )]
+    #[ORM\Column(length: 20, nullable: true)]
     private ?string $classroom = null;
 
     #[ORM\ManyToOne(cascade: ['persist', 'remove'] , inversedBy: 'children')]
