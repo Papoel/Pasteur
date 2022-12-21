@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class EventRegistrationsController extends AbstractController
+class EventHelpApeController extends AbstractController
 {
     #[Route(
         path: '/evenement/{slug}/inscription-aide/creation',
