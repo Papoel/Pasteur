@@ -13,11 +13,14 @@
                 <div class="lg:w-3/4 lg:px-6">
                     <!--########################################## Image ##########################################-->
                     {% if event.imageName == "event.jpeg" %}
-                        <img class="w-full" src="{{ asset('build/uploads/images/events/event.jpeg') }}"
+                        <img class="w-full rounded" src="{{ asset('build/uploads/images/events/event.jpeg') }}"
                              alt="{{ event.name }}"
                         >
                     {% else %}
-                        <img style="max-height: 510px; max-width: 910px" class="object-fill" src="{{ vich_uploader_asset(event, 'imageFile') }}"
+{#                        <img style="max-height: 510px; max-width: 720px" class="w-full object-cover rounded"#}
+                        <img style="max-height: 510px"
+                             class="w-full rounded md:object-cover xl:object-contain xl:bg-gray-50 xl:py-4 xl:shadow-xl"
+                             src="{{ vich_uploader_asset(event, 'imageFile') }}"
                              alt="{{ event.name }}"
                         >
                     {% endif %}
@@ -97,25 +100,26 @@
                             </div>
                         {% endif %}
                     {% endif %}
-
                 </div>
+
                 <!--########################################### Sidebar ###########################################-->
                 <div class="mt-8 lg:w-1/4 lg:mt-0 lg:px-6">
                     {% for event in events|slice(0, 4) %}
-                        <div>
-                            <a href="{{ path('app_event_show', {'slug': event.slug}) }}" class="block mt-2 font-medium text-gray-700 hover:underline hover:text-gray-500 dark:text-gray-400 ">
-                                <h3 class="text-blue-500 capitalize">{{ event.name }}</h3>
-                            </a>
-                            <p>
-                                Le {{ event.startsAt|format_datetime('full', 'short') }}.
-                            </p>
-                        </div>
-                    <hr class="my-6 border-gray-200 dark:border-gray-700">
+                        {% if event.slug is not same as app.request.get('slug') %}
+                            <div>
+                                    <a href="{{ path('app_event_show', {'slug': event.slug}) }}"
+                                       class="block mt-2 font-medium text-gray-700 hover:underline hover:text-gray-500 dark:text-gray-400 ">
+                                        <h3 class="text-blue-500 capitalize">{{ event.name }}</h3>
+                                    </a>
+                                    <p>
+                                        Le {{ event.startsAt|format_datetime('full', 'short') }}.
+                                    </p>
+                                </div>
+                            <hr class="my-6 border-gray-200 dark:border-gray-700">
+                        {% endif %}
                     {% endfor %}
 
                     {% include('components/Event/_registration.html.twig') %}
-
-
                 </div>
             </div>
         </div>
