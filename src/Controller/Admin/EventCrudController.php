@@ -21,7 +21,7 @@ use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class EventCrudController extends AbstractCrudController
 {
-    public function __construct(private string $uploadDir)
+    public function __construct(private readonly string $uploadDir)
     {
     }
     public function configureCrud(Crud $crud): Crud
@@ -59,19 +59,20 @@ class EventCrudController extends AbstractCrudController
 
         yield SlugField::new(propertyName: 'slug', label: 'Slug')
             ->setTargetFieldName(fieldName: 'name')
-            ->setColumns(cols: 'col-12 col-sm-4')
+            ->setUnlockConfirmationMessage('Il est recommandé de ne pas agir sur ce label, êtes-vous sûr de vous ?')
+            ->setColumns(cols: 'col-12 col-sm-6')
             ->hideOnIndex()
+            ->hideOnForm()
         ;
 
         yield TextField::new(propertyName: 'location', label: 'Se déroulera à')
             ->hideOnIndex()
-            ->setColumns(cols: 'col-12 col-sm-4')
+            ->setColumns(cols: 'col-12 col-sm-6')
         ;
 
-        yield TextField::new(propertyName: 'imageFile', label: 'Fichier Image')
-            ->setFormType(formTypeFqcn: VichImageType::class)
-            ->onlyOnForms()
-            ->setColumns(cols: 'col-12 col-sm-4')
+        yield TextareaField::new(propertyName: 'description', label: 'Décrivez l\'événement')
+            ->hideOnIndex()
+            ->setColumns(cols: 'col-12')
         ;
 
         yield DateTimeField::new(propertyName: 'startsAt', label: 'Début')
@@ -85,18 +86,22 @@ class EventCrudController extends AbstractCrudController
             ->renderAsNativeWidget()
         ;
 
+        yield TextField::new(propertyName: 'imageFile', label: 'Télécharger une image')
+            ->setFormType(formTypeFqcn: VichImageType::class)
+            ->onlyOnForms()
+            ->setColumns(cols: 'col-12 col-sm-6')
+        ;
+
+        yield BooleanField::new(propertyName: 'published', label: 'Publié l\'événement ?')
+            ->setColumns(cols: 'col-12 col-sm-6')
+        ;
+
         yield BooleanField::new(propertyName: 'helpNeeded', label: 'Besoin d\'Aide ?')
             ->setColumns(cols: 'col-12')
         ;
 
-        yield TextareaField::new(propertyName: 'description', label: 'Décrivez l\'événement')
-            ->hideOnIndex()
-            ->setColumns(cols: 'col-12')
-        ;
-
         yield AssociationField::new(propertyName: 'creneaux', label: 'Créneaux horaires pour l\'aide')
-            ->setColumns(cols: 'col-12')
-
+            ->setColumns(cols: 'col-8')
             ->formatValue(function ($value, $entity) {
                 $str = $entity->getCreneaux()[0];
                 for ($i = 1; $i < $entity->getCreneaux()->count(); $i++) {
@@ -123,8 +128,6 @@ class EventCrudController extends AbstractCrudController
             ->hideOnForm()
             ->setColumns(cols: 'col-12')
         ;
-
-        yield BooleanField::new(propertyName: 'published', label: 'Publié ?');
     }
 
     public function configureActions(Actions $actions): Actions
@@ -168,6 +171,7 @@ class EventCrudController extends AbstractCrudController
                 return;
             }
         }
+
         parent::persistEntity($entityManager, $entityInstance);
     }
 }
