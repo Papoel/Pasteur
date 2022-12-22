@@ -81,8 +81,16 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section(label: 'Inscriptions', icon: 'fas fa-calendar-check');
         yield MenuItem::subMenu(label: 'Action', icon: 'fas fa-bars')
             ->setSubItems(subItems: [
-                MenuItem::linkToCrud(label: 'Voir les inscriptions', icon: 'fas fa-eye', entityFqcn: RegistrationEvent::class),
-                MenuItem::linkToCrud(label: 'Ajouter une inscription', icon: 'fas fa-plus', entityFqcn: RegistrationEvent::class)
+                MenuItem::linkToCrud(
+                    label: 'Voir les inscriptions',
+                    icon: 'fas fa-eye',
+                    entityFqcn: RegistrationEvent::class
+                ),
+                MenuItem::linkToCrud(
+                    label: 'Ajouter une inscription',
+                    icon: 'fas fa-plus',
+                    entityFqcn: RegistrationEvent::class
+                )
                     ->setAction(actionName: Crud::PAGE_NEW),
             ])
         ;

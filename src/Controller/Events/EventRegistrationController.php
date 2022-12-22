@@ -26,7 +26,11 @@ class EventRegistrationController extends AbstractController
     }
 
 
-    #[Route('/evenement/{slug}/inscription-evenement/create', name: 'app_event_registrations_create', methods: ['GET', 'POST'])]
+    #[Route(
+        '/evenement/{slug}/inscription-evenement/create',
+        name: 'app_event_registrations_create',
+        methods: ['GET', 'POST']
+    )]
     public function create(Event $event, Request $request, EntityManagerInterface $em): Response
     {
         $registration = new RegistrationEvent();
@@ -43,7 +47,10 @@ class EventRegistrationController extends AbstractController
 
             $this->addFlash(type: 'success', message: "Merci, vous êtes inscrit !");
 
-            return $this->redirectToRoute(route: 'app_event_registrations_index', parameters: ['event' => $event->getId()]);
+            return $this->redirectToRoute(
+                route: 'app_event_registrations_index',
+                parameters: ['event' => $event->getId()]
+            );
         }
 
         return $this->renderForm(view: 'events/registrations/create.html.twig', parameters: [
