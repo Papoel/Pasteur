@@ -35,6 +35,10 @@ class Children
     private string $lastname;
 
     #[ORM\Column(length: 20, nullable: true)]
+    #[Assert\Length(
+        max: 20,
+        maxMessage: 'Vous ne pouvez pas inscrire une classe avec plus de {{ limit }} caractères.'
+    )]
     private ?string $classroom = null;
 
     #[ORM\ManyToOne(cascade: ['persist', 'remove'], inversedBy: 'children')]
