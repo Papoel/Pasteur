@@ -134,7 +134,6 @@ class RegistrationEvent
 
     public function getEvent(): ?Event
     {
-
         return $this->event;
     }
 

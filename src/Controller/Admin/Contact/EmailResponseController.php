@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Contact;
 
-use App\Entity\User\User;
 use App\Form\ResponseEmailFormType;
 use App\Repository\Contact\ContactRepository;
 use App\Repository\User\UserRepository;
@@ -25,13 +24,12 @@ class EmailResponseController extends AbstractController
         UserRepository $userRepository,
         MailService $mailService,
     ): Response {
-
         // Récupérer l'id du message à répondre
         $queryString = $request->getQueryString();
         // Récupérer uniquement l'id'
         parse_str(string: $queryString, result: $params);
         // Transformer la valeur en entier
-        $id = (int)$params['entityId'];
+        $id = (int) $params['entityId'];
 
         // Récupérer l'entité du message à répondre
         $contact = $contactRepository->find(id: $id);
@@ -56,7 +54,6 @@ class EmailResponseController extends AbstractController
             $entityManager->persist($contact);
             $entityManager->flush();
 
-
             // TODO: Pourquoi l'email ne s'envoie pas ?
             $mailService->sendEmail(
                 from: 'aperousiespasteur@gmail.com',
@@ -64,13 +61,13 @@ class EmailResponseController extends AbstractController
                 htmlTemplate: 'emails/response.html.twig',
                 context: [
                     'contact' => $contact,
-                    'user'    => $user,
+                    'user' => $user,
                 ],
             );
 
             $this->addFlash(
                 type: 'success',
-                message: 'Votre réponse a ' . $contact->getFullName() . ' a bien été envoyée.'
+                message: 'Votre réponse a '.$contact->getFullName().' a bien été envoyée.'
             );
 
             return $this->redirectToRoute(route: 'admin');

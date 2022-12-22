@@ -25,8 +25,8 @@ class UserFixtures extends Fixture
         $userPresident->setPseudo(pseudo: 'Nounou');
         $userPresident->setEmail(
             email: strtolower(
-                string: $userPresident->getFirstname() . '.' . $userPresident->getLastname()
-            ) .
+                string: $userPresident->getFirstname().'.'.$userPresident->getLastname()
+            ).
             '@aperp.fr'
         );
         $userPresident->setRoles(['ROLE_PRESIDENT']);
@@ -50,8 +50,8 @@ class UserFixtures extends Fixture
         $userAdministrateur->setPseudo(pseudo: 'Papoel');
         $userAdministrateur->setEmail(
             email: strtolower(
-                string: $userAdministrateur->getFirstname() . '.' . $userAdministrateur->getLastname()
-            ) .
+                string: $userAdministrateur->getFirstname().'.'.$userAdministrateur->getLastname()
+            ).
             '@aperp.fr'
         );
         $userAdministrateur->setRoles(['ROLE_WEBMASTER']);
@@ -59,7 +59,7 @@ class UserFixtures extends Fixture
         $userAdministrateur->setPassword($hash);
         $userAdministrateur->setCreatedAt(createdAt: new \DateTimeImmutable(datetime: '2022/11/14'));
         $fixed = '06';
-        $number = $fixed . random_int(10000000, 99999999);
+        $number = $fixed.random_int(10000000, 99999999);
         $userAdministrateur->setTelephone(telephone: $number);
         $userAdministrateur->setAddress(address: '12 res Kennedy rue des Roquelles');
         $userAdministrateur->setPostalCode(postalCode: '59460');
@@ -76,8 +76,8 @@ class UserFixtures extends Fixture
         $userTresorier->setLastname(lastname: $faker->lastName());
         $userTresorier->setEmail(
             email: strtolower(
-                string: $userTresorier->getFirstname() . '.' . $userTresorier->getLastname()
-            ) .
+                string: $userTresorier->getFirstname().'.'.$userTresorier->getLastname()
+            ).
             '@aperp.fr'
         );
         $userTresorier->setRoles(['ROLE_TRESORIER']);
@@ -89,7 +89,7 @@ class UserFixtures extends Fixture
         $userTresorier->setCreatedAt($immutable);
 
         $fixed = '06';
-        $number = $fixed . random_int(10000000, 99999999);
+        $number = $fixed.random_int(10000000, 99999999);
         $userTresorier->setTelephone(telephone: $number);
         $userTresorier->setAddress(address: $faker->streetAddress());
         $userTresorier->setPostalCode(postalCode: $faker->numberBetween(int1: 10000, int2: 85500));
@@ -109,8 +109,8 @@ class UserFixtures extends Fixture
         $userSecretaire->setLastname(lastname: $faker->lastName());
         $userSecretaire->setEmail(
             email: strtolower(
-                string: $userSecretaire->getFirstname() . '.' . $userSecretaire->getLastname()
-            ) .
+                string: $userSecretaire->getFirstname().'.'.$userSecretaire->getLastname()
+            ).
             '@aperp.fr'
         );
         $userSecretaire->setRoles(['ROLE_SECRETAIRE']);
@@ -122,7 +122,7 @@ class UserFixtures extends Fixture
         $userSecretaire->setCreatedAt($immutable);
 
         $fixed = '06';
-        $number = $fixed . random_int(10000000, 99999999);
+        $number = $fixed.random_int(10000000, 99999999);
         $userSecretaire->setTelephone(telephone: $number);
         $userSecretaire->setAddress(address: $faker->streetAddress());
         $userSecretaire->setPostalCode(postalCode: $faker->numberBetween(int1: 10000, int2: 85500));
@@ -135,7 +135,6 @@ class UserFixtures extends Fixture
         $manager->persist($userSecretaire);
         $users[] = $userSecretaire;
 
-
         for ($newUser = 1; $newUser <= 3; ++$newUser) {
             $user = new User();
 
@@ -144,8 +143,8 @@ class UserFixtures extends Fixture
 
             $user->setEmail(
                 email: strtolower(
-                    string: $user->getFirstname() . '.' . $user->getLastname()
-                ) .
+                    string: $user->getFirstname().'.'.$user->getLastname()
+                ).
                 '@aperp.fr'
             );
 
@@ -157,7 +156,7 @@ class UserFixtures extends Fixture
             $user->setCreatedAt($immutable);
 
             $fixed = '06';
-            $number = $fixed . random_int(10000000, 99999999);
+            $number = $fixed.random_int(10000000, 99999999);
             $user->setTelephone(telephone: $number);
 
             $user->setAddress(address: $faker->streetAddress());

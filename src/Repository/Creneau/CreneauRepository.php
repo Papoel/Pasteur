@@ -41,7 +41,6 @@ class CreneauRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param Event $event
      * @return array mixed
      */
     public function findByEvent(Event $event): array

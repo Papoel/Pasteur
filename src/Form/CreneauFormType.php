@@ -18,7 +18,7 @@ class CreneauFormType extends AbstractType
                 'label_attr' => ['class' => 'active'],
                 'format' => 'HH:mm',
                 'widget' => 'single_text',
-                'attr' => ['data-field' => 'datetime']
+                'attr' => ['data-field' => 'datetime'],
             ])
 
             ->add('endsAt', DateTimeType::class, [
@@ -26,7 +26,7 @@ class CreneauFormType extends AbstractType
                 'label_attr' => ['class' => 'active'],
                 'format' => 'dd-MM-yyyy HH:mm',
                 'widget' => 'single_text',
-                'attr' => ['data-field' => 'datetime']
+                'attr' => ['data-field' => 'datetime'],
             ])
         ;
     }

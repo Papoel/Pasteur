@@ -23,7 +23,6 @@ class ContactController extends AbstractController
         MailService $mailService,
         UserRepository $userRepository,
     ): Response {
-
         $contact = new Contact();
         if ($this->getUser()) {
             $userName = $userRepository->find($this->getUser())
@@ -56,7 +55,6 @@ class ContactController extends AbstractController
                 }
             }
 
-
             $entityManager->persist($contact);
             $entityManager->flush();
 
@@ -75,7 +73,7 @@ class ContactController extends AbstractController
             );
 
             $this->addFlash(type: 'success', message: 'Merci 🙏  '
-                . $contact->getFullname() .
+                .$contact->getFullname().
                 ', votre message a bien été envoyé.');
 
             return $this->redirectToRoute(route: 'app_contact');

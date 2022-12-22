@@ -17,7 +17,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class RegistrationEventCrudController extends AbstractCrudController
 {
@@ -36,16 +35,17 @@ class RegistrationEventCrudController extends AbstractCrudController
 
             ->setPageTitle(
                 pageName: 'detail',
-                title: fn (RegistrationEvent $registrationEvent) => 'Inscription - ' . $registrationEvent
+                title: fn (RegistrationEvent $registrationEvent) => 'Inscription - '.$registrationEvent
                         ->getEvent()
                         ->getName()
             )
 
             ->setFormOptions([
-                'validation_groups' => ['Default']
+                'validation_groups' => ['Default'],
             ])
 
         ;
+
         return Crud::new();
     }
 
@@ -54,7 +54,6 @@ class RegistrationEventCrudController extends AbstractCrudController
         return $actions
             ->add(pageName: Crud::PAGE_INDEX, actionNameOrObject: 'detail');
     }
-
 
     public function configureFields(string $pageName): iterable
     {
@@ -77,7 +76,6 @@ class RegistrationEventCrudController extends AbstractCrudController
             ->collapsible()
             ->setIcon(iconCssClass: 'fa fa-info')
             ->setHelp(help: 'Ajouter des enfants')*/
-        ;
 
         /*yield CollectionField::new(propertyName: 'children', label: 'Enfants inscrits')
             ->setEntryIsComplex(isComplex: true)

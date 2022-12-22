@@ -16,11 +16,11 @@ class AddChildrenFormType extends AbstractType
         $builder
             ->add(child: 'firstname', type: TextType::class, options: [
                 'label' => 'Prénom',
-                'required' => true
+                'required' => true,
             ])
             ->add(child: 'lastname', type: TextType::class, options: [
                 'label' => 'Nom',
-                'required' => true
+                'required' => true,
             ])
             ->add(child: 'classroom', type: ChoiceType::class, options: [
                 'choices' => [
@@ -29,7 +29,7 @@ class AddChildrenFormType extends AbstractType
                     'CE2' => 'CE2',
                     'CM1' => 'CM1',
                     'CM2' => 'CM2',
-                    'Extérieur' => 'Exterieur'
+                    'Extérieur' => 'Exterieur',
                 ],
             ])
         ;

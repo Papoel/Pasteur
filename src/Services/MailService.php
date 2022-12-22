@@ -33,7 +33,7 @@ class MailService
         try {
             $this->mailer->send($email);
         } catch (TransportExceptionInterface $e) {
-            echo 'Erreur survenue lors de l\'envoi du mail : ' . $e->getMessage();
+            echo 'Erreur survenue lors de l\'envoi du mail : '.$e->getMessage();
         }
     }
 }

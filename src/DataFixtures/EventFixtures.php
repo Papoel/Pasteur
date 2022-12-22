@@ -19,8 +19,7 @@ class EventFixtures extends Fixture
 
         $event = new Event();
         $event->setName(name: 'Apéro PHP');
-        $event->setDescription(description:
-            'Apéro PHP est un événement mensuel qui a lieu à Maubeuge. 
+        $event->setDescription(description: 'Apéro PHP est un événement mensuel qui a lieu à Maubeuge. 
             Il est organisé par la communauté PHP francophone.');
         $event->setLocation(location: 'Maubeuge');
         $event->setPrice(price: 0);
@@ -55,7 +54,7 @@ class EventFixtures extends Fixture
 
             $date = $event->getStartsAt();
 
-            $date = $date->modify(modifier: '+' . $faker->numberBetween(int1: 4, int2: 16) . ' hours');
+            $date = $date->modify(modifier: '+'.$faker->numberBetween(int1: 4, int2: 16).' hours');
             $event->setFinishAt($date);
 
             $date = $faker->dateTimeBetween(startDate: '-3 months', endDate: '-1 day');

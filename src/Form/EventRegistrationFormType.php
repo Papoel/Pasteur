@@ -23,10 +23,9 @@ class EventRegistrationFormType extends AbstractType
                 ],
                 'attr' => [
                     'placeholder' => 'Bruce Wayne',
-                    'class' =>
-                        'w-full bg-white rounded focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base 
+                    'class' => 'w-full bg-white rounded focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base 
                         outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out
-                    '
+                    ',
                 ],
                 'required' => false,
             ])
@@ -38,10 +37,9 @@ class EventRegistrationFormType extends AbstractType
                 ],
                 'attr' => [
                     'placeholder' => 'Bruce Wayne',
-                    'class' =>
-                        'w-full bg-white rounded focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base 
+                    'class' => 'w-full bg-white rounded focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base 
                         outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out
-                    '
+                    ',
                 ],
                 'required' => false,
             ])
@@ -54,10 +52,8 @@ class EventRegistrationFormType extends AbstractType
                 'attr' => [
                     'placeholder' => '06 66 66 66 66',
                     'type' => 'tel',
-                    'class' =>
-                        'w-full bg-white rounded focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base 
-                        outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out'
-                    ,
+                    'class' => 'w-full bg-white rounded focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base 
+                        outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out',
                 ],
                 'required' => false,
             ])
@@ -69,10 +65,9 @@ class EventRegistrationFormType extends AbstractType
                 ],
                 'attr' => [
                     'placeholder' => 'batman@goham.city',
-                    'class' =>
-                        'w-full bg-white rounded focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base 
+                    'class' => 'w-full bg-white rounded focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base 
                         outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out
-                    '
+                    ',
                 ],
                 'required' => false,
             ])
@@ -81,7 +76,7 @@ class EventRegistrationFormType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'entry_type' => AddChildrenFormType::class,
-                'by_reference' => true
+                'by_reference' => true,
             ])
 
         ;

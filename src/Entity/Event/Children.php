@@ -46,7 +46,7 @@ class Children
 
     public function __toString(): string
     {
-        return $this->firstname . ' ' . $this->lastname . ' (' . $this->classroom . ')';
+        return $this->firstname.' '.$this->lastname.' ('.$this->classroom.')';
     }
 
     public function getId(): ?int

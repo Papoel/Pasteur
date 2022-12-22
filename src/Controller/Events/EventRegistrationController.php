@@ -21,10 +21,9 @@ class EventRegistrationController extends AbstractController
 
         return $this->render(view: 'events/registrations/list.html.twig', parameters: [
             'event' => $event,
-            'registrations' => $registrations
+            'registrations' => $registrations,
         ]);
     }
-
 
     #[Route(
         '/evenement/{slug}/inscription-evenement/create',
@@ -45,7 +44,7 @@ class EventRegistrationController extends AbstractController
             $em->persist($registration);
             $em->flush();
 
-            $this->addFlash(type: 'success', message: "Merci, vous êtes inscrit !");
+            $this->addFlash(type: 'success', message: 'Merci, vous êtes inscrit !');
 
             return $this->redirectToRoute(
                 route: 'app_event_registrations_index',
@@ -55,7 +54,7 @@ class EventRegistrationController extends AbstractController
 
         return $this->renderForm(view: 'events/registrations/create.html.twig', parameters: [
             'event' => $event,
-            'form' => $form
+            'form' => $form,
         ]);
     }
 }

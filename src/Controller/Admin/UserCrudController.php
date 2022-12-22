@@ -36,7 +36,7 @@ class UserCrudController extends AbstractCrudController
 
             ->setPageTitle(
                 pageName: 'detail',
-                title: fn (User $user) => 'Fiche contact - ' . $user->getFullName()
+                title: fn (User $user) => 'Fiche contact - '.$user->getFullName()
             )
 
             ->setDateTimeFormat(
@@ -44,36 +44,35 @@ class UserCrudController extends AbstractCrudController
                 timeFormat: dateTimeField::FORMAT_SHORT
             )
 
-            ;
+        ;
     }
 
     public function configureFields(string $pageName): iterable
     {
+        yield IdField::new(propertyName: 'id')->onlyOnIndex();
 
-            yield IdField::new(propertyName: 'id')->onlyOnIndex();
+        yield TextField::new(propertyName: 'fullname', label: 'Nom Complet')
+            ->onlyOnIndex()
+        ;
 
-            yield TextField::new(propertyName: 'fullname', label: 'Nom Complet')
-                ->onlyOnIndex()
-            ;
+        yield TextField::new(propertyName: 'firstname', label: 'Prénom')
+            ->hideOnIndex()
+            ->setColumns(cols: 'col-12 col-sm-4')
+        ;
 
-            yield TextField::new(propertyName: 'firstname', label: 'Prénom')
-                ->hideOnIndex()
-                ->setColumns(cols: 'col-12 col-sm-4')
-            ;
+        yield TextField::new(propertyName: 'lastname', label: 'Nom')
+            ->hideOnIndex()
+            ->setColumns(cols: 'col-12 col-sm-4')
+        ;
 
-            yield TextField::new(propertyName: 'lastname', label: 'Nom')
-                ->hideOnIndex()
-                ->setColumns(cols: 'col-12 col-sm-4')
-            ;
+        yield TextField::new(propertyName: 'pseudo', label: 'Pseudo')
+            ->setColumns(cols: 'col-12 col-sm-4')
+        ;
 
-            yield TextField::new(propertyName: 'pseudo', label: 'Pseudo')
-                ->setColumns(cols: 'col-12 col-sm-4')
-            ;
-
-            yield TextField::new(propertyName: 'email', label: 'Email')
-                ->hideOnIndex()
-                ->setColumns(cols: 'col-12 col-sm-4')
-            ;
+        yield TextField::new(propertyName: 'email', label: 'Email')
+            ->hideOnIndex()
+            ->setColumns(cols: 'col-12 col-sm-4')
+        ;
 
         yield ChoiceField::new(propertyName: 'roles')
             ->setChoices(choiceGenerator: [
@@ -101,48 +100,48 @@ class UserCrudController extends AbstractCrudController
             ->setColumns(cols: 'col-12 col-sm-4')
         ;
 
-           /* yield TextField::new(propertyName: 'password', label: 'Mot de passe')
-                ->hideOnIndex()
-                ->setColumns(cols: 'col-12 col-md-6')
-            ;*/
+        /* yield TextField::new(propertyName: 'password', label: 'Mot de passe')
+             ->hideOnIndex()
+             ->setColumns(cols: 'col-12 col-md-6')
+         ;*/
 
-            yield Field::new(propertyName: 'password', label: 'Confirmation du mot de passe')
-                ->onlyWhenCreating()
-                ->setFormType(RepeatedType::class)
-                ->setFormTypeOptions([
-                    'type' => PasswordType::class,
-                    'invalid_message' => 'Les mots de passe ne correspondent pas.',
-                    'first_options' => ['label' => 'Mot de passe'],
-                    'second_options' => ['label' => 'Confirmation du mot de passe'],
-                    'required' => true,
-                ])
-                ->setColumns(cols: 'col-12 col-sm-4')
-            ;
+        yield Field::new(propertyName: 'password', label: 'Confirmation du mot de passe')
+            ->onlyWhenCreating()
+            ->setFormType(RepeatedType::class)
+            ->setFormTypeOptions([
+                'type' => PasswordType::class,
+                'invalid_message' => 'Les mots de passe ne correspondent pas.',
+                'first_options' => ['label' => 'Mot de passe'],
+                'second_options' => ['label' => 'Confirmation du mot de passe'],
+                'required' => true,
+            ])
+            ->setColumns(cols: 'col-12 col-sm-4')
+        ;
 
-            yield DateTimeField::new(propertyName: 'createdAt', label: 'Date de création')
-                ->onlyOnDetail()
-                ->setColumns(cols: 'col-12 col-sm-4')
-            ;
+        yield DateTimeField::new(propertyName: 'createdAt', label: 'Date de création')
+            ->onlyOnDetail()
+            ->setColumns(cols: 'col-12 col-sm-4')
+        ;
 
-            yield TextField::new(propertyName: 'address', label: 'Adresse')
-                ->hideOnIndex()
-                ->setColumns(cols: 'col-12 col-sm-4')
-            ;
+        yield TextField::new(propertyName: 'address', label: 'Adresse')
+            ->hideOnIndex()
+            ->setColumns(cols: 'col-12 col-sm-4')
+        ;
 
-            yield TextField::new(propertyName: 'postal_code', label: 'Code postal')
-                ->hideOnIndex()
-                ->setColumns(cols: 'col-12 col-sm-4')
-            ;
+        yield TextField::new(propertyName: 'postal_code', label: 'Code postal')
+            ->hideOnIndex()
+            ->setColumns(cols: 'col-12 col-sm-4')
+        ;
 
-            yield TextField::new(propertyName: 'town', label: 'Ville')
-                ->hideOnIndex()
-                ->setColumns(cols: 'col-12 col-sm-4')
-            ;
+        yield TextField::new(propertyName: 'town', label: 'Ville')
+            ->hideOnIndex()
+            ->setColumns(cols: 'col-12 col-sm-4')
+        ;
 
-            yield TextField::new(propertyName: 'complement_address', label: 'Complément d\'adresse')
-                ->hideOnIndex()
-                ->setColumns(cols: 'col-12 col-sm-4')
-            ;
+        yield TextField::new(propertyName: 'complement_address', label: 'Complément d\'adresse')
+            ->hideOnIndex()
+            ->setColumns(cols: 'col-12 col-sm-4')
+        ;
     }
 
     public function configureActions(Actions $actions): Actions

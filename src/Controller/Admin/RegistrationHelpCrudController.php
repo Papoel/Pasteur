@@ -34,6 +34,7 @@ class RegistrationHelpCrudController extends AbstractCrudController
     {
         return RegistrationHelp::class;
     }
+
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
@@ -44,14 +45,15 @@ class RegistrationHelpCrudController extends AbstractCrudController
 
             ->setPageTitle(
                 pageName: 'detail',
-                title: fn (Event $event) => 'Fiche événement - ' . $event->getName()
+                title: fn (Event $event) => 'Fiche événement - '.$event->getName()
             )
 
             ->setFormOptions([
-                'validation_groups' => ['Default']
+                'validation_groups' => ['Default'],
             ])
         ;
     }
+
     public function configureFields(string $pageName): iterable
     {
         yield AssociationField::new(propertyName: 'event', label: 'Événement');
@@ -68,19 +70,18 @@ class RegistrationHelpCrudController extends AbstractCrudController
 
         yield ChoiceField::new(propertyName: 'activity', label: 'Activité proposée')
             ->setChoices([
-                'Vente' => 'Vente' ,
-                'Installation' => 'Installation' ,
-                'Rangement' => 'Rangement' ,
+                'Vente' => 'Vente',
+                'Installation' => 'Installation',
+                'Rangement' => 'Rangement',
             ])
             ->allowMultipleChoices()
             ->renderAsBadges([
-                'Vente' => 'success' ,
-                'Installation' => 'info' ,
-                'Rangement' => 'dark' ,
+                'Vente' => 'success',
+                'Installation' => 'info',
+                'Rangement' => 'dark',
             ]);
 
         yield TextareaField::new(propertyName: 'message');
-
 
         $event = $this->eventRepository->findOneBy(['id' => 3]);
         $creneauxForEvent = $event->getCreneaux()->toArray();
@@ -108,7 +109,7 @@ class RegistrationHelpCrudController extends AbstractCrudController
     // TODO : Charger les créneaux horaire disponible par event
     public function loadCreneauxForEvent(Request $request): Response
     {
-        //dd($request);
+        // dd($request);
 
         return $this->forward(controller: 'App\Controller\Admin\Event\loadCreneauxByEvent::index');
         // return $this->redirectToRoute(route: 'app_response_message');

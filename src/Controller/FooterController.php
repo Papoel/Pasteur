@@ -12,16 +12,16 @@ class FooterController extends AbstractController
 {
     public function apeTeam(UserRepository $user): Response
     {
-        $president = $user->findByRole(role: "PRESIDENT");
-        $tresorier = $user->findByRole(role: "TRESORIER");
-        $secretaire = $user->findByRole(role: "SECRETAIRE");
-        $webmaster = $user->findByRole(role: "WEBMASTER");
+        $president = $user->findByRole(role: 'PRESIDENT');
+        $tresorier = $user->findByRole(role: 'TRESORIER');
+        $secretaire = $user->findByRole(role: 'SECRETAIRE');
+        $webmaster = $user->findByRole(role: 'WEBMASTER');
 
         return $this->render(view: 'components/Footer/_card-member.html.twig', parameters: [
             'president' => $president,
             'tresorier' => $tresorier,
             'secretaire' => $secretaire,
-            'webmaster' => $webmaster
+            'webmaster' => $webmaster,
         ]);
     }
 }

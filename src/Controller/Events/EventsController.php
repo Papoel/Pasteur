@@ -18,7 +18,7 @@ class EventsController extends AbstractController
 
         return $this->render(view: 'events/index.html.twig', parameters: [
             'events' => $events,
-            'eventsPublished' => $eventsPublished
+            'eventsPublished' => $eventsPublished,
         ]);
     }
 

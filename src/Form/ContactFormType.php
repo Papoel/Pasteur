@@ -25,10 +25,9 @@ class ContactFormType extends AbstractType
                 ],
                 'attr' => [
                     'placeholder' => 'Bruce Wayne',
-                    'class' =>
-                        'w-full bg-white rounded focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base 
+                    'class' => 'w-full bg-white rounded focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base 
                         outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out
-                    '
+                    ',
                 ],
                 'required' => false,
             ])
@@ -39,10 +38,9 @@ class ContactFormType extends AbstractType
                 ],
                 'attr' => [
                     'placeholder' => 'batman@goham.city',
-                    'class' =>
-                        'w-full bg-white rounded focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base 
+                    'class' => 'w-full bg-white rounded focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base 
                         outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out
-                    '
+                    ',
                 ],
                 'required' => false,
             ])
@@ -53,10 +51,9 @@ class ContactFormType extends AbstractType
                 ],
                 'attr' => [
                     'placeholder' => 'Sujet du message (facultatif)',
-                    'class' =>
-                        'w-full bg-white rounded focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base 
+                    'class' => 'w-full bg-white rounded focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base 
                         outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out
-                    '
+                    ',
                 ],
                 'required' => false,
             ])
@@ -67,10 +64,9 @@ class ContactFormType extends AbstractType
                 ],
                 'attr' => [
                     'placeholder' => 'Votre message ici',
-                    'class' =>
-                        'w-full bg-white rounded focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base 
+                    'class' => 'w-full bg-white rounded focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base 
                         outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out
-                    '
+                    ',
                 ],
                 'required' => false,
             ])

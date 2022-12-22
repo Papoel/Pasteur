@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Twig;
 
 use App\Entity\Event\Event;
-use Twig\Error\RuntimeError;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
@@ -33,7 +32,7 @@ class AppExtension extends AbstractExtension
 
     public function pluralize(int $count, string $singular, ?string $plural = null): string
     {
-        $plural ??= $singular . 's';
+        $plural ??= $singular.'s';
         $string = 1 === $count ? $singular : $plural;
 
         return "$count $string";
@@ -44,13 +43,9 @@ class AppExtension extends AbstractExtension
         $price = $event->getPrice() / 100;
         $price = number_format($price, 2);
 
-        return $event->isFree() ? 'Gratuit' : $price  . ' €';
+        return $event->isFree() ? 'Gratuit' : $price.' €';
     }
 
-    /**
-     * @param \DateTimeInterface $dateTime
-     * @return string
-     */
     public function formatDateTime(\DateTimeInterface $dateTime): string
     {
         return $dateTime->format(format: 'F d, Y \a\t h:i A');
@@ -58,7 +53,9 @@ class AppExtension extends AbstractExtension
 
     /**
      * @param $html
+     *
      * @return mixed
+     *
      * @description Supprime toutes les balises html d'une chaîne de caractères.
      */
     public function html($html)

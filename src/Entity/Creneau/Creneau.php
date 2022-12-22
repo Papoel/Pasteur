@@ -68,7 +68,7 @@ class Creneau
 
     public function __toString(): string
     {
-        return $this->startsAt->format(format: 'H:i') . ' - ' . $this->endsAt->format(format: 'H:i');
+        return $this->startsAt->format(format: 'H:i').' - '.$this->endsAt->format(format: 'H:i');
     }
 
     /**

@@ -406,6 +406,7 @@ class Event
 
         return $this;
     }
+
     /**
      * Vérifiez si l'événement est gratuit ou non.
      */
@@ -427,6 +428,6 @@ class Event
      */
     public function isSoldOut(): bool
     {
-        return $this->getSpotsLeft() === 0;
+        return 0 === $this->getSpotsLeft();
     }
 }
