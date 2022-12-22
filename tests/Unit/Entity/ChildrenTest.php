@@ -147,9 +147,9 @@ class ChildrenTest extends KernelTestCase
         $this->assertValidationErrorsCount($childrenLastname, count: 1);
     }
 
-    public function testClassroomIsGreaterThan4Characters(): void
+    public function testClassroomIsGreaterThan20Characters(): void
     {
-        $expected = 4;
+        $expected = 20;
         $childrenClassroom = $this->getEntityChildren()
             ->setClassroom(classroom: str_repeat(string: 'a', times: $expected + 1));
 
