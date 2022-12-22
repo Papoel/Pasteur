@@ -40,12 +40,16 @@ class CreneauRepository extends ServiceEntityRepository
         }
     }
 
-    public function findByEvent(Event $event)
+    /**
+     * @param Event $event
+     * @return array mixed
+     */
+    public function findByEvent(Event $event): array
     {
-        return $this->createQueryBuilder('c')
-            ->innerJoin('c.event', 'e')
+        return $this->createQueryBuilder(alias: 'c')
+            ->innerJoin(join: 'c.event', alias: 'e')
             ->andWhere('e.slug = :event')
-            ->setParameter('event', $event->getSlug())
+            ->setParameter(key: 'event', value: $event->getSlug())
             ->getQuery()
             ->getResult();
     }
