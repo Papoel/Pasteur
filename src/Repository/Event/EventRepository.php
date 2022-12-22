@@ -43,6 +43,7 @@ class EventRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder(alias: 'events')
             ->andWhere('events.startsAt > :now')
+            ->andWhere('events.published = true')
             ->setParameter(key: ':now', value: new \DateTime())
             ->orderBy(sort: 'events.startsAt', order: 'ASC');
 
