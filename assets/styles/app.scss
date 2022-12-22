@@ -35,5 +35,28 @@ time, mark, audio, video
     .border-degrade {
         @apply  hover:border-indigo-600 hover:border-l-4 hover:transition hover:duration-700 ease-in-out;
     }
+}
 
+.image-event {
+    width: 100%;
+    max-height: 245px;
+    object-fit: cover;
+}
+
+@media (max-width: 1024px) {
+    .image-event {
+        max-height: 191px;
+    }
+}
+
+@media (max-width: 1280px) {
+    .image-event {
+        max-height: 214px;
+    }
+}
+
+@media (max-width: 1880px) {
+    .image-event {
+        max-height: 165px;
+    }
 }
