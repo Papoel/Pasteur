@@ -114,6 +114,7 @@
         }
     },
     "require-dev": {
+        "dama/doctrine-test-bundle": "^7.1",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
         "ekino/phpstan-banned-code": "^1.0",
         "phpstan/extension-installer": "^1.2",
