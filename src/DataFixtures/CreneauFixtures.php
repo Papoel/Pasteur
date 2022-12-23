@@ -25,8 +25,8 @@ class CreneauFixtures extends Fixture implements DependentFixtureInterface
         // For each hour from 08:00 to 20:00
         for ($hour = 8; $hour <= 20; ++$hour) {
             $creneau = new Creneau();
-            $creneau->setStartsAt(startsAt: new \DateTime(datetime: $hour.':00:00'));
-            $creneau->setEndsAt(endsAt: new \DateTime(datetime: ($hour + 1).':00:00'));
+            $creneau->setStartsAt(startsAt: new \DateTime(datetime: $hour . ':00:00'));
+            $creneau->setEndsAt(endsAt: new \DateTime(datetime: ($hour + 1) . ':00:00'));
 
             $manager->persist($creneau);
             $creneaux[] = $creneau;

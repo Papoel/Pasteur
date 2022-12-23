@@ -57,7 +57,7 @@ class RegistrationHelp
 
     public function __toString(): string
     {
-        return $this->activity.' - '.$this->name.' ('.$this->getCreneauChoicesAsString().')';
+        return $this->activity . ' - ' . $this->name . ' (' . $this->getCreneauChoicesAsString() . ')';
     }
 
     public function getId(): ?int

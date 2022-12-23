@@ -32,7 +32,7 @@ class AppExtension extends AbstractExtension
 
     public function pluralize(int $count, string $singular, ?string $plural = null): string
     {
-        $plural ??= $singular.'s';
+        $plural ??= $singular . 's';
         $string = 1 === $count ? $singular : $plural;
 
         return "$count $string";
@@ -43,7 +43,7 @@ class AppExtension extends AbstractExtension
         $price = $event->getPrice() / 100;
         $price = number_format($price, 2);
 
-        return $event->isFree() ? 'Gratuit' : $price.' €';
+        return $event->isFree() ? 'Gratuit' : $price . ' €';
     }
 
     public function formatDateTime(\DateTimeInterface $dateTime): string

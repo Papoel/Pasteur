@@ -67,7 +67,7 @@ class EmailResponseController extends AbstractController
 
             $this->addFlash(
                 type: 'success',
-                message: 'Votre réponse a '.$contact->getFullName().' a bien été envoyée.'
+                message: 'Votre réponse a ' . $contact->getFullName() . ' a bien été envoyée.'
             );
 
             return $this->redirectToRoute(route: 'admin');

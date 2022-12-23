@@ -54,7 +54,7 @@ class EventFixtures extends Fixture
 
             $date = $event->getStartsAt();
 
-            $date = $date->modify(modifier: '+'.$faker->numberBetween(int1: 4, int2: 16).' hours');
+            $date = $date->modify(modifier: '+' . $faker->numberBetween(int1: 4, int2: 16) . ' hours');
             $event->setFinishAt($date);
 
             $date = $faker->dateTimeBetween(startDate: '-3 months', endDate: '-1 day');

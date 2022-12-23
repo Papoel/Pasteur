@@ -35,7 +35,7 @@ class EventCrudController extends AbstractCrudController
 
             ->setPageTitle(
                 pageName: 'detail',
-                title: fn (Event $event) => 'Fiche événement - '.$event->getName()
+                title: fn (Event $event) => 'Fiche événement - ' . $event->getName()
             )
 
             ->setFormOptions([
@@ -106,7 +106,7 @@ class EventCrudController extends AbstractCrudController
             ->formatValue(function ($value, $entity) {
                 $str = $entity->getCreneaux()[0];
                 for ($i = 1; $i < $entity->getCreneaux()->count(); ++$i) {
-                    $str = $str.' | '.$entity->getCreneaux()[$i];
+                    $str = $str . ' | ' . $entity->getCreneaux()[$i];
                 }
 
                 return $str;
@@ -148,10 +148,10 @@ class EventCrudController extends AbstractCrudController
     {
         // Ajouter la contrainte d'unicité de l'entité.
         $events = $entityManager->getRepository(Event::class)->findAll();
-        $eventDetails = $entityInstance->getSlug().$entityInstance->getStartsAt()->format('d-m-Y H:i:s');
+        $eventDetails = $entityInstance->getSlug() . $entityInstance->getStartsAt()->format('d-m-Y H:i:s');
 
         foreach ($events as $event) {
-            if ($eventDetails === $event->getSlug().$event->getStartsAt()->format('d-m-Y H:i:s')) {
+            if ($eventDetails === $event->getSlug() . $event->getStartsAt()->format('d-m-Y H:i:s')) {
                 $this->addFlash(
                     type: 'danger',
                     message: 'Un événement du même nom existe déjà dans la base de données.'

@@ -45,7 +45,7 @@ class RegistrationHelpCrudController extends AbstractCrudController
 
             ->setPageTitle(
                 pageName: 'detail',
-                title: fn (Event $event) => 'Fiche événement - '.$event->getName()
+                title: fn (Event $event) => 'Fiche événement - ' . $event->getName()
             )
 
             ->setFormOptions([

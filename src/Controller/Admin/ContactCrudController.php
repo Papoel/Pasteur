@@ -19,6 +19,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Filter\BooleanFilter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+
 class ContactCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string

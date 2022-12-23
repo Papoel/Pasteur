@@ -75,7 +75,7 @@ class ContactController extends AbstractController
             );
 
             $this->addFlash(type: 'success', message: 'Merci 🙏  '
-                .$contact->getFullname().
+                . $contact->getFullname() .
                 ', votre message a bien été envoyé.');
 
             return $this->redirectToRoute(route: 'app_contact');
