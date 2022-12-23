@@ -8,11 +8,13 @@ use App\Entity\Event\RegistrationEvent;
 use App\Entity\User\User;
 use App\Repository\Contact\ContactRepository;
 use App\Repository\Event\EventRepository;
+use App\Repository\Event\RegistrationEventRepository;
 use App\Repository\User\UserRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -22,6 +24,7 @@ class DashboardController extends AbstractDashboardController
         private readonly UserRepository $userRepository,
         private readonly EventRepository $eventRepository,
         private readonly ContactRepository $contactRepository,
+        private readonly RegistrationEventRepository $registrationEventRepository,
     ) {
     }
 
@@ -58,7 +61,7 @@ class DashboardController extends AbstractDashboardController
 
         $totalUsers = $this->userRepository->count([]);
         yield MenuItem::section(label: 'Utilisateurs', icon: 'fa fa-users')
-            ->setBadge(content: $totalUsers)
+            ->setBadge(content: $totalUsers, style: 'info')
         ;
         yield MenuItem::subMenu(label: 'Action', icon: 'fas fa-bars')->setSubItems(subItems: [
             MenuItem::linkToCrud(label: 'Voir les utilisateurs', icon: 'fas fa-eye', entityFqcn: User::class),
@@ -76,7 +79,9 @@ class DashboardController extends AbstractDashboardController
                 ->setAction(actionName: Crud::PAGE_NEW),
         ]);
 
-        yield MenuItem::section(label: 'Inscriptions', icon: 'fas fa-calendar-check');
+        $totalInscriptions = $this->registrationEventRepository->count([]);
+        yield MenuItem::section(label: 'Inscriptions', icon: 'fas fa-calendar-check')
+            ->setBadge($totalInscriptions, style: 'info');
         yield MenuItem::subMenu(label: 'Action', icon: 'fas fa-bars')
             ->setSubItems(subItems: [
                 MenuItem::linkToCrud(
@@ -90,14 +95,11 @@ class DashboardController extends AbstractDashboardController
                     entityFqcn: RegistrationEvent::class
                 )
                     ->setAction(actionName: Crud::PAGE_NEW),
+                MenuItem::linkToRoute('Détails', 'fas fa-boxes', 'app_event_registrations_index')
             ])
         ;
 
-        if (
-            $this->container
-                ->get('security.authorization_checker')
-                ->isGranted('ROLE_PRESIDENT')
-        ) {
+        if ($this->container->get('security.authorization_checker')->isGranted('ROLE_PRESIDENT')) {
             $totalMessages = $this->contactRepository->count(['isReplied' => false]);
             yield MenuItem::section(label: 'Messages', icon: 'fas fa-envelope')
                 ->setBadge($totalMessages, style: 'warning')
