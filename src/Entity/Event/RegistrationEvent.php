@@ -61,6 +61,7 @@ class RegistrationEvent
 
     #[ORM\OneToMany(mappedBy: 'registrationEvent', targetEntity: Children::class, cascade: ['persist', 'remove'])]
     #[Assert\Count(min: 1, minMessage: 'Veuillez inscrire au moins {{ limit }} enfant.')]
+    #[Assert\Valid]
     private Collection $children;
 
     public function __construct()

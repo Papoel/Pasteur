@@ -1,16 +1,51 @@
 {% extends 'base.html.twig' %}
-{% block title %}Inscription #{{ event.id }}{% endblock %}
+{% block title %}Inscription: {{ event.name }}{% endblock %}
 {% block body %}
 
     {% include('components/_navbar.html.twig') %}
     <section class="text-gray-600">
-        <h1 class="text-4xl text-center text-purple-degrade uppercase font-semibold pt-8 md:py-10">{{ event.name }}</h1>
+        <h1 class="text-4xl text-center text-purple-degrade uppercase font-semibold pt-8 md:py-10">
+            Inscription: {{ event.name }}
+        </h1>
 
         {% include('components/_flash-messages.html.twig') %}
 
         <div class="md:mt-10 sm:mt-0 py-8">
-            <div class="mx-auto ">
-                <div class="mt-5 md:mt-0 md:col-span-2">
+            <div class="mx-auto container px-6">
+                {{ form_start(form) }}
+                    {{ form_widget(form._token) }}
+                    {{ form_errors(form) }}
+                    {{ form_row(form.firstname) }}
+                    {{ form_row(form.lastname) }}
+                    {{ form_row(form.email) }}
+                    {{ form_row(form.telephone) }}
+
+                    <button
+                            id="add-child"
+                            type="button"
+                            class="btn-new py-2 px-3 mb-2 text-center text-white bg-indigo-600 hover:bg-indigo-700"
+                            data-collection="#childrens"
+                    >
+                        Ajouter une enfant
+                    </button>
+
+                    <div id="childrens"
+                         data-prototype="{{ include('events/registrations/_children.html.twig',
+                             {form: form.children.vars.prototype})|e("html_attr") }}"
+                         data-index="{{ form.children|length > 0 ? form.children|last.vars.name + 1 : 0 }}">
+                        {% for children in form.children %}
+                            <div class="add-child">
+                                {{ include('events/registrations/_children.html.twig', {form: children}) }}
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    {{ form_row(form.submit) }}
+
+
+                {{ form_end(form, {render_rest: false}) }}
+
+                {#<div class="mt-5 md:mt-0 md:col-span-2">
                     {{ form_start(form) }}
                     <div class="overflow-hidden sm:rounded-md">
                         <div class="px-4 py-3 bg-white">
@@ -67,7 +102,7 @@
                     </div>
                     {{ form_widget(form._token) }}
                     {{ form_end(form, {'render_rest': false}) }}
-                </div>
+                </div>#}
             </div>
         </div>
     </section>

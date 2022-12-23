@@ -11,3 +11,4 @@ import 'tw-elements'
 import('@tailwindcss/forms');
 import('flowbite/plugin');
 import('./flowbite.min');
+import('./form/add-child')

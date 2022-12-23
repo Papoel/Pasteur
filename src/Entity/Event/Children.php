@@ -15,7 +15,7 @@ class Children
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: 'Le prénom est obligatoire.')]
     #[Assert\Length(
         min: 3,
         max: 50,
@@ -25,7 +25,7 @@ class Children
     private string $firstname;
 
     #[ORM\Column(length: 50)]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: 'Le nom est obligatoire.')]
     #[Assert\Length(
         min: 2,
         max: 50,
@@ -39,6 +39,7 @@ class Children
         max: 20,
         maxMessage: 'Vous ne pouvez pas inscrire une classe avec plus de {{ limit }} caractères.'
     )]
+    #[Assert\NotBlank(message: 'Choisissez un élément dans la liste.')]
     private ?string $classroom = null;
 
     #[ORM\ManyToOne(cascade: ['persist', 'remove'], inversedBy: 'children')]
@@ -46,7 +47,7 @@ class Children
 
     public function __toString(): string
     {
-        return $this->firstname.' '.$this->lastname.' ('.$this->classroom.')';
+        return $this->firstname . ' ' . $this->lastname . ' (' . $this->classroom . ')';
     }
 
     public function getId(): ?int

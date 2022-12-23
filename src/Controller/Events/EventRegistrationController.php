@@ -4,7 +4,9 @@ namespace App\Controller\Events;
 
 use App\Entity\Event\Event;
 use App\Entity\Event\RegistrationEvent;
+use App\Entity\User\User;
 use App\Form\EventRegistrationFormType;
+use App\Repository\User\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,26 +15,40 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class EventRegistrationController extends AbstractController
 {
-    // TODO : Renvoyer la liste des inscrits pour les ADMINS
-    #[Route('/evenement/{slug}/inscription-evenement', name: 'app_event_registrations_index', methods: ['GET'])]
-    public function index(Event $event): Response
-    {
-        $registrations = $event->getRegistrationEvents()->toArray();
-
-        return $this->render(view: 'events/registrations/list.html.twig', parameters: [
-            'event' => $event,
-            'registrations' => $registrations,
-        ]);
-    }
-
     #[Route(
-        '/evenement/{slug}/inscription-evenement/create',
+        '/evenement/inscription/{slug}/create',
         name: 'app_event_registrations_create',
-        methods: ['GET', 'POST']
+        methods: ['GET' , 'POST']
     )]
-    public function create(Event $event, Request $request, EntityManagerInterface $em): Response
-    {
+    public function create(
+        Event $event,
+        Request $request,
+        EntityManagerInterface $em,
+        UserRepository $userRepository
+    ): Response {
         $registration = new RegistrationEvent();
+
+        if ($this->getUser()) {
+            /** @var User $currentUser */
+            $currentUser = $this->getUser();
+
+            $userFirstname = $currentUser->getFirstname();
+            $userLastname = $currentUser->getLastname();
+            $userEmail = $currentUser->getEmail();
+            $userTelephone = $currentUser->getTelephone();
+        }
+
+        // Renseigné les informations de l'utilisateur connecté dans le formulaire
+        if ($this->getUser()) {
+            /** @var User $userFirstname */
+            $registration->setFirstname($userFirstname);
+            /** @var User $userLastname */
+            $registration->setLastname($userLastname);
+            /** @var User $userEmail */
+            $registration->setEmail($userEmail);
+            /** @var User $userTelephone */
+            $registration->setTelephone($userTelephone);
+        }
 
         $form = $this->createForm(type: EventRegistrationFormType::class, data: $registration);
 
@@ -40,21 +56,20 @@ class EventRegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $registration->setEvent($event);
-
             $em->persist($registration);
             $em->flush();
 
             $this->addFlash(type: 'success', message: 'Merci, vous êtes inscrit !');
 
             return $this->redirectToRoute(
-                route: 'app_event_registrations_index',
-                parameters: ['event' => $event->getId()]
+                route: 'app_event_show',
+                parameters: ['slug' => $event->getSlug()]
             );
         }
 
-        return $this->renderForm(view: 'events/registrations/create.html.twig', parameters: [
-            'event' => $event,
-            'form' => $form,
+        return $this->renderForm(view: 'events/registrations/registration-event.html.twig', parameters: [
+            'event' => $event ,
+            'form' => $form ,
         ]);
     }
 }
