@@ -22,7 +22,6 @@ class DashboardController extends AbstractDashboardController
         private readonly UserRepository $userRepository,
         private readonly EventRepository $eventRepository,
         private readonly ContactRepository $contactRepository,
-        private readonly UserRepository $user
     ) {
     }
 
@@ -94,14 +93,20 @@ class DashboardController extends AbstractDashboardController
             ])
         ;
 
-        $totalMessages = $this->contactRepository->count(['isReplied' => false]);
-        yield MenuItem::section(label: 'Messages', icon: 'fas fa-envelope')
-            ->setBadge($totalMessages, style: 'warning')
-            ->setPermission(permission: 'ROLE_PRESIDENT')
-        ;
-        yield MenuItem::subMenu(label: 'Action', icon: 'fas fa-bars')->setSubItems(subItems: [
-            MenuItem::linkToCrud(label: 'Voir tous les messages', icon: 'fas fa-eye', entityFqcn: Contact::class)
-                ->setPermission(permission: 'ROLE_PRESIDENT'),
-        ]);
+        if (
+            $this->container
+                ->get('security.authorization_checker')
+                ->isGranted('ROLE_PRESIDENT')
+        ) {
+            $totalMessages = $this->contactRepository->count(['isReplied' => false]);
+            yield MenuItem::section(label: 'Messages', icon: 'fas fa-envelope')
+                ->setBadge($totalMessages, style: 'warning')
+                ->setPermission(permission: 'ROLE_PRESIDENT')
+            ;
+            yield MenuItem::subMenu(label: 'Action', icon: 'fas fa-bars')->setSubItems(subItems: [
+                MenuItem::linkToCrud(label: 'Voir tous les messages', icon: 'fas fa-eye', entityFqcn: Contact::class)
+                    ->setPermission(permission: 'ROLE_PRESIDENT'),
+            ]);
+        }
     }
 }
