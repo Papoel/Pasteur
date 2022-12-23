@@ -63,7 +63,6 @@ class EventCrudController extends AbstractCrudController
             ->setUnlockConfirmationMessage('Il est recommandé de ne pas agir sur ce label, êtes-vous sûr de vous ?')
             ->setColumns(cols: 'col-12 col-sm-6')
             ->hideOnIndex()
-            ->hideOnForm()
         ;
 
         yield TextField::new(propertyName: 'location', label: 'Se déroulera à')
@@ -139,7 +138,8 @@ class EventCrudController extends AbstractCrudController
     }
 
     /**
-     * @param $entityInstance
+     * @param EntityManagerInterface $entityManager
+     * @param                        $entityInstance
      *
      * @return void
      *              Permet de vérifier si un événement du même nom existe déjà dans la base de données
