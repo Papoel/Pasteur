@@ -32,19 +32,15 @@ class RegistrationEventCrudController extends AbstractCrudController
                 dateFormatOrPattern: dateTimeField::FORMAT_LONG,
                 timeFormat: dateTimeField::FORMAT_SHORT
             )
-
             ->setPageTitle(
                 pageName: 'detail',
-                title: fn (RegistrationEvent $registrationEvent) => 'Inscription - ' . $registrationEvent
+                title: fn(RegistrationEvent $registrationEvent) => 'Inscription - ' . $registrationEvent
                         ->getEvent()
                         ->getName()
             )
-
             ->setFormOptions([
-                'validation_groups' => ['Default'],
-            ])
-
-        ;
+                'validation_groups' => ['Default'] ,
+            ]);
 
         return Crud::new();
     }
@@ -58,8 +54,7 @@ class RegistrationEventCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         yield IdField::new(propertyName: 'id')
-            ->onlyOnIndex()
-        ;
+            ->onlyOnIndex();
         yield TextField::new(propertyName: 'firstname', label: 'Prénom');
 
         yield TextField::new(propertyName: 'lastname', label: 'Nom');
@@ -69,36 +64,20 @@ class RegistrationEventCrudController extends AbstractCrudController
         yield TelephoneField::new(propertyName: 'telephone', label: 'Téléphone');
 
         yield AssociationField::new(propertyName: 'event', label: 'Événement')
-            ->setCrudController(crudControllerFqcn: EventCrudController::class)
-        ;
-
-        /*yield FormField::addPanel(label: 'Inscrire des enfants')
-            ->collapsible()
-            ->setIcon(iconCssClass: 'fa fa-info')
-            ->setHelp(help: 'Ajouter des enfants')*/
-
-        /*yield CollectionField::new(propertyName: 'children', label: 'Enfants inscrits')
-            ->setEntryIsComplex(isComplex: true)
-            ->setEntryType(formTypeFqcn: ChildrenFormType::class)
-            ->setTemplatePath(path: 'admin/registration/add_children.html.twig')
-        ;*/
+            ->setCrudController(crudControllerFqcn: EventCrudController::class);
 
         yield CollectionField::new(propertyName: 'children', label: 'Enfants')
             ->allowAdd()
             ->setEntryType(formTypeFqcn: AddChildrenFormType::class)
             ->setEntryIsComplex()
-            ->setTemplatePath(path: 'admin/registration/add_children.html.twig')
-        ;
+            ->setTemplatePath(path: 'admin/registration/add_children.html.twig');
 
         yield BooleanField::new(propertyName: 'paid', label: 'Payé')
-            ->renderAsSwitch(isASwitch: false)
-        ;
+            ->renderAsSwitch(isASwitch: false);
     }
 
     public function persistEntity(EntityManagerInterface $em, $entityInstance): void
     {
-        $slug = $entityInstance->getEvent()->getSlug();
-
         if (!$entityInstance instanceof RegistrationEvent) {
             return;
         }
