@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Contact;
 
 use App\Entity\Contact\Contact;
+use App\Entity\User\User;
 use App\Form\ContactFormType;
 use App\Repository\User\UserRepository;
 use App\Services\MailService;
@@ -24,15 +25,16 @@ class ContactController extends AbstractController
         UserRepository $userRepository,
     ): Response {
         $contact = new Contact();
-        if ($this->getUser()) {
-            $userName = $userRepository->find($this->getUser())
-                ->getFullName();
-            $userEmail = $userRepository->find($this->getUser())
-                ->getEmail();
+        /** @var User $currentUser */
+        $currentUser = $this->getUser();
+
+        if ($currentUser) {
+            $userName = $userRepository->find($currentUser)->getFullName();
+            $userEmail = $userRepository->find($currentUser)->getEmail();
         }
 
         // Renseigné les informations de l'utilisateur connecté dans le formulaire
-        if ($this->getUser()) {
+        if ($currentUser) {
             $contact->setFullName($userName);
             $contact->setEmail($userEmail);
         }
