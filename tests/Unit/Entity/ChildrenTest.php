@@ -173,7 +173,7 @@ class ChildrenTest extends KernelTestCase
 
         self::assertNull(actual: $childrenClassroom->getClassroom());
 
-        $this->assertValidationErrorsCount($childrenClassroom, count: 0);
+        $this->assertValidationErrorsCount($childrenClassroom, count: 1);
     }
 
     public function testClassroomIsEmpty(): void
@@ -182,6 +182,6 @@ class ChildrenTest extends KernelTestCase
 
         self::assertEmpty(actual: $childrenClassroom->getClassroom());
 
-        $this->assertValidationErrorsCount($childrenClassroom, count: 0);
+        $this->assertValidationErrorsCount($childrenClassroom, count: 1);
     }
 }
