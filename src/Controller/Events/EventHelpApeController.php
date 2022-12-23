@@ -6,7 +6,9 @@ namespace App\Controller\Events;
 
 use App\Entity\Event\Event;
 use App\Entity\Event\RegistrationHelp;
+use App\Entity\User\User;
 use App\Form\RegistrationHelpFormType;
+use App\Repository\User\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,10 +22,26 @@ class EventHelpApeController extends AbstractController
         name: 'event_help_registration_create',
         methods: ['GET', 'POST']
     )]
-    public function create(Event $event, Request $request, EntityManagerInterface $em): Response
+    public function create(Event $event, Request $request, EntityManagerInterface $em, UserRepository $userRepository): Response
     {
         $registration = new RegistrationHelp();
         $event_creneaux = $event->getCreneaux()->toArray();
+
+        /** @var User $currentUser */
+        $currentUser = $this->getUser();
+
+        if ($currentUser) {
+            $userName = $userRepository->find($currentUser)->getFullName();
+            $userEmail = $userRepository->find($currentUser)->getEmail();
+            $userTelephone = $userRepository->find($currentUser)->getTelephone();
+        }
+
+        // Renseigné les informations de l'utilisateur connecté dans le formulaire
+        if ($currentUser) {
+            $registration->setName($userName);
+            $registration->setEmail($userEmail);
+            $registration->setTelephone($userTelephone);
+        }
 
         $form = $this->createForm(type: RegistrationHelpFormType::class, data: $registration, options: [
             'event_creneaux' => $event_creneaux,
