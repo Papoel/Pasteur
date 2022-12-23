@@ -60,11 +60,17 @@ class RegistrationEvent
     private Event $event;
 
     #[ORM\OneToMany(mappedBy: 'registrationEvent', targetEntity: Children::class, cascade: ['persist', 'remove'])]
+    #[Assert\Count(min: 1, minMessage: 'Veuillez inscrire au moins {{ limit }} enfant.')]
     private Collection $children;
 
     public function __construct()
     {
         $this->children = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+        return $this->firstname .' '. $this->lastname;
     }
 
     public function getId(): ?int
