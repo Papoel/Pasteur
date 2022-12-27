@@ -74,6 +74,11 @@ class RegistrationEvent
         return $this->firstname . ' ' . $this->lastname;
     }
 
+    public function getFullname(): string
+    {
+        return $this->firstname . ' ' . $this->lastname;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
