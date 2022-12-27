@@ -28,21 +28,44 @@ class RegistrationEventCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
+            ->setEntityLabelInSingular(label: 'Inscription à un événement')
+
+            ->setEntityLabelInPlural(label: 'Inscriptions aux événements')
+
+            ->setPageTitle(pageName: 'index', title: '📆 Aperp - Inscriptions aux événements')
+
+            ->setPaginatorPageSize(maxResultsPerPage: 20)
+
             ->setDateTimeFormat(
                 dateFormatOrPattern: dateTimeField::FORMAT_LONG,
                 timeFormat: dateTimeField::FORMAT_SHORT
             )
+
             ->setPageTitle(
                 pageName: 'detail',
-                title: fn(RegistrationEvent $registrationEvent) => 'Inscription - ' . $registrationEvent
+                title: fn(RegistrationEvent $registrationEvent) => '📇 Inscription - ' . $registrationEvent
                         ->getEvent()
                         ->getName()
             )
+
+            ->setPageTitle(
+                pageName: 'edit',
+                title: fn (RegistrationEvent $registrationEvent) => sprintf(
+                    '✍️ <i>Modification Inscription </i> <b>%s</b> (<i>%s</i>)',
+                    $registrationEvent->getEvent()->getName(),
+                    $registrationEvent->getFullname()
+                )
+            )
+
+            ->setPageTitle(
+                pageName: 'new',
+                title: 'Organiser un nouvel événement 🎉'
+            )
+
             ->setFormOptions([
                 'validation_groups' => ['Default'] ,
-            ]);
-
-        return Crud::new();
+            ])
+        ;
     }
 
     public function configureActions(Actions $actions): Actions
@@ -55,16 +78,27 @@ class RegistrationEventCrudController extends AbstractCrudController
     {
         yield IdField::new(propertyName: 'id')
             ->onlyOnIndex();
-        yield TextField::new(propertyName: 'firstname', label: 'Prénom');
 
-        yield TextField::new(propertyName: 'lastname', label: 'Nom');
+        yield TextField::new(propertyName: 'firstname', label: 'Prénom')
+            ->setColumns(cols: 'col-12 col-sm-4')
+        ;
 
-        yield EmailField::new(propertyName: 'email', label: 'Email');
+        yield TextField::new(propertyName: 'lastname', label: 'Nom')
+            ->setColumns(cols: 'col-12 col-sm-4')
+        ;
 
-        yield TelephoneField::new(propertyName: 'telephone', label: 'Téléphone');
+        yield TelephoneField::new(propertyName: 'telephone', label: 'Téléphone')
+            ->setColumns(cols: 'col-12 col-sm-4')
+        ;
+
+        yield EmailField::new(propertyName: 'email', label: 'Email')
+            ->setColumns(cols: 'col-12 col-sm-6')
+        ;
 
         yield AssociationField::new(propertyName: 'event', label: 'Événement')
-            ->setCrudController(crudControllerFqcn: EventCrudController::class);
+            ->setColumns(cols: 'col-12 col-sm-4')
+            ->setCrudController(crudControllerFqcn: EventCrudController::class)
+        ;
 
         yield CollectionField::new(propertyName: 'children', label: 'Enfants')
             ->allowAdd()
@@ -73,6 +107,7 @@ class RegistrationEventCrudController extends AbstractCrudController
             ->setTemplatePath(path: 'admin/registration/add_children.html.twig');
 
         yield BooleanField::new(propertyName: 'paid', label: 'Payé')
+
             ->renderAsSwitch(isASwitch: false);
     }
 

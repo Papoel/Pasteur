@@ -28,6 +28,14 @@ class EventCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
+            ->setEntityLabelInSingular(label: 'Événement')
+
+            ->setEntityLabelInPlural(label: 'Événements')
+
+            ->setPageTitle(pageName: 'index', title: '📆 Aperp - Administration des événements')
+
+            ->setPaginatorPageSize(maxResultsPerPage: 20)
+
             ->setDateTimeFormat(
                 dateFormatOrPattern: dateTimeField::FORMAT_LONG,
                 timeFormat: dateTimeField::FORMAT_SHORT
@@ -35,7 +43,17 @@ class EventCrudController extends AbstractCrudController
 
             ->setPageTitle(
                 pageName: 'detail',
-                title: fn (Event $event) => 'Fiche événement - ' . $event->getName()
+                title: fn (Event $event) => '📇 Fiche événement - ' . $event->getName()
+            )
+
+            ->setPageTitle(
+                pageName: 'edit',
+                title: fn (Event $event) => '✍️ Modification - ' . $event->getName()
+            )
+
+            ->setPageTitle(
+                pageName: 'new',
+                title: 'Organiser un nouvel événement 🎉'
             )
 
             ->setFormOptions([

@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Contact\Contact;
+use App\Entity\Event\RegistrationEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -29,27 +30,28 @@ class ContactCrudController extends AbstractCrudController
 
     public function configureCrud(Crud $crud): Crud
     {
-        /* @noinspection PhpParamsInspection */
         return $crud
             ->setEntityLabelInSingular(label: 'Demande de contact')
-
             ->setEntityLabelInPlural(label: 'Demandes de contact')
-
-            ->setPageTitle(pageName: 'index', title: 'Aperp - Administration des demandes de contact')
-
+            ->setPageTitle(pageName: 'index', title: '💌 Liste des messages reçus 💌')
             ->setPaginatorPageSize(maxResultsPerPage: 20)
             // Ajout WYSIWYG pour le message (pas utile pour le moment)
 
             ->addFormTheme(themePath: '@FOSCKEditor/Form/ckeditor_widget.html.twig')
-
-            ->setPageTitle(
-                pageName: 'detail',
-                title: fn (Contact $contact): ?string => $contact->getFullName()
-            )
-
             ->setDateTimeFormat(
                 dateFormatOrPattern: dateTimeField::FORMAT_LONG,
                 timeFormat: dateTimeField::FORMAT_SHORT
+            )
+            ->setPageTitle(
+                pageName: 'detail',
+                title: fn(Contact $contact): ?string => $contact->getFullName()
+            )
+            ->setPageTitle(
+                pageName: 'detail',
+                title: fn(Contact $contact) => sprintf(
+                    '📬 <i>Message reçu de </i> <b>%s</b>.',
+                    $contact->getFullName()
+                )
             )
         ;
     }
@@ -57,34 +59,28 @@ class ContactCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         yield IdField::new(propertyName: 'id')
-            ->onlyOnIndex()
-        ;
+            ->onlyOnIndex();
 
         yield TextField::new(propertyName: 'fullname', label: 'Nom complet');
 
         yield TextField::new(propertyName: 'subject', label: 'Sujet');
 
         yield TextField::new(propertyName: 'email', label: 'Email')
-            ->hideOnIndex()
-        ;
+            ->hideOnIndex();
 
         yield TextareaField::new(propertyName: 'message', label: 'Message')
-            ->hideOnIndex()
-        ;
+            ->hideOnIndex();
 
         yield DateTimeField::new(propertyName: 'createdAt', label: 'Date de réception')
-            ->hideOnForm()
-        ;
+            ->hideOnForm();
 
         yield BooleanField::new(propertyName: 'isReplied', label: 'Répondu ?')
-            ->renderAsSwitch(isASwitch: false)
-        ;
+            ->renderAsSwitch(isASwitch: false);
 
         // display if the contact has been replied
         if (Crud::PAGE_DETAIL === $pageName) {
             yield DateTimeField::new(propertyName: 'replyAt', label: 'Date de réponse')
-                ->hideOnForm()
-            ;
+                ->hideOnForm();
         }
 
         yield TextareaField::new(propertyName: 'response', label: 'La réponse de l\'APE :')
@@ -107,23 +103,16 @@ class ContactCrudController extends AbstractCrudController
 
         return $actions
             ->remove(pageName: Crud::PAGE_INDEX, actionName: Action::NEW)
-
             ->remove(pageName: Crud::PAGE_INDEX, actionName: Action::EDIT)
-
             ->remove(pageName: Crud::PAGE_DETAIL, actionName: Action::EDIT)
-
             ->disable(Action::NEW, Action::DELETE)
-
             ->add(pageName: Crud::PAGE_INDEX, actionNameOrObject: 'detail')
-
             ->add(Crud::PAGE_DETAIL, $email_response)
-
             /*->add(pageName: Crud::PAGE_DETAIL, actionNameOrObject: $email_response[
                 'displayIf' => fn (Contact $contact): bool => !$contact->getIsReplied(),
             ])*/
 
-            ->setPermission(actionName: 'contact', permission: 'ROLE_PRESIDENT')
-        ;
+            ->setPermission(actionName: 'contact', permission: 'ROLE_PRESIDENT');
     }
 
     public function reply(AdminContext $adminContext, EntityManagerInterface $entityManager): void
@@ -147,8 +136,7 @@ class ContactCrudController extends AbstractCrudController
                     propertyName: 'isReplied',
                     label: 'Afficher les messages répondu'
                 )
-            )
-        ;
+            );
     }
 
     // responseToEmail open new page with form to send email
@@ -160,7 +148,7 @@ class ContactCrudController extends AbstractCrudController
         $entityId = $params['entityId'];
 
         return $this->forward(controller: 'App\Controller\Admin\Contact\EmailResponseController::index', path: [
-            'entityId' => $entityId,
+            'entityId' => $entityId ,
         ]);
         // return $this->redirectToRoute(route: 'app_response_message');
         // return $this->render(view: 'admin/contact/response.html.twig');

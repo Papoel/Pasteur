@@ -3,18 +3,25 @@
 namespace App\Controller\Admin;
 
 use App\Entity\User\User;
+use App\EventSubscriber\AdminPasswordHashSubscriber;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\KeyValueStore;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
+use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvents;
 
 class UserCrudController extends AbstractCrudController
 {
@@ -30,13 +37,23 @@ class UserCrudController extends AbstractCrudController
 
             ->setEntityLabelInPlural(label: 'Utilisateurs')
 
-            ->setPageTitle(pageName: 'index', title: 'Aperp - Administration des utilisateurs')
+            ->setPageTitle(pageName: 'index', title: '🔥 Aperp - Administration des utilisateurs')
 
             ->setPaginatorPageSize(maxResultsPerPage: 20)
 
             ->setPageTitle(
                 pageName: 'detail',
-                title: fn (User $user) => 'Fiche contact - ' . $user->getFullName()
+                title: fn (User $user) => '📇 Fiche contact - ' . $user->getFullName()
+            )
+
+            ->setPageTitle(
+                pageName: 'edit',
+                title: fn (User $user) => '️️✍️ Modification - ' . $user->getFullName()
+            )
+
+            ->setPageTitle(
+                pageName: 'new',
+                title: 'Ajouter un membre à l\'APERP 🎉'
             )
 
             ->setDateTimeFormat(
@@ -50,6 +67,8 @@ class UserCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         yield IdField::new(propertyName: 'id')->onlyOnIndex();
+
+        yield FormField::addPanel(label: 'Informations Générales')->setIcon(iconCssClass: 'fa fa-info');
 
         yield TextField::new(propertyName: 'fullname', label: 'Nom Complet')
             ->onlyOnIndex()
@@ -70,7 +89,7 @@ class UserCrudController extends AbstractCrudController
         ;
 
         yield TextField::new(propertyName: 'email', label: 'Email')
-            ->hideOnIndex()
+            //->hideOnIndex()
             ->setColumns(cols: 'col-12 col-sm-4')
         ;
 
@@ -105,19 +124,6 @@ class UserCrudController extends AbstractCrudController
              ->setColumns(cols: 'col-12 col-md-6')
          ;*/
 
-        yield Field::new(propertyName: 'password', label: 'Confirmation du mot de passe')
-            ->onlyWhenCreating()
-            ->setFormType(RepeatedType::class)
-            ->setFormTypeOptions([
-                'type' => PasswordType::class,
-                'invalid_message' => 'Les mots de passe ne correspondent pas.',
-                'first_options' => ['label' => 'Mot de passe'],
-                'second_options' => ['label' => 'Confirmation du mot de passe'],
-                'required' => true,
-            ])
-            ->setColumns(cols: 'col-12 col-sm-4')
-        ;
-
         yield DateTimeField::new(propertyName: 'createdAt', label: 'Date de création')
             ->onlyOnDetail()
             ->setColumns(cols: 'col-12 col-sm-4')
@@ -142,6 +148,23 @@ class UserCrudController extends AbstractCrudController
             ->hideOnIndex()
             ->setColumns(cols: 'col-12 col-sm-4')
         ;
+
+        if ($pageName == 'new') {
+            yield FormField::addPanel(label: 'Mot de passe')->setIcon(iconCssClass: 'fa fa-key');
+        }
+
+        yield Field::new(propertyName: 'password', label: 'Confirmation du mot de passe')
+            ->onlyWhenCreating()
+            ->setFormType(RepeatedType::class)
+            ->setFormTypeOptions([
+                'type' => PasswordType::class,
+                'invalid_message' => 'Les mots de passe ne correspondent pas.',
+                'first_options' => ['label' => 'Mot de passe'],
+                'second_options' => ['label' => 'Confirmation du mot de passe'],
+                'required' => true,
+            ])
+            ->setColumns(cols: 'col-12 col-sm-4')
+        ;
     }
 
     public function configureActions(Actions $actions): Actions
@@ -150,8 +173,6 @@ class UserCrudController extends AbstractCrudController
             return $actions
                 ->remove(pageName: Crud::PAGE_INDEX, actionName: Action::NEW)
                 ->remove(pageName: Crud::PAGE_INDEX, actionName: Action::EDIT)
-                ->add(pageName: Crud::PAGE_INDEX, actionNameOrObject: 'detail')
-                ->remove(pageName: Crud::PAGE_DETAIL, actionName: Action::EDIT)
                 ->disable(Action::NEW, Action::DELETE);
         }
 
