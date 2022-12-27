@@ -23,8 +23,8 @@ class RegistrationEvent
         minMessage: 'Le prénom doit faire plus de {{ limit }} caractères.',
         maxMessage: 'Le prénom ne doit pas faire plus de {{ limit }} caractères.'
     )]
-    #[Assert\NotBlank]
-    private string $firstname;
+    #[Assert\NotBlank(message: 'Le prénom ne doit pas être vide')]
+    private ?string $firstname;
 
     #[ORM\Column(length: 100)]
     #[Assert\Length(
@@ -33,8 +33,8 @@ class RegistrationEvent
         minMessage: 'Le nom doit faire plus de {{ limit }} caractères.',
         maxMessage: 'Le nom ne doit pas faire plus de {{ limit }} caractères.'
     )]
-    #[Assert\NotBlank]
-    private string $lastname;
+    #[Assert\NotBlank(message: 'Le nom ne doit pas être vide')]
+    private ?string $lastname;
 
     #[ORM\Column(length: 180)]
     #[Assert\Length(
@@ -43,9 +43,9 @@ class RegistrationEvent
         minMessage: 'L\' email doit faire plus de {{ limit }} caractères.',
         maxMessage: 'L\'email ne doit pas faire plus de {{ limit }} caractères.'
     )]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: 'L\'adresse email est obligatoire.')]
     #[Assert\Email]
-    private string $email;
+    private ?string $email;
 
     #[ORM\Column(length: 10, nullable: true)]
     #[Assert\Type(type: 'numeric', message: 'Seuls les chiffres sont acceptés.')]
@@ -89,7 +89,7 @@ class RegistrationEvent
         return $this->firstname;
     }
 
-    public function setFirstname(string $firstname): self
+    public function setFirstname(?string $firstname): self
     {
         $this->firstname = $firstname;
 
@@ -101,7 +101,7 @@ class RegistrationEvent
         return $this->lastname;
     }
 
-    public function setLastname(string $lastname): self
+    public function setLastname(?string $lastname): self
     {
         $this->lastname = $lastname;
 
@@ -113,7 +113,7 @@ class RegistrationEvent
         return $this->email;
     }
 
-    public function setEmail(string $email): self
+    public function setEmail(?string $email): self
     {
         $this->email = $email;
 

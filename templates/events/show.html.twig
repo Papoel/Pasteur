@@ -17,13 +17,31 @@
                              alt="{{ event.name }}"
                         >
                     {% else %}
-{#                        <img style="max-height: 510px; max-width: 720px" class="w-full object-cover rounded"#}
+                        {# <img style="max-height: 510px; max-width: 720px" class="w-full object-cover rounded"#}
                         <img style="max-height: 510px"
                              class="w-full rounded md:object-cover xl:object-contain xl:bg-gray-50 xl:py-4 xl:shadow-xl"
                              src="{{ vich_uploader_asset(event, 'imageFile') }}"
                              alt="{{ event.name }}"
                         >
                     {% endif %}
+
+                    <!--####################################### Complet ###########################################-->
+                    {% if event.capacity == 0 %}
+                        <div class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-red-900 px-4 py-3 shadow-md" role="alert">
+                            <div class="flex">
+                                <div class="py-1">
+                                    <svg class="fill-current h-6 w-6 text-teal-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"/></svg>
+                                </div>
+                                <div>
+                                    <p class="font-bold">Événement Complet</p>
+                                    <p class="text-sm">
+                                        Victime de son succès, cet événement affiche complet, nous en sommes désolé.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+
                     <div>
                         <!--################################## Date | Titre #######################################-->
                         <p class="mt-6 text-sm text-blue-500 uppercase">{{ event.startsAt|format_datetime('full', 'short') }}</p>
@@ -39,11 +57,11 @@
 
                     <!--################################### Team APE (Soutien) ####################################-->
                     {% if event.helpNeeded %}
-                        <hr class="my-12">
                         {% if app.user %}
+                        <hr class="my-12">
                             <div id="alert-additional-content-1" class="p-4 mb-4 border border-blue-300 rounded-lg bg-blue-50 dark:bg-blue-300" role="alert">
                                 <div class="flex items-center">
-                                    <svg aria-hidden="true" class="w-5 h-5 mr-2 text-blue-900" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                                    <svg class="fill-current h-6 w-6 text-blue-900 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"/></svg>
                                     <span class="sr-only">Info</span>
                                     <h3 class="text-lg font-semibold text-blue-900">Chers membres de l'association</h3>
                                 </div>
@@ -81,8 +99,8 @@
                                         votre soutien et votre engagement.
                                     </p>
 
-                                    <div class="border-t border-blue-400 my-4 py-4 w-[50%] mx-auto">
-                                        <p class="lead text-center text-purple-degrade">
+                                    <div class="border-t border-blue-800 my-4 py-4 w-[50%] mx-auto">
+                                        <p class="lead text-center text-blue-900 font-semibold lead" >
                                             Cordialement, <br>
                                             La présidente de l'APERP.
                                         </p>
@@ -91,7 +109,7 @@
                                 </div>
                                 <div class="flex">
                                     <a href="{{ path('event_help_registration_create', {'slug': event.slug}) }}"
-                                       class="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-200 font-medium rounded-lg text-xs px-3 py-1.5 mr-2 text-center inline-flex items-center dark:bg-purple-800 dark:hover:bg-purple-900">
+                                       class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-200 font-medium rounded-lg text-xs px-3 py-1.5 mr-2 text-center inline-flex items-center dark:bg-blue-800 dark:hover:bg-blue-900">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
                                         </svg>
@@ -120,7 +138,9 @@
                         {% endif %}
                     {% endfor %}
 
-                    {% include('components/Event/_registration.html.twig') %}
+                    {% if event.capacity > 0 %}
+                        {% include('components/Event/_registration.html.twig') %}
+                    {% endif %}
                 </div>
             </div>
         </div>

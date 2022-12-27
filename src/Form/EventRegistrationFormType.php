@@ -10,13 +10,13 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class EventRegistrationFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-
             ->add(child: 'firstname', type: TextType::class, options: [
                 'label' => 'Prénom :',
                 'label_attr' => [
@@ -89,7 +89,6 @@ class EventRegistrationFormType extends AbstractType
             ])
 
             ->add(child: 'submit', type: SubmitType::class, options: [
-                'label' => 'S\'inscrire',
                 'attr' => [
                     'class' => 'btn-purple-degrade rounded text-lg py-1 px-3 block w-3/4 mx-auto',
                 ],

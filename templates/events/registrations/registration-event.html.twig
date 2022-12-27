@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% block title %}Inscription: {{ event.name }}{% endblock %}
+{% block title %}Inscription: {{ event.name }} {% endblock %}
 {% block body %}
 
     {% include('components/_navbar.html.twig') %}
@@ -14,16 +14,57 @@
             <div class="mx-auto container px-6">
                 {{ form_start(form) }}
                     {{ form_widget(form._token) }}
-                    {{ form_errors(form) }}
-                    {{ form_row(form.firstname) }}
-                    {{ form_row(form.lastname) }}
-                    {{ form_row(form.email) }}
-                    {{ form_row(form.telephone) }}
+
+                    <div class="overflow-hidden sm:rounded-md">
+                        <div class="py-3 bg-white">
+                            <div class="grid grid-cols-4 gap-4">
+                                {{ form_errors(form) }}
+                                <div id="firstname" class="md:col-span-1 col-span-6">
+                                    {{ form_row(form.firstname, {
+                                        row_class: 'mt-2 px-3',
+                                        label_class: 'font-semibold text-gray-600',
+                                        widget_class: 'border border-red-200 bg-gray-50',
+                                        error_item_class: 'text-red-700 font-base',
+                                        widget_errors_class: 'border-double border-4 border-red-500 bg-red-50 mt-1',
+                                    }) }}
+                                </div>
+
+                                <div id="lastname" class="md:col-span-1 col-span-6">
+                                    {{ form_row(form.lastname, {
+                                        row_class: 'mt-2 px-3',
+                                        label_class: 'font-semibold text-gray-600',
+                                        widget_class: 'border border-red-200 bg-gray-50',
+                                        error_item_class: 'text-red-700 font-base',
+                                        widget_errors_class: 'border-double border-4 border-red-500 bg-red-50 mt-1',
+                                    }) }}
+                                </div>
+
+                                <div id="email" class="md:col-span-1 col-span-6">
+                                    {{ form_row(form.email, {
+                                        row_class: 'mt-2 px-3',
+                                        label_class: 'font-semibold text-gray-600',
+                                        widget_class: 'border border-red-200 bg-gray-50',
+                                        error_item_class: 'text-red-700 font-base',
+                                        widget_errors_class: 'border-double border-4 border-red-500 bg-red-50 mt-1',
+                                    }) }}
+                                </div>
+
+                                <div id="telephone" class="md:col-span-1 col-span-6">
+                                    {{ form_row(form.telephone, {
+                                        row_class: 'mt-2 px-3',
+                                        label_class: 'font-semibold text-gray-600',
+                                        widget_class: 'border border-red-200 bg-gray-50',
+                                        error_item_class: 'text-red-700 font-base',
+                                        widget_errors_class: 'border-double border-4 border-red-500 bg-red-50 mt-1',
+                                    }) }}
+                                </div>
+                            </div>
+                        </div>
 
                     <button
                             id="add-child"
                             type="button"
-                            class="btn-new py-2 px-3 mb-2 text-center text-white bg-indigo-600 hover:bg-indigo-700"
+                            class="btn-new py-2 px-3 my-4 ml-3 text-center text-white rounded bg-green-600 hover:bg-green-700"
                             data-collection="#childrens"
                     >
                         Ajouter une enfant
@@ -40,69 +81,8 @@
                         {% endfor %}
                     </div>
 
-                    {{ form_row(form.submit) }}
-
-
+                    {{ form_row(form.submit, { 'label': 'Confirmer mon inscription à ' ~ event.name }) }}
                 {{ form_end(form, {render_rest: false}) }}
-
-                {#<div class="mt-5 md:mt-0 md:col-span-2">
-                    {{ form_start(form) }}
-                    <div class="overflow-hidden sm:rounded-md">
-                        <div class="px-4 py-3 bg-white">
-                            <div class="grid grid-cols-6 gap-6">
-                                <div id="firstname" class="md:col-span-2 col-span-4">
-                                    {{ form_row(form.firstname, {
-                                        row_class: 'mt-2 px-3',
-                                        label_class: 'font-semibold text-gray-600',
-                                        widget_class: 'border border-red-200 bg-gray-50',
-                                        error_item_class: 'text-red-700 font-semibold',
-                                        widget_errors_class: 'border-double border-4 border-red-500 bg-red-50',
-                                    }) }}
-                                </div>
-
-                                <div id="lastname" class="md:col-span-2 col-span-4">
-                                    {{ form_row(form.lastname, {
-                                        row_class: 'mt-2 px-3',
-                                        label_class: 'font-semibold text-gray-600',
-                                        widget_class: 'border border-red-200 bg-gray-50',
-                                        error_item_class: 'text-red-700 font-semibold',
-                                        widget_errors_class: 'border-double border-4 border-red-500 bg-red-50',
-                                    }) }}
-                                </div>
-
-                                <div id="email" class="md:col-span-2 col-span-4">
-                                    {{ form_row(form.email, {
-                                        row_class: 'mt-2 px-3',
-                                        label_class: 'font-semibold text-gray-600',
-                                        widget_class: 'border border-red-200 bg-gray-50',
-                                        error_item_class: 'text-red-700 font-semibold',
-                                        widget_errors_class: 'border-double border-4 border-red-500 bg-red-50',
-                                    }) }}
-                                </div>
-
-                                <div id="telephone" class="md:col-span-2 col-span-4">
-                                    {{ form_row(form.telephone, {
-                                        row_class: 'mt-2 px-3',
-                                        label_class: 'font-semibold text-gray-600',
-                                        widget_class: 'border border-red-200 bg-gray-50',
-                                        error_item_class: 'text-red-700 font-semibold',
-                                        widget_errors_class: 'border-double border-4 border-red-500 bg-red-50',
-                                    }) }}
-                                </div>
-
-                                <div id="children" class="md:col-span-2 col-span-4">
-                                    {{ form_row(form.children) }}
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="text-sm md:text-xl md:px-4 md:py-3 text-center mt-4">
-                            <button type="submit" class="registerBtn btn-purple-degrade w-full w-2/4 md:w-1/3">Valider mon inscription</button>
-                        </div>
-                    </div>
-                    {{ form_widget(form._token) }}
-                    {{ form_end(form, {'render_rest': false}) }}
-                </div>#}
             </div>
         </div>
     </section>

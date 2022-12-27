@@ -55,16 +55,29 @@ class EventRegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $registration->setEvent($event);
-            $em->persist($registration);
-            $em->flush();
+            $reservedPlaces = count($form->getData()->getChildren());
 
-            $this->addFlash(type: 'success', message: 'Merci, vous êtes inscrit !');
+            if ($reservedPlaces <= $event->getCapacity()) {
+                $remainingPlaces = $event->getCapacity() - $reservedPlaces;
+                $event->setCapacity($remainingPlaces);
+                $registration->setEvent($event);
 
-            return $this->redirectToRoute(
-                route: 'app_event_show',
-                parameters: ['slug' => $event->getSlug()]
-            );
+                $em->persist($registration);
+                $em->flush();
+
+                $this->addFlash(type: 'success', message: 'Merci, vous êtes inscrit !');
+
+                return $this->redirectToRoute(
+                    route: 'app_event_show',
+                    parameters: ['slug' => $event->getSlug()]
+                );
+            }
+
+            $this->addFlash(type: 'danger', message: sprintf(
+                'Désolé vous avez tenté d\'inscrire %s enfant(s) alors qu\'il ne reste que %s place(s) de disponible.',
+                $reservedPlaces,
+                $event->getCapacity(),
+            ));
         }
 
         return $this->renderForm(view: 'events/registrations/registration-event.html.twig', parameters: [

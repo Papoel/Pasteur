@@ -1,13 +1,37 @@
-<div class="mt-6 item-child">
+<div class="mt-6 item-child grid grid-cols-6 gap-6">
 
-    <div class="col-span-3">{{ form_row(form.firstname) }}</div>
+    <div class="md:col-span-2 col-span-6" aria-required="false">
+        {{ form_row(form.firstname, {
+            row_class: 'mt-2 px-3',
+            label_class: 'font-semibold text-gray-600',
+            widget_class: 'border border-red-200 bg-gray-50',
+            error_item_class: 'text-red-700 font-base',
+            widget_errors_class: 'border-double border-4 border-red-500 bg-red-50 mt-1',
+        }) }}
+    </div>
 
-    <div class="col-span-3">{{ form_row(form.lastname) }}</div>
+    <div class="md:col-span-2 col-span-6" aria-required="false">
+        {{ form_row(form.lastname, {
+            row_class: 'mt-2 px-3',
+            label_class: 'font-semibold text-gray-600',
+            widget_class: 'border border-red-200 bg-gray-50',
+            error_item_class: 'text-red-700 font-base',
+            widget_errors_class: 'border-double border-4 border-red-500 bg-red-50 mt-1',
+        }) }}
+    </div>
 
-    <div class="col-span-3">{{ form_row(form.classroom) }}</div>
+    <div class="md:col-span-2 col-span-6" aria-required="false">
+        {{ form_row(form.classroom, {
+            row_class: 'mt-2 px-3',
+            label_class: 'font-semibold text-gray-600',
+            widget_class: 'border border-red-200 bg-gray-50',
+            error_item_class: 'text-red-700 font-base',
+            widget_errors_class: 'border-double border-4 border-red-500 bg-red-50 mt-1',
+        }) }}
+    </div>
 
     <div class="form-group sm:col-span-3">
-        <button type="button" class="btn-remove py-2 px-3 mb-2 text-center text-white bg-red-600 hover:bg-red-700">
+        <button type="button" class="btn-remove py-2 px-3 mb-2 ml-3 rounded text-center text-white bg-red-600 hover:bg-red-700">
             Supprimer
         </button>
     </div>
