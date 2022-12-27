@@ -7,6 +7,7 @@ namespace App\Services;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
+use function PHPUnit\Framework\throwException;
 
 class MailService
 {
@@ -33,7 +34,7 @@ class MailService
         try {
             $this->mailer->send($email);
         } catch (TransportExceptionInterface $e) {
-            echo 'Erreur survenue lors de l\'envoi du mail : ' . $e->getMessage();
+            //throwException('Erreur survenue lors de l\'envoi du mail : ' . $e->getMessage());
         }
     }
 }

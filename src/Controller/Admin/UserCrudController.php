@@ -165,7 +165,7 @@ class UserCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        if (!$this->IsGranted(attribute: 'ROLE_PRESIDENT')) {
+        if (!$this->isGranted(attribute: 'ROLE_PRESIDENT')) {
             return $actions
                 ->remove(pageName: Crud::PAGE_INDEX, actionName: Action::NEW)
                 ->remove(pageName: Crud::PAGE_INDEX, actionName: Action::EDIT)

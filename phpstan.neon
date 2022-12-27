@@ -33,9 +33,9 @@ parameters:
 
   # Nothing ignored! (almost!) 🎉
   ignoreErrors:
-    - '#Dead catch - Error is never thrown in the try block.#'
-    - '#Variable method call#'
-    - '#to IntlDateFormatter constructor#' # @see Snippet197Trait
+    #- '#Dead catch - Error is never thrown in the try block.#'
+    #- '#Variable method call#'
+    #- '#to IntlDateFormatter constructor#' # @see Snippet197Trait
 
     # I don't use the Symfony PHPUnit bridge in this project, but if you do, you
     # probably will have to add the following bootstrap file:
@@ -47,3 +47,5 @@ parameters:
     - tools
     - var
     - node_modules
+    - tests
+    - src/DataFixtures

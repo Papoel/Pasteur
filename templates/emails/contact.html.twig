@@ -8,11 +8,10 @@
 
         <body class="bg-gray-900 text-gray-400">
             <div class="container">
-                <h1 class="text-purple-degrade text-5xl">Nouveau message</h1>
                 {% if contact.fullname %}
-                    <p class="text-2xl">{{ contact.fullname }}</p>
+                    <h1 class="text-purple-degrade text-5xl">Nouveau message de {{ contact.fullname }}</h1>
                 {% else %}
-                    <p class="text-2xl animate-pulse uppercase">Anonyme</p>
+                    <h1 class="text-purple-degrade text-5xl">Nouveau message Anonyme</h1>
                 {% endif %}
             </div>
 
@@ -22,21 +21,16 @@
                 {% else %}
                     <p>Sujet : <span class="font-semibold text-gray-300 italic">Aucun</span> </p>
                 {% endif %}
-
                 <hr class="w-1/4 border-gray-700">
-
-                <p>
-                    Message : <br>
-                    <span class="font-semibold">{{ contact.message|raw }}</span>
+                <p> Message : <br>
+                    <p class="font-semibold">{{ contact.message|raw }}</p>
                 </p>
 
                 {% if contact.response %}
                     <hr class="w-1/4 border-gray-700">
-
                     <p class="text-sm">Réponse de : {{ app.user.fullName }}<br>❤️ L'équipe APERP ❤️</p>
                 {% endif %}
 
-                <p class="text-sm">Continuons de nous amuser !<br>❤️ L'équipe APERP ❤️</p>
             </div>
 
         </body>
