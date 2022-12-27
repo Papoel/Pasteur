@@ -14,7 +14,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -95,7 +94,7 @@ class DashboardController extends AbstractDashboardController
                     entityFqcn: RegistrationEvent::class
                 )
                     ->setAction(actionName: Crud::PAGE_NEW),
-                MenuItem::linkToRoute('Détails', 'fas fa-boxes', 'app_event_registrations_index')
+                MenuItem::linkToRoute('Détails', 'fas fa-boxes', 'app_event_registrations_index'),
             ])
         ;
 

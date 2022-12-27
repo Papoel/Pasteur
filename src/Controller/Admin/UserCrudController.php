@@ -3,14 +3,10 @@
 namespace App\Controller\Admin;
 
 use App\Entity\User\User;
-use App\EventSubscriber\AdminPasswordHashSubscriber;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
-use EasyCorp\Bundle\EasyAdminBundle\Config\KeyValueStore;
-use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
@@ -20,8 +16,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvents;
 
 class UserCrudController extends AbstractCrudController
 {
@@ -89,7 +83,7 @@ class UserCrudController extends AbstractCrudController
         ;
 
         yield TextField::new(propertyName: 'email', label: 'Email')
-            //->hideOnIndex()
+            // ->hideOnIndex()
             ->setColumns(cols: 'col-12 col-sm-4')
         ;
 
@@ -108,7 +102,7 @@ class UserCrudController extends AbstractCrudController
                 'ROLE_USER' => 'primary',
                 'ROLE_SECRETAIRE' => 'info',
                 'ROLE_TRESORIER' => 'warning',
-                'ROLE_MEMBRE' => 'secondary'
+                'ROLE_MEMBRE' => 'secondary',
             ])
             ->setColumns(cols: 'col-12 col-sm-4')
         ;
@@ -151,7 +145,7 @@ class UserCrudController extends AbstractCrudController
             ->setColumns(cols: 'col-12 col-sm-4')
         ;
 
-        if ($pageName == 'new') {
+        if ('new' == $pageName) {
             yield FormField::addPanel(label: 'Mot de passe')->setIcon(iconCssClass: 'fa fa-key');
         }
 

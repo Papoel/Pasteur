@@ -361,16 +361,22 @@ tests-coverage: ## Exécuter les tests-coverage.
 #---------------------------------------------#
 
 ## —— ⭐  AUTRE                   ———————————————————————————————————————————————————————————————————————————————————————————————————————————
+#before-commit: ## Exécuter avant de commit.
+#	$(MAKE) qa-cs-fixer
+#	$(MAKE) qa-phpstan-5
+#	$(MAKE) qa-security-checker
+#	$(MAKE) qa-phpcpd
+#	$(MAKE) qa-lint-twigs
+#	$(MAKE) qa-lint-yaml
+#	$(MAKE) qa-lint-container
+#	$(MAKE) qa-lint-schema
+#	$(MAKE) tests
+#.PHONY: before-commit
+
 before-commit: ## Exécuter avant de commit.
-	$(MAKE) qa-cs-fixer
-	$(MAKE) qa-phpstan-5
-	$(MAKE) qa-security-checker
-	$(MAKE) qa-phpcpd
-	$(MAKE) qa-lint-twigs
-	$(MAKE) qa-lint-yaml
-	$(MAKE) qa-lint-container
-	$(MAKE) qa-lint-schema
-	$(MAKE) tests
+	$(MAKE) lint-php
+	$(MAKE) fix-php
+	$(MAKE) lint-php
 .PHONY: before-commit
 
 reset-db: ## Réinitialiser la base de données et créer un fichier de migration.

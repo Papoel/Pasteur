@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Events;
 
-use App\Entity\Event\Event;
 use App\Repository\Event\EventRepository;
 use App\Repository\Event\RegistrationEventRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

@@ -18,7 +18,7 @@ class EventRegistrationController extends AbstractController
     #[Route(
         '/evenement/inscription/{slug}/create',
         name: 'app_event_registrations_create',
-        methods: ['GET' , 'POST']
+        methods: ['GET', 'POST']
     )]
     public function create(
         Event $event,
@@ -40,13 +40,13 @@ class EventRegistrationController extends AbstractController
 
         // Renseigné les informations de l'utilisateur connecté dans le formulaire
         if ($this->getUser()) {
-            /** @var User $userFirstname */
+            /* @var User $userFirstname */
             $registration->setFirstname($userFirstname);
-            /** @var User $userLastname */
+            /* @var User $userLastname */
             $registration->setLastname($userLastname);
-            /** @var User $userEmail */
+            /* @var User $userEmail */
             $registration->setEmail($userEmail);
-            /** @var User $userTelephone */
+            /* @var User $userTelephone */
             $registration->setTelephone($userTelephone);
         }
 
@@ -81,8 +81,8 @@ class EventRegistrationController extends AbstractController
         }
 
         return $this->renderForm(view: 'events/registrations/registration-event.html.twig', parameters: [
-            'event' => $event ,
-            'form' => $form ,
+            'event' => $event,
+            'form' => $form,
         ]);
     }
 }

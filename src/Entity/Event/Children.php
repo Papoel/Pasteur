@@ -39,7 +39,10 @@ class Children
         max: 20,
         maxMessage: 'Vous ne pouvez pas inscrire une classe avec plus de {{ limit }} caractères.'
     )]
-    #[Assert\NotBlank(message: 'Veuillez sélectionner la classe de votre enfant (choisissez "Extérieur" si votre enfant n\'est pas de l\'école Pasteur)')]
+    #[Assert\NotBlank(message:
+        'Veuillez sélectionner la classe de votre enfant 
+        (choisissez "Extérieur" si votre enfant n\'est pas de l\'école Pasteur)')
+    ]
     private ?string $classroom = null;
 
     #[ORM\ManyToOne(cascade: ['persist', 'remove'], inversedBy: 'children')]

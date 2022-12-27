@@ -10,7 +10,6 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints as Assert;
 
 class EventRegistrationFormType extends AbstractType
 {
@@ -79,13 +78,13 @@ class EventRegistrationFormType extends AbstractType
 
             ->add(child: 'children', type: CollectionType::class, options: [
                 'row_attr' => [
-                    'label' => 'Lister les enfants à inscrire'
+                    'label' => 'Lister les enfants à inscrire',
                 ],
                 'entry_type' => AddChildrenFormType::class,
                 'by_reference' => false,
                 'allow_add' => true,
                 'allow_delete' => true,
-                'error_bubbling' => false
+                'error_bubbling' => false,
             ])
 
             ->add(child: 'submit', type: SubmitType::class, options: [

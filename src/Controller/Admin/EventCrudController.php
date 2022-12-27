@@ -156,8 +156,7 @@ class EventCrudController extends AbstractCrudController
     }
 
     /**
-     * @param EntityManagerInterface $entityManager
-     * @param                        $entityInstance
+     * @param $entityInstance
      *
      * @return void
      *              Permet de vérifier si un événement du même nom existe déjà dans la base de données

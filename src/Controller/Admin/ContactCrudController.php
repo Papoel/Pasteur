@@ -3,7 +3,6 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Contact\Contact;
-use App\Entity\Event\RegistrationEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -17,7 +16,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\BooleanFilter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -44,11 +42,11 @@ class ContactCrudController extends AbstractCrudController
             )
             ->setPageTitle(
                 pageName: 'detail',
-                title: fn(Contact $contact): ?string => $contact->getFullName()
+                title: fn (Contact $contact): ?string => $contact->getFullName()
             )
             ->setPageTitle(
                 pageName: 'detail',
-                title: fn(Contact $contact) => sprintf(
+                title: fn (Contact $contact) => sprintf(
                     '📬 <i>Message reçu de </i> <b>%s</b>.',
                     $contact->getFullName()
                 )
@@ -148,7 +146,7 @@ class ContactCrudController extends AbstractCrudController
         $entityId = $params['entityId'];
 
         return $this->forward(controller: 'App\Controller\Admin\Contact\EmailResponseController::index', path: [
-            'entityId' => $entityId ,
+            'entityId' => $entityId,
         ]);
         // return $this->redirectToRoute(route: 'app_response_message');
         // return $this->render(view: 'admin/contact/response.html.twig');

@@ -2,7 +2,6 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Event\Children;
 use App\Entity\Event\RegistrationEvent;
 use App\Form\AddChildrenFormType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -43,7 +42,7 @@ class RegistrationEventCrudController extends AbstractCrudController
 
             ->setPageTitle(
                 pageName: 'detail',
-                title: fn(RegistrationEvent $registrationEvent) => '📇 Inscription - ' . $registrationEvent
+                title: fn (RegistrationEvent $registrationEvent) => '📇 Inscription - ' . $registrationEvent
                         ->getEvent()
                         ->getName()
             )
@@ -63,7 +62,7 @@ class RegistrationEventCrudController extends AbstractCrudController
             )
 
             ->setFormOptions([
-                'validation_groups' => ['Default'] ,
+                'validation_groups' => ['Default'],
             ])
         ;
     }
