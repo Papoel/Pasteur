@@ -98,6 +98,7 @@ class UserCrudController extends AbstractCrudController
                 'PRESIDENT' => 'ROLE_PRESIDENT',
                 'SECRETAIRE' => 'ROLE_SECRETAIRE',
                 'TRESORIER' => 'ROLE_TRESORIER',
+                'MEMBRE ACTIF' => 'ROLE_MEMBRE',
                 'WEBMASTER' => 'ROLE_WEBMASTER',
             ])
             ->allowMultipleChoices()
@@ -107,6 +108,7 @@ class UserCrudController extends AbstractCrudController
                 'ROLE_USER' => 'primary',
                 'ROLE_SECRETAIRE' => 'info',
                 'ROLE_TRESORIER' => 'warning',
+                'ROLE_MEMBRE' => 'secondary'
             ])
             ->setColumns(cols: 'col-12 col-sm-4')
         ;
