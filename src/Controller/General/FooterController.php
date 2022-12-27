@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\General;
 
 use App\Repository\User\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
