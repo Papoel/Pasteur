@@ -7,59 +7,20 @@ Mettre en place une application web qui permet l'aide à l'organisation un évé
 - Nom de l'événement ✅
 - Date de l'événement ✅
 - Nom et prénom de la personne qui propose son aide ✅
-- Poste proposé
-- Plage horaire proposée
-- Plage des postes
-- Commentaires (message lors de la soumission des postes (✅) ou vrai commentaire ?)
+- Poste proposé ✅
+- Plage horaire proposée ✅
+- [?] Commentaires (Commentaires pouyr chaque event ? -> Team APE only ou Public ?)
 
-## Fonctionnalités
-- [x] BDD User
-  - [x] firstname
-  - [x] lastname
-  - [x] email
-  - [x] password
-  - [x] createdAt
-- [x] Fixtures User
 
-- [x] BDD Event
-  - [x] name
-    - string
-  - [x] description
-    - string
-  - [x] location
-    - string
-  - [x] startsAt
-    - DateTimeImmutable
-  - [x] price
-    - string
-  - [x] status
-    - integer
-  - [x] capacity
-    - integer
-  - [x] helpNeeded
-    - boolean
-  - [x] createdAt
-    - dateTimeImmutable
-  - [x] updatedAt
-    - dateTimeImmutable
-  - [x] imageFileName
-    - string
-  - [x] Fixtures Event 
-
-- BDD help
-- 
-- [x] Créer un compte utilisateur
-- [x] Formulaire de connexion
-- [ ] Administration
+## Fonctionnalités courantes
 
 Evenements :
-- [ ] Créer un événement
 - [x] s'inscrire à un événement ✅
-- [ ] se désinscrire d'un événement
 - [x] ajouter les activités à un événement
 - [x] ajouter la sélection d'activités à un événement
+- [ ] Créer un événement
+- [ ] se désinscrire d'un événement
 
-😱...
 
 Lors de mon inscription à l'événement :
 - [ ] je ne peux pas m'inscrire à un événement qui est déjà complet.
@@ -75,43 +36,53 @@ Lors de mon inscription les données sont enregistrées dans la BDD :
 - [x] Activités => BDD Registration
 - [x] Plages Horaire ⇒ BDD Events_Plages_Horaires
 
-Ajouter dans Entity User:
-- [x] Telephone
-- [x] Adresse
+## Fonctionnalités Président
 
-## Fonctionnalités Admin
+- [X] Ajouter une option consulter les messages
+- [X] Ajouter une option pour répondre aux messages.
+
+
+## Modification à apporter :
+
+  - [x] Modifier le type de price => float to integer et donner les prix en centimes
+  - [X] Rendre conditionnel l'affichage des cartes dans le footer (sinon erreur si pas de rôle correspondant)
+  - [X] Pas de caractères spéciaux pour le mot de passe
+  - [x] Ajouter un bouton publié pour gérer l'affichage des événements
+  - [x] Template si aucun event n'est publié
+  - [x] Renommer registration en registrationHelp et faire toutes les modifs
+
+  - [x] Créer Entity Registration Event
+    - [x] firstname
+    - [x] lastname
+    - [x] email
+    - [x] quantity
+    - [x] childrens -> Nouvelle Entity relation OneToMany
+      - [x] firstname
+      - [x] lastname
+      - [x] classroom
+
+  - [x] Inscription aux événements
+  - [ ] Changer la redirection après l'envoie d'un message homepage au lieu de /contact
+
+# Fonctionnalité à développer
+  - [ ] Paiement en ligne des événements payant
+  - [ ] Titre et design des pages Admin (Back Office)
+  - [-] Page du profil utilisateur -> Abandonné, le client ne souhaite pas cette fonctionnalité
+
+# Fonctionnalité à traiter rapidement
+  - [ ] Gestion de la capacité maximale d'inscription à un événement
+  - [ ] Afficher pour l'admin la liste des inscrits à chaque event
+
+# Bug rencontré et à corriger
+
 - [ ] Utiliser la logique de vérification lors de l'inscription a un event dans l'admin que dans le controller
   <div style="background-color: #B0413E; padding: 2px 6px; border-radius: 10px; margin-top: 10px;"> 
     <p style="color: #fff"> 
       <strong> 
         <i class="fas fa-exclamation-triangle"></i> 
-        Attention 
+        1 
       </strong> 
       : 
       Actuellement, un User peut s'inscrire plusieurs fois à un même event et la même activité.
     </p>
   </div>
-
-- [X] Ajouter une option consulter les messages.
-- [X] Ajouter une option pour répondre aux messages.
-
-## Modifier le type de price => float to integer et donner les prix en centimes
-
-Tests :
-  - [X] Rendre conditionnel l'affichage des cartes dans le footer (sinon erreur si pas de rôle correspondant)
-  - [X] Pas de caractères spécial pour le mot de passe
-  - [x] Ajouter un bouton publié pour gérer l'affichage des événements
-  - [x] Template si aucun event n'est publié
-  - [x] Renommer registration en registrationHelp et faire toutes les modifs
-  - [ ] Afficher pour l'admin la liste des inscrits à chaque event
-  - [ ] Creer Entity Registraton Event
-    - firstname
-    - lastname
-    - email
-    - quantity
-    - childrens (tableau de x quantity)
-      - firstname
-      - lastname
-      - classroom
-  - [ ] Inscription aux événements
-  - [ ] ?? Paiement en ligne des événements payant
