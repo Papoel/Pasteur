@@ -136,7 +136,7 @@ assets: purge ## Installez les actifs avec des liens symboliques dans le dossier
 .PHONY: assets
 
 purge: ## Purger le cache et les journaux
-	rm -rf var/cache/ var/log/ && mkdir -p var/log && touch var/log/dev.log
+	rm -rf var/cache/ var/log/ var/coverage && mkdir -p var/log && touch var/log/dev.log
 	rm -rf .phpcs-cache
 .PHONY: purge
 
