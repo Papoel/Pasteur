@@ -80,7 +80,7 @@ class Event
     private string $status = Event::STATUS[0];
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    #[Assert\Positive]
+    #[Assert\PositiveOrZero]
     private ?int $capacity = null;
 
     #[ORM\Column(type: 'string', length: 255)]
