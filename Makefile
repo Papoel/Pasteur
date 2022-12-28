@@ -376,7 +376,12 @@ tests-coverage: ## Exécuter les tests-coverage.
 before-commit: ## Exécuter avant de commit.
 	$(MAKE) lint-php
 	$(MAKE) fix-php
-	$(MAKE) lint-php
+	$(SF) security:check
+	$(SYMFONY_LINT)twig ./templates
+	$(SYMFONY_LINT)yaml ./config
+	$(SYMFONY_LINT)container
+	$(SYMFONY) doctrine:schema:validate
+	$(MAKE) tests
 .PHONY: before-commit
 
 reset-db: ## Réinitialiser la base de données et créer un fichier de migration.
