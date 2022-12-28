@@ -21,6 +21,8 @@ use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class EventCrudController extends AbstractCrudController
 {
+    public const FULL = 'COMPLET';
+
     public function __construct(private readonly string $uploadDir)
     {
     }
@@ -110,7 +112,7 @@ class EventCrudController extends AbstractCrudController
             ->setColumns(cols: 'col-12 col-sm-6')
         ;
 
-        yield BooleanField::new(propertyName: 'published', label: 'Publié l\'événement ?')
+        yield BooleanField::new(propertyName: 'published', label: 'Publié ?')
             ->setColumns(cols: 'col-12 col-sm-6')
         ;
 
@@ -123,7 +125,7 @@ class EventCrudController extends AbstractCrudController
             ->formatValue(function ($value, $entity) {
                 $str = $entity->getCreneaux()[0];
                 for ($i = 1; $i < $entity->getCreneaux()->count(); ++$i) {
-                    $str = $str . ' | ' . $entity->getCreneaux()[$i];
+                    $str .= ' | ' . $entity->getCreneaux()[$i];
                 }
 
                 return $str;
@@ -137,9 +139,19 @@ class EventCrudController extends AbstractCrudController
             ->setColumns(cols: 'col-12 col-sm-4')
         ;
 
-        yield IntegerField::new(propertyName: 'capacity', label: 'Nombre de places maximales')
-            ->hideOnIndex()
+
+        // if capacity == 0 then display 'COMPLET' with background red and text red on index
+        yield IntegerField::new(propertyName: 'capacity', label: 'Places disponibles')
             ->setColumns(cols: 'col-12 col-sm-4')
+            ->setCustomOption(optionName: 'fullColor', optionValue: 'red')
+            ->setCustomOption(optionName: 'fullTextColor', optionValue: 'white')
+            ->setCustomOption(optionName: 'full', optionValue: self::FULL)
+            ->formatValue(function ($value, $entity) {
+                if (0 === $entity->getCapacity()) {
+                    return self::FULL;
+                }
+                return $value;
+            })
         ;
 
         yield ImageField::new(propertyName: 'imageName', label: 'Image')
@@ -156,10 +168,11 @@ class EventCrudController extends AbstractCrudController
     }
 
     /**
-     * @param $entityInstance
+     * @param EntityManagerInterface $entityManager
+     * @param                        $entityInstance
      *
      * @return void
-     *              Permet de vérifier si un événement du même nom existe déjà dans la base de données
+     * Permet de vérifier si un événement du même nom existe déjà dans la base de données
      */
     public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
