@@ -65,13 +65,13 @@ Lors de mon inscription les données sont enregistrées dans la BDD :
   - [ ] Changer la redirection après l'envoie d'un message homepage au lieu de /contact
 
 # Fonctionnalité à développer
-  - [ ] Paiement en ligne des événements payant
-  - [ ] Titre et design des pages Admin (Back Office)
+  - [x] Titre et design des pages Admin (Back Office)
   - [-] Page du profil utilisateur -> Abandonné, le client ne souhaite pas cette fonctionnalité
 
 # Fonctionnalité à traiter rapidement
-  - [ ] Gestion de la capacité maximale d'inscription à un événement
+  - [x] Gestion de la capacité maximale d'inscription à un événement
   - [ ] Afficher pour l'admin la liste des inscrits à chaque event
+  - [ ] Paiement en ligne des événements payant
 
 # Bug rencontré et à corriger
 
