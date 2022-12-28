@@ -42,6 +42,35 @@ class UserFixtures extends Fixture
         $manager->persist($userPresident);
         $users[] = $userPresident;
 
+        // ############################################## BATMAN ##############################################
+        $userPresident = new User();
+
+        $userPresident->setFirstname(firstname: 'Bruce');
+        $userPresident->setLastname(lastname: 'Wayne');
+        $userPresident->setPseudo(pseudo: 'Batman');
+        $userPresident->setEmail(
+            email: strtolower(
+                string: $userPresident->getFirstname() . '.' . $userPresident->getLastname()
+            ) .
+            '@admin.fr'
+        );
+        $userPresident->setRoles(['ROLE_PRESIDENT']);
+        $hash = $this->passwordHasher->hashPassword($userPresident, plainPassword: 'Password1234!');
+        $userPresident->setPassword($hash);
+
+        $date = $faker->dateTimeBetween(startDate: '-10 years');
+        $immutable = \DateTimeImmutable::createFromMutable($date);
+        $userPresident->setCreatedAt($immutable);
+
+        $userPresident->setTelephone(telephone: '0704191500');
+        $userPresident->setAddress(address: '1007 Mountain Drive');
+        $userPresident->setPostalCode(postalCode: '00000');
+        $userPresident->setTown(town: 'Gotham City.');
+        $userPresident->setBirthday(birthday: new \DateTimeImmutable(datetime: '1914/04/07'));
+
+        $manager->persist($userPresident);
+        $users[] = $userPresident;
+
         // ############################################## WEBMASTER ##############################################
         $userAdministrateur = new User();
 

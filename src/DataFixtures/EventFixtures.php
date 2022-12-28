@@ -27,10 +27,10 @@ class EventFixtures extends Fixture
         $event->setFinishAt(finishAt: new \DateTimeImmutable(datetime: '2023/06/16 18:30'));
         $randomStatus = random_int(min: 0, max: 3);
         $event->setStatus(Event::STATUS[$randomStatus]);
-        $event->setCapacity(capacity: 50);
+        $event->setCapacity(capacity: 1);
         $event->setCreatedAt(createdAt: new \DateTimeImmutable(datetime: 'now'));
         $event->setUpdatedAt(updatedAt: new \DateTimeImmutable(datetime: 'now + 1 day'));
-        $event->setHelpNeeded(helpNeeded: true);
+        $event->setHelpNeeded(helpNeeded: false);
         $event->setImageName(imageName: 'event.jpeg');
 
         $manager->persist($event);
@@ -45,7 +45,7 @@ class EventFixtures extends Fixture
             $randomStatus = random_int(min: 0, max: 3);
             $event->setStatus(Event::STATUS[$randomStatus]);
             $event->setCapacity(capacity: $faker->numberBetween(10, 100));
-            $event->setHelpNeeded(helpNeeded: $faker->boolean());
+            $event->setHelpNeeded(helpNeeded: false);
             $event->setImageName(imageName: 'event.jpeg');
 
             $date = $faker->dateTimeBetween(startDate: 'now', endDate: '+6 months');
