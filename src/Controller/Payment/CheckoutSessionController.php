@@ -16,6 +16,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CheckoutSessionController extends AbstractController
 {
+    /**
+     * @param DataSaveSessionServices $dataSaveSessionServices
+     * @param RequestStack            $requestStack
+     */
     public function __construct(
         private DataSaveSessionServices $dataSaveSessionServices,
         private RequestStack $requestStack,
@@ -96,17 +100,25 @@ class CheckoutSessionController extends AbstractController
 
 
     // Create Success Payment URL and Cancel Payment URL with parameters
-    #[Route('/inscription/success/{CHECKOUT_SESSION_ID}', name: 'app_payment_stripe_success_payment', methods: ['GET' , 'POST'])]
+    #[Route(
+        '/inscription/success/{CHECKOUT_SESSION_ID}',
+        name: 'app_payment_stripe_success_payment',
+        methods: ['GET' , 'POST']
+    )
+    ]
     public function successPayment(): Response
     {
         return $this->render(view: 'stripe/success.html.twig');
     }
 
-    #[Route('/inscription/cancel/{CHECKOUT_SESSION_ID}', name: 'app_payment_stripe_cancel_payment', methods: ['GET' , 'POST'])]
+    #[Route(
+        '/inscription/cancel/{CHECKOUT_SESSION_ID}',
+        name: 'app_payment_stripe_cancel_payment',
+        methods: ['GET' , 'POST']
+    )
+    ]
     public function cancelPayment(): Response
     {
         return $this->render(view: 'stripe/cancel.html.twig');
     }
-
-
 }
