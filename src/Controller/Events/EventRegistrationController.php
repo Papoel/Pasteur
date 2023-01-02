@@ -78,7 +78,8 @@ class EventRegistrationController extends AbstractController
                 $em->persist($registration);
                 $em->flush();
 
-                // Une fois la réservation enregistrée, on redirige l'utilisateur vers la page de paiement en lui passant l'ID de la réservation
+                // Une fois la réservation enregistrée, on redirige l'utilisateur vers la page de paiement en lui
+                // passant l'ID de la réservation
                 return $this->redirectToRoute(
                     route: 'app_session_payment',
                     parameters: [
@@ -122,8 +123,7 @@ class EventRegistrationController extends AbstractController
         EventRepository $eventRepository,
         EntityManagerInterface $em,
         Request $request
-    ): Response
-    {
+    ): Response {
         // Récupère l'ID de l'événement à partir du slug dans l'URL
         $registrationId = $request->attributes->get(key: 'id');
 

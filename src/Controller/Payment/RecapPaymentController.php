@@ -50,7 +50,7 @@ class RecapPaymentController extends AbstractController
         $getSession = $this->dataSaveSessionServices->getDatas();
         // dd($getSession);
 
-        return $this->render(view: 'stripe/recap.html.twig' , parameters: [
+        return $this->render(view: 'stripe/recap.html.twig', parameters: [
             'stripe_key' => $STRIPE_KEY_PUBLIC ,
             'event' => $eventRegistered ,
             'reservedPlaces' => $reservedPlaces ,
