@@ -74,28 +74,12 @@ class CheckoutSessionController extends AbstractController
         $checkout_session_id = $checkout_session->id;
         $getSession = $this->dataSaveSessionServices->getDatas();
 
-        header(header: "HTTP/1.1 303 See Other");
-        header(header: "Location: " . $checkout_session->url);
+        // header(header: "HTTP/1.1 303 See Other");
+        // header(header: "Location: " . $checkout_session->url);
 
+        // Avant de rediriger l'utilisateur vers la page de paiement,
+        // nous devons enregistrer l'ID et toutes les données de la session dans notre base de données.
         return $this->redirect($checkout_session->url);
-
-        // 1. Si le paiement est success
-            // RedirectToRoute app_payment_stripe_success_payment
-        // 2. Si le paiement est cancel
-            // RedirectToRoute app_payment_stripe_cancel_payment
-        // 3. Si le paiement est error
-            // RedirectToRoute app_payment_stripe_cancel_payment
-
-        // GoTo payment Stripe page
-
-        /*return $this->render(view: 'stripe/payment.html.twig', parameters: [
-            'stripe_key' => $_ENV["STRIPE_KEY_PUBLIC"],
-            'stripe_checkout_session' => $checkout_session,
-            'event' => $eventRegistered,
-            'reservedPlaces' => $reservedPlaces,
-            'unitPrice' => $unitPrice,
-            'registration' => $registration,
-        ]);*/
     }
 
 

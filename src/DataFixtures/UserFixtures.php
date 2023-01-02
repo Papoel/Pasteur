@@ -18,29 +18,6 @@ class UserFixtures extends Fixture
     {
         $faker = Factory::create();
         $users = [];
-        $userPresident = new User();
-
-        $userPresident->setFirstname(firstname: 'Aude');
-        $userPresident->setLastname(lastname: 'Lamy');
-        $userPresident->setPseudo(pseudo: 'Nounou');
-        $userPresident->setEmail(
-            email: strtolower(
-                string: $userPresident->getFirstname() . '.' . $userPresident->getLastname()
-            ) .
-            '@aperp.fr'
-        );
-        $userPresident->setRoles(['ROLE_PRESIDENT']);
-        $hash = $this->passwordHasher->hashPassword($userPresident, plainPassword: 'Password1234!');
-        $userPresident->setPassword($hash);
-        $userPresident->setCreatedAt(createdAt: new \DateTimeImmutable(datetime: '2015/11/28'));
-        $userPresident->setTelephone(telephone: '0123456789');
-        $userPresident->setAddress(address: '15 rue du Pingouin');
-        $userPresident->setPostalCode(postalCode: '59600');
-        $userPresident->setTown(town: 'Maubeuge');
-        $userPresident->setBirthday(birthday: new \DateTimeImmutable(datetime: '1986/01/10'));
-
-        $manager->persist($userPresident);
-        $users[] = $userPresident;
 
         // ############################################## BATMAN ##############################################
         $userPresident = new User();

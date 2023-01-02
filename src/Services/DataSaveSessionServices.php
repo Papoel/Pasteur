@@ -29,6 +29,7 @@ class DataSaveSessionServices
 
         $session->set('event_registered', serialize($eventRegistered));
         $session->set('registration', serialize($registration));
+        $session->set('registration_id', $registration->getId());
         $session->set('reserved_places', $reservedPlaces);
         $session->set('unit_price', $unitPrice);
         $session->set('total_price', $reservedPlaces * $unitPrice);
@@ -69,6 +70,7 @@ class DataSaveSessionServices
             'event_registered' => $eventRegistered,
             'event_start' => $session->get(name: 'event_start'),
             'registration' => $registration,
+            'registration_id' => $session->get(name: 'registration_id'),
             'reserved_places' => $reservedPlaces,
             'unit_price' => $unitPrice,
             'total_price' => $reservedPlaces * $unitPrice,

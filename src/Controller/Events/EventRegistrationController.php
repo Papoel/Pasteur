@@ -2,11 +2,16 @@
 
 namespace App\Controller\Events;
 
+use App\Entity\Event\Children;
 use App\Entity\Event\Event;
 use App\Entity\Event\RegistrationEvent;
 use App\Entity\User\User;
 use App\Form\EventRegistrationFormType;
+use App\Repository\Event\ChildrenRepository;
+use App\Repository\Event\EventRepository;
+use App\Repository\Event\RegistrationEventRepository;
 use App\Repository\User\UserRepository;
+use App\Services\DataSaveSessionServices;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,10 +20,14 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class EventRegistrationController extends AbstractController
 {
+    public function __construct(private readonly DataSaveSessionServices $dataSaveSessionServices ,)
+    {
+    }
+
     #[Route(
         '/evenement/inscription/{slug}/create',
         name: 'app_event_registrations_create',
-        methods: ['GET', 'POST']
+        methods: ['GET' , 'POST']
     )]
     public function create(
         Event $event,
@@ -39,10 +48,14 @@ class EventRegistrationController extends AbstractController
         }
 
         // Renseigné les informations de l'utilisateur connecté dans le formulaire
-        if ($this->getUser()) {/* @var User $userFirstname */
-            $registration->setFirstname($userFirstname);/* @var User $userLastname */
-            $registration->setLastname($userLastname);/* @var User $userEmail */
-            $registration->setEmail($userEmail);/* @var User $userTelephone */
+        if ($this->getUser()) {
+            /* @var User $userFirstname */
+            $registration->setFirstname($userFirstname);
+            /* @var User $userLastname */
+            $registration->setLastname($userLastname);
+            /* @var User $userEmail */
+            $registration->setEmail($userEmail);
+            /* @var User $userTelephone */
             $registration->setTelephone($userTelephone);
         }
 
@@ -69,8 +82,8 @@ class EventRegistrationController extends AbstractController
                 return $this->redirectToRoute(
                     route: 'app_session_payment',
                     parameters: [
-                        'id' => $registration->getId(),
-                        'event' => $registration->getEvent()->getSlug(),
+                        'id' => $registration->getId() ,
+                        'event' => $registration->getEvent()->getSlug() ,
                         'reservedPlaces' => $reservedPlaces
                     ]
                 );
@@ -93,8 +106,54 @@ class EventRegistrationController extends AbstractController
         }
 
         return $this->renderForm(view: 'events/registrations/registration-event.html.twig', parameters: [
-            'event' => $event,
-            'form' => $form,
+            'event' => $event ,
+            'form' => $form ,
         ]);
+    }
+
+    #[Route(
+        '/annulation/{id}/evenement/{slug}',
+        name: 'app_registration_event_cancel',
+        methods: ['GET' , 'POST']
+    )]
+    public function cancelRegistrationEvent(
+        RegistrationEventRepository $registrationEventRepository,
+        ChildrenRepository $childrenRepository,
+        EventRepository $eventRepository,
+        EntityManagerInterface $em,
+        Request $request
+    ): Response
+    {
+        // Récupère l'ID de l'événement à partir du slug dans l'URL
+        $registrationId = $request->attributes->get(key: 'id');
+
+        // Récupère l'entité Event
+        $event = $eventRepository->findOneBy(['slug' => $request->attributes->get(key: 'slug')]);
+
+        // Récupère l'entité EventRegistration
+        $registrationEvent = $registrationEventRepository->findOneBy(['id' => $registrationId]);
+
+        // Récupère les enfants associés à l'EventRegistration
+        $children = $childrenRepository->findBy(['registrationEvent' => $registrationEvent]);
+
+        // Met à jour le nombre de places disponibles dans l'entité Event
+        $event->setCapacity(capacity: $event->getCapacity() + count($children));
+
+        // Supprime chaque enfant de la table Children
+        foreach ($children as $child) {
+            $em->remove($child);
+        }
+
+        // Supprime l'entité EventRegistration de la base de données
+        $em->remove($registrationEvent);
+
+        // Enregistre les changements en base de données
+        $em->flush();
+
+        // Affiche un message de confirmation
+        $this->addFlash(type: 'success', message: 'Votre inscription a bien été annulée.');
+
+        // Redirige l'utilisateur vers la page de confirmation de suppression
+        return $this->redirectToRoute(route: 'app_home');
     }
 }

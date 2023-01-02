@@ -49,4 +49,14 @@ class RegistrationEventRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getSingleScalarResult();
     }
+
+    // Found the registration event by the slug
+    public function findEventBySlug(string $slug): ?RegistrationEvent
+    {
+        return $this->createQueryBuilder(alias: 'registrationEvents')
+            ->andWhere('registrationEvents.slug = :slug')
+            ->setParameter(key: ':slug', value: $slug)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }
