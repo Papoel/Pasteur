@@ -71,7 +71,9 @@ Lors de mon inscription les données sont enregistrées dans la BDD :
 # Fonctionnalité à traiter rapidement
   - [x] Gestion de la capacité maximale d'inscription à un événement
   - [ ] Afficher pour l'admin la liste des inscrits à chaque event
-  - [ ] Paiement en ligne des événements payant
+  - [x] Paiement en ligne des événements payant
+  - [x] Annuler un événement (avant de payer => désinscription automatique des participants)
+  - [x] Mettre une option pour payer directement sur place ou à l'école
 
 # Bug rencontré et à corriger
 
