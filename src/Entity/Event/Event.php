@@ -3,6 +3,7 @@
 namespace App\Entity\Event;
 
 use App\Entity\Creneau\Creneau;
+use App\Entity\Payment;
 use App\Repository\Event\EventRepository;
 use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -114,6 +115,9 @@ class Event
     #[ORM\OneToMany(mappedBy: 'event', targetEntity: RegistrationEvent::class, cascade: ['remove'])]
     private Collection $registrationEvents;
 
+    #[ORM\OneToMany(mappedBy: 'event', targetEntity: Payment::class)]
+    private Collection $payments;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -122,6 +126,7 @@ class Event
         $this->registrations = new ArrayCollection();
         $this->creneaux = new ArrayCollection();
         $this->registrationEvents = new ArrayCollection();
+        $this->payments = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -429,5 +434,35 @@ class Event
     public function isSoldOut(): bool
     {
         return 0 === $this->getSpotsLeft();
+    }
+
+    /**
+     * @return Collection<int, Payment>
+     */
+    public function getPayments(): Collection
+    {
+        return $this->payments;
+    }
+
+    public function addPayment(Payment $payment): self
+    {
+        if (!$this->payments->contains($payment)) {
+            $this->payments->add($payment);
+            $payment->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removePayment(Payment $payment): self
+    {
+        if ($this->payments->removeElement($payment)) {
+            // set the owning side to null (unless already changed)
+            if ($payment->getEvent() === $this) {
+                $payment->setEvent(null);
+            }
+        }
+
+        return $this;
     }
 }

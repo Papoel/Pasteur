@@ -4,7 +4,12 @@ declare(strict_types=1);
 
 namespace App\Controller\Payment;
 
+use App\Entity\Event\Event;
+use App\Entity\Event\RegistrationEvent;
+use App\Entity\Payment;
 use App\Services\DataSaveSessionServices;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Stripe\Checkout\Session;
 use Stripe\Customer;
 use Stripe\Stripe;
@@ -23,6 +28,7 @@ class CheckoutSessionController extends AbstractController
     public function __construct(
         private DataSaveSessionServices $dataSaveSessionServices,
         private RequestStack $requestStack,
+        private EntityManagerInterface $entityManager
     ) {
     }
 
@@ -77,9 +83,35 @@ class CheckoutSessionController extends AbstractController
         // header(header: "HTTP/1.1 303 See Other");
         // header(header: "Location: " . $checkout_session->url);
 
-        // Avant de rediriger l'utilisateur vers la page de paiement,
-        // nous devons enregistrer l'ID et toutes les données de la session dans notre base de données.
+        // Récupérer l'événement auquel l'utilisateur s'inscrit
+        $registrationEventName = $session->getData(key: 'inscription_event_name');
+        $event = $this->entityManager
+            ->getRepository(Event::class)
+            ->findOneBy(['slug' => $registrationEventName]);
+
+        // Récupérer l'inscription de l'utilisateur
+        $registrationId = $session->getData(key: 'registration_id');
+        $registration = $this->entityManager
+            ->getRepository(RegistrationEvent::class)
+            ->findOneBy(['id' => $registrationId]);
+
+        // Créer une nouvelle entité de paiement
+        $payment = new Payment();
+        $payment->setStatus($checkout_session->payment_status);
+        $payment->setStripeSessionId($checkout_session_id);
+        $payment->setRegistrationEvent($registration);
+        $payment->setEvent($event);
+
+        $this->entityManager->persist($payment);
+        $this->entityManager->flush();
+
+        // Si le statut de paiement est "succeeded", alors on enregistre l'inscription de l'utilisateur
+         if ($checkout_session->payment_status === 'succeeded') {
+                dd($checkout_session->payment_status);
+         }
+
         return $this->redirect($checkout_session->url);
+
     }
 
 
