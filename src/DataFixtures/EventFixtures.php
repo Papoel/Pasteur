@@ -17,6 +17,7 @@ class EventFixtures extends Fixture
 
         $events = [];
 
+        // ############################################### APERO PHP ############################################### //
         $event = new Event();
         $event->setName(name: 'Apéro PHP');
         $event->setDescription(description: 'Apéro PHP est un événement mensuel qui a lieu à Maubeuge. 
@@ -36,6 +37,54 @@ class EventFixtures extends Fixture
         $manager->persist($event);
         $events[] = $event;
 
+        // ############################################ CHASSE A L'OEUF ############################################ //
+        $eventEaster = new Event();
+        $eventEaster->setName(name: 'Chasse à l\'oeuf');
+        $eventEaster->setDescription(description: 'Il était une fois un garçon nommé Sacha qui aimait particulièrement
+        les créatures mystiques.
+        Il passait son temps à imaginer toutes sortes de créatures fantastiques et à essayer de les dessiner. 
+        Un jour, alors qu\'il était en train de dessiner un oeuf d\'or, il eut une idée brillante : et si cet oeuf 
+        était réel et que quelqu\'un avait réussi à le trouver ? 
+        Sacha décida alors de partir à la recherche de cet oeuf d\'or mythique.
+        Il se mit en quête de toutes les informations qu\'il pouvait trouver sur cet oeuf d\'or.
+        Il parcourut de nombreux livres, interrogea ses amis et même demanda l\'aide d\'experts en créatures mystiques.
+        Malheureusement, personne ne semblait connaître l\'existence de cet oeuf d\'or.
+        Sacha ne se découragea pas pour autant et continua ses recherches avec acharnement.
+        Il passait des heures sur Internet, à fouiller les forums et les blogs à la recherche d\'indices.
+        Un jour, alors qu\'il était en train de parcourir un vieux livre, il tomba sur une légende qui parlait d\'un 
+        oeuf d\' or caché par une créature mythique.
+        Selon la légende, celui qui trouverait cet oeuf deviendrait immensément riche.
+        Sacha était convaincu que cet oeuf était la clé de ses rêves et décida de partir à sa recherche.
+        Il emballa ses affaires et se rendit à l\'endroit où, selon la légende, l\'oeuf d\'or était caché.
+        Il parcourut de nombreux kilomètres à travers des paysages sauvages et des forêts luxuriantes, à la recherche
+        de cet oeuf d\' or mythique.
+        Finalement, après de longues semaines de recherches, Sacha arriva à destination.
+        Il se retrouva devant une grotte sombre et mystérieuse.
+        Il hésita un instant avant de se décider à entrer.
+        Il avança lentement, en prenant soin de ne pas faire de bruit.
+        Soudain, il vit une lumière qui brillait au fond de la grotte.
+        Il s\'approcha et découvrit un oeuf d\' or brillant, caché au fond de la grotte.
+        Sacha était fasciné par cet oeuf d\'or et ne put s\'empêcher de le ramasser.
+        Il le serra contre lui et sortit de la grotte en courant.
+        Il était heureux et fier d\'avoir trouvé cet oeuf d\' or mythique qui allait lui permettre de 
+        réaliser tous ses rêves. 
+        Son journal intime mentionne que Sacha a caché cet oeuf quelque part au Sablon, jusqu\'a présent personne n\'a 
+        été en mesure de le trouver.');
+        $eventEaster->setLocation(location: 'Les Sablons');
+        $eventEaster->setPrice(price: 500);
+        $eventEaster->setStartsAt(startsAt: new \DateTimeImmutable(datetime: '2023/04/02 10:00'));
+        $eventEaster->setFinishAt(finishAt: new \DateTimeImmutable(datetime: '2023/04/02 15:30'));
+        $eventEaster->setCapacity(capacity: 100);
+        $eventEaster->setCreatedAt(createdAt: new \DateTimeImmutable(datetime: 'now'));
+        $eventEaster->setUpdatedAt(updatedAt: new \DateTimeImmutable(datetime: 'now + 3 hours'));
+        $eventEaster->setHelpNeeded(helpNeeded: true);
+        $eventEaster->setPublished(published: true);
+        $eventEaster->setImageName(imageName: 'event.jpeg');
+
+        $manager->persist($eventEaster);
+        $events[] = $eventEaster;
+
+        // ################################################ RANDOM ################################################ //
         for ($newEvent = 1; $newEvent <= 10; ++$newEvent) {
             $event = new Event();
             $event->setName(name: $faker->sentence(nbWords: 3, variableNbWords: true));
@@ -64,8 +113,6 @@ class EventFixtures extends Fixture
             $date = $faker->dateTimeBetween(startDate: '-3 months', endDate: '-1 day');
             $immutable = \DateTimeImmutable::createFromMutable($date);
             $event->setUpdatedAt($immutable);
-
-            // $event->setSlug($event->getName());
 
             $manager->persist($event);
             $events[] = $event;
