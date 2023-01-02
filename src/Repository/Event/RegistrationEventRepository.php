@@ -39,28 +39,14 @@ class RegistrationEventRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return RegistrationEvent[] Returns an array of RegistrationEvent objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('r')
-//            ->andWhere('r.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('r.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    // Count the number of children registered for one registration event
+    public function countChildren(RegistrationEvent $registrationEvent): int
+    {
+        $qb = $this->createQueryBuilder(alias: 'registrationEvents')
+            ->select(select: 'COUNT(registrationEvents.id)')
+            ->andWhere('registrationEvents.registrationEvent = :registrationEvent')
+            ->setParameter(key: ':registrationEvent', value: $registrationEvent->getId());
 
-//    public function findOneBySomeField($value): ?RegistrationEvent
-//    {
-//        return $this->createQueryBuilder('r')
-//            ->andWhere('r.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        return $qb->getQuery()->getSingleScalarResult();
+    }
 }

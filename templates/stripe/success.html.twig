@@ -1,0 +1,52 @@
+{% extends('base.html.twig') %}
+{% block title %} Thanks for your order! {% endblock %}
+
+{% block body %}
+
+    <section>
+
+        <div class="bg-white py-6 sm:py-8 lg:py-12">
+            <div class="max-w-screen-lg px-4 md:px-8 mx-auto">
+                <div class="grid sm:grid-cols-2 gap-8">
+                    <!-- content - start -->
+                    <div class="flex flex-col justify-center items-center sm:items-start md:py-24 lg:py-32">
+                        <p class="text-indigo-500 text-sm md:text-base font-semibold uppercase mb-4">Success</p>
+                        <h1 class="text-gray-800 text-2xl md:text-3xl font-bold text-center sm:text-left mb-2">
+                            Votre inscription est prise en compte.
+                        </h1>
+
+                        <p class="text-gray-500 md:text-lg text-center sm:text-left mb-8">
+                            Nous vous remercions de votre confiance ! Si vous avez des questions, veuillez nous contacter
+                            en cliquant sur le bouton ci-dessous.
+                            <a
+                                class="block mx-auto mt-8 mb-0 text-green-700 hover:text-white border border-green-700 hover:bg-green-800
+                                font-medium rounded-lg text-sm px-2 py-2 my-1 text-center mr-2 mb-2 dark:border-green-500
+                                dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600"
+                                href="mailto:aperousiespasteur@gmail.com" target="_blank">
+                                Cliquer ici pour nous contacter
+                            </a>
+                        </p>
+
+                        <a href="{{ path('app_home') }}"
+                           class="inline-block bg-gray-200 hover:bg-gray-300 text-gray-500 text-sm md:text-base
+                           font-semibold text-center rounded-lg outline-none transition duration-100 px-8 py-2">
+                            Revenir à l'accueil
+                        </a>
+                    </div>
+                    <!-- content - end -->
+
+                    <!-- image - start -->
+                    <div class="h-80 md:h-auto bg-gray-100 overflow-hidden shadow-lg rounded-lg relative">
+                        <img src="https://images.unsplash.com/photo-1602045486350-4e53a69865c6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2136&q=80?auto=format&q=75&fit=crop&w=600"
+                             loading="lazy"
+                             alt="Photo by @heydevn"
+                             class="w-full h-full object-cover object-center absolute inset-0"
+                        />
+                    </div>
+                    <!-- image - end -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

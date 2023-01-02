@@ -39,14 +39,10 @@ class EventRegistrationController extends AbstractController
         }
 
         // Renseigné les informations de l'utilisateur connecté dans le formulaire
-        if ($this->getUser()) {
-            /* @var User $userFirstname */
-            $registration->setFirstname($userFirstname);
-            /* @var User $userLastname */
-            $registration->setLastname($userLastname);
-            /* @var User $userEmail */
-            $registration->setEmail($userEmail);
-            /* @var User $userTelephone */
+        if ($this->getUser()) {/* @var User $userFirstname */
+            $registration->setFirstname($userFirstname);/* @var User $userLastname */
+            $registration->setLastname($userLastname);/* @var User $userEmail */
+            $registration->setEmail($userEmail);/* @var User $userTelephone */
             $registration->setTelephone($userTelephone);
         }
 
@@ -57,22 +53,38 @@ class EventRegistrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $reservedPlaces = count($form->getData()->getChildren());
 
+            // On s'assure que le nombre de places réservées ne dépasse pas le nombre de places disponibles
             if ($reservedPlaces <= $event->getCapacity()) {
+                // On récupère le nombre de places déjà réservées
                 $remainingPlaces = $event->getCapacity() - $reservedPlaces;
+                // On met à jour le nombre de places restantes
                 $event->setCapacity($remainingPlaces);
+                // On enregistre la réservation
                 $registration->setEvent($event);
 
                 $em->persist($registration);
                 $em->flush();
 
+                // Une fois la réservation enregistrée, on redirige l'utilisateur vers la page de paiement en lui passant l'ID de la réservation
+                return $this->redirectToRoute(
+                    route: 'app_session_payment',
+                    parameters: [
+                        'id' => $registration->getId(),
+                        'event' => $registration->getEvent()->getSlug(),
+                        'reservedPlaces' => $reservedPlaces
+                    ]
+                );
+
                 $this->addFlash(type: 'success', message: 'Merci, vous êtes inscrit !');
 
                 return $this->redirectToRoute(
                     route: 'app_event_show',
-                    parameters: ['slug' => $event->getSlug()]
+                    parameters: ['id' => $registration->getId()]
                 );
             }
 
+            // Si le nombre de places réservées dépasse le nombre de places disponibles
+            // On affiche un message d'erreur
             $this->addFlash(type: 'danger', message: sprintf(
                 'Désolé vous avez tenté d\'inscrire %s enfant(s) alors qu\'il ne reste que %s place(s) de disponible.',
                 $reservedPlaces,

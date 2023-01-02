@@ -1,39 +1,47 @@
-<div class="mt-6 item-child grid grid-cols-6 gap-6">
-
-    <div class="md:col-span-2 col-span-6" aria-required="false">
-        {{ form_row(form.firstname, {
-            row_class: 'mt-2 px-3',
-            label_class: 'font-semibold text-gray-600',
-            widget_class: 'border border-red-200 bg-gray-50',
-            error_item_class: 'text-red-700 font-base',
-            widget_errors_class: 'border-double border-4 border-red-500 bg-red-50 mt-1',
-        }) }}
+<section class="border border-gray-200">
+    <div class="bg-gray-50 w-full py-6">
+        <h4 class="text-center text-gray-500 uppercase font-semibold lead">
+            Inscription # <span class="count_inscription"></span>
+        </h4>
     </div>
 
-    <div class="md:col-span-2 col-span-6" aria-required="false">
-        {{ form_row(form.lastname, {
-            row_class: 'mt-2 px-3',
-            label_class: 'font-semibold text-gray-600',
-            widget_class: 'border border-red-200 bg-gray-50',
-            error_item_class: 'text-red-700 font-base',
-            widget_errors_class: 'border-double border-4 border-red-500 bg-red-50 mt-1',
-        }) }}
-    </div>
+    <div class="mt-6 item-child grid grid-cols-6 gap-6">
 
-    <div class="md:col-span-2 col-span-6" aria-required="false">
-        {{ form_row(form.classroom, {
-            row_class: 'mt-2 px-3',
-            label_class: 'font-semibold text-gray-600',
-            widget_class: 'border border-red-200 bg-gray-50',
-            error_item_class: 'text-red-700 font-base',
-            widget_errors_class: 'border-double border-4 border-red-500 bg-red-50 mt-1',
-        }) }}
-    </div>
+        <div class="md:col-span-2 col-span-6" aria-required="false">
+            {{ form_row(form.firstname, {
+                row_class: 'mt-2 px-3',
+                label_class: 'font-semibold text-gray-600',
+                widget_class: 'border border-red-200 bg-gray-50',
+                error_item_class: 'text-red-700 font-base',
+                widget_errors_class: 'border-double border-4 border-red-500 bg-red-50 mt-1',
+            }) }}
+        </div>
 
-    <div class="form-group sm:col-span-3">
-        <button type="button" class="btn-remove py-2 px-3 mb-2 ml-3 rounded text-center text-white bg-red-600 hover:bg-red-700">
-            Supprimer
-        </button>
-    </div>
+        <div class="md:col-span-2 col-span-6" aria-required="false">
+            {{ form_row(form.lastname, {
+                row_class: 'mt-2 px-3',
+                label_class: 'font-semibold text-gray-600',
+                widget_class: 'border border-red-200 bg-gray-50',
+                error_item_class: 'text-red-700 font-base',
+                widget_errors_class: 'border-double border-4 border-red-500 bg-red-50 mt-1',
+            }) }}
+        </div>
 
-</div>
+        <div class="md:col-span-2 col-span-6" aria-required="false">
+            {{ form_row(form.classroom, {
+                row_class: 'mt-2 px-3',
+                label_class: 'font-semibold text-gray-600',
+                widget_class: 'border border-red-200 bg-gray-50',
+                error_item_class: 'text-red-700 font-base',
+                widget_errors_class: 'border-double border-4 border-red-500 bg-red-50 mt-1',
+            }) }}
+        </div>
+
+        <div class="form-group sm:col-span-3">
+            <button type="button" class="btn-remove py-2 px-3 mb-2 ml-3 rounded text-center text-white bg-red-600 hover:bg-red-700">
+                Supprimer
+            </button>
+        </div>
+
+    </div>
+</section>

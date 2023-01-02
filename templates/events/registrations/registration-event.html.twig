@@ -13,53 +13,53 @@
         <div class="md:mt-10 sm:mt-0 py-8">
             <div class="mx-auto container px-6">
                 {{ form_start(form) }}
-                    {{ form_widget(form._token) }}
+                {{ form_widget(form._token) }}
 
-                    <div class="overflow-hidden sm:rounded-md">
-                        <div class="py-3 bg-white">
-                            <div class="grid grid-cols-4 gap-4">
-                                {{ form_errors(form) }}
-                                <div id="firstname" class="md:col-span-1 col-span-6">
-                                    {{ form_row(form.firstname, {
-                                        row_class: 'mt-2 px-3',
-                                        label_class: 'font-semibold text-gray-600',
-                                        widget_class: 'border border-red-200 bg-gray-50',
-                                        error_item_class: 'text-red-700 font-base',
-                                        widget_errors_class: 'border-double border-4 border-red-500 bg-red-50 mt-1',
-                                    }) }}
-                                </div>
+                <div class="overflow-hidden sm:rounded-md">
+                    <div class="py-3 bg-white">
+                        <div class="grid grid-cols-4 gap-4">
+                            {{ form_errors(form) }}
+                            <div id="firstname" class="md:col-span-1 col-span-6">
+                                {{ form_row(form.firstname, {
+                                    row_class: 'mt-2 px-3',
+                                    label_class: 'font-semibold text-gray-600',
+                                    widget_class: 'border border-red-200 bg-gray-50',
+                                    error_item_class: 'text-red-700 font-base',
+                                    widget_errors_class: 'border-double border-4 border-red-500 bg-red-50 mt-1',
+                                }) }}
+                            </div>
 
-                                <div id="lastname" class="md:col-span-1 col-span-6">
-                                    {{ form_row(form.lastname, {
-                                        row_class: 'mt-2 px-3',
-                                        label_class: 'font-semibold text-gray-600',
-                                        widget_class: 'border border-red-200 bg-gray-50',
-                                        error_item_class: 'text-red-700 font-base',
-                                        widget_errors_class: 'border-double border-4 border-red-500 bg-red-50 mt-1',
-                                    }) }}
-                                </div>
+                            <div id="lastname" class="md:col-span-1 col-span-6">
+                                {{ form_row(form.lastname, {
+                                    row_class: 'mt-2 px-3',
+                                    label_class: 'font-semibold text-gray-600',
+                                    widget_class: 'border border-red-200 bg-gray-50',
+                                    error_item_class: 'text-red-700 font-base',
+                                    widget_errors_class: 'border-double border-4 border-red-500 bg-red-50 mt-1',
+                                }) }}
+                            </div>
 
-                                <div id="email" class="md:col-span-1 col-span-6">
-                                    {{ form_row(form.email, {
-                                        row_class: 'mt-2 px-3',
-                                        label_class: 'font-semibold text-gray-600',
-                                        widget_class: 'border border-red-200 bg-gray-50',
-                                        error_item_class: 'text-red-700 font-base',
-                                        widget_errors_class: 'border-double border-4 border-red-500 bg-red-50 mt-1',
-                                    }) }}
-                                </div>
+                            <div id="email" class="md:col-span-1 col-span-6">
+                                {{ form_row(form.email, {
+                                    row_class: 'mt-2 px-3',
+                                    label_class: 'font-semibold text-gray-600',
+                                    widget_class: 'border border-red-200 bg-gray-50',
+                                    error_item_class: 'text-red-700 font-base',
+                                    widget_errors_class: 'border-double border-4 border-red-500 bg-red-50 mt-1',
+                                }) }}
+                            </div>
 
-                                <div id="telephone" class="md:col-span-1 col-span-6">
-                                    {{ form_row(form.telephone, {
-                                        row_class: 'mt-2 px-3',
-                                        label_class: 'font-semibold text-gray-600',
-                                        widget_class: 'border border-red-200 bg-gray-50',
-                                        error_item_class: 'text-red-700 font-base',
-                                        widget_errors_class: 'border-double border-4 border-red-500 bg-red-50 mt-1',
-                                    }) }}
-                                </div>
+                            <div id="telephone" class="md:col-span-1 col-span-6">
+                                {{ form_row(form.telephone, {
+                                    row_class: 'mt-2 px-3',
+                                    label_class: 'font-semibold text-gray-600',
+                                    widget_class: 'border border-red-200 bg-gray-50',
+                                    error_item_class: 'text-red-700 font-base',
+                                    widget_errors_class: 'border-double border-4 border-red-500 bg-red-50 mt-1',
+                                }) }}
                             </div>
                         </div>
+                    </div>
 
                     <button
                             id="add-child"
@@ -74,14 +74,15 @@
                          data-prototype="{{ include('events/registrations/_children.html.twig',
                              {form: form.children.vars.prototype})|e("html_attr") }}"
                          data-index="{{ form.children|length > 0 ? form.children|last.vars.name + 1 : 0 }}">
-                        {% for children in form.children %}
-                            <div class="add-child">
-                                {{ include('events/registrations/_children.html.twig', {form: children}) }}
-                            </div>
+                        <div class="add-child">
+                            {% for children in form.children %}
+                            {{ include('events/registrations/_children.html.twig', {form: children}) }}
+                        </div>
                         {% endfor %}
                     </div>
+                </div>
 
-                    {{ form_row(form.submit, { 'label': 'Confirmer mon inscription à ' ~ event.name }) }}
+                {{ form_row(form.submit, { 'label': 'Confirmer mon inscription à ' ~ event.name }) }}
                 {{ form_end(form, {render_rest: false}) }}
             </div>
         </div>

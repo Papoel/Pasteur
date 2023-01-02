@@ -103,7 +103,8 @@ class RegistrationEventCrudController extends AbstractCrudController
             ->allowAdd()
             ->setEntryType(formTypeFqcn: AddChildrenFormType::class)
             ->setEntryIsComplex()
-            ->setTemplatePath(path: 'admin/registration/add_children.html.twig');
+            ->setTemplatePath(path: 'admin/registration/add_children.html.twig')
+        ;
 
         yield BooleanField::new(propertyName: 'paid', label: 'Payé')
 
