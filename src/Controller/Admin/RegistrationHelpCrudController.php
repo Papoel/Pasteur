@@ -69,13 +69,13 @@ class RegistrationHelpCrudController extends AbstractCrudController
         yield TelephoneField::new(propertyName: 'telephone', label: 'Téléphone');
 
         yield ChoiceField::new(propertyName: 'activity', label: 'Activité proposée')
-            ->setChoices([
+            ->setChoices(choiceGenerator: [
                 'Vente' => 'Vente',
                 'Installation' => 'Installation',
                 'Rangement' => 'Rangement',
             ])
             ->allowMultipleChoices()
-            ->renderAsBadges([
+            ->renderAsBadges(badgeSelector: [
                 'Vente' => 'success',
                 'Installation' => 'info',
                 'Rangement' => 'dark',

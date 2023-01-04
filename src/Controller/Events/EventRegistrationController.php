@@ -78,7 +78,8 @@ class EventRegistrationController extends AbstractController
                 $em->persist($registration);
                 $em->flush();
 
-                // Une fois la réservation enregistrée, on redirige l'utilisateur vers la page de paiement en lui passant l'ID de la réservation
+                // Une fois la réservation enregistrée, on redirige l'utilisateur vers la page de paiement en lui
+                // passant l'ID de la réservation
                 return $this->redirectToRoute(
                     route: 'app_session_payment',
                     parameters: [
@@ -96,8 +97,7 @@ class EventRegistrationController extends AbstractController
                 );
             }
 
-            // Si le nombre de places réservées dépasse le nombre de places disponibles
-            // On affiche un message d'erreur
+            // Si le nombre de places réservées dépasse le nombre de places disponibles ⇒ message d'erreur
             $this->addFlash(type: 'danger', message: sprintf(
                 'Désolé vous avez tenté d\'inscrire %s enfant(s) alors qu\'il ne reste que %s place(s) de disponible.',
                 $reservedPlaces,
@@ -122,8 +122,7 @@ class EventRegistrationController extends AbstractController
         EventRepository $eventRepository,
         EntityManagerInterface $em,
         Request $request
-    ): Response
-    {
+    ): Response {
         // Récupère l'ID de l'événement à partir du slug dans l'URL
         $registrationId = $request->attributes->get(key: 'id');
 
