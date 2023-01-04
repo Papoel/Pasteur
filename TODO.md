@@ -1,6 +1,4 @@
-# Challenge 24 h pour réaliser l'application
 
-# Objectifs
 Mettre en place une application web qui permet l'aide à l'organisation un événement.
 
 ## Attentes
@@ -11,19 +9,19 @@ Mettre en place une application web qui permet l'aide à l'organisation un évé
 - Plage horaire proposée ✅
 - [?] Commentaires (Commentaires pouyr chaque event ? -> Team APE only ou Public ?)
 
+# Objectifs
 
 ## Fonctionnalités courantes
-
 Evenements :
 - [x] s'inscrire à un événement ✅
 - [x] ajouter les activités à un événement
 - [x] ajouter la sélection d'activités à un événement
-- [ ] Créer un événement
-- [ ] se désinscrire d'un événement
+- [x] Créer un événement
+- [x] se désinscrire d'un événement
 
 
 Lors de mon inscription à l'événement :
-- [ ] je ne peux pas m'inscrire à un événement qui est déjà complet.
+- [x] je ne peux pas m'inscrire à un événement qui est déjà complet.
 - [x] je ne peux pas m'inscrire à un événement qui est déjà passé.
 - [x] je ne peux pas m'inscrire à un événement pur lequel je suis déjà inscrit.
 - [x] je ne peux pas m'inscrire à un événement avec une activité pur laquelle je suis déjà inscrit.
@@ -62,7 +60,7 @@ Lors de mon inscription les données sont enregistrées dans la BDD :
       - [x] classroom
 
   - [x] Inscription aux événements
-  - [ ] Changer la redirection après l'envoie d'un message homepage au lieu de /contact
+  - [x] Changer la redirection après l'envoie d'un message homepage au lieu de /contact
 
 # Fonctionnalité à développer
   - [x] Titre et design des pages Admin (Back Office)
@@ -70,21 +68,12 @@ Lors de mon inscription les données sont enregistrées dans la BDD :
 
 # Fonctionnalité à traiter rapidement
   - [x] Gestion de la capacité maximale d'inscription à un événement
-  - [ ] Afficher pour l'admin la liste des inscrits à chaque event
   - [x] Paiement en ligne des événements payant
   - [x] Annuler un événement (avant de payer => désinscription automatique des participants)
-  - [x] Mettre une option pour payer directement sur place ou à l'école
+  - [x] Définir les status possible à: ['PREPARATION', 'RUNNING', 'FINISHED']
+  - [ ] Afficher pour l'admin la liste des inscrits à chaque event
+  - [ ] Mettre une option pour payer directement sur place ou à l'école
+  - [ ] Status pour Event visible uniquement des membres connectés ('PREPARATION') + identité visuelle
+  - [ ] Création d'une table Payment pour gérer les paiements (sauvegarde de la session Stripe)
 
 # Bug rencontré et à corriger
-
-- [ ] Utiliser la logique de vérification lors de l'inscription a un event dans l'admin que dans le controller
-  <div style="background-color: #B0413E; padding: 2px 6px; border-radius: 10px; margin-top: 10px;"> 
-    <p style="color: #fff"> 
-      <strong> 
-        <i class="fas fa-exclamation-triangle"></i> 
-        1 
-      </strong> 
-      : 
-      Actuellement, un User peut s'inscrire plusieurs fois à un même event et la même activité.
-    </p>
-  </div>
