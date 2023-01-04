@@ -25,7 +25,7 @@ use Vich\UploaderBundle\Mapping\Annotation\UploadableField;
 )]
 class Event
 {
-    public const STATUS = ['IDEE', 'APPROUVE', 'REFUSE', 'ANNULE'];
+    public const STATUS = ['PREPARATION', 'RUNNING', 'FINISHED'];
 
     #[ORM\Id]
     #[ORM\GeneratedValue]

@@ -3,12 +3,15 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Event\Event;
+use App\Form\AddChildrenFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
@@ -139,6 +142,19 @@ class EventCrudController extends AbstractCrudController
             ->setColumns(cols: 'col-12 col-sm-4')
         ;
 
+        yield ChoiceField::new(propertyName: 'status')
+            ->setChoices(choiceGenerator: [
+                'PREPARATION' => 'PREPARATION',
+                'EN COURS' => 'RUNNING',
+                'TERMINÉ' => 'FINISHED',
+            ])
+            ->renderAsBadges(badgeSelector: [
+                'PREPARATION' => 'warning',
+                'RUNNING' => 'success',
+                'FINISHED' => 'danger',
+            ])
+            ->setColumns(cols: 'col-12 col-sm-4')
+        ;
 
         // if capacity == 0 then display 'COMPLET' with background red and text red on index
         yield IntegerField::new(propertyName: 'capacity', label: 'Places disponibles')
