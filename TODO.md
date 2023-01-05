@@ -7,9 +7,9 @@ Mettre en place une application web qui permet l'aide à l'organisation un évé
 - Nom et prénom de la personne qui propose son aide ✅
 - Poste proposé ✅
 - Plage horaire proposée ✅
-- [?] Commentaires (Commentaires pouyr chaque event ? -> Team APE only ou Public ?)
 
-# Objectifs
+## Fonctionnalités en attente de validation par l'équipe APE
+- [ ] Ajouter une fonctionnalité de commentaire sur les événements proposés
 
 ## Fonctionnalités courantes
 Evenements :
@@ -35,10 +35,8 @@ Lors de mon inscription les données sont enregistrées dans la BDD :
 - [x] Plages Horaire ⇒ BDD Events_Plages_Horaires
 
 ## Fonctionnalités Président
-
 - [X] Ajouter une option consulter les messages
 - [X] Ajouter une option pour répondre aux messages.
-
 
 ## Modification à apporter :
 
@@ -58,22 +56,29 @@ Lors de mon inscription les données sont enregistrées dans la BDD :
       - [x] firstname
       - [x] lastname
       - [x] classroom
-
   - [x] Inscription aux événements
   - [x] Changer la redirection après l'envoie d'un message homepage au lieu de /contact
 
 # Fonctionnalité à développer
   - [x] Titre et design des pages Admin (Back Office)
-  - [-] Page du profil utilisateur -> Abandonné, le client ne souhaite pas cette fonctionnalité
-
-# Fonctionnalité à traiter rapidement
   - [x] Gestion de la capacité maximale d'inscription à un événement
-  - [x] Paiement en ligne des événements payant
-  - [x] Annuler un événement (avant de payer => désinscription automatique des participants)
+  - [x] Création d'une table Payment pour gérer les paiements 
+  - [ ] Afficher les événements au status ('PREPARATION') => Visible uniquement par les membres APE
+    - [ ] La carte devra être différente pour les événements au status ('PREPARATION')
+  - [ ] Sauvegarder les données de la session Stripe dans la table Payment
+  - [ ] Création des pages d'erreur 404 et 500
+> __Priorité__ : Sauvegarder en base de données les paiements (Gestion WEBHOOKS Stripe)
+### ADMIN
   - [x] Définir les status possible à: ['PREPARATION', 'RUNNING', 'FINISHED']
   - [ ] Afficher pour l'admin la liste des inscrits à chaque event
+> __Priorité__ : Afficher la liste des inscrits à chaque event et le status payé ou non
+### USER
+  - [x] Annuler un événement (avant de payer => désinscription automatique des participants)
+  - [x] Paiement en ligne des événements payant
   - [ ] Mettre une option pour payer directement sur place ou à l'école
-  - [ ] Status pour Event visible uniquement des membres connectés ('PREPARATION') + identité visuelle
-  - [ ] Création d'une table Payment pour gérer les paiements (sauvegarde de la session Stripe)
+  - [ ] Afficher la liste des événements souscrits
+> __Priorité__ : Afficher la liste des événements souscrits
+# Fonctionnalité abandonnées par le client
+  - [ ] Page du profil utilisateur
 
 # Bug rencontré et à corriger
