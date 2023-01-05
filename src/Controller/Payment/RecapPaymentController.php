@@ -39,18 +39,10 @@ class RecapPaymentController extends AbstractController
 
         // On enregistre les données dans la session
         $session = $this->dataSaveSessionServices
-            ->setData(
-                $eventRegistered,
-                $registration,
-                $reservedPlaces,
-                $unitPrice
-            );
+            ->setData($eventRegistered, $registration, $reservedPlaces, $unitPrice);
         $STRIPE_KEY_PUBLIC = $this->getParameter(name: 'STRIPE_KEY_PUBLIC');
 
-        $getSession = $this->dataSaveSessionServices->getDatas();
-        // dd($getSession);
-
-        return $this->render(view: 'stripe/recap.html.twig' , parameters: [
+        return $this->render(view: 'stripe/recap.html.twig', parameters: [
             'stripe_key' => $STRIPE_KEY_PUBLIC ,
             'event' => $eventRegistered ,
             'reservedPlaces' => $reservedPlaces ,

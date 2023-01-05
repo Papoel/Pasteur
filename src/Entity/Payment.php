@@ -19,9 +19,6 @@ class Payment
     #[ORM\Column(type: Types::TEXT)]
     private ?string $stripeSessionId = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $Status = null;
-
     #[ORM\Column]
     private \DateTimeImmutable $createdAt;
 
@@ -35,6 +32,12 @@ class Payment
     #[ORM\ManyToOne(inversedBy: 'payments')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Event $event = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $stripePaymentIntentId = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $stripePaymentIntentStatus = null;
 
     public function __construct()
     {
@@ -54,18 +57,6 @@ class Payment
     public function setStripeSessionId(string $stripeSessionId): self
     {
         $this->stripeSessionId = $stripeSessionId;
-
-        return $this;
-    }
-
-    public function getStatus(): ?string
-    {
-        return $this->Status;
-    }
-
-    public function setStatus(?string $Status): self
-    {
-        $this->Status = $Status;
 
         return $this;
     }
@@ -114,6 +105,30 @@ class Payment
     public function setEvent(?Event $event): self
     {
         $this->event = $event;
+
+        return $this;
+    }
+
+    public function getStripePaymentIntentId(): ?string
+    {
+        return $this->stripePaymentIntentId;
+    }
+
+    public function setStripePaymentIntentId(?string $stripePaymentIntentId): self
+    {
+        $this->stripePaymentIntentId = $stripePaymentIntentId;
+
+        return $this;
+    }
+
+    public function getStripePaymentIntentStatus(): ?string
+    {
+        return $this->stripePaymentIntentStatus;
+    }
+
+    public function setStripePaymentIntentStatus(string $stripePaymentIntentStatus): self
+    {
+        $this->stripePaymentIntentStatus = $stripePaymentIntentStatus;
 
         return $this;
     }
