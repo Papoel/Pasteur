@@ -25,7 +25,6 @@ class MailService
         $email = (new TemplatedEmail());
         $email->from($from);
         $email->to($to);
-        $email->bcc(addresses: 'pascal.briffard@gmail.com');
         $email->subject($subject);
         $email->htmlTemplate(template: $htmlTemplate);
         $email->context(context: $context);
