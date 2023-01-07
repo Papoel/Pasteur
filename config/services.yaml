@@ -9,6 +9,7 @@ parameters:
     upload_dir: '/uploads/images/events'
     STRIPE_KEY_SECRET: '%env(resolve:STRIPE_KEY_SECRET)%'
     STRIPE_KEY_PUBLIC: '%env(resolve:STRIPE_KEY_PUBLIC)%'
+    STRIPE_WEBHOOK_SECRET: '%env(resolve:STRIPE_WEBHOOK_SECRET)%'
 
 services:
     # default configuration for services in *this* file
