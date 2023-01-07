@@ -4,103 +4,132 @@ declare(strict_types=1);
 
 namespace App\Controller\Payment;
 
-use App\Services\DataSaveSessionServices;
+use App\Entity\Event\Event;
+use App\Entity\Event\RegistrationEvent;
+use Doctrine\ORM\EntityManagerInterface;
 use Stripe\Checkout\Session;
-use Stripe\Customer;
 use Stripe\Stripe;
-use Stripe\StripeClient;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class CheckoutSessionController extends AbstractController
 {
-    /**
-     * @param DataSaveSessionServices $dataSaveSessionServices
-     * @param RequestStack            $requestStack
-     */
-    public function __construct(
-        private DataSaveSessionServices $dataSaveSessionServices,
-        private RequestStack $requestStack,
-    ) {
+    public function __construct(private EntityManagerInterface $em)
+    {
     }
 
-    #[Route('/stripe/create-session', name: 'app_create_checkout_session', methods: ['GET' , 'POST'])]
-    public function index(): Response
+    #[Route('/stripe/create-session', name: 'app_create_checkout_session', methods: ['POST' , 'GET'])]
+    public function checkout(Request $request): Response
     {
-        // get the STRIPE_KEY_SECRET from the .env file
         $STRIPE_KEY_SECRET = $this->getParameter(name: 'STRIPE_KEY_SECRET');
         Stripe::setApiKey($STRIPE_KEY_SECRET);
+        // $stripe = new StripeClient($STRIPE_KEY_SECRET);
 
-        $stripeCustomer = new StripeClient($STRIPE_KEY_SECRET);
-
-        $session = $this->dataSaveSessionServices;
-
-        // 2. On crée une session de paiement
-        $DOMAIN = 'https://127.0.0.1:8000/';
-
-        // On récupère les données de la session pour les détails de l'acheteur
+        $session = $request->getSession()->get(name: 'details_inscription');
+        /** On récupère les données de la session pour les détails de l'acheteur */
         $customer_details = [
-            'email' => $session->getData(key: 'representant_legal_email'),
-            'name' => $session->getData(key: 'representant_legal'),
-            'phone' => $session->getData(key: 'representant_legal_telephone'),
+            'email' => $session['representant_legal_email'],
+            'name' => $session['representant_legal'],
+            'phone' => $session['representant_legal_telephone'],
         ];
 
-        // Créez un nouveau client Stripe en utilisant les détails du client
-        $customer = Customer::create([
-            'email' => $customer_details['email'],
-            'name' => $customer_details['name'],
-            'phone' => $customer_details['phone'],
-        ]);
+        /** Créez un nouveau client Stripe en utilisant les détails du client */
+        /*$customer = Customer::create(params: [
+            'email' => $customer_details['email'] ,
+            'name' => $customer_details['name'] ,
+            'phone' => $customer_details['phone'] ,
+        ]);*/
+
+       //dd($session);
 
         $checkout_session = Session::create(params: [
-            'customer_email' => $session->getData(key: 'representant_legal_email') ,
+            'customer_email' => $session['representant_legal_email'],
             'mode' => 'payment' ,
-            'success_url' => $DOMAIN . 'inscription/success/{CHECKOUT_SESSION_ID}' ,
-            'cancel_url' => $DOMAIN . 'inscription/cancel/{CHECKOUT_SESSION_ID}' ,
-            'line_items' => [ [
-                'quantity' => $session->getData(key: 'reserved_places') ,
+            'success_url' => $this->generateUrl(
+                route: 'app_payment_stripe_success_payment',
+                parameters: [],
+                referenceType: UrlGeneratorInterface::ABSOLUTE_URL
+            ) ,
+            'cancel_url' => $this->generateUrl(
+                route: 'app_payment_stripe_cancel_payment',
+                parameters: [],
+                referenceType: UrlGeneratorInterface::ABSOLUTE_URL
+            ) ,
+            'payment_method_types' => ['card'] ,
+            'metadata' => [
+                // Create payment intent with a unique ID and date now
+                'stripe_session_id' => $session['stripe_session_id'] ,
+                'payment_id' => $session['id'] . '_' . $session['date_creation_session'],
+                'evenement' => $session['evenement_nom'],
+                'evenement_slug' => $session['evenement_slug'],
+                'inscription_id' => $session['inscription_id'],
+                'places_reservees' => $session['places_reservees'],
+                'prix_unitaire' => $session['evenement_prix'],
+                'prix_total' => $session['total'] ,
+                'parent_nom' => $session['representant_legal'],
+                'parent_email' => $session['representant_legal_email'],
+                'parent_telephone' => $session['representant_legal_telephone'],
+                'date_de_creation' => $session['date_creation_session'],
+            ] ,
+            'line_items' => [[
+                'quantity' => $session['places_reservees'] ,
                 'price_data' => [
                     'currency' => 'EUR' ,
-                    'unit_amount' => $session->getData(key: 'unit_price') ,
+                    'unit_amount' => $session['evenement_prix'],
                     'product_data' => [
-                        'name' => $session->getData(key: 'inscription_event_name') ,
+                        'name' => $session['evenement_nom'],
                     ] ,
                 ] ,
             ]] ,
         ]);
+        $checkout_sessionId = $checkout_session->id;
+        // Set in details_inscription session the checkout_sessionId
+        $session['checkout_sessionId'] = $checkout_sessionId;
 
-        $checkout_session_id = $checkout_session->id;
-        $getSession = $this->dataSaveSessionServices->getDatas();
+        // $checkout_session_id = $checkout_session->id;
 
-        // header(header: "HTTP/1.1 303 See Other");
-        // header(header: "Location: " . $checkout_session->url);
+        /** Récupérer l'événement auquel l'utilisateur s'inscrit */
+        /*$registrationEventName = $session['evenement_slug'];
+        $event = $this->em
+            ->getRepository(entityName: Event::class)
+            ->findOneBy(['slug' => $registrationEventName]);
 
-        // Avant de rediriger l'utilisateur vers la page de paiement,
-        // nous devons enregistrer l'ID et toutes les données de la session dans notre base de données.
-        return $this->redirect($checkout_session->url);
+        /** Récupérer l'inscription de l'utilisateur */
+        /**$registrationId = $session['inscription_id'];
+        $registration = $this->em
+            ->getRepository(entityName: RegistrationEvent::class)
+            ->findOneBy(['id' => $registrationId]);*/
+
+        /** Enregistrer dans la table "paiement" si le paiement est réussis */
+        /*if ($checkout_session->status === 'complete') {
+            $payment = new Payment();
+            $payment->setEvent(event: $event);
+            $payment->setRegistrationEvent(registrationEvent: $registration);
+            $payment->setStripeSessionId(stripeSessionId: $checkout_session->id);
+            $payment->setStripePaymentIntentId(stripePaymentIntentId: $checkout_session->payment_intent);
+            $payment->setStripePaymentIntentStatus(stripePaymentIntentStatus: $checkout_session->payment_status);
+
+            $this->em->persist(entity: $payment);
+            $this->em->flush();
+        } else {
+            $this->addFlash(type: 'danger', message: 'quelque chose ne va pas');
+        }*/
+
+        return $this->redirect($checkout_session->url, status: 303);
     }
 
-
-    // Create Success Payment URL and Cancel Payment URL with parameters
-    #[Route(
-        '/inscription/success/{CHECKOUT_SESSION_ID}',
-        name: 'app_payment_stripe_success_payment',
-        methods: ['GET' , 'POST']
-    )
-    ]
+    /** Redirection vers la page de succès */
+    #[Route('/inscription/success', name: 'app_payment_stripe_success_payment', methods: ['GET'])]
     public function successPayment(): Response
     {
         return $this->render(view: 'stripe/success.html.twig');
     }
 
-    #[Route(
-        '/inscription/cancel/{CHECKOUT_SESSION_ID}',
-        name: 'app_payment_stripe_cancel_payment',
-        methods: ['GET' , 'POST']
-    )
-    ]
+    /** Redirection vers la page d'annulation */
+    #[Route('/inscription/cancel', name: 'app_payment_stripe_cancel_payment', methods: ['GET'])]
     public function cancelPayment(): Response
     {
         return $this->render(view: 'stripe/cancel.html.twig');

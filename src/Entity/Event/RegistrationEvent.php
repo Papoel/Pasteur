@@ -2,6 +2,7 @@
 
 namespace App\Entity\Event;
 
+use App\Entity\Payment;
 use App\Repository\Event\RegistrationEventRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -67,10 +68,14 @@ class RegistrationEvent
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
+    #[ORM\OneToMany(mappedBy: 'registrationEvent', targetEntity: Payment::class)]
+    private Collection $payments;
+
     public function __construct()
     {
         $this->children = new ArrayCollection();
         $this->createdAt = new \DateTimeImmutable();
+        $this->payments = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -183,7 +188,7 @@ class RegistrationEvent
         if ($this->children->removeElement($child)) {
             // set the owning side to null (unless already changed)
             if ($child->getRegistrationEvent() === $this) {
-                $child->setRegistrationEvent(null);
+                $child->setRegistrationEvent(registrationEvent: null);
             }
         }
 
@@ -198,6 +203,36 @@ class RegistrationEvent
     public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Payment>
+     */
+    public function getPayments(): Collection
+    {
+        return $this->payments;
+    }
+
+    public function addPayment(Payment $payment): self
+    {
+        if (!$this->payments->contains($payment)) {
+            $this->payments->add($payment);
+            $payment->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removePayment(Payment $payment): self
+    {
+        if ($this->payments->removeElement($payment)) {
+            // set the owning side to null (unless already changed)
+            if ($payment->getEvent() === $this) {
+                $payment->setEvent(event: null);
+            }
+        }
 
         return $this;
     }

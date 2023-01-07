@@ -78,7 +78,7 @@ class ContactController extends AbstractController
                 . $contact->getFullname() .
                 ', votre message a bien été envoyé.');
 
-            return $this->redirectToRoute(route: 'app_contact');
+            return $this->redirectToRoute(route: 'app_home');
         }
 
         return $this->render(view: 'contact/index.html.twig', parameters: [
