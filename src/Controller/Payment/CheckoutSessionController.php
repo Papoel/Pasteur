@@ -125,10 +125,11 @@ class CheckoutSessionController extends AbstractController
     /** Redirection vers la page d'annulation */
     #[Route('/inscription/cancel', name: 'app_payment_stripe_cancel_payment', methods: ['GET'])]
     public function cancelPayment(Request $request): Response
-    {// Détruire la session details_inscription
+    {
         $this->addFlash(
             type: 'error',
-            message: 'Une erreur s\'est produite lors de votre paiement. Veuillez contacter l\'APE pour vérification'
+            message: 'Une erreur s\'est produite lors de votre paiement. 
+            Veuillez contacter l\'APE pour vérification'
         );
         $session = $request->getSession()->get(name: 'details_inscription');
 
