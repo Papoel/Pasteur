@@ -63,21 +63,24 @@ Lors de mon inscription les données sont enregistrées dans la BDD :
   - [x] Titre et design des pages Admin (Back Office)
   - [x] Gestion de la capacité maximale d'inscription à un événement
   - [x] Création d'une table Payment pour gérer les paiements 
+  - [x] Sauvegarder les données de la session Stripe dans la table Payment
   - [ ] Afficher les événements au status ('PREPARATION') => Visible uniquement par les membres APE
-    - [ ] La carte devra être différente pour les événements au status ('PREPARATION')
-  - [ ] Sauvegarder les données de la session Stripe dans la table Payment
+  - [ ] La carte devra être différente pour les événements au status ('PREPARATION')
   - [ ] Création des pages d'erreur 404 et 500
-> __Priorité__ : Sauvegarder en base de données les paiements (Gestion WEBHOOKS Stripe)
+  - [ ] Logique métier Cancel Payment ?
+
 ### ADMIN
   - [x] Définir les status possible à: ['PREPARATION', 'RUNNING', 'FINISHED']
   - [ ] Afficher pour l'admin la liste des inscrits à chaque event
 > __Priorité__ : Afficher la liste des inscrits à chaque event et le status payé ou non
+
 ### USER
   - [x] Annuler un événement (avant de payer => désinscription automatique des participants)
   - [x] Paiement en ligne des événements payant
   - [ ] Mettre une option pour payer directement sur place ou à l'école
   - [ ] Afficher la liste des événements souscrits
 > __Priorité__ : Afficher la liste des événements souscrits
+
 # Fonctionnalité abandonnées par le client
   - [ ] Page du profil utilisateur
 
