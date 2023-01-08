@@ -88,6 +88,7 @@ class EventRegistrationController extends AbstractController
                     ];
                     $request->getSession()->set(name: 'details_inscription', value: $details_inscription);
                 }
+
                 // Une fois la réservation enregistrée, on redirige l'utilisateur vers la page de paiement en lui
                 // passant l'ID de la réservation
                 return $this->redirectToRoute(route: 'app_session_payment', parameters:
@@ -147,15 +148,11 @@ class EventRegistrationController extends AbstractController
             $em->remove($child);
         }
 
-        // Supprime l'entité EventRegistration de la base de données
         $em->remove($registrationEvent);
-
-        // Enregistre les changements en base de données
         $em->flush();
 
         // Affiche un message de confirmation
         $this->addFlash(type: 'success', message: 'Votre inscription a bien été annulée.');
-
         // Redirige l'utilisateur vers la page de confirmation de suppression
         return $this->redirectToRoute(route: 'app_home');
     }

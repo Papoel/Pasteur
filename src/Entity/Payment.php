@@ -22,9 +22,6 @@ class Payment
     #[ORM\Column]
     private \DateTimeImmutable $createdAt;
 
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $updatedAt = null;
-
     #[ORM\ManyToOne(inversedBy: 'payments')]
     #[ORM\JoinColumn(nullable: false)]
     private ?RegistrationEvent $registrationEvent = null;
@@ -38,6 +35,15 @@ class Payment
 
     #[ORM\Column(length: 100)]
     private ?string $stripePaymentIntentStatus = null;
+
+    #[ORM\Column]
+    private ?int $reservedPlaces = null;
+
+    #[ORM\Column]
+    private ?int $amount = null;
+
+    #[ORM\Column]
+    private ?int $unit_price = null;
 
     public function __construct()
     {
@@ -69,18 +75,6 @@ class Payment
     public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeImmutable
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
 
         return $this;
     }
@@ -129,6 +123,42 @@ class Payment
     public function setStripePaymentIntentStatus(string $stripePaymentIntentStatus): self
     {
         $this->stripePaymentIntentStatus = $stripePaymentIntentStatus;
+
+        return $this;
+    }
+
+    public function getReservedPlaces(): ?int
+    {
+        return $this->reservedPlaces;
+    }
+
+    public function setReservedPlaces(int $reservedPlaces): self
+    {
+        $this->reservedPlaces = $reservedPlaces;
+
+        return $this;
+    }
+
+    public function getAmount(): ?int
+    {
+        return $this->amount;
+    }
+
+    public function setAmount(int $amount): self
+    {
+        $this->amount = $amount;
+
+        return $this;
+    }
+
+    public function getUnitPrice(): ?int
+    {
+        return $this->unit_price;
+    }
+
+    public function setUnitPrice(int $unit_price): self
+    {
+        $this->unit_price = $unit_price;
 
         return $this;
     }

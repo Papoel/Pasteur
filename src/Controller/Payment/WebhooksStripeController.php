@@ -20,22 +20,14 @@ class WebhooksStripeController extends AbstractController
     public function index(Request $request, EntityManagerInterface $em): Response
     {
         $session = $request->getSession()->get(name: 'details_inscription');
-
         $endpoint_secret = $this->getParameter(name: 'STRIPE_WEBHOOK_SECRET');
-
         $payload = @file_get_contents(filename: 'php://input');
 
-        //$sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'];
         $header = 'Stripe-Signature';
         $signature = $request->headers->get($header);
 
         $sig_header = $signature;
         $event = null;
-
-        // TODO: Besoin ?
-        //$STRIPE_KEY_SECRET = $this->getParameter(name: 'STRIPE_KEY_SECRET');
-        //Stripe::setApiKey($STRIPE_KEY_SECRET);
-
 
         try {
             $event = Webhook::constructEvent($payload, $sig_header, $endpoint_secret);
@@ -56,15 +48,14 @@ class WebhooksStripeController extends AbstractController
             // Création de fichier pour le debug uniquement
             // file_put_contents(filename: 'details_inscription', data: $metadata);
             // file_put_contents(filename: 'checkout.completed', data: $event);
+
             $registrationEventSlug = $metadata['evenement_slug'];
-            $eventRegistered = $em
-            ->getRepository(entityName: Event::class)
-            ->findOneBy(['slug' => $registrationEventSlug]);
+            $eventRegistered = $em->getRepository(entityName: Event::class)
+                ->findOneBy(['slug' => $registrationEventSlug]);
 
             $registrationId = $metadata['inscription_id'];
-            $registration = $em
-            ->getRepository(entityName: RegistrationEvent::class)
-            ->findOneBy(['id' => $registrationId]);
+            $registration = $em->getRepository(entityName: RegistrationEvent::class)
+                ->findOneBy(['id' => $registrationId]);
 
             // Passer à true le champ Paid de la table RegistrationEvent
             $registration->setPaid(Paid: true);
@@ -73,13 +64,22 @@ class WebhooksStripeController extends AbstractController
             $payment = new Payment();
             $payment->setEvent(event: $eventRegistered);
             $payment->setRegistrationEvent(registrationEvent: $registration);
-            $payment->setStripeSessionId(stripeSessionId: $event->id);
+            $payment->setStripeSessionId(stripeSessionId: $event->data->object->id);
             $payment->setStripePaymentIntentId(stripePaymentIntentId: $event->data->object->payment_intent);
             $payment->setStripePaymentIntentStatus(stripePaymentIntentStatus: $event->data->object->payment_status);
+            $payment->setUnitPrice((int)$metadata['prix_unitaire']);
+            $payment->setAmount(amount: $event->data->object->amount_total);
+            $payment->setReservedPlaces(reservedPlaces: $registration->getChildren()->count());
 
             $em->persist($payment);
             $em->flush();
+
+            $this->addFlash(
+                type: 'success',
+                message: 'Votre paiement et votre inscription sont enregistrés. Merci !'
+            );
         }
+
         return new Response(content: Response::HTTP_OK);
     }
 }

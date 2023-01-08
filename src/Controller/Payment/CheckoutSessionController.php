@@ -6,6 +6,7 @@ namespace App\Controller\Payment;
 
 use App\Entity\Event\Event;
 use App\Entity\Event\RegistrationEvent;
+use App\Services\MailService;
 use Doctrine\ORM\EntityManagerInterface;
 use Stripe\Checkout\Session;
 use Stripe\Stripe;
@@ -29,6 +30,7 @@ class CheckoutSessionController extends AbstractController
         // $stripe = new StripeClient($STRIPE_KEY_SECRET);
 
         $session = $request->getSession()->get(name: 'details_inscription');
+
         /** On récupère les données de la session pour les détails de l'acheteur */
         $customer_details = [
             'email' => $session['representant_legal_email'],
@@ -60,7 +62,6 @@ class CheckoutSessionController extends AbstractController
             ) ,
             'payment_method_types' => ['card'] ,
             'metadata' => [
-                // Create payment intent with a unique ID and date now
                 'stripe_session_id' => $session['stripe_session_id'] ,
                 'payment_id' => $session['id'] . '_' . $session['date_creation_session'],
                 'evenement' => $session['evenement_nom'],
@@ -86,52 +87,51 @@ class CheckoutSessionController extends AbstractController
             ]] ,
         ]);
         $checkout_sessionId = $checkout_session->id;
-        // Set in details_inscription session the checkout_sessionId
         $session['checkout_sessionId'] = $checkout_sessionId;
-
-        // $checkout_session_id = $checkout_session->id;
-
-        /** Récupérer l'événement auquel l'utilisateur s'inscrit */
-        /*$registrationEventName = $session['evenement_slug'];
-        $event = $this->em
-            ->getRepository(entityName: Event::class)
-            ->findOneBy(['slug' => $registrationEventName]);
-
-        /** Récupérer l'inscription de l'utilisateur */
-        /**$registrationId = $session['inscription_id'];
-        $registration = $this->em
-            ->getRepository(entityName: RegistrationEvent::class)
-            ->findOneBy(['id' => $registrationId]);*/
-
-        /** Enregistrer dans la table "paiement" si le paiement est réussis */
-        /*if ($checkout_session->status === 'complete') {
-            $payment = new Payment();
-            $payment->setEvent(event: $event);
-            $payment->setRegistrationEvent(registrationEvent: $registration);
-            $payment->setStripeSessionId(stripeSessionId: $checkout_session->id);
-            $payment->setStripePaymentIntentId(stripePaymentIntentId: $checkout_session->payment_intent);
-            $payment->setStripePaymentIntentStatus(stripePaymentIntentStatus: $checkout_session->payment_status);
-
-            $this->em->persist(entity: $payment);
-            $this->em->flush();
-        } else {
-            $this->addFlash(type: 'danger', message: 'quelque chose ne va pas');
-        }*/
 
         return $this->redirect($checkout_session->url, status: 303);
     }
 
     /** Redirection vers la page de succès */
     #[Route('/inscription/success', name: 'app_payment_stripe_success_payment', methods: ['GET'])]
-    public function successPayment(): Response
+    public function successPayment(Request $request, MailService $mailService): Response
     {
-        return $this->render(view: 'stripe/success.html.twig');
+        // Détruire la session details_inscription
+        $this->addFlash(
+            type: 'success',
+            message: 'Votre paiement et votre inscription ont été effectués avec succès !'
+        );
+
+        $session = $request->getSession()->get(name: 'details_inscription');
+
+        $mailService->sendEmail(
+            from: $session['representant_legal_email'],
+            subject: 'Confirmation d\'inscription à l\'événement ' . $session['evenement_nom'],
+            htmlTemplate: 'emails/confirmation_inscription.html.twig',
+            context: [
+                'nom' => $session['representant_legal'],
+                'evenement' => $session['evenement_nom'],
+                'places_reservees' => $session['places_reservees'],
+                'prix_total' => $session['total'] / 100,
+                'date_de_creation' => $session['date_creation_session'],
+            ]
+        );
+
+
+        $request->getSession()->remove(name: 'details_inscription');
+        return $this->redirectToRoute(route: 'app_home');
     }
 
     /** Redirection vers la page d'annulation */
     #[Route('/inscription/cancel', name: 'app_payment_stripe_cancel_payment', methods: ['GET'])]
-    public function cancelPayment(): Response
-    {
+    public function cancelPayment(Request $request): Response
+    {// Détruire la session details_inscription
+        $this->addFlash(
+            type: 'error',
+            message: 'Une erreur s\'est produite lors de votre paiement. Veuillez contacter l\'APE pour vérification'
+        );
+        $session = $request->getSession()->get(name: 'details_inscription');
+
         return $this->render(view: 'stripe/cancel.html.twig');
     }
 }

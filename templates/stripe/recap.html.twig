@@ -1,7 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block body %}
     {% include('components/_navbar.html.twig') %}
-    {{ dump(app.session.get('details_inscription')) }}
     <div class="w-full bg-white border rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
         <ul class="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-gray-50 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800"
             id="defaultTab" data-tabs-toggle="#defaultTabContent" role="tablist">
