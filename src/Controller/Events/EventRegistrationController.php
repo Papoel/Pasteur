@@ -55,6 +55,7 @@ class EventRegistrationController extends AbstractController
                 $remainingPlaces = $event->getCapacity() - $reservedPlaces;
                 // On met à jour le nombre de places restantes
                 $event->setCapacity($remainingPlaces);
+                $event->setRegistered(registered: $event->getRegistered() + $reservedPlaces);
                 // On enregistre la réservation
                 $registration->setEvent($event);
 
@@ -142,6 +143,8 @@ class EventRegistrationController extends AbstractController
 
         // Met à jour le nombre de places disponibles dans l'entité Event
         $event->setCapacity(capacity: $event->getCapacity() + count($children));
+        // Mettre à jour le nombre d'inscrits dans l'entité registered
+        $event->setRegistered(registered: $event->getRegistered() - count($children));
 
         // Supprime chaque enfant de la table Children
         foreach ($children as $child) {

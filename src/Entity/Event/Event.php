@@ -118,6 +118,9 @@ class Event
     #[ORM\OneToMany(mappedBy: 'event', targetEntity: Payment::class)]
     private Collection $payments;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $registered = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -462,6 +465,18 @@ class Event
                 $payment->setEvent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRegistered(): ?int
+    {
+        return $this->registered;
+    }
+
+    public function setRegistered(?int $registered): self
+    {
+        $this->registered = $registered;
 
         return $this;
     }

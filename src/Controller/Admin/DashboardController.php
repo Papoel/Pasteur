@@ -94,7 +94,7 @@ class DashboardController extends AbstractDashboardController
                     entityFqcn: RegistrationEvent::class
                 )
                     ->setAction(actionName: Crud::PAGE_NEW),
-                MenuItem::linkToRoute('Détails', 'fas fa-boxes', 'app_event_registrations_index'),
+                MenuItem::linkToRoute(label: 'Détails', icon: 'fas fa-boxes', routeName: 'app_admin_details_events'),
             ])
         ;
 

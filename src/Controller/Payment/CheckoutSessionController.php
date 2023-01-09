@@ -102,6 +102,15 @@ class CheckoutSessionController extends AbstractController
             message: 'Votre paiement et votre inscription ont été effectués avec succès !'
         );
 
+        // Set RegistrationEvent to paid if event.price == 0
+        if ($request->getSession()->get(name: 'details_inscription')['total'] == 0) {
+            $registrationEvent = $this->em->getRepository(RegistrationEvent::class)->find(
+                $request->getSession()->get(name: 'details_inscription')['inscription_id']
+            );
+            $registrationEvent->setPaid(true);
+            $this->em->flush();
+        }
+
         $session = $request->getSession()->get(name: 'details_inscription');
 
         $mailService->sendEmail(

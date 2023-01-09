@@ -3,6 +3,7 @@
 namespace App\Repository\Event;
 
 use App\Entity\Event\Children;
+use App\Entity\Event\RegistrationEvent;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -39,28 +40,18 @@ class ChildrenRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Children[] Returns an array of Children objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Children
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    /**
+     * @Return array Key(EventId) => Value(Total registration).
+     * Get the event id from the registration_event table.
+     */
+    public function countChildrenByRegistration(RegistrationEvent $registration): int
+    {
+        return $this->createQueryBuilder(alias: 'c')
+            ->select(select: 'count(c.id)')
+            ->where(predicates: 'c.registrationEvent = :registration')
+            ->setParameter(key: 'registration', value: $registration)
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
+    }
 }

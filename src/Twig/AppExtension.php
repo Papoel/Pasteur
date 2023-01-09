@@ -30,12 +30,10 @@ class AppExtension extends AbstractExtension
         ];
     }
 
-    public function pluralize(int $count, string $singular, ?string $plural = null): string
+    // Create function for plural words
+    public function pluralize(int $count, string $singular, string $plural): string
     {
-        $plural ??= $singular . 's';
-        $string = 1 === $count ? $singular : $plural;
-
-        return "$count $string";
+        return $count > 1 ? $plural : $singular;
     }
 
     public function formatPrice(Event $event): string
