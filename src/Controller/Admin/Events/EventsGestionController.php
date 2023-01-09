@@ -21,7 +21,6 @@ class EventsGestionController extends AbstractController
         $events = $eventRepository->findAll();
         $registrations = $registrations->findAll();
 
-
         return $this->render(view: 'admin/events/details_events.html.twig', parameters: [
             'events' => $events,
             'registrations' => $registrations,
@@ -29,12 +28,11 @@ class EventsGestionController extends AbstractController
     }
 
     #[Route('/admin/details/inscription/{slug}', name: 'app_admin_details_registration', methods: ['GET'])]
-    public function detailsRegistration(
-        Event $event, RegistrationEventRepository $registrations,
-    ): Response {
+    public function detailsRegistration(Event $event, RegistrationEventRepository $registrations,): Response
+    {
         $registrations = $registrations->findBy(['event' => $event]);
 
-        return $this->render(view: 'admin/events/details_registration.html.twig' , parameters: [
+        return $this->render(view: 'admin/events/details_registration.html.twig', parameters: [
             'registrations' => $registrations ,
             'event' => $event,
         ]);
