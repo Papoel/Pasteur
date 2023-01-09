@@ -71,8 +71,7 @@ Lors de mon inscription les données sont enregistrées dans la BDD :
 
 ### ADMIN
   - [x] Définir les status possible à: ['PREPARATION', 'RUNNING', 'FINISHED']
-  - [ ] Afficher pour l'admin la liste des inscrits à chaque event
-> __Priorité__ : Afficher la liste des inscrits à chaque event et le status payé ou non
+  - [x] Afficher pour l'admin la liste des inscrits à chaque event
 
 ### USER
   - [x] Annuler un événement (avant de payer => désinscription automatique des participants)
