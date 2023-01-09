@@ -154,6 +154,10 @@ class EventRegistrationController extends AbstractController
         $em->remove($registrationEvent);
         $em->flush();
 
+        // TODO: Rediriger vers la route app_admin_details_events si l'utilisateur est un admin sinon vers app_home
+        if ($this->getUser()) {
+            return $this->redirectToRoute(route: 'app_admin_details_registration', parameters: ['slug' => $event->getSlug()]);
+        }
         // Affiche un message de confirmation
         $this->addFlash(type: 'success', message: 'Votre inscription a bien été annulée.');
         // Redirige l'utilisateur vers la page de confirmation de suppression
