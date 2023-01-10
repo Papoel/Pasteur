@@ -8,6 +8,7 @@ use App\Entity\Event\Event;
 use App\Repository\Event\EventRepository;
 use App\Repository\Event\RegistrationEventRepository;
 use App\Services\PdfService;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,23 +18,38 @@ class EventsGestionController extends AbstractController
     #[Route('/admin/details/evenements', name: 'app_admin_details_events', methods: ['GET'])]
     public function detailsEvents(
         EventRepository $eventRepository,
-        RegistrationEventRepository $registrations,
+        RegistrationEventRepository $registrations ,
     ): Response {
         $events = $eventRepository->findAll();
         $registrations = $registrations->findAll();
 
         return $this->render(view: 'admin/events/details_events.html.twig', parameters: [
-            'events' => $events,
-            'registrations' => $registrations,
+            'events' => $events ,
+            'registrations' => $registrations ,
         ]);
     }
 
     #[Route('/admin/details/inscription/{slug}', name: 'app_admin_details_registration', methods: ['GET'])]
-    public function detailsRegistration(Event $event, RegistrationEventRepository $registrations,): Response
+    public function detailsRegistration(Event $event, RegistrationEventRepository $registrationRepository ,): Response
     {
+        $registrations = $registrationRepository->findBy(['event' => $event]);
+
+        $uniqueRegistrations = $registrationRepository->findUniqueRegistrations($event);
+
+        // $uniqueRegistrations = new ArrayCollection();
+        /*foreach ($registrations as $registration) {
+            $exist = $uniqueRegistrations->exists(function ($key, $element) use ($registration) {
+                return $registration->getEmail() === $element->getEmail();
+            });
+            if (!$exist) {
+                $uniqueRegistrations->add($registration);
+            }
+        }*/
+
         return $this->render(view: 'admin/events/details_registration.html.twig', parameters: [
-            'registrations' => $registrations->findBy(['event' => $event]),
-            'event' => $event,
+            'registrations' => $registrations ,
+            'uniqueRegistrations' => $uniqueRegistrations ,
+            'event' => $event ,
         ]);
     }
 
@@ -44,8 +60,8 @@ class EventsGestionController extends AbstractController
         PdfService $pdf
     ): Response {
         $html = $this->render(view: 'admin/pdf/liste.html.twig', parameters: [
-            'registrations' => $registrations->findBy(['event' => $event]),
-            'event' => $event,
+            'registrations' => $registrations->findBy(['event' => $event]) ,
+            'event' => $event ,
         ]);
         $eventName = $event->getName();
 

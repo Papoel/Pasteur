@@ -2,6 +2,7 @@
 
 namespace App\Repository\Event;
 
+use App\Entity\Event\Event;
 use App\Entity\Event\RegistrationEvent;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -58,5 +59,17 @@ class RegistrationEventRepository extends ServiceEntityRepository
             ->setParameter(key: ':slug', value: $slug)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    public function findUniqueRegistrations(Event $event): array
+    {
+        $qb = $this->createQueryBuilder(alias: 'r')
+            ->select(select: 'r')
+            ->andWhere('r.event = :event')
+            ->setParameter(key: ':event', value: $event)
+            ->groupBy(groupBy: 'r.email')
+        ;
+        return $qb->getQuery()->getResult();
+
     }
 }
