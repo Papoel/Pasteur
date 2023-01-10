@@ -70,6 +70,5 @@ class RegistrationEventRepository extends ServiceEntityRepository
             ->groupBy(groupBy: 'r.email')
         ;
         return $qb->getQuery()->getResult();
-
     }
 }
