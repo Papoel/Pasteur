@@ -123,7 +123,12 @@
                             <div class="relative flex-shrink-0">
                                 <img class="object-cover w-full h-56"
                                      src="{{ vich_uploader_asset(event, 'imageFile') }}" alt="{{ event.name }}"/>
-                                {% if event.registered is not null %}
+                                {% if (event.registered is null) or (event.registered) == 0 %}
+                                    <span class="absolute bottom-0 right-0 inline-flex items-center px-3 py-1 mr-4 -mb-3
+                                        text-md font-medium leading-tight text-gray-800 bg-gray-100 border rounded-full">
+                                            Pas d'inscription.
+                                    </span>
+                                {% else %}
                                     <a href="{{ path('app_admin_details_registration', {'slug': event.slug}) }}"
                                        class="absolute bottom-0 right-0 inline-flex items-center px-3 py-1 mr-4 -mb-3
                                     text-md font-medium leading-tight text-purple-800 bg-purple-100 border rounded-full
@@ -131,11 +136,6 @@
                                     transition-all duration-300">
                                         {{ event.registered }} {{ pluralize(event.registered, 'inscrit', 'incrits') }}
                                     </a>
-                                    {% else %}
-                                    <span class="absolute bottom-0 right-0 inline-flex items-center px-3 py-1 mr-4 -mb-3
-                                        text-md font-medium leading-tight text-gray-800 bg-gray-100 border rounded-full">
-                                            Pas d'inscription.
-                                    </span>
                                 {% endif %}
 
                             </div>

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>APERP | {% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Author: Papoel,
+            Description: APERP est une application web de gestion d'événements ainsi qu'une ouverture extérieur
+            à l'aide d'organisation d'événements. Ce site est réalisé pour une association de Parents d'élèves à
+            but lucratif, dont le seul et unique but est de récolter des fonds pour financer les sorties scolaires.
+            Illustration: Certaines images proviennent de Unsplash.com,
+            Category: Event ">
+<body>
+
+<style>
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        font-family: "Lucida Console", monospace, sans-serif;
+    }
+    #registration-list {
+        color: #363636;
+        font-size: 16px;
+    }
+    .w-8 {
+        width: 2rem;
+    }
+    .h-8 {
+        height: 2rem;
+    }
+    .mt-10 {
+        margin-top: 2.5rem;
+    }
+    .mr-3 {
+        margin-right: 0.75rem;
+    }
+    .mb-10 {
+        margin-bottom: 2.5rem;
+    }
+    .mx-4 {
+        margin-left: 1rem;
+        margin-right: 1rem;
+    }
+    .my-4 {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+    .px-2 {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+    .px-3 {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+    .px-4 {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    .py-1 {
+        padding-top: 0.25rem;
+        padding-bottom: 0.25rem;
+    }
+    .py-2 {
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+    }
+    .py-3 {
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+    }
+    .w-full {
+        width: 100%;
+    }
+    .overflow-hidden {
+        overflow: hidden;
+    }
+    .rounded-lg {
+        border-radius: 0.5rem;
+    }
+    .rounded-full {
+        border-radius: 9999px;
+    }
+    .shadow-xs {
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
+    }
+    .shadow-inner {
+        box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+    }
+    .overflow-x-auto {
+        overflow-x: auto;
+    }
+    .text-xs {
+        font-size: 0.75rem;
+    }
+    .text-sm {
+        font-size: 0.875rem;
+    }
+    .font-semibold {
+        font-weight: 600;
+    }
+    .tracking-wide {
+        letter-spacing: 0.05em;
+    }
+    .text-left {
+        text-align: left;
+    }
+    .text-center {
+        text-align: center;
+    }
+    .text-gray-500 {
+        color: #a0aec0;
+    }
+    .text-gray-600 {
+        color: #718096;
+    }
+    .text-green-700 {
+        color: #2f855a;
+    }
+    .text-red-100 {
+        color: #fff5f5;
+    }
+    .text-red-700 {
+        color: #c53030;
+    }
+    .uppercase {
+        text-transform: uppercase;
+    }
+    .border-b {
+        border-bottom-width: 1px;
+    }
+    .bg-gray-50 {
+        background-color: #f7fafc;
+    }
+    .bg-green-100 {
+        background-color: #9ae6b4;
+    }
+    .bg-red-100 {
+        background-color: #feb2b2;
+    }
+    .bg-red-800 {
+        background-color: #9b2c2c;
+    }
+    .bg-white {
+        background-color: #fff;
+    }
+    .divide-y {
+        border-top-width: 1px;
+    }
+    .flex {
+        display: flex;
+    }
+    .items-center {
+        align-items: center;
+    }
+    .relative {
+        position: relative;
+    }
+    .hidden {
+        display: none;
+    }
+    .object-cover {
+        object-fit: cover;
+    }
+    .absolute {
+        position: absolute;
+    }
+    .inset-0 {
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+    .leading-tight {
+        line-height: 1.25;
+    }
+    .border {
+        border-width: 1px;
+    }
+    h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #8d79c2;
+    }
+    div {
+        display: block;
+    }
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    thead {
+        background-color: #8d79c2;
+        color: #fff;
+    }
+    tr {
+        border-bottom: 1px solid #8d79c2;
+    }
+    th, td {
+        padding: 8px;
+    }
+
+
+
+    /*
+    148:
+    */
+
+</style>
+<!-- Create All class identicaly to tailwind css -->
+
+<h1 class="text-center uppercase my-4 mb-10">Liste des inscriptions pour {{ event.name }}</h1>
+
+<div id="registration-list" class="mx-4 my-4 mt-10">
+    <div class="w-full overflow-hidden rounded-lg shadow-xs">
+        <div class="w-full overflow-x-auto">
+            <table class="w-full text-center border">
+                <thead>
+                <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                    <th class="px-4 py-3">Client</th>
+                    <th class="px-4 py-3">Coordonnées</th>
+                    <th class="px-4 py-3">Prix</th>
+                    <th class="px-4 py-3">Status</th>
+                    <th class="px-4 py-3">Nom des inscrits</th>
+                </tr>
+                </thead>
+                <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                {% for registration in registrations %}
+                <tr class="bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900 text-gray-700 dark:text-gray-400">
+                    <td class="px-4 py-3">
+                        <div class="flex items-center text-sm">
+                            <div>
+                                <p class="font-semibold">{{ registration.fullname }}</p>
+                                <p class="text-xs text-gray-600 dark:text-gray-400">
+                                    {{ registration.children|length }}
+                                    {{ pluralize(registration.children|length, 'enfant', 'enfants') }}
+                                    {{ pluralize(registration.children|length, 'inscrit', 'inscrits') }}
+                                </p>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-4 py-3">
+                        <div class="flex items-center text-sm">
+                            <div class="text-xs text-gray-600">
+                                <p>{{ registration.telephone }}</p>
+                                <p>{{ registration.email }}</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-4 py-3 text-sm">
+                        {{ (registration.event.price / 100) * (registration.children|length) }}
+                        €
+                    </td>
+                    <td class="text-sm">
+                        {% if registration.isPaid == 1 or event.price == 0 %}
+                        <span class="px-2 py-1 font-semibold text-green-700 bg-green-100 rounded-full text-center">
+                            {% if event.price == 0 %}
+                                Gratuit
+                            {% else %}
+                                Payé
+                            {% endif %}
+                        </span>
+                        {% else %}
+                        <span class="px-2 py-1 font-semibold text-red-700 bg-red-100 rounded-full text-center">
+                            Non Payé
+                        </span>
+                        {% endif %}
+                    </td>
+                    <td class="px-4 py-3 text-sm">
+                        {% for child in registration.children %}
+                        <p>{{ child.firstname }} {{ child.lastname }} ({{ child.classroom }})</p>
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

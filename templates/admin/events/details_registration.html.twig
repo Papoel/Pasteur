@@ -101,14 +101,14 @@
                     <!-- Client Table -->
                     <!-- TODO: Imprimer la liste ou sauvegarder au format pdf -->
                     <div class="my-4 ml-5">
-                        <a href="{{ path('app_print_list_registration') }}"
+                        <a href="{{ path('app_admin_list_pdf', {'slug': event.slug}) }}"
                                 class="bg-yellow-200 text-yellow-900 py-2 px-4 rounded
                                 shadow hover:shadow-xl hover:bg-yellow-300 duration-300">
-                            Imprimer la liste
+                            Télécharger la liste
                         </a>
                     </div>
 
-                    <div class="mx-4">
+                    <div id="registration-list" class="mx-4">
                         <div class="w-full overflow-hidden rounded-lg shadow-xs">
                             <div class="w-full overflow-x-auto">
                                 <table class="w-full">
