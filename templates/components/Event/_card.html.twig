@@ -11,7 +11,7 @@
                 </div>
 
                 {% if event.imageName == "event.jpeg" %}
-                    <img class="{{ event.capacity == 0 ? 'filter grayscale opacity-75' }} image-event z-0" src="{{ asset('build/uploads/images/events/event.jpeg') }}" alt="{{ event.name }}">
+                    <img class="{{ event.capacity == 0 ? 'filter grayscale opacity-75' }} image-event z-0" src="{{ asset('uploads/images/bases/event.jpeg') }}" alt="{{ event.name }}">
                 {% else %}
                     <img class="{{ event.capacity == 0 ? 'filter grayscale ' }} image-event" src="{{ vich_uploader_asset(event, 'imageFile') }}" alt="{{ event.name }}">
                 {% endif %}
