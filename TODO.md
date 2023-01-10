@@ -68,6 +68,7 @@ Lors de mon inscription les données sont enregistrées dans la BDD :
 - [x] Paiement en ligne des événements payant
 - [ ] Mettre une option pour payer directement sur place ou à l'école
 - [ ] Afficher la liste des événements souscrits
+- [ ] Mot de passe oublié, envoie email a Admin pour changement depuis le backoffice
 > __Priorité__ : Afficher la liste des événements souscrits
 
 # Fonctionnalité abandonnées par le client
