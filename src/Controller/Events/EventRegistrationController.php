@@ -131,32 +131,32 @@ class EventRegistrationController extends AbstractController
     ): Response {
         // Récupère l'ID de l'événement à partir du slug dans l'URL
         $registrationId = $request->attributes->get(key: 'id');
-
         // Récupère l'entité Event
         $event = $eventRepository->findOneBy(['slug' => $request->attributes->get(key: 'slug')]);
-
         // Récupère l'entité EventRegistration
         $registrationEvent = $registrationEventRepository->findOneBy(['id' => $registrationId]);
-
         // Récupère les enfants associés à l'EventRegistration
         $children = $childrenRepository->findBy(['registrationEvent' => $registrationEvent]);
-
         // Met à jour le nombre de places disponibles dans l'entité Event
         $event->setCapacity(capacity: $event->getCapacity() + count($children));
         // Mettre à jour le nombre d'inscrits dans l'entité registered
         $event->setRegistered(registered: $event->getRegistered() - count($children));
 
-        // Supprime chaque enfant de la table Children
+        // Supprime chaque enfant de la table Children ayant registration_event_id = $registrationId
         foreach ($children as $child) {
+            /** @var RegistrationEvent $registrationEvent */
+            $registrationEvent->removeChild(child: $child);
             $em->remove($child);
         }
 
         $em->remove($registrationEvent);
         $em->flush();
 
-        // TODO: Rediriger vers la route app_admin_details_events si l'utilisateur est un admin sinon vers app_home
         if ($this->getUser()) {
-            return $this->redirectToRoute(route: 'app_admin_details_registration', parameters: ['slug' => $event->getSlug()]);
+            return $this->redirectToRoute(
+                route: 'app_admin_details_registration',
+                parameters: ['slug' => $event->getSlug()]
+            );
         }
         // Affiche un message de confirmation
         $this->addFlash(type: 'success', message: 'Votre inscription a bien été annulée.');
