@@ -40,7 +40,7 @@ Lors de mon inscription les données sont enregistrées dans la BDD :
 
 ## Modification à apporter :
 
-- [x] Modifier le type de price => float to integer et donner les prix en centimes
+- [x] Modifier le type de price → float to integer et donner les prix en centimes
 - [X] Rendre conditionnel l'affichage des cartes dans le footer (sinon erreur si pas de rôle correspondant)
 - [X] Pas de caractères spéciaux pour le mot de passe
 - [x] Ajouter un bouton publié pour gérer l'affichage des événements
@@ -60,37 +60,38 @@ Lors de mon inscription les données sont enregistrées dans la BDD :
 - [ ] Logique métier Cancel Payment ?
 
 ### ADMIN
-- [x] Définir les status possible à: ['PREPARATION', 'RUNNING', 'FINISHED']
+- [x] Définir les status possibles à : ['PREPARATION', 'RUNNING', 'FINISHED']
 - [x] Afficher pour l'admin la liste des inscrits à chaque event
+- [x] Télécharger en PDF la liste des inscrits à chaque event
 
 ### USER
-- [x] Annuler un événement (avant de payer => désinscription automatique des participants)
+- [x] Annuler un événement (avant de payer → désinscription automatique des participants)
 - [x] Paiement en ligne des événements payant
 - [ ] Mettre une option pour payer directement sur place ou à l'école
 - [ ] Afficher la liste des événements souscrits
-- [ ] Mot de passe oublié, envoie email a Admin pour changement depuis le backoffice
+- [ ] Mot de passe oublié, envoie email à Admin pour changement depuis le backoffice
 > __Priorité__ : Afficher la liste des événements souscrits
 
-# Fonctionnalité abandonnées par le client
+# Fonctionnalité abandonnée par le client
 - [ ] Page du profil utilisateur
 
 # <h1 style="color:red;">REFACTORISATION A FAIRE</h1>
 
 ## Création d'un service pour gérer les événements
 
-- [ ] __Méthode d'inscription à un événement doit:__
+- [ ] __Méthode d'inscription à un événement doit :__
   - Enregistrer dans EventRegistration l'inscription
   - Ajouter la liste des enfants dans la table Children
-  - Déduire le nombre de place disponible dans l'événement (Capacity - count(Children))
+  - Déduire le nombre de places disponible dans l'événement (Capacity - count(Children))
   - Ajouter count(Children) dans la table registered dans Event
-- [ ] __Méthode d'annulation à un événement doit:__
+- [ ] __Méthode d'annulation à un événement doit :__
   - Supprimer dans EventRegistration l'inscription
   - Supprimer la liste des enfants dans la table Children
-  - Ajouter le nombre de place disponible dans l'événement (Capacity + count(Children))
+  - Ajouter le nombre de places disponible dans l'événement (Capacity + count(Children))
   - Supprimer count(Children) dans la table registered dans Event
 
 ## Création d'un service pour gérer les paiements
-- [ ] __Méthode de paiement doit:__
+- [ ] __Méthode de paiement doit :__
   - Enregistrer dans Payment le paiement
   - Envoyer un email de confirmation de paiement
-  - .... Vérifier les action dans checkout session
+  - .... Vérifier les action dans "checkout_session"
