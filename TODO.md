@@ -40,47 +40,56 @@ Lors de mon inscription les données sont enregistrées dans la BDD :
 
 ## Modification à apporter :
 
-  - [x] Modifier le type de price => float to integer et donner les prix en centimes
-  - [X] Rendre conditionnel l'affichage des cartes dans le footer (sinon erreur si pas de rôle correspondant)
-  - [X] Pas de caractères spéciaux pour le mot de passe
-  - [x] Ajouter un bouton publié pour gérer l'affichage des événements
-  - [x] Template si aucun event n'est publié
-  - [x] Renommer registration en registrationHelp et faire toutes les modifs
-
-  - [x] Créer Entity Registration Event
-    - [x] firstname
-    - [x] lastname
-    - [x] email
-    - [x] quantity
-    - [x] childrens -> Nouvelle Entity relation OneToMany
-      - [x] firstname
-      - [x] lastname
-      - [x] classroom
-  - [x] Inscription aux événements
-  - [x] Changer la redirection après l'envoie d'un message homepage au lieu de /contact
+- [x] Modifier le type de price => float to integer et donner les prix en centimes
+- [X] Rendre conditionnel l'affichage des cartes dans le footer (sinon erreur si pas de rôle correspondant)
+- [X] Pas de caractères spéciaux pour le mot de passe
+- [x] Ajouter un bouton publié pour gérer l'affichage des événements
+- [x] Template si aucun event n'est publié
+- [x] Renommer registration en registrationHelp et faire toutes les modifs
+- [x] Inscription aux événements
+- [x] Changer la redirection après l'envoie d'un message homepage au lieu de /contact
 
 # Fonctionnalité à développer
-  - [x] Titre et design des pages Admin (Back Office)
-  - [x] Gestion de la capacité maximale d'inscription à un événement
-  - [x] Création d'une table Payment pour gérer les paiements 
-  - [x] Sauvegarder les données de la session Stripe dans la table Payment
-  - [ ] Afficher les événements au status ('PREPARATION') => Visible uniquement par les membres APE
-  - [ ] La carte devra être différente pour les événements au status ('PREPARATION')
-  - [ ] Création des pages d'erreur 404 et 500
-  - [ ] Logique métier Cancel Payment ?
+- [x] Titre et design des pages Admin (Back Office)
+- [x] Gestion de la capacité maximale d'inscription à un événement
+- [x] Création d'une table Payment pour gérer les paiements 
+- [x] Sauvegarder les données de la session Stripe dans la table Payment
+- [ ] Afficher les événements au status ('PREPARATION') => Visible uniquement par les membres APE
+- [ ] La carte devra être différente pour les événements au status ('PREPARATION')
+- [ ] Création des pages d'erreur 404 et 500
+- [ ] Logique métier Cancel Payment ?
 
 ### ADMIN
-  - [x] Définir les status possible à: ['PREPARATION', 'RUNNING', 'FINISHED']
-  - [x] Afficher pour l'admin la liste des inscrits à chaque event
+- [x] Définir les status possible à: ['PREPARATION', 'RUNNING', 'FINISHED']
+- [x] Afficher pour l'admin la liste des inscrits à chaque event
 
 ### USER
-  - [x] Annuler un événement (avant de payer => désinscription automatique des participants)
-  - [x] Paiement en ligne des événements payant
-  - [ ] Mettre une option pour payer directement sur place ou à l'école
-  - [ ] Afficher la liste des événements souscrits
+- [x] Annuler un événement (avant de payer => désinscription automatique des participants)
+- [x] Paiement en ligne des événements payant
+- [ ] Mettre une option pour payer directement sur place ou à l'école
+- [ ] Afficher la liste des événements souscrits
 > __Priorité__ : Afficher la liste des événements souscrits
 
 # Fonctionnalité abandonnées par le client
-  - [ ] Page du profil utilisateur
+- [ ] Page du profil utilisateur
 
-# Bug rencontré et à corriger
+# <h1 style="color:red;">REFACTORISATION A FAIRE</h1>
+
+## Création d'un service pour gérer les événements
+
+- [ ] __Méthode d'inscription à un événement doit:__
+  - Enregistrer dans EventRegistration l'inscription
+  - Ajouter la liste des enfants dans la table Children
+  - Déduire le nombre de place disponible dans l'événement (Capacity - count(Children))
+  - Ajouter count(Children) dans la table registered dans Event
+- [ ] __Méthode d'annulation à un événement doit:__
+  - Supprimer dans EventRegistration l'inscription
+  - Supprimer la liste des enfants dans la table Children
+  - Ajouter le nombre de place disponible dans l'événement (Capacity + count(Children))
+  - Supprimer count(Children) dans la table registered dans Event
+
+## Création d'un service pour gérer les paiements
+- [ ] __Méthode de paiement doit:__
+  - Enregistrer dans Payment le paiement
+  - Envoyer un email de confirmation de paiement
+  - .... Vérifier les action dans checkout session
