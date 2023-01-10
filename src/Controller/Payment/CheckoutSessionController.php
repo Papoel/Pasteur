@@ -136,7 +136,7 @@ class CheckoutSessionController extends AbstractController
     public function cancelPayment(Request $request): Response
     {
         $this->addFlash(
-            type: 'error',
+            type: 'danger',
             message: 'Une erreur s\'est produite lors de votre paiement. 
             Veuillez contacter l\'APE pour vérification'
         );
