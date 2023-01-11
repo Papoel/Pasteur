@@ -20,9 +20,18 @@
                 </div>
 
                 <div class="xl:ml-20 xl:w-5/12 lg:w-5/12 md:w-8/12 mb-12 md:mb-0">
-                    <form method="post">
+                    <h1>
+                        <span class="uppercase text-purple-degrade text-3xl my-6">
+                            Formulaire de connexion
+                        </span>
+                        <span class="block text-sm text-gray-400 mb-2">
+                            Connexion réservée aux membres de l'APERP.
+                        </span>
+                    </h1>
+                    <form method="post" name="login">
                         {% if error %}
-                            <div class="bg-red-100 border-t-4 border-red-500 rounded-b text-red-900 px-4 py-3 shadow-md mb-8" role="alert">
+                            <div id="alert" class="bg-red-100 border-t-4 border-red-500 rounded-b text-red-900 px-4 py-3 shadow-md mb-8"
+                                 role="alert">
                                 <div class="flex">
                                     <div class="py-1"><svg class="fill-current h-6 w-6 text-red-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"/></svg></div>
                                     <div>
@@ -52,8 +61,10 @@
                             />
                         </div>
 
+                        <!-- Password input -->
                         <div class="relative w-full">
                             <div class="absolute inset-y-0 right-0 flex items-center px-2">
+                                <!-- Display Password Button -->
                                 <input id="toggle" class="hidden js-password-toggle"  type="checkbox" />
                                 <label for="toggle" class="bg-gray-100 text-gray-800 text-sm font-medium mr-2 px-2.5 py-0.5 mt-[25%] rounded dark:bg-gray-700 dark:text-gray-300 js-password-label">
                                     Afficher
@@ -69,16 +80,21 @@
                             />
                         </div>
 
+                        <!-- Forgotten Password -->
                         <div class="flex justify-between items-center mb-6">
-                            <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">Mot de passe oublié?</a>
+                            <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
+                                Mot de passe oublié?
+                            </a>
                         </div>
 
+                        <!-- Submit form button -->
                         <div class="text-center lg:text-left">
                             <button type="submit"
                                     class="inline-block px-7 py-3 bg-indigo-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-indigo-700 hover:shadow-lg focus:bg-indigo-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg transition duration-150 ease-in-out">
                                 Connexion
                             </button>
                         </div>
+                        <!-- CSRF Token -->
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                     </form>
                 </div>
@@ -86,6 +102,7 @@
         </div>
     </section>
 
+    {# TODO: Déplacer dans les assets JS #}
     <script>
         const passwordToggle = document.querySelector('.js-password-toggle')
 
