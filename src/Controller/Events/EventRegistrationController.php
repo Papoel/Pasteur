@@ -139,8 +139,7 @@ class EventRegistrationController extends AbstractController
         $registrationEvent = $registrationEventRepository->findOneBy(['id' => $registrationId]);
         if (!$registrationEvent && $details_inscription !== null) {
             $registrationEvent = $registrationEventRepository
-                ->findOneBy(['id' => $details_inscription['inscription_id']]
-                );
+                ->findOneBy(['id' => $details_inscription['inscription_id']]);
         }
 
         // Récupère les enfants associés à l'EventRegistration
