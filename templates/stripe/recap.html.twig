@@ -40,7 +40,11 @@
             <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="services" role="tabpanel"
                  aria-labelledby="services-tab">
                 <h2 class="mb-5 text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">
-                    Liste des inscrits
+                    {{ pluralize(registration.children|length, "Votre", 'Vos') }}
+                    {{ pluralize(registration.children|length, 'enfant', 'enfants') }}
+                    {{ pluralize(registration.children|length, 'inscrit', 'inscrits') }}
+                    sur la liste de participation
+                    ( {{ registration.children|length }} )
                 </h2>
                 <ul role="list" class="space-y-4 text-gray-500 dark:text-gray-400">
                     {% for children in registration.children %}
@@ -116,7 +120,7 @@
                             <dd class="font-light text-gray-500 dark:text-gray-400">
                                 <div class="flex justify-between">
                                     <a href="{{ path('app_registration_event_cancel', {'id': registration.id, 'slug': event.slug}) }}"
-                                       class="text-[#DC134C] hover:text-white border border-[#DC134C]
+                                       class="my-auto text-[#DC134C] hover:text-white border border-[#DC134C]
                                     hover:bg-[#DC134C] font-medium rounded-lg text-sm px-3 py-2.5 text-center mr-2 mb-2
                                     dark:border-[#DC134C]/50 dark:text-[#DC134C]/50 dark:hover:text-white
                                     dark:hover:bg-[#DC134C]/60">
@@ -125,7 +129,7 @@
                                     <a href="{{ path('app_home') }}"
                                        class="text-white hover:text-green-500 border border-green-300
                                         bg-green-700 hover:bg-white font-medium rounded-lg text-sm px-3 py-2.5 text-center mb-2">
-                                        Payer sur place ou à l'école
+                                        Payer plus tard
                                     </a>
                                 </div>
                             </dd>

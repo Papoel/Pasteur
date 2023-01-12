@@ -129,14 +129,31 @@ class EventRegistrationController extends AbstractController
         EntityManagerInterface $em,
         Request $request
     ): Response {
+        // Get the session details_inscription
+        $details_inscription = $request->getSession()->get(name: 'details_inscription');
         // Récupère l'ID de l'événement à partir du slug dans l'URL
         $registrationId = $request->attributes->get(key: 'id');
         // Récupère l'entité Event
         $event = $eventRepository->findOneBy(['slug' => $request->attributes->get(key: 'slug')]);
-        // Récupère l'entité EventRegistration
+        // Récupère l'entité EventRegistration si présente sinon le récupérer depuis la session si il existe
         $registrationEvent = $registrationEventRepository->findOneBy(['id' => $registrationId]);
+        if (!$registrationEvent && $details_inscription !== null) {
+            $registrationEvent = $registrationEventRepository
+                ->findOneBy(['id' => $details_inscription['inscription_id']]
+                );
+        }
+
         // Récupère les enfants associés à l'EventRegistration
         $children = $childrenRepository->findBy(['registrationEvent' => $registrationEvent]);
+
+        /*dd([
+            'Inscription' => $registrationEvent,
+            'Session' => $details_inscription,
+            'Id Inscription' => $registrationId,
+            'Evénement' => $event,
+            'Children' => $children,
+        ]);*/
+
         // Met à jour le nombre de places disponibles dans l'entité Event
         $event->setCapacity(capacity: $event->getCapacity() + count($children));
         // Mettre à jour le nombre d'inscrits dans l'entité registered
@@ -153,6 +170,10 @@ class EventRegistrationController extends AbstractController
         $em->flush();
 
         if ($this->getUser()) {
+            // Delete the session details_inscription
+            $request->getSession()->remove(name: 'details_inscription');
+            // Affiche un message de confirmation
+            $this->addFlash(type: 'success', message: 'Votre inscription a bien été annulée.');
             return $this->redirectToRoute(
                 route: 'app_admin_details_registration',
                 parameters: ['slug' => $event->getSlug()]
@@ -160,6 +181,8 @@ class EventRegistrationController extends AbstractController
         }
         // Affiche un message de confirmation
         $this->addFlash(type: 'success', message: 'Votre inscription a bien été annulée.');
+        // Delete the session details_inscription
+        $request->getSession()->remove(name: 'details_inscription');
         // Redirige l'utilisateur vers la page de confirmation de suppression
         return $this->redirectToRoute(route: 'app_home');
     }
