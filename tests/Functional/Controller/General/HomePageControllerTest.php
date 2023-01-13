@@ -5,16 +5,21 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller\General;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class HomePageControllerTest extends WebTestCase
 {
     /** Tester si la page d'accueil retourne un status Code 200*/
     public function testGetSuccessfullyHomePage(): void
     {
-        // Créer un client et faire une requête "GET" sur la page d'accueil
         $client = static::createClient();
-        $client->request(method: 'GET', uri: '/');
+        /** @var UrlGeneratorInterface $urlGenerator */
+        $urlGenerator = $client->getContainer()->get(id: 'router');
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $urlGenerator->generate(name: 'app_home')
+        );
 
         self::assertEquals(expected: 200, actual: $client->getResponse()->getStatusCode());
     }
@@ -48,65 +53,61 @@ class HomePageControllerTest extends WebTestCase
     public function testPageContent(): void
     {
         $client = static::createClient();
-        $client->request(method: 'GET', uri: '/');
+        /** @var UrlGeneratorInterface $urlGenerator */
+        $urlGenerator = $client->getContainer()->get(id: 'router');
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $urlGenerator->generate(name: 'app_home')
+        );
 
-        // Obtenir le crawler pour la réponse
-        $crawler = $client->getCrawler();
+        self::assertSelectorExists(selector: 'figure', message: 'La balise \'Figure\' doit être présent');
+        self::assertSelectorExists(selector: 'svg', message: 'Le \'SVG\' doit être présent');
+        self::assertSelectorExists(selector: '#presentation', message: 'La balise \'<div id=\'presentation\'></div>\' doit être présente');
+        self::assertSelectorExists(selector: '#presentation-line', message: 'La balise \'<p id=\'presentation-line\'></p>\' doit être présente');
+        self::assertSelectorExists(selector: '#presentation-line-1', message: 'La balise \'<p id=\'presentation-line-1\'></p>\' doit être présente');
+        self::assertSelectorExists(selector: '#presentation-line-2', message: 'La balise \'<p id=\'presentation-line-2\'></p>\' doit être présente');
+        self::assertSelectorExists(selector: '#presentation-line-3', message: 'La balise \'<p id=\'presentation-line-3\'></p>\' doit être présente');
 
-        // S'assurer que l'élément de figure existe
-        self::assertSelectorExists(selector: 'figure');
-
-        // S'assurer que l'élément svg existe
-        self::assertSelectorExists(selector: 'svg');
-
-        // Vérifier que l'élément h1 existe et contient le texte attendu.
-        self::assertSelectorTextContains(selector: 'h1', text: 'Association des Parents d\'Élèves');
-        // Vérifier que l'élément p existe et contient le texte attendu.
-        self::assertSelectorTextContains(selector: 'p', text: 'École primaire Pasteur - Rousies');
-
-        // Sélectionnez les éléments span dans l'élément blockquote.
-        $spans = $crawler->filter(selector: 'div#presentation figure blockquote')->children();
-
-        $spans->each(closure: function (Crawler $node) {
-            $text = $node->text();
-            if (
-                str_contains($text, "Nous sommes une association de parents d'élèves qui travaillons en étroite 
-            collaboration avec l'école pour améliorer les conditions d'apprentissage de nos enfants.")
-            ) {
-                self::assertStringContainsString(
-                    needle: "Nous sommes une association de parents d'élèves qui travaillons en étroite collaboration 
-                    avec l'école pour améliorer les conditions d'apprentissage de nos enfants.",
-                    haystack: $text
-                );
-            } elseif (
-                str_contains($text, "Nous organisons régulièrement des réunions pour discuter de sujets importants et 
-                préparer des événements pour les élèves et les parents.")
-            ) {
-                $this->assertStringContainsString(
-                    needle: "Nous organisons régulièrement des réunions pour discuter de sujets importants et préparer 
-                    des événements pour les élèves et les parents.",
-                    haystack: $text
-                );
-            } elseif (
-                str_contains($text, "Si vous souhaitez en savoir plus sur notre association ou si vous souhaitez 
-                vous impliquer, n'hésitez pas à nous contacter via la page de contact ou à vous rendre à une de nos 
-                réunions ouvertes à tous.")
-            ) {
-                $this->assertStringContainsString(
-                    needle: "Si vous souhaitez en savoir plus sur notre association ou si vous souhaitez 
-                    vous impliquer, n'hésitez pas à nous contacter via la page de contact ou à vous rendre à une de nos
-                    réunions ouvertes à tous.",
-                    haystack: $text
-                );
-            }
-        });
     }
 
-    /** Tester le contenu statique de la page d'accueil : 3 spans */
+    public function testHomepageContainGoodTitle(): void
+    {
+        $client = static::createClient();
+        /** @var UrlGeneratorInterface $urlGenerator */
+        $urlGenerator = $client->getContainer()->get(id: 'router');
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $urlGenerator->generate(name: 'app_home')
+        );
+
+        // Vérifier que l'élément h1 existe et contient le texte attendu.
+        self::assertSelectorTextSame(selector: 'h1', text: 'Association des Parents d\'Élèves');
+    }
+    public function testHomepageContainGoodSubTitleWithNameSchool(): void
+    {
+        $client = static::createClient();
+        /** @var UrlGeneratorInterface $urlGenerator */
+        $urlGenerator = $client->getContainer()->get(id: 'router');
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $urlGenerator->generate(name: 'app_home')
+        );
+
+        // Vérifier que l'élément h1 existe et contient le texte attendu.
+        self::assertSelectorTextSame(
+            selector: '#name-school',
+            text: 'École primaire Pasteur - Rousies'
+        );
+    }
     public function testCountPageHas3Spans(): void
     {
         $client = static::createClient();
-        $client->request(method: 'GET', uri: '/');
+        /** @var UrlGeneratorInterface $urlGenerator */
+        $urlGenerator = $client->getContainer()->get(id: 'router');
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $urlGenerator->generate(name: 'app_home')
+        );
 
         // Obtenir le crawler pour la réponse
         $crawler = $client->getCrawler();
@@ -115,12 +116,70 @@ class HomePageControllerTest extends WebTestCase
         $spans = $crawler->filter(selector: 'div#presentation figure blockquote span');
         self::assertCount(expectedCount: 3, haystack: $spans);
     }
+    public function testHomepageContainGoodTextPresentationLine1(): void
+    {
+        $client = static::createClient();
+
+        $urlGenerator = $client->getContainer()->get(id: 'router');
+        $client->request(method: Request::METHOD_GET, uri: $urlGenerator->generate(name: 'app_home'));
+
+        $crawler = $client->getCrawler();
+        $presentationLine1 = $crawler->filter(selector: '#presentation-line-1')->text();
+        $textWaiting = "Nous sommes une association de parents d'élèves qui travaillent en étroite collaboration avec l'école pour améliorer les conditions d'apprentissage de nos enfants.";
+
+        self::assertSame(
+            expected: $textWaiting,
+            actual: $presentationLine1,
+            message: 'Le texte dans #presentation-line-1 est incorrect'
+        );
+    }
+    public function testHomepageContainGoodTextPresentationLine2(): void
+    {
+            $client = static::createClient();
+
+            $urlGenerator = $client->getContainer()->get(id: 'router');
+            $client->request(method: Request::METHOD_GET, uri: $urlGenerator->generate(name: 'app_home'));
+
+            $crawler = $client->getCrawler();
+            $presentationLine2 = $crawler->filter(selector: '#presentation-line-2')->text();
+            $textWaiting = "Nous organisons régulièrement des réunions pour discuter de sujets importants et préparer des événements pour les élèves et les parents.";
+
+            self::assertSame(
+                expected: $textWaiting,
+                actual: $presentationLine2,
+                message: 'Le texte dans #presentation-line-2 est incorrect'
+            );
+    }
+    public function testHomepageContainGoodTextPresentationLine3(): void
+    {
+        $client = static::createClient();
+
+        $urlGenerator = $client->getContainer()->get(id: 'router');
+        $client->request(method: Request::METHOD_GET, uri: $urlGenerator->generate(name: 'app_home'));
+
+        $crawler = $client->getCrawler();
+        $presentationLine3 = $crawler->filter(selector: '#presentation-line-3')->text();
+        $textWaiting = "Si vous souhaitez en savoir plus sur notre association ou si vous souhaitez vous impliquer, n'hésitez pas à nous contacter via la page de contact ou à vous rendre à une de nos réunions ouvertes à tous.";
+
+        // dd(["Texte HTML" => $presentationLine3, "_Variable_" => $textWaiting]);
+
+        self::assertSame(
+            expected: $textWaiting,
+            actual: $presentationLine3,
+            message: 'Le texte dans #presentation-line-3 est incorrect'
+        );
+    }
 
     /** Tester si la page d'accueil contient l'affichage des messages flash */
     public function testContainsFlashMessageDiv(): void
     {
         $client = static::createClient();
-        $client->request(method: 'GET', uri: '/');
+        /** @var UrlGeneratorInterface $urlGenerator */
+        $urlGenerator = $client->getContainer()->get(id: 'router');
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $urlGenerator->generate(name: 'app_home')
+        );
 
         $crawler = $client->getCrawler();
         $elements = $crawler->filter(selector: 'div[role="alert"]');
@@ -135,10 +194,15 @@ class HomePageControllerTest extends WebTestCase
     public function testButtonRedirectToEvents(): void
     {
         $client = static::createClient();
-        $client->request(method: 'GET', uri: '/');
+        /** @var UrlGeneratorInterface $urlGenerator */
+        $urlGenerator = $client->getContainer()->get(id: 'router');
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $urlGenerator->generate(name: 'app_home')
+        );
+
         $crawler = $client->getCrawler();
 
-        // Récupère le lien contenu dans le bouton
         $link = $crawler->selectLink(value: 'Nos prochains événements')->link();
         // Clique sur le lien
         $client->click($link);
@@ -156,7 +220,13 @@ class HomePageControllerTest extends WebTestCase
     public function testRedirectContactLinks(): void
     {
         $client = static::createClient();
-        $client->request(method: 'GET', uri: '/');
+        /** @var UrlGeneratorInterface $urlGenerator */
+        $urlGenerator = $client->getContainer()->get(id: 'router');
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $urlGenerator->generate(name: 'app_home')
+        );
+
         $crawler = $client->getCrawler();
 
         // Récupère le lien contenu dans le bouton
