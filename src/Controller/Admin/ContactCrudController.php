@@ -110,7 +110,7 @@ class ContactCrudController extends AbstractCrudController
                 'displayIf' => fn (Contact $contact): bool => !$contact->getIsReplied(),
             ])*/
 
-            ->setPermission(actionName: 'contact', permission: 'ROLE_PRESIDENT');
+            ->setPermission(actionName: 'contact', permission: 'ROLE_SUPER_ADMIN');
     }
 
     public function reply(AdminContext $adminContext, EntityManagerInterface $entityManager): void

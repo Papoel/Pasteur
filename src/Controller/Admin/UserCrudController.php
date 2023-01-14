@@ -7,6 +7,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
@@ -87,17 +88,50 @@ class UserCrudController extends AbstractCrudController
             ->setColumns(cols: 'col-12 col-sm-4')
         ;
 
-        yield ChoiceField::new(propertyName: 'roles')
-            ->setChoices(choiceGenerator: [
-                'PRESIDENT' => 'ROLE_PRESIDENT',
-                'SECRETAIRE' => 'ROLE_SECRETAIRE',
-                'TRESORIER' => 'ROLE_TRESORIER',
-                'MEMBRE ACTIF' => 'ROLE_MEMBRE',
-                'WEBMASTER' => 'ROLE_WEBMASTER',
+        /*yield ChoiceField::new(propertyName: 'roles', label: 'Rôle')
+            ->setChoices([
+                'ADMIN' => 'ROLE_ADMIN',
+                'SUPER ADMIN' => 'ROLE_SUPER_ADMIN',
+                'TEAM APE' => 'ROLE_USER',
             ])
             ->allowMultipleChoices()
             ->renderAsBadges([
-                'ROLE_PRESIDENT' => 'danger',
+                'ROLE_SUPER_ADMIN' => 'danger',
+                'ROLE_ADMIN' => 'success',
+                'ROLE_USER' => 'info',
+            ])
+            ->setColumns(cols: 'col-12 col-sm-4')
+        ;*/
+
+        yield ChoiceField::new(propertyName: 'function', label: 'Fonction')
+            ->renderAsBadges([
+            'Président' => 'danger',
+            'Webmaster' => 'dark',
+            'Secrétaire' => 'success',
+            'Trésorier' => 'warning',
+            'Membre' => 'info',
+            ])
+            ->setChoices([
+                'PRESIDENT' => 'Président',
+                'SECRETAIRE' => 'Secrétaire',
+                'TRESORIER' => 'Trésorier',
+                'WEBMASTER' => 'Webmaster',
+                'MEMBRE ACTIF' => 'Membre',
+            ])
+            ->setColumns(cols: 'col-12 col-sm-4')
+        ;
+
+        /*yield ChoiceField::new(propertyName: 'function', label: 'Fonction')
+            ->setChoices(choiceGenerator: [
+                'PRESIDENT' => 'ROLE_SUPER_ADMIN',
+                'WEBMASTER' => 'ROLE_SUPER_ADMIN',
+                'SECRETAIRE' => 'ROLE_ADMIN',
+                'TRESORIER' => 'ROLE_ADMIN',
+                'MEMBRE ACTIF' => 'ROLE_USER',
+            ])
+            ->allowMultipleChoices()
+            ->renderAsBadges([
+                'Président' => 'danger',
                 'ROLE_WEBMASTER' => 'success',
                 'ROLE_USER' => 'primary',
                 'ROLE_SECRETAIRE' => 'info',
@@ -105,7 +139,7 @@ class UserCrudController extends AbstractCrudController
                 'ROLE_MEMBRE' => 'secondary',
             ])
             ->setColumns(cols: 'col-12 col-sm-4')
-        ;
+        ;*/
 
         yield TextField::new(propertyName: 'telephone', label: 'Téléphone')
             ->setColumns(cols: 'col-12 col-sm-4')
@@ -165,7 +199,7 @@ class UserCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        if (!$this->isGranted(attribute: 'ROLE_PRESIDENT')) {
+        if (!$this->isGranted(attribute: 'ROLE_SUPER_ADMIN')) {
             return $actions
                 ->remove(pageName: Crud::PAGE_INDEX, actionName: Action::NEW)
                 ->remove(pageName: Crud::PAGE_INDEX, actionName: Action::EDIT)

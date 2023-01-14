@@ -93,15 +93,11 @@ class UserRepositoryTest extends WebTestCase
 
         /** @var UserRepository $user */
         $roleUsers = $userRepository->findByRole(role: 'ROLE_USER');
-        $rolePresident = $userRepository->findByRole(role: 'ROLE_PRESIDENT');
-        $roleSecretaire = $userRepository->findByRole(role: 'ROLE_SECRETAIRE');
-        $roleTresorier = $userRepository->findByRole(role: 'ROLE_TRESORIER');
-        $roleWebmaster = $userRepository->findByRole(role: 'ROLE_WEBMASTER');
+        $roleSuperAdmin = $userRepository->findByRole(role: 'ROLE_SUPER_ADMIN');
+        $roleAdmin = $userRepository->findByRole(role: 'ROLE_ADMIN');
 
         self::assertCount(expectedCount: 3, haystack: $roleUsers);
-        self::assertCount(expectedCount: 1, haystack: $rolePresident);
-        self::assertCount(expectedCount: 1, haystack: $roleSecretaire);
-        self::assertCount(expectedCount: 1, haystack: $roleTresorier);
-        self::assertCount(expectedCount: 1, haystack: $roleWebmaster);
+        self::assertCount(expectedCount: 2, haystack: $roleSuperAdmin);
+        self::assertCount(expectedCount: 2, haystack: $roleAdmin);
     }
 }

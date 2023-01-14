@@ -31,7 +31,7 @@ class UserFixtures extends Fixture
             ) .
             '@admin.fr'
         );
-        $userPresident->setRoles(['ROLE_PRESIDENT']);
+        $userPresident->setRoles(['ROLE_SUPER_ADMIN']);
         $hash = $this->passwordHasher->hashPassword($userPresident, plainPassword: 'Password1234!');
         $userPresident->setPassword($hash);
 
@@ -44,6 +44,7 @@ class UserFixtures extends Fixture
         $userPresident->setPostalCode(postalCode: '00000');
         $userPresident->setTown(town: 'Gotham City.');
         $userPresident->setBirthday(birthday: new \DateTimeImmutable(datetime: '1914/04/07'));
+        $userPresident->setFunction(function: 'Président');
 
         $manager->persist($userPresident);
         $users[] = $userPresident;
@@ -60,7 +61,7 @@ class UserFixtures extends Fixture
             ) .
             '@aperp.fr'
         );
-        $userAdministrateur->setRoles(['ROLE_WEBMASTER']);
+        $userAdministrateur->setRoles(['ROLE_SUPER_ADMIN']);
         $hash = $this->passwordHasher->hashPassword($userAdministrateur, plainPassword: 'Password1234!');
         $userAdministrateur->setPassword($hash);
         $userAdministrateur->setCreatedAt(createdAt: new \DateTimeImmutable(datetime: '2022/11/14'));
@@ -71,6 +72,7 @@ class UserFixtures extends Fixture
         $userAdministrateur->setPostalCode(postalCode: '59460');
         $userAdministrateur->setTown(town: 'Jeumont');
         $userAdministrateur->setBirthday(birthday: new \DateTimeImmutable(datetime: '1985/02/20'));
+        $userAdministrateur->setFunction(function: 'Webmaster');
 
         $manager->persist($userAdministrateur);
         $users[] = $userAdministrateur;
@@ -86,7 +88,7 @@ class UserFixtures extends Fixture
             ) .
             '@aperp.fr'
         );
-        $userTresorier->setRoles(['ROLE_TRESORIER']);
+        $userTresorier->setRoles(['ROLE_ADMIN']);
         $hash = $this->passwordHasher->hashPassword($userTresorier, plainPassword: 'Password1234!');
         $userTresorier->setPassword($hash);
 
@@ -104,6 +106,7 @@ class UserFixtures extends Fixture
         $date = $faker->dateTimeBetween(startDate: '-40 years', endDate: '-15 years');
         $immutable = \DateTimeImmutable::createFromMutable($date);
         $userTresorier->setBirthday($immutable);
+        $userTresorier->setFunction(function: 'Trésorier');
 
         $manager->persist($userTresorier);
         $users[] = $userTresorier;
@@ -119,7 +122,7 @@ class UserFixtures extends Fixture
             ) .
             '@aperp.fr'
         );
-        $userSecretaire->setRoles(['ROLE_SECRETAIRE']);
+        $userSecretaire->setRoles(['ROLE_ADMIN']);
         $hash = $this->passwordHasher->hashPassword($userSecretaire, plainPassword: 'Password1234!');
         $userSecretaire->setPassword($hash);
 
@@ -137,6 +140,7 @@ class UserFixtures extends Fixture
         $date = $faker->dateTimeBetween(startDate: '-40 years', endDate: '-15 years');
         $immutable = \DateTimeImmutable::createFromMutable($date);
         $userSecretaire->setBirthday($immutable);
+        $userSecretaire->setFunction(function: 'Secrétaire');
 
         $manager->persist($userSecretaire);
         $users[] = $userSecretaire;

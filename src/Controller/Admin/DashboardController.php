@@ -98,15 +98,15 @@ class DashboardController extends AbstractDashboardController
             ])
         ;
 
-        if ($this->container->get('security.authorization_checker')->isGranted('ROLE_PRESIDENT')) {
+        if ($this->container->get('security.authorization_checker')->isGranted(attribute: 'ROLE_SUPER_ADMIN')) {
             $totalMessages = $this->contactRepository->count(['isReplied' => false]);
             yield MenuItem::section(label: 'Messages', icon: 'fas fa-envelope')
                 ->setBadge($totalMessages, style: 'warning')
-                ->setPermission(permission: 'ROLE_PRESIDENT')
+                ->setPermission(permission: 'ROLE_SUPER_ADMIN')
             ;
             yield MenuItem::subMenu(label: 'Action', icon: 'fas fa-bars')->setSubItems(subItems: [
                 MenuItem::linkToCrud(label: 'Voir tous les messages', icon: 'fas fa-eye', entityFqcn: Contact::class)
-                    ->setPermission(permission: 'ROLE_PRESIDENT'),
+                    ->setPermission(permission: 'ROLE_SUPER_ADMIN'),
             ]);
         }
     }

@@ -122,6 +122,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $birthday = null;
 
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $function = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -363,5 +366,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getFullName(): ?string
     {
         return $this->firstname . ' ' . $this->lastname;
+    }
+
+    public function getFunction(): ?string
+    {
+        return $this->function;
+    }
+
+    public function setFunction(?string $function): self
+    {
+        $this->function = $function;
+
+        return $this;
     }
 }
