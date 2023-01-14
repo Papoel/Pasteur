@@ -66,9 +66,14 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         ;
     }
 
-    // TODO: Retourner un tableau d'entités User dont la date de naissance est aujourd'hui
-    /*public function findBirthday(): array
+    // Return all users if birthday is today
+    public function findByBirthday()
     {
-        return [];
-    }*/
+        return $this->createQueryBuilder(alias: 'u')
+            ->andWhere('u.birthday LIKE :birthday')
+            ->setParameter(key: 'birthday', value: '%' . date(format: 'm-d') . '%')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

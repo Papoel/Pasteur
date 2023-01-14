@@ -19,7 +19,7 @@ class UserFixtures extends Fixture
         $faker = Factory::create();
         $users = [];
 
-        // ############################################## BATMAN ##############################################
+        // ############################################## 1. BATMAN ##############################################
         $userPresident = new User();
 
         $userPresident->setFirstname(firstname: 'Bruce');
@@ -48,7 +48,7 @@ class UserFixtures extends Fixture
         $manager->persist($userPresident);
         $users[] = $userPresident;
 
-        // ############################################## WEBMASTER ##############################################
+        // ############################################## 2. WEBMASTER ##############################################
         $userAdministrateur = new User();
 
         $userAdministrateur->setFirstname(firstname: 'Pascal');
@@ -75,14 +75,14 @@ class UserFixtures extends Fixture
         $manager->persist($userAdministrateur);
         $users[] = $userAdministrateur;
 
-        // ############################################## TRESORIER ##############################################
+        // ############################################## 3. TRESORIER ##############################################
         $userTresorier = new User();
 
-        $userTresorier->setFirstname(firstname: $faker->firstName());
+        $userTresorier->setFirstname(firstname: 'Bruce');
         $userTresorier->setLastname(lastname: $faker->lastName());
         $userTresorier->setEmail(
             email: strtolower(
-                string: $userTresorier->getFirstname() . '.' . $userTresorier->getLastname()
+                string: 'bruce.' . $userTresorier->getLastname()
             ) .
             '@aperp.fr'
         );
@@ -108,7 +108,7 @@ class UserFixtures extends Fixture
         $manager->persist($userTresorier);
         $users[] = $userTresorier;
 
-        // ############################################## SECRETAIRE ##############################################
+        // ############################################## 4. SECRETAIRE ##############################################
         $userSecretaire = new User();
 
         $userSecretaire->setFirstname(firstname: $faker->firstName());
@@ -141,6 +141,7 @@ class UserFixtures extends Fixture
         $manager->persist($userSecretaire);
         $users[] = $userSecretaire;
 
+        // ############################################## 5 à 7. USERS ##############################################
         for ($newUser = 1; $newUser <= 3; ++$newUser) {
             $user = new User();
 
@@ -171,9 +172,7 @@ class UserFixtures extends Fixture
             $user->setPostalCode(postalCode: $faker->numberBetween(int1: 10000, int2: 85500));
             $user->setPseudo(pseudo: $faker->userName());
 
-            $date = $faker->dateTimeBetween(startDate: '-40 years', endDate: '-15 years');
-            $immutable = \DateTimeImmutable::createFromMutable($date);
-            $user->setBirthday($immutable);
+            $user->setBirthday(new \DateTimeImmutable());
 
             $manager->persist($user);
             $users[] = $user;

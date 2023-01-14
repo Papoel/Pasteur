@@ -30,7 +30,6 @@ class UserTest extends KernelTestCase
 
         return $user;
     }
-
     public function assertValidationErrorsCount(User $entity, int $count): void
     {
         $validator = static::getContainer()->get(ValidatorInterface::class);
@@ -43,18 +42,16 @@ class UserTest extends KernelTestCase
                 . ucfirst($violation->getPropertyPath()) . ' => ' . $violation->getMessage();
         }
 
-        $this->assertCount(
+        self::assertCount(
             expectedCount: $count,
             haystack: $violations,
             message: implode(separator:PHP_EOL, array: $messages)
         );
     }
-
     public function testEntityUserIsValid(): void
     {
         $this->assertValidationErrorsCount($this->getEntityUser(), count: 0);
     }
-
     public function testEmailIsBlank(): void
     {
         $userEmail = $this->getEntityUser()->setEmail(email: '');
@@ -62,7 +59,6 @@ class UserTest extends KernelTestCase
 
         $this->assertValidationErrorsCount(entity: $userEmail, count: 1);
     }
-
     public function testEmailIsValid(): void
     {
         $userEmail = $this->getEntityUser()->setEmail(email: 'papoel@email.fr');
@@ -70,7 +66,6 @@ class UserTest extends KernelTestCase
 
         $this->assertValidationErrorsCount($userEmail, count: 0);
     }
-
     public function testEmailIsInvalid(): void
     {
         $userEmail = $this->getEntityUser()->setEmail(email: 'papoel.email.fr');
@@ -78,7 +73,6 @@ class UserTest extends KernelTestCase
 
         $this->assertValidationErrorsCount($userEmail, count: 1);
     }
-
     public function testFirstnameIsString(): void
     {
         $userFirstname = $this->getEntityUser()->setFirstname(firstname: 'Firstname');
@@ -86,15 +80,6 @@ class UserTest extends KernelTestCase
 
         $this->assertValidationErrorsCount(entity: $userFirstname, count: 0);
     }
-
-    /*public function testFirstnameIsInteger():void
-    {
-        $userFirstname = $this->getEntityUser()->setFirstname(firstname: 123);
-        self::assertIsString($userFirstname->getFirstname());
-
-        $this->assertValidationErrorsCount(entity: $userFirstname, count: 0);
-    }*/
-
     public function testFirstnameIsGreaterThan50Characters(): void
     {
         $userFirstname = $this->getEntityUser()->setFirstname(firstname: str_repeat(string: 'a', times: 51));
@@ -102,7 +87,6 @@ class UserTest extends KernelTestCase
 
         $this->assertValidationErrorsCount(entity: $userFirstname, count: 1);
     }
-
     public function testFirstnameIsSmallerThan3Characters(): void
     {
         $userFirstname = $this->getEntityUser()->setFirstname(firstname: 'aa');
@@ -110,7 +94,6 @@ class UserTest extends KernelTestCase
 
         $this->assertValidationErrorsCount(entity: $userFirstname, count: 1);
     }
-
     public function testLastnameIsGreaterThan50Characters(): void
     {
         $userLastname = $this->getEntityUser()->setLastname(lastname: str_repeat(string: 'a', times: 51));
@@ -118,7 +101,6 @@ class UserTest extends KernelTestCase
 
         $this->assertValidationErrorsCount(entity: $userLastname, count: 1);
     }
-
     public function testLastnameIsSmallerThan3Characters(): void
     {
         $userLastname = $this->getEntityUser()->setLastname(lastname: 'aa');
@@ -126,7 +108,6 @@ class UserTest extends KernelTestCase
 
         $this->assertValidationErrorsCount(entity: $userLastname, count: 1);
     }
-
     public function testPseudoIsGreaterThan50Characters(): void
     {
         $userPseudo = $this->getEntityUser()->setPseudo(pseudo: str_repeat(string: 'a', times: 51));
@@ -134,7 +115,6 @@ class UserTest extends KernelTestCase
 
         $this->assertValidationErrorsCount(entity: $userPseudo, count: 1);
     }
-
     public function testPseudoIsSmallerThan3Characters(): void
     {
         $userPseudo = $this->getEntityUser()->setPseudo(pseudo: 'aa');
@@ -142,7 +122,6 @@ class UserTest extends KernelTestCase
 
         $this->assertValidationErrorsCount(entity: $userPseudo, count: 1);
     }
-
     public function testTelephoneIsGreaterThan10Characters(): void
     {
         $userTelephone = $this->getEntityUser()->setTelephone(telephone: '01234567890');
@@ -150,7 +129,6 @@ class UserTest extends KernelTestCase
 
         $this->assertValidationErrorsCount(entity: $userTelephone, count: 1);
     }
-
     public function testTelephoneIsSmallerThan10Characters(): void
     {
         $userTelephone = $this->getEntityUser()->setTelephone(telephone: '0123456');
@@ -158,7 +136,6 @@ class UserTest extends KernelTestCase
 
         $this->assertValidationErrorsCount(entity: $userTelephone, count: 1);
     }
-
     public function testAddressIsGreaterThan150Characters(): void
     {
         $userAddress = $this->getEntityUser()->setAddress(address: str_repeat(string: 'a', times: 151));
@@ -166,7 +143,6 @@ class UserTest extends KernelTestCase
 
         $this->assertValidationErrorsCount(entity: $userAddress, count: 1);
     }
-
     public function testComplementAddressIsGreaterThan200Characters(): void
     {
         $userComplementAddress =
@@ -182,7 +158,6 @@ class UserTest extends KernelTestCase
 
         $this->assertValidationErrorsCount(entity: $userComplementAddress, count: 1);
     }
-
     public function testComplementAddressIsSmallerThan5Characters(): void
     {
         $userComplementAddress = $this->getEntityUser()->setComplementAddress(complementAddress: 'cool');
@@ -190,7 +165,6 @@ class UserTest extends KernelTestCase
 
         $this->assertValidationErrorsCount(entity: $userComplementAddress, count: 1);
     }
-
     public function testCodePostalIsGreaterThan5Characters(): void
     {
         $postal = $this->getEntityUser()->setPostalCode('123456');
@@ -198,7 +172,6 @@ class UserTest extends KernelTestCase
 
         $this->assertValidationErrorsCount(entity: $postal, count: 1);
     }
-
     public function testCodePostalIsSmallerThan5Characters(): void
     {
         $postal = $this->getEntityUser()->setPostalCode('123');
@@ -206,7 +179,6 @@ class UserTest extends KernelTestCase
 
         $this->assertValidationErrorsCount(entity: $postal, count: 1);
     }
-
     public function testTownIsGreaterThan50Characters(): void
     {
         $town = $this->getEntityUser()->setTown(town: str_repeat(string: 'a', times: 51));
@@ -214,7 +186,6 @@ class UserTest extends KernelTestCase
 
         $this->assertValidationErrorsCount(entity: $town, count: 1);
     }
-
     public function testTownIsSmallerThan3Characters(): void
     {
         $town = $this->getEntityUser()->setTown(town: 'aa');
@@ -222,7 +193,6 @@ class UserTest extends KernelTestCase
 
         $this->assertValidationErrorsCount(entity: $town, count: 1);
     }
-
     public function testRolesAdminExtendUser(): void
     {
         $userRole = $this->getEntityUser()->setRoles(roles: ["ROLE_ADMIN"]);
@@ -230,7 +200,6 @@ class UserTest extends KernelTestCase
 
         $this->assertValidationErrorsCount(entity: $userRole, count: 0);
     }
-
     public function testRolesUserExtendNoOtherRole(): void
     {
         $userRole = $this->getEntityUser()->setRoles(roles: ["ROLE_USER"]);
@@ -238,7 +207,6 @@ class UserTest extends KernelTestCase
 
         $this->assertValidationErrorsCount(entity: $userRole, count: 0);
     }
-
     public function testPasswordIsNotBlank(): void
     {
         $userPassword = $this->getEntityUser()->setPassword(password: '');
@@ -248,7 +216,6 @@ class UserTest extends KernelTestCase
         // Erreur 2 : Le mot de passe doit contenir au moins 8 caractères
         $this->assertValidationErrorsCount(entity: $userPassword, count: 2);
     }
-
     public function testPasswordHasNoMajuscule(): void
     {
         $userPassword = $this->getEntityUser()->setPassword(password: 'password1234!');
@@ -257,7 +224,6 @@ class UserTest extends KernelTestCase
         // Erreur 1 : Le mot de passe doit contenir au moins 1 majuscule
         $this->assertValidationErrorsCount($userPassword, count: 1);
     }
-
     public function testPasswordHasNoNumber(): void
     {
         $userPassword = $this->getEntityUser()->setPassword(password: 'Password!');
@@ -266,7 +232,6 @@ class UserTest extends KernelTestCase
         // Erreur 1 : Le mot de passe doit contenir au moins 1 chiffre
         $this->assertValidationErrorsCount($userPassword, count: 1);
     }
-
     public function testPasswordHasNoLowercase(): void
     {
         $userPassword = $this->getEntityUser()->setPassword(password: 'PASSWORD1234!');
@@ -275,7 +240,6 @@ class UserTest extends KernelTestCase
         // Erreur 1 : Le mot de passe doit contenir au moins 1 minuscule
         $this->assertValidationErrorsCount($userPassword, count: 1);
     }
-
     public function testPasswordIsGreaterThan50Characters(): void
     {
         $userPassword = $this->getEntityUser()->setPassword(password: str_repeat(string: 'Password1234!', times: 7));
@@ -284,7 +248,6 @@ class UserTest extends KernelTestCase
         // Erreur 1 : Le mot de passe ne doit contenir plus de 80 caractères
         $this->assertValidationErrorsCount($userPassword, count: 1);
     }
-
     public function testPasswordIsSmallerThan8Characters(): void
     {
         $userPassword = $this->getEntityUser()->setPassword(password: 'Pas23!');
@@ -292,7 +255,6 @@ class UserTest extends KernelTestCase
 
         $this->assertValidationErrorsCount($userPassword, count: 1);
     }
-
     public function testPasswordIsValid(): void
     {
         $userPassword = $this->getEntityUser()->setPassword(password: 'Papoel59$ForTheWin');
