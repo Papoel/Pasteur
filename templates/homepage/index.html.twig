@@ -42,7 +42,7 @@
                                     <span id="presentation-line-3" class="block">
                                         Si vous souhaitez en savoir plus sur notre association ou si vous souhaitez
                                         vous impliquer, n'hésitez pas à nous contacter via la page de
-                                        <a class="text-indigo-600 hover:text-indigo-700 transition duration-500 redirect_contact"
+                                        <a class="link-to-contact text-indigo-600 hover:text-indigo-700 transition duration-500 redirect_contact"
                                            href="{{ path('app_contact') }}">
                                             contact
                                         </a>
@@ -58,7 +58,8 @@
 
 
                 <div class="mt-8 flex gap-x-4 justify-center">
-                    <a href="{{ path('app_events') }}" class="inline-block shadow-sm btn-purple-degrade redirect_events">
+                    <a href="{{ path('app_events') }}"
+                       class="link-to-events inline-block shadow-sm btn-purple-degrade redirect_events">
                         Nos prochains événements
                         <span class="text-indigo-200" aria-hidden="true">&rarr;</span>
                     </a>
