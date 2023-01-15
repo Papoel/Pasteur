@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="fr" target-language="fr" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="fEG4mMX" resname="Bad Request">
+        <source>Bad Request</source>
+        <target>Le serveur n'a pas pu comprendre la requête probablement à cause d'une syntaxe invalide.</target>
+      </trans-unit>
+      <trans-unit id="0InIqfw" resname="Unauthorized">
+        <source>Unauthorized</source>
+        <target>Vous devez vous authentifier afin d'obtenir la réponse demandée</target>
+      </trans-unit>
+      <trans-unit id="xVmAaNy" resname="Payment Required ">
+        <source>Payment Required </source>
+        <target>Paiement Requis.</target>
+      </trans-unit>
+      <trans-unit id="eDQqCQW" resname="Forbidden">
+        <source>Forbidden</source>
+        <target>Vous n'avez pas les droits d'accès à ce contenu.</target>
+      </trans-unit>
+      <trans-unit id="ABnfxLM" resname="Not Found">
+        <source>Not Found</source>
+        <target>Le serveur n'a pas trouvé la ressource demandée.</target>
+      </trans-unit>
+      <trans-unit id="5BZW6yu" resname="Internal Server Error">
+        <source>Internal Server Error</source>
+        <target>Le serveur a rencontré une situation qu'il ne sait pas traiter.</target>
+      </trans-unit>
+      <trans-unit id="408" resname="Request Timeout">
+        <source>Request Timeout</source>
+        <target>Connexion en attente.</target>
+      </trans-unit>
+      <trans-unit id="409" resname="Conflict">
+        <source>Conflict</source>
+        <target>Cette requête entre en conflit avec l'état actuel du serveur.</target>
+      </trans-unit>
+      <trans-unit id="411" resname="Length Required">
+        <source>Length Required</source>
+        <target>Le serveur a rejeté la requête.</target>
+      </trans-unit>
+      <trans-unit id="429" resname="Too Many Requests">
+        <source>Too Many Requests</source>
+        <target>Vous avez émis trop de requêtes dans un laps de temps donné.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
