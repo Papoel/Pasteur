@@ -5,6 +5,7 @@
         <title>APERP | {% block title %}{% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+        <meta http-equiv="Content-Language" content="fr">
         <meta name="description" content="Author: Papoel,
             Description: APERP est une application web de gestion d'événements ainsi qu'une ouverture extérieur
             à l'aide d'organisation d'événements. Ce site est réalisé pour une association de Parents d'élèves à
@@ -23,7 +24,7 @@
     </head>
     <body>
         {% block body %}{% endblock %}
-        {% include('components/Footer/_footer.html.twig') %}
+        {% block footer %}{% include('components/Footer/_footer.html.twig') %}{% endblock %}
     </body>
 
 </html>
