@@ -75,9 +75,9 @@ class UserRepositoryTest extends WebTestCase
         /** @var UserRepository $user */
         $users = $userRepository->findByBirthday();
 
-        self::assertSame(
-            expected: 3 ,
-            actual: count($users) ,
+        self::assertCount(
+            expectedCount: 3,
+            haystack: $users,
             message: 'Il n\'y a pas 3 utilisateurs qui ont leur anniversaire aujourd\'hui.'
         );
     }
