@@ -132,4 +132,4 @@ Les contributions sont toujours les bienvenues !
 
 **Client:** Twig, Tailwind CSS, Stripe
 
-**Server:** PHP 8.1, Symfony 6.1, Node.js, Docker, Makefile, Recaptcha v3
+**Server:** PHP 8.2, Symfony 6.2, Node.js, Docker, Makefile, Recaptcha v3
