@@ -33,6 +33,23 @@ class SecurityControllerTest extends WebTestCase
         self::assertStringContainsString(needle: 'Formulaire de connexion', haystack: $html);
         self::assertStringContainsString(needle: 'Connexion réservée aux membres de l\'APERP.', haystack: $html);
     }
+    /** Tester que le Block Title est implémenté */
+    public function testIfTheTitleIsNotTheSimplyTitleFromBase(): void
+    {
+        $client = static::createClient();
+        $urlGenerator = $client->getContainer()->get(id: 'router');
+        $client->request(method: Request::METHOD_GET, uri: $urlGenerator->generate(name: 'app_login'));
+
+        $crawler = $client->getCrawler();
+        $title = $crawler->filter(selector: 'title')->text();
+        $titleFromBase = 'APERP |';
+
+        self::assertNotSame(
+            expected: $titleFromBase,
+            actual: $title,
+            message: 'Le titre de la page est incorrect'
+        );
+    }
 
     public function testLoginWithGoodCredentials(): void
     {
