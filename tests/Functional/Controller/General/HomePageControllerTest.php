@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\General;
 
-use App\Entity\User\User;
-use App\Repository\User\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +22,23 @@ class HomePageControllerTest extends WebTestCase
         );
 
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_OK, message: 'La status code est incorrect.');
+    }
+    /** Tester que le Block Title est implémenté */
+    public function testIfTheTitleIsNotTheSimplyTitleFromBase(): void
+    {
+        $client = static::createClient();
+        $urlGenerator = $client->getContainer()->get(id: 'router');
+        $client->request(method: Request::METHOD_GET, uri: $urlGenerator->generate(name: 'app_home'));
+
+        $crawler = $client->getCrawler();
+        $title = $crawler->filter(selector: 'title')->text();
+        $titleFromBase = 'APERP |';
+
+        self::assertNotSame(
+            expected: $titleFromBase,
+            actual: $title,
+            message: 'Le titre de la page est incorrect'
+        );
     }
 
     /** Tester si le Header et la navbar est sur la page d'accueil */
@@ -209,7 +224,6 @@ class HomePageControllerTest extends WebTestCase
             message: 'La page ne contient aucun élément correspondant au sélecteur: "div[role="alert"]"'
         );
     }
-
     /** Tester si le bouton renvoie bien vers la page Événement */
     public function testHrefLinkAndGoodRedirectToEventsPage(): void
     {
@@ -237,7 +251,6 @@ class HomePageControllerTest extends WebTestCase
             message: "Le clique sur le lien 'Nos prochains événements' ne renvoie pas vers la page événements"
         );
     }
-
     /** Tester si le lien "Contact" existe et s'il renvoie à la bonne page "app_contact"*/
     public function testHrefLinkAndGoodRedirectToContactPage(): void
     {
