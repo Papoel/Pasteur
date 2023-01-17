@@ -80,4 +80,23 @@ class EventRepository extends ServiceEntityRepository
 
         return $query->getSingleScalarResult();
     }
+
+    public function findAllPublishedEvents(): array
+    {
+        $query = $this->createQueryBuilder(alias: 'e')
+            ->andWhere('e.published = true')
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
+    public function countEventsWithCapacityZero(): int
+    {
+        $query = $this->createQueryBuilder(alias: 'e')
+            ->select(select: 'count(e.id)')
+            ->andWhere('e.capacity = 0')
+            ->getQuery();
+
+        return $query->getSingleScalarResult();
+    }
 }
