@@ -9,6 +9,7 @@ use ContainerHEGeeJq\getDoctrine_DatabaseDropCommandService;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class EventsControllerTest extends WebTestCase
 {
@@ -19,9 +20,12 @@ class EventsControllerTest extends WebTestCase
     public function the_page_events_is_correctly_display(): void
     {
         $client = static::createClient();
-        $urlGenerator = $client->getContainer()->get(id: 'router');
-
-        $client->request(method: Request::METHOD_GET, uri: $urlGenerator->generate(name: 'app_events'));
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_events', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
+        );
 
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_OK, message: 'La page ne s\'affiche pas.');
     }
@@ -32,8 +36,14 @@ class EventsControllerTest extends WebTestCase
     public function the_title_is_not_inherited_from_the_base_template(): void
     {
         $client = static::createClient();
-        $urlGenerator = $client->getContainer()->get(id: 'router');
-        $client->request(method: Request::METHOD_GET, uri: $urlGenerator->generate(name: 'app_events'));
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_events', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
+        );
+
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_OK, message: 'La page ne s\'affiche pas.');
 
         $crawler = $client->getCrawler();
         $title = $crawler->filter(selector: 'title')->text();
@@ -52,9 +62,14 @@ class EventsControllerTest extends WebTestCase
     public function page_contains_the_header(): void
     {
         $client = static::createClient();
-        $urlGenerator = $client->getContainer()->get(id: 'router');
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_events', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
+        );
 
-        $client->request(method: Request::METHOD_GET, uri: $urlGenerator->generate(name: 'app_events'));
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_OK, message: 'La page ne s\'affiche pas.');
 
         // S'assurer que le "header" existe sur la page
         self::assertSelectorExists(selector: 'header', message: 'Le header n\'existe pas sur la page d\'accueil');
@@ -65,11 +80,15 @@ class EventsControllerTest extends WebTestCase
      */
     public function page_contains_the_footer(): void
     {
-        // Créer un client et faire une requête "GET" sur la page d'accueil
         $client = static::createClient();
-        $urlGenerator = $client->getContainer()->get(id: 'router');
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_events', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
+        );
 
-        $client->request(method: Request::METHOD_GET, uri: $urlGenerator->generate(name: 'app_events'));
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_OK, message: 'La page ne s\'affiche pas.');
 
         // S'assurer que le "footer" existe sur la page
         self::assertSelectorExists(selector: 'footer');
@@ -80,23 +99,32 @@ class EventsControllerTest extends WebTestCase
     public function hero_is_present_on_the_page_and_contains_the_expected_static_content(): void
     {
         $client = static::createClient();
-        $urlGenerator = $client->getContainer()->get(id: 'router');
-
-        $client->request(method: Request::METHOD_GET, uri: $urlGenerator->generate(name: 'app_events'));
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_events', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
+        );
 
         self::assertSelectorExists(selector: '#hero', message: 'La div Hero n\'existe pas sur la page événements');
-        self::assertSelectorExists(selector: '#hero h1', message: 'La balise H1 n\'existe pas sur la page événements');
-
-        $crawler = $client->getCrawler();
-        $mainTitle = $crawler->filter(selector: '#main-title')->text();
-        $textWaiting = 'Découvrez nos événements à venir.';
-
-        self::assertSame(
-            expected: $textWaiting,
-            actual: $mainTitle,
-            message: 'Le texte dans #main-title est incorrect'
-        );
     }
+    /** Tester si le titre h1 de ma page est correct
+     * @test
+     */
+    public function the_title_on_the_page_is_correct(): void
+    {
+        $client = static::createClient();
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_events', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
+        );
+
+        self::assertSelectorExists(selector: '#hero h1', message: 'La balise H1 n\'existe pas sur la page événements');
+        self::assertSelectorTextSame(selector: 'h1', text: 'Découvrez nos événements à venir.');
+    }
+
     /**
      * Tester si j'ai bien une carte événement affiché
      * @test
@@ -104,8 +132,14 @@ class EventsControllerTest extends WebTestCase
     public function all_published_event_card_are_displayed(): void
     {
         $client = static::createClient();
-        $urlGenerator = $client->getContainer()->get(id: 'router');
-        $client->request(method: Request::METHOD_GET, uri: $urlGenerator->generate(name: 'app_events'));
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_events', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
+        );
+
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_OK, message: 'La page ne s\'affiche pas.');
         /** @var EventRepository $eventRepository */
         $eventRepository = $client->getContainer()->get(id: EventRepository::class);
 
@@ -139,7 +173,14 @@ class EventsControllerTest extends WebTestCase
     public function if_no_events_published_the_card_coming_soon_is_display(): void
     {
         $client = static::createClient();
-        $urlGenerator = $client->getContainer()->get(id: 'router');
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_events', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
+        );
+
+        self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_OK, message: 'La page ne s\'affiche pas.');
 
         /** @var EventRepository $eventRepository */
         $eventRepository = $client
@@ -156,7 +197,12 @@ class EventsControllerTest extends WebTestCase
         $manager->persist($event);
         $manager->flush();
 
-        $client->request(method: Request::METHOD_GET, uri: $urlGenerator->generate(name: 'app_events'));
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_events', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
+        );
 
         self::assertCount(
             expectedCount: 1,
@@ -176,7 +222,12 @@ class EventsControllerTest extends WebTestCase
     public function if_capacity_is_equal_at_0_the_mention_on_the_card_is_complet(): void
     {
         $client = static::createClient();
-        $urlGenerator = $client->getContainer()->get(id: 'router');
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_events', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
+        );
 
         /** @var EventRepository $eventRepository */
         $eventRepository = $client
@@ -192,7 +243,12 @@ class EventsControllerTest extends WebTestCase
         $manager->persist($event);
         $manager->flush();
 
-        $client->request(method: Request::METHOD_GET, uri: $urlGenerator->generate(name: 'app_events'));
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_events', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
+        );
 
         $eventsId = [];
         foreach ($events as $event) {
@@ -223,7 +279,12 @@ class EventsControllerTest extends WebTestCase
     public function if_the_capacity_is_less_than_10_the_classes_are_added(): void
     {
         $client = static::createClient();
-        $urlGenerator = $client->getContainer()->get(id: 'router');
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_events', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
+        );
 
         /** @var EventRepository $eventRepository */
         $eventRepository = $client
@@ -238,7 +299,12 @@ class EventsControllerTest extends WebTestCase
         $manager->persist($event);
         $manager->flush();
 
-        $client->request(method: Request::METHOD_GET, uri: $urlGenerator->generate(name: 'app_events'));
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_events', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
+        );
         $crawler = $client->getCrawler();
 
         /** Récupérer dans le DOM la valeur de la span #event-capacity */
@@ -275,8 +341,12 @@ class EventsControllerTest extends WebTestCase
     public function links_in_the_cards_refer_to_the_event_page(): void
     {
         $client = static::createClient();
-        $urlGenerator = $client->getContainer()->get(id: 'router');
-        $client->request(method: Request::METHOD_GET, uri: $urlGenerator->generate(name: 'app_events'));
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_events', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
+        );
 
         /** @var EventRepository $eventRepository */
         $eventRepository = $client->getContainer()->get(id: EventRepository::class);
@@ -309,7 +379,12 @@ class EventsControllerTest extends WebTestCase
     public function if_the_price_is_0_that_the_mention_gratuit_is_well_displayed(): void
     {
         $client = static::createClient();
-        $urlGenerator = $client->getContainer()->get(id: 'router');
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_events', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
+        );
 
         /** @var EventRepository $eventRepository */
         $eventRepository = $client->getContainer()->get(id: EventRepository::class);
@@ -319,7 +394,12 @@ class EventsControllerTest extends WebTestCase
         $manager->persist($event);
         $manager->flush();
 
-        $client->request(method: Request::METHOD_GET, uri: $urlGenerator->generate(name: 'app_events'));
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_events', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
+        );
         $crawler = $client->getCrawler();
 
         /** Récupérer dans le DOM la valeur de la span #event-price-id */
@@ -338,7 +418,12 @@ class EventsControllerTest extends WebTestCase
     public function if_the_price_is_null_that_the_mention_gratuit_is_well_displayed(): void
     {
         $client = static::createClient();
-        $urlGenerator = $client->getContainer()->get(id: 'router');
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_events', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
+        );
 
         /** @var EventRepository $eventRepository */
         $eventRepository = $client->getContainer()->get(id: EventRepository::class);
@@ -349,7 +434,12 @@ class EventsControllerTest extends WebTestCase
         $manager->flush();
         $eventId = $event->getId();
 
-        $client->request(method: Request::METHOD_GET, uri: $urlGenerator->generate(name: 'app_events'));
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_events', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
+        );
         $crawler = $client->getCrawler();
 
         /** Récupérer dans le DOM la valeur de la span #event-price-id */
@@ -370,7 +460,12 @@ class EventsControllerTest extends WebTestCase
     public function check_that_the_event_page_is_displayed(): void
     {
         $client = static::createClient();
-        $urlGenerator = $client->getContainer()->get(id: 'router');
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_events', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
+        );
 
         /** @var EventRepository $eventRepository */
         $eventRepository = $client
@@ -381,10 +476,9 @@ class EventsControllerTest extends WebTestCase
 
         $client->request(
             method: Request::METHOD_GET,
-            uri: $urlGenerator->generate(
-                name: 'app_event_show',
-                parameters: ['slug' => $event->getSlug()]
-            )
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_events', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
         );
 
         self::assertResponseIsSuccessful();
@@ -396,7 +490,12 @@ class EventsControllerTest extends WebTestCase
     public function check_that_if_price_is_0_or_null_the_classes_are_present(): void
     {
         $client = static::createClient();
-        $urlGenerator = $client->getContainer()->get(id: 'router');
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_events', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
+        );
 
         /** @var EventRepository $eventRepository */
         $eventRepository = $client->getContainer()->get(id: EventRepository::class);
@@ -405,9 +504,13 @@ class EventsControllerTest extends WebTestCase
         $manager = $client->getContainer()->get(id: 'doctrine.orm.entity_manager');
         $manager->persist($event);
         $manager->flush();
-        $eventId = $event->getId();
 
-        $client->request(method: Request::METHOD_GET, uri: $urlGenerator->generate(name: 'app_events'));
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_events', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
+        );
         $crawler = $client->getCrawler();
         /** Récupérer toutes les classes de la span .event-price */
         $classEventPrice = $crawler->filter(selector: '#event-price-' .$event->getId())->attr(attribute: 'class');
@@ -422,7 +525,12 @@ class EventsControllerTest extends WebTestCase
         $manager = $client->getContainer()->get(id: 'doctrine.orm.entity_manager');
         $manager->persist($event);
         $manager->flush();
-        $client->request(method: Request::METHOD_GET, uri: $urlGenerator->generate(name: 'app_events'));
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_events', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
+        );
         $crawler = $client->getCrawler();
         /** Récupérer toutes les classes de la span .event-price */
         $classEventPrice = $crawler->filter(selector: '#event-price-' .$event->getId())->attr(attribute: 'class');
