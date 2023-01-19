@@ -13,18 +13,20 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class SecurityControllerTest extends WebTestCase
 {
-    public function testLoginPageDisplay(): void
+    /**
+     * Tester si la page de connexion s'affiche
+     * @test
+     */
+    public function the_page_login_is_correctly_display(): void
     {
         $client = static::createClient();
-
-        /** @var UrlGeneratorInterface $urlGenerator */
-        $urlGenerator = $client->getContainer()->get(id: 'router');
-
-        $crawler = $client
-            ->request(
-                method: Request::METHOD_GET,
-                uri: $urlGenerator->generate(name: 'app_login')
-            );
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_login', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
+        );
+        $crawler = $client->getCrawler();
 
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_OK);
         self::assertSelectorNotExists(selector: '#alert');
@@ -33,12 +35,19 @@ class SecurityControllerTest extends WebTestCase
         self::assertStringContainsString(needle: 'Formulaire de connexion', haystack: $html);
         self::assertStringContainsString(needle: 'Connexion réservée aux membres de l\'APERP.', haystack: $html);
     }
-    /** Tester que le Block Title est implémenté */
-    public function testIfTheTitleIsNotTheSimplyTitleFromBase(): void
+    /**
+     * Tester que le Block Title est implémenté
+     * @test
+     */
+    public function the_title_is_not_inherited_from_the_base_template(): void
     {
         $client = static::createClient();
-        $urlGenerator = $client->getContainer()->get(id: 'router');
-        $client->request(method: Request::METHOD_GET, uri: $urlGenerator->generate(name: 'app_login'));
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_login', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
+        );
 
         $crawler = $client->getCrawler();
         $title = $crawler->filter(selector: 'title')->text();
@@ -50,19 +59,25 @@ class SecurityControllerTest extends WebTestCase
             message: 'Le titre de la page est incorrect'
         );
     }
-
-    public function testLoginWithGoodCredentials(): void
+    /**
+     * Se connecter avec des identifiants correct
+     * @test
+     */
+    public function login_with_good_credentials(): void
     {
         $client = static::createClient();
-
-        /** @var UrlGeneratorInterface $urlGenerator */
-        $urlGenerator = $client->getContainer()->get(id: 'router');
-
-        $crawler = $client
-            ->request(
-                method: Request::METHOD_GET,
-                uri: $urlGenerator->generate(name: 'app_login')
-            );
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_login', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
+        );
+        $crawler = $client->request(
+            method: Request::METHOD_GET,
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_login', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
+        );
 
         $form = $crawler->filter(selector: 'form[name=login]')->form([
             'email' => 'pascal.briffard@aperp.fr',
@@ -77,19 +92,25 @@ class SecurityControllerTest extends WebTestCase
         self::assertRouteSame(expectedRoute: 'app_home');
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_OK);
     }
-
-    public function testLoginWithBadCredentials(): void
+    /**
+     * Se connecter avec des identifiants correct
+     * @test
+     */
+    public function login_with_bad_credentials(): void
     {
         $client = static::createClient();
-
-        /** @var UrlGeneratorInterface $urlGenerator */
-        $urlGenerator = $client->getContainer()->get(id: 'router');
-
-        $crawler = $client
-            ->request(
-                method: Request::METHOD_GET,
-                uri: $urlGenerator->generate(name: 'app_login')
-            );
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_login', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
+        );
+        $crawler = $client->request(
+            method: Request::METHOD_GET,
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_login', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
+        );
 
         $form = $crawler->filter(selector: 'form[name=login]')->form([
             'email' => 'pascal.briffard@aperp.fr',
@@ -106,13 +127,19 @@ class SecurityControllerTest extends WebTestCase
 
         self::assertSelectorExists(selector: '#error-login');
     }
-
-    public function testLogoutWork(): void
+    /**
+     * La déconnexion fonctionne et me redirige vers la page d'accueil
+     * @test
+     */
+    public function logout_work_correctly_and_redirect_to_homepage(): void
     {
         $client = static::createClient();
-
-        /** @var UrlGeneratorInterface $urlGenerator */
-        $urlGenerator = $client->getContainer()->get(id: 'router');
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_login', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
+        );
 
         /** @var UserRepository $userRepository */
         $userRepository = $client
@@ -124,11 +151,12 @@ class SecurityControllerTest extends WebTestCase
 
         $client->loginUser($user);
 
-        $crawler = $client
-            ->request(
-                method: Request::METHOD_GET,
-                uri: $urlGenerator->generate(name: 'app_logout')
-            );
+        $crawler = $client->request(
+            method: Request::METHOD_GET,
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_logout', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
+        );
 
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_FOUND);
 
