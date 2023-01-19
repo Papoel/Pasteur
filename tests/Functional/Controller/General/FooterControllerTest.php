@@ -6,83 +6,104 @@ namespace App\Tests\Functional\Controller\General;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class FooterControllerTest extends WebTestCase
 {
-    public function testFooterIsDisplay(): void
+    /**
+     * Tester que le footer est bien présent sur toutes les pages
+     * @test
+     */
+    public function check_that_the_footer_is_present_on_the_homepage(): void
     {
         $client = static::createClient();
-        /** @var UrlGeneratorInterface $urlGenerator */
-        $urlGenerator = $client->getContainer()->get(id: 'router');
         $client->request(
             method: Request::METHOD_GET,
-            uri: $urlGenerator->generate(name: 'app_home')
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_home', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
         );
 
+        self::assertSelectorExists(selector: 'footer');
         self::assertSelectorExists(selector: 'footer#footer');
     }
-
-    public function testFooterContainCardPresident(): void
+    /**
+     * Tester que le footer contient la carte du Président
+     * @test
+     */
+    public function footer_contains_the_president_card(): void
     {
         $client = static::createClient();
-        /** @var UrlGeneratorInterface $urlGenerator */
-        $urlGenerator = $client->getContainer()->get(id: 'router');
         $client->request(
             method: Request::METHOD_GET,
-            uri: $urlGenerator->generate(name: 'app_home')
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_home', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
         );
 
         self::assertSelectorExists(selector: 'footer#footer div#card-president');
     }
-
-    public function testFooterContainCardTresorier(): void
+    /**
+     * Tester que le footer contient la carte du Trésorier
+     * @test
+     */
+    public function footer_contains_the_tresorier_card(): void
     {
         $client = static::createClient();
-        /** @var UrlGeneratorInterface $urlGenerator */
-        $urlGenerator = $client->getContainer()->get(id: 'router');
         $client->request(
             method: Request::METHOD_GET,
-            uri: $urlGenerator->generate(name: 'app_home')
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_home', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
         );
 
         self::assertSelectorExists(selector: 'footer#footer div#card-tresorier');
     }
-
-    public function testFooterContainCardSecretaire(): void
+    /**
+     * Tester que le footer contient la carte du Trésorier
+     * @test
+     */
+    public function footer_contains_the_secretaire_card(): void
     {
         $client = static::createClient();
-        /** @var UrlGeneratorInterface $urlGenerator */
-        $urlGenerator = $client->getContainer()->get(id: 'router');
         $client->request(
             method: Request::METHOD_GET,
-            uri: $urlGenerator->generate(name: 'app_home')
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_home', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
         );
 
         self::assertSelectorExists(selector: 'footer#footer div#card-secretaire');
     }
-
-    public function testFooterContainCardWebmaster(): void
+    /**
+     * Tester que le footer contient la carte du Webmaster
+     * @test
+     */
+    public function footer_contains_the_webmaster_card(): void
     {
         $client = static::createClient();
-        /** @var UrlGeneratorInterface $urlGenerator */
-        $urlGenerator = $client->getContainer()->get(id: 'router');
         $client->request(
             method: Request::METHOD_GET,
-            uri: $urlGenerator->generate(name: 'app_home')
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_home', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
         );
 
         self::assertSelectorExists(selector: 'footer#footer div#card-webmaster');
     }
-
-    public function testFooterContainCorrectStructureForAddress(): void
+    /**
+     * Tester que le footer contient la carte du Trésorier
+     * @test
+     */
+    public function footer_contains_the_structure_for_the_school_address(): void
     {
         $client = static::createClient();
-        /** @var UrlGeneratorInterface $urlGenerator */
-        $urlGenerator = $client->getContainer()->get(id: 'router');
         $client->request(
             method: Request::METHOD_GET,
-            uri: $urlGenerator->generate(name: 'app_home')
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_home', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
         );
 
         // 1. Vérifier que le footer contient une div address
@@ -96,43 +117,52 @@ class FooterControllerTest extends WebTestCase
         // 7. Vérifier que j'ai une balise <a> avec id email-school
         self::assertSelectorExists(selector: '#email-school');
     }
-
-    public function testFooterContainGoodAddress(): void
+    /**
+     * Tester que l'adresse de l'école est correct'
+     * @test
+     */
+    public function footer_contains_the_correct_school_address(): void
     {
         $client = static::createClient();
-        /** @var UrlGeneratorInterface $urlGenerator */
-        $urlGenerator = $client->getContainer()->get(id: 'router');
         $client->request(
             method: Request::METHOD_GET,
-            uri: $urlGenerator->generate(name: 'app_home')
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_home', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
         );
 
         // 4. Vérifier que le span contient l'adresse exacte de l'école
         self::assertSelectorTextSame(selector: '#address-line-1', text: '8 Rue Pasteur, 59131 Rousies');
     }
-
-    public function testFooterContainGoodTelephone(): void
+    /**
+     * Tester que le footer contient le bon numéro de téléphone
+     * @test
+     */
+    public function footer_contains_the_correct_school_telephone_number(): void
     {
         $client = static::createClient();
-        /** @var UrlGeneratorInterface $urlGenerator */
-        $urlGenerator = $client->getContainer()->get(id: 'router');
         $client->request(
             method: Request::METHOD_GET,
-            uri: $urlGenerator->generate(name: 'app_home')
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_home', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
         );
 
         // 6. Vérifier que le numéro de téléphone est le bon
         self::assertSelectorTextSame(selector: '#telephone', text: '03 27 64 82 85');
     }
-
-    public function testFooterContainGoodEmailAndGoodText(): void
+    /**
+     * Tester que le footer contient la bonne adresse email ainsi que la bonne adresse dans l'attribut mailto
+     * @test
+     */
+    public function footer_contains_the_correct_school_email_and_correct_mailto(): void
     {
         $client = static::createClient();
-        /** @var UrlGeneratorInterface $urlGenerator */
-        $urlGenerator = $client->getContainer()->get(id: 'router');
         $client->request(
             method: Request::METHOD_GET,
-            uri: $urlGenerator->generate(name: 'app_home')
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_home', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
         );
 
         // 8. Vérifier que l'adresse email est la bonne
