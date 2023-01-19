@@ -11,24 +11,35 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class HomePageControllerTest extends WebTestCase
 {
-    public function testGetSuccessfullyHomePage(): void
+    /**
+     * Tester que la page d'accueil s'affiche correctement
+     * @test
+     */
+    public function the_page_homepage_is_correctly_display(): void
     {
         $client = static::createClient();
-        /** @var UrlGeneratorInterface $urlGenerator */
-        $urlGenerator = $client->getContainer()->get(id: 'router');
         $client->request(
             method: Request::METHOD_GET,
-            uri: $urlGenerator->generate(name: 'app_home')
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_home', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
         );
 
         self::assertResponseStatusCodeSame(expectedCode: Response::HTTP_OK, message: 'La status code est incorrect.');
     }
-    /** Tester que le Block Title est implémenté */
-    public function testIfTheTitleIsNotTheSimplyTitleFromBase(): void
+    /**
+     * Tester que le Block Title est implémenté
+     * @test
+     */
+    public function the_title_is_not_inherited_from_the_base_template(): void
     {
         $client = static::createClient();
-        $urlGenerator = $client->getContainer()->get(id: 'router');
-        $client->request(method: Request::METHOD_GET, uri: $urlGenerator->generate(name: 'app_home'));
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_home', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
+        );
 
         $crawler = $client->getCrawler();
         $title = $crawler->filter(selector: 'title')->text();
@@ -40,40 +51,53 @@ class HomePageControllerTest extends WebTestCase
             message: 'Le titre de la page est incorrect'
         );
     }
-
-    /** Tester si le Header et la navbar est sur la page d'accueil */
-    public function testPageHasHeader(): void
+    /**
+     * Tester si le Header (+ navbar) sont présent
+     * @test
+     */
+    public function page_contains_the_header(): void
     {
         // Créer un client et faire une requête "GET" sur la page d'accueil
         $client = static::createClient();
-        $urlGenerator = $client->getContainer()->get(id: 'router');
-        $client->request(method: 'GET', uri: $urlGenerator->generate(name: 'app_home'));
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_home', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
+        );
 
         // S'assurer que le "header" existe sur la page
         self::assertSelectorExists(selector: 'header', message: 'Le header n\'existe pas sur la page d\'accueil');
         self::assertSelectorExists(selector: '#menu', message: 'La menu navbar n\'existe pas sur la page d\'accueil');
     }
-
-    /** Tester si le Footer est sur la page d'accueil */
-    public function testPageHasFooter(): void
+    /** Tester si le Footer est présent
+     * @test
+     */
+    public function page_contains_the_footer(): void
     {
-        // Créer un client et faire une requête "GET" sur la page d'accueil
         $client = static::createClient();
-        $client->request(method: 'GET', uri: '/');
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_home', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
+        );
 
         // S'assurer que le "footer" existe sur la page
         self::assertSelectorExists(selector: 'footer');
     }
-
-    /** Tester le contenu statique de la page d'accueil */
-    public function testPageContent(): void
+    /**
+     * Tester le contenu statique de la page d'accueil
+     * @test
+     */
+    public function check_if_the_structure_of_the_page_is_correct(): void
     {
         $client = static::createClient();
-        /** @var UrlGeneratorInterface $urlGenerator */
-        $urlGenerator = $client->getContainer()->get(id: 'router');
         $client->request(
             method: Request::METHOD_GET,
-            uri: $urlGenerator->generate(name: 'app_home')
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_home', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
         );
 
         self::assertSelectorExists(selector: 'figure', message: 'La balise \'Figure\' doit être présent');
@@ -99,46 +123,57 @@ class HomePageControllerTest extends WebTestCase
             message: 'La balise \'<p id=\'presentation-line-3\'></p>\' doit être présente'
         );
     }
-    /** Tester le titre de la page d'accueil */
-    public function testHomepageContainGoodTitle(): void
+    /** Tester si le titre h1 de ma page est correct
+     * @test
+     */
+    public function the_title_on_the_page_is_correct(): void
     {
         $client = static::createClient();
-        /** @var UrlGeneratorInterface $urlGenerator */
-        $urlGenerator = $client->getContainer()->get(id: 'router');
         $client->request(
             method: Request::METHOD_GET,
-            uri: $urlGenerator->generate(name: 'app_home')
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_home', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
         );
 
-        // Vérifier que l'élément h1 existe et contient le texte attendu.
-        self::assertSelectorTextSame(selector: 'h1', text: 'Association des Parents d\'Élèves');
+        self::assertSelectorExists(selector: 'h1', message: 'La balise H1 n\'existe pas sur la page événements');
+        self::assertSelectorTextSame(
+            selector: 'h1',
+            text: 'Association des Parents d\'Élèves',
+            message: 'Le titre de la page est incorrect'
+        );
     }
-    /** Tester que le sous titre est bien le nom de l'école */
-    public function testHomepageContainGoodSubTitleWithNameSchool(): void
+    /**
+     * Tester que le sous titre est bien le nom de l'école
+     * @test
+     */
+    public function subtitle_is_the_name_of_the_school(): void
     {
         $client = static::createClient();
-        /** @var UrlGeneratorInterface $urlGenerator */
-        $urlGenerator = $client->getContainer()->get(id: 'router');
         $client->request(
             method: Request::METHOD_GET,
-            uri: $urlGenerator->generate(name: 'app_home')
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_home', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
         );
 
-        // Vérifier que l'élément h1 existe et contient le texte attendu.
         self::assertSelectorTextSame(
             selector: '#name-school',
             text: 'École primaire Pasteur - Rousies'
         );
     }
-    /** Tester Que j'ai bien 3 spans pour la présentation de l'APE */
-    public function testCountPageHas3Spans(): void
+    /**
+     * Tester Que j'ai bien 3 spans pour la présentation de l'APE
+     * @test
+     */
+    public function count_if_3_spans_are_displayed(): void
     {
         $client = static::createClient();
-        /** @var UrlGeneratorInterface $urlGenerator */
-        $urlGenerator = $client->getContainer()->get(id: 'router');
         $client->request(
             method: Request::METHOD_GET,
-            uri: $urlGenerator->generate(name: 'app_home')
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_home', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
         );
 
         // Obtenir le crawler pour la réponse
@@ -148,13 +183,19 @@ class HomePageControllerTest extends WebTestCase
         $spans = $crawler->filter(selector: 'div#presentation figure blockquote span');
         self::assertCount(expectedCount: 3, haystack: $spans);
     }
-    /** Tester le span 1 contient bien le texte attendu */
-    public function testHomepageContainGoodTextPresentationLine1(): void
+    /**
+     * Tester le span 1 contient bien le texte attendu
+     * @test
+     */
+    public function the_text_in_presentation_line_1_is_correct(): void
     {
         $client = static::createClient();
-
-        $urlGenerator = $client->getContainer()->get(id: 'router');
-        $client->request(method: Request::METHOD_GET, uri: $urlGenerator->generate(name: 'app_home'));
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_home', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
+        );
 
         $crawler = $client->getCrawler();
         $presentationLine1 = $crawler->filter(selector: '#presentation-line-1')->text();
@@ -166,13 +207,19 @@ class HomePageControllerTest extends WebTestCase
             message: 'Le texte dans #presentation-line-1 est incorrect'
         );
     }
-    /** Tester le span 2 contient bien le texte attendu */
-    public function testHomepageContainGoodTextPresentationLine2(): void
+    /**
+     * Tester le span 2 contient bien le texte attendu
+     * @test
+     */
+    public function the_text_in_presentation_line_2_is_correct(): void
     {
-            $client = static::createClient();
-
-            $urlGenerator = $client->getContainer()->get(id: 'router');
-            $client->request(method: Request::METHOD_GET, uri: $urlGenerator->generate(name: 'app_home'));
+        $client = static::createClient();
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_home', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
+        );
 
             $crawler = $client->getCrawler();
             $presentationLine2 = $crawler->filter(selector: '#presentation-line-2')->text();
@@ -184,13 +231,19 @@ class HomePageControllerTest extends WebTestCase
                 message: 'Le texte dans #presentation-line-2 est incorrect'
             );
     }
-    /** Tester le span 3 contient bien le texte attendu */
-    public function testHomepageContainGoodTextPresentationLine3(): void
+    /**
+     * Tester le span 3 contient bien le texte attendu
+     * @test
+     */
+    public function the_text_in_presentation_line_3_is_correct(): void
     {
         $client = static::createClient();
-
-        $urlGenerator = $client->getContainer()->get(id: 'router');
-        $client->request(method: Request::METHOD_GET, uri: $urlGenerator->generate(name: 'app_home'));
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_home', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
+        );
 
         $crawler = $client->getCrawler();
         $presentationLine3 = $crawler->filter(selector: '#presentation-line-3')->text();
@@ -204,16 +257,18 @@ class HomePageControllerTest extends WebTestCase
             message: 'Le texte dans #presentation-line-3 est incorrect'
         );
     }
-
-    /** Tester que la page d'accueil contient l'affichage des messages flash */
-    public function testContainsFlashMessageDiv(): void
+    /**
+     * Tester que la page d'accueil contient l'affichage des messages flash
+     * @test
+     */
+    public function the_page_can_display_flash_message(): void
     {
         $client = static::createClient();
-        /** @var UrlGeneratorInterface $urlGenerator */
-        $urlGenerator = $client->getContainer()->get(id: 'router');
         $client->request(
             method: Request::METHOD_GET,
-            uri: $urlGenerator->generate(name: 'app_home')
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_home', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
         );
 
         $crawler = $client->getCrawler();
@@ -224,12 +279,19 @@ class HomePageControllerTest extends WebTestCase
             message: 'La page ne contient aucun élément correspondant au sélecteur: "div[role="alert"]"'
         );
     }
-    /** Tester si le bouton renvoie bien vers la page Événement */
-    public function testHrefLinkAndGoodRedirectToEventsPage(): void
+    /**
+     * Tester si le bouton renvoie bien vers la page Événement
+     * @test
+     */
+    public function links_in_the_button_refer_to_events_page(): void
     {
         $client = static::createClient();
-        $urlGenerator = $client->getContainer()->get(id: 'router');
-        $client->request(method: Request::METHOD_GET, uri: $urlGenerator->generate(name: 'app_home'));
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_home', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
+        );
 
         $crawler = $client->getCrawler();
         $linkEvents = $crawler->filter(selector: '.link-to-events')->attr(attribute: 'href');
@@ -251,12 +313,19 @@ class HomePageControllerTest extends WebTestCase
             message: "Le clique sur le lien 'Nos prochains événements' ne renvoie pas vers la page événements"
         );
     }
-    /** Tester si le lien "Contact" existe et s'il renvoie à la bonne page "app_contact"*/
-    public function testHrefLinkAndGoodRedirectToContactPage(): void
+    /**
+     * Tester si le lien "Contact" existe et s'il renvoie à la bonne page "app_contact"
+     * @test
+     */
+    public function the_link_to_contact_refer_to_contact_page(): void
     {
         $client = static::createClient();
-        $urlGenerator = $client->getContainer()->get(id: 'router');
-        $client->request(method: Request::METHOD_GET, uri: $urlGenerator->generate(name: 'app_home'));
+        $client->request(
+            method: Request::METHOD_GET,
+            uri: $client->getContainer()
+                ->get(id: 'router')
+                ->generate(name: 'app_home', referenceType: UrlGeneratorInterface::ABSOLUTE_URL)
+        );
 
         $crawler = $client->getCrawler();
         $linkContact = $crawler->filter(selector: '.link-to-contact')->attr(attribute: 'href');
