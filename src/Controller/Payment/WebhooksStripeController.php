@@ -73,11 +73,6 @@ class WebhooksStripeController extends AbstractController
 
             $em->persist($payment);
             $em->flush();
-
-            $this->addFlash(
-                type: 'success',
-                message: 'Votre paiement et votre inscription sont enregistrés. Merci !'
-            );
         }
 
         return new Response(content: Response::HTTP_OK);
