@@ -159,12 +159,6 @@ class EventRegistrationController extends AbstractController
         $event->setRegistered(registered: $event->getRegistered() - count($children));
 
         // Supprime chaque enfant de la table Children ayant registration_event_id = $registrationId
-        foreach ($children as $child) {
-            /** @var RegistrationEvent $registrationEvent */
-            $registrationEvent->removeChild(child: $child);
-            $em->remove($child);
-        }
-
         $em->remove($registrationEvent);
         $em->flush();
 
