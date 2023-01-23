@@ -20,7 +20,7 @@
                 </defs>
                 <path fill="url(#sw-gradient-0)" d="M 0.351 264.418 C 0.351 264.418 33.396 268.165 47.112 270.128 C 265.033 301.319 477.487 325.608 614.827 237.124 C 713.575 173.504 692.613 144.116 805.776 87.876 C 942.649 19.853 1317.845 20.149 1440.003 23.965 C 1466.069 24.779 1440.135 24.024 1440.135 24.024 L 1440 0 L 1360 0 C 1280 0 1120 0 960 0 C 800 0 640 0 480 0 C 320 0 160 0 80 0 L 0 0 L 0.351 264.418 Z"></path>
             </svg>
-            <div class="px-6 py-12 lg:my-12 md:px-12 text-gray-800 text-center lg:text-left">
+            <div class="px-6 py-12 md:px-12 text-gray-800 text-center lg:text-left">
                 <div class="container mx-auto xl:px-32">
                     <div class="grid lg:grid-cols-2 gap-12 flex items-center">
                         <div class="mt-12 lg:mt-0">
@@ -29,7 +29,11 @@
                             </h1>
                             <p>
                                 <span class="font-bold text-2xl md:text-3xl xl:text-4xl text-indigo-500">
-                                    {{ event.registered }} {{ pluralize(event.registered, 'participant', 'participants') }}
+                                    {% if event.registered %}
+                                        {{ event.registered }} {{ pluralize(event.registered, 'participant', 'participants') }}
+                                    {% else %}
+                                        Aucun participant
+                                    {% endif %}
                                 </span>
                                 <br>
                                 <span class="text-gray-500">
@@ -58,6 +62,13 @@
                 </div>
             </div>
         </section>
+
+        <!-- Séparateur -->
+        <div class="my-8 text-center border-b">
+            <div class="inline-block px-2 text-sm font-medium leading-none tracking-wide text-gray-600 transform translate-y-1/2 bg-white">
+                Les chiffres
+            </div>
+        </div>
 
         <div class="container mx-auto">
             <!-- Carte Attentes $$$ -->
@@ -142,128 +153,95 @@
                 </div>
             </div>
 
-            <!-- Séparateur -->
-            <div class="my-8 text-center border-b">
-                <div class="inline-block px-2 text-sm font-medium leading-none tracking-wide text-gray-600 transform translate-y-1/2 bg-white">
-                    {{ pluralize(event.registered, 'Représentant', 'Représentants') }}
-                    {{ pluralize(event.registered, 'légal', 'légaux') }}
-                </div>
-            </div>
-
-            <!-- Carte représentant légal -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 p-4 gap-4">
-                {% for registration in uniqueRegistrations %}
-                    <div class="bg-indigo-50 shadow-lg rounded-md flex items-center justify-between
-                    p-3 border-b-4 border-sky-600 dark:border-gray-600 text-white font-medium group">
-                        <div class="flex justify-center items-center w-14 h-14">
-                            <svg class="w-6 h-6 text-sky-700" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                 viewBox="0 0 24 24"
-                                 stroke-width="1.5" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/>
-                            </svg>
-                        </div>
-                        <div class="text-right text-sky-700">
-                            <p class="text-2xl">{{ registration.fullname }}</p>
-                            <p>{{ registration.telephone }}</p>
-                            <p>{{ registration.email }}</p>
-                        </div>
+            {% if event.registered %}
+                <!-- Séparateur -->
+                <div class="my-8 text-center border-b">
+                    <div class="inline-block px-2 text-sm font-medium leading-none tracking-wide text-gray-600 transform translate-y-1/2 bg-white">
+                        {{ pluralize(event.registered, 'Représentant', 'Représentants') }}
+                        {{ pluralize(event.registered, 'légal', 'légaux') }}
                     </div>
-                {% endfor %}
+                </div>
+                <!-- Carte représentant légal -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 p-4 gap-4">
+                    {% for registration in uniqueRegistrations %}
+                        <div class="bg-indigo-50 shadow-lg rounded-md flex items-center justify-between
+                    p-3 border-b-4 border-sky-600 dark:border-gray-600 text-white font-medium group">
+                            <div class="flex justify-center items-center w-14 h-14">
+                                <svg class="w-6 h-6 text-sky-700" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                     viewBox="0 0 24 24"
+                                     stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/>
+                                </svg>
+                            </div>
+                            <div class="text-right text-sky-700">
+                                <p class="text-2xl">{{ registration.fullname }}</p>
+                                <p>{{ registration.telephone }}</p>
+                                <p>{{ registration.email }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
 
-            </div>
+                </div>
+                <!-- Séparateur -->
+                <div class="my-8 text-center border-b">
+                    <div class="inline-block px-2 text-sm font-medium leading-none tracking-wide text-gray-600 transform translate-y-1/2 bg-white">
+                        Liste des inscrits pour {{ event.name|lower }}
+                    </div>
+                </div>
+                <!-- Bouton télécharger la liste -->
+                <div class="my-4 ml-5">
+                    <a href="{{ path('app_admin_list_pdf', {'slug': event.slug}) }}"
+                       class="bg-yellow-200 text-yellow-900 py-2 px-4 rounded
+                                shadow hover:shadow-xl hover:bg-yellow-300 duration-300">
+                        Télécharger la liste
+                    </a>
+                </div>
+                <!-- Client Table -->
+                <div id="registration-list" class="mx-4">
+                    {% include('admin/events/_table_registration_event.html.twig') %}
+                </div>
+            {% endif %}
+
+
             <!-- Séparateur -->
             <div class="my-8 text-center border-b">
                 <div class="inline-block px-2 text-sm font-medium leading-none tracking-wide text-gray-600 transform translate-y-1/2 bg-white">
-                    Liste des inscrits pour {{ event.name|lower }}
+                    Membre de l'APE venant aider pour l'événement {{ event.name|lower }}
                 </div>
             </div>
             <!-- Bouton télécharger la liste -->
-            <div class="my-4 ml-5">
-                <a href="{{ path('app_admin_list_pdf', {'slug': event.slug}) }}"
-                   class="bg-yellow-200 text-yellow-900 py-2 px-4 rounded
-                                shadow hover:shadow-xl hover:bg-yellow-300 duration-300">
-                    Télécharger la liste
-                </a>
-            </div>
-            <!-- Client Table -->
-            <div id="registration-list" class="mx-4">
-                <div class="w-full overflow-hidden rounded-lg shadow-xs">
-                    <div class="w-full overflow-x-auto">
-                        <table class="w-full">
-                            <thead>
-                            <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                                <th class="px-4 py-3">Client</th>
-                                <th class="px-4 py-3">Prix</th>
-                                <th class="px-4 py-3">Status</th>
-                                <th class="px-4 py-3">Nom des inscrits</th>
-                                <th class="px-4 py-3">Action</th>
-                            </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                            {% for registration in registrations %}
-                                <tr class="bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900
-                                        text-gray-700 dark:text-gray-400">
-                                    <td class="px-4 py-3">
-                                        <div class="flex items-center text-sm">
-                                            <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
-                                                <img class="object-cover w-full h-full rounded-full"
-                                                     src="{{ asset('build/uploads/images/Avatar-Batman.svg') }}"
-                                                     alt="" loading="lazy"/>
-                                                <div class="absolute inset-0 rounded-full shadow-inner"
-                                                     aria-hidden="true"></div>
-                                            </div>
-                                            <div>
-                                                <p class="font-semibold">{{ registration.fullname }}</p>
-                                                <p class="text-xs text-gray-600 dark:text-gray-400">
-                                                    {{ registration.children|length }}
-                                                    {{ pluralize(registration.children|length, 'enfant', 'enfants') }}
-                                                    {{ pluralize(registration.children|length, 'inscrit', 'inscrits') }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-4 py-3 text-sm">
-                                        {{ (registration.event.price / 100) * (registration.children|length) }}
-                                        €
-                                    </td>
-                                    <td class="px-4 py-3 text-xs">
-                                        {% if registration.isPaid == 1 or event.price == 0 %}
-                                            <span class="px-2 py-1 font-semibold leading-tight text-green-700
-                                                    bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
-                                                        {% if event.price == 0 %}
-                                                            Gratuit
-                                                        {% else %}
-                                                            Payé
-                                                        {% endif %}
-                                                    </span>
-                                        {% else %}
-                                            <span class="px-2 py-1 font-semibold leading-tight text-red-700
-                                                    bg-red-100 rounded-full dark:bg-red-700 dark:text-red-100">
-                                                        Non Payé
-                                                    </span>
-                                        {% endif %}
-                                    </td>
-                                    <td class="px-4 py-3 text-sm">
-                                        {% for child in registration.children %}
-                                            <p>{{ child.firstname }} {{ child.lastname }}</p>
-                                        {% endfor %}
-                                    </td>
-                                    <td class="px-4 py-3 text-sm">
-                                        <a class="text-red-100 bg-red-800 px-3 py-1 rounded-full
-                                                hover:bg-red-600 hover:text-white"
-                                           href="{{ path('app_registration_event_cancel',
-                                               {'id': registration.id, 'slug': event.slug}) }}">
-                                            Annuler l'inscription
-                                        </a>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
+
+            <!-- Team APE Table -->
+            {% if registrationHelps %}
+                <div id="registration-help-list" class="mx-4">
+                    {% include('admin/events/_table_registration_help.html.twig') %}
+                </div>
+            {% else %}
+                <div class="flex justify-center mt-4">
+                    <div class="block rounded-lg shadow-lg bg-gray-50 max-w-sm text-center border border-1">
+                        <div class="py-3 px-6 border-b border-gray-300">
+                            <h2 class="text-2xl font-bold text-gray-800">
+                                La Team APERP
+                            </h2>
+                        </div>
+                        <div class="p-6">
+                            <p class="text-gray-700 text-base mb-4">
+                                Personne n'a encore répondu à l'appel pour aider à l'événement
+                                <span class="font-extrabold">{{ event.name|lower }}.</span>
+                            </p>
+                            <p class="text-gray-700 text-base mb-4">
+                                Un peu de patience, les membres de l'APE seront bientôt là pour vous aider !
+                            </p>
+                        </div>
+                        <div class="py-3 px-6 border-t border-gray-300 text-gray-600">
+                            <p class="text-md text-gray-600">
+                                {{ 'now'|date('d/m/Y') }}
+                        </div>
                     </div>
                 </div>
-            </div>
+            {% endif %}
+
 
         </div>
         <!-- Bouton retour sur la page des événements -->

@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Entity\Creneau;
+namespace App\Entity\Slot;
 
 use App\Entity\Event\Event;
-use App\Repository\Creneau\CreneauRepository;
+use App\Repository\Creneau\SlotRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: CreneauRepository::class)]
-class Creneau
+#[ORM\Entity(repositoryClass: SlotRepository::class)]
+class Slot
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

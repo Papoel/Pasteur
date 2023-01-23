@@ -31,7 +31,7 @@ class AppExtension extends AbstractExtension
     }
 
     // Create function for plural words
-    public function pluralize(int $count, string $singular, string $plural): string
+    public function pluralize(?int $count, string $singular, string $plural): string
     {
         return $count > 1 ? $plural : $singular;
     }

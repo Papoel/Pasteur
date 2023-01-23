@@ -7,6 +7,7 @@ namespace App\Controller\Admin\Events;
 use App\Entity\Event\Event;
 use App\Repository\Event\EventRepository;
 use App\Repository\Event\RegistrationEventRepository;
+use App\Repository\Event\RegistrationHelpRepository;
 use App\Services\PdfService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,37 +20,31 @@ class EventsGestionController extends AbstractController
     public function detailsEvents(
         EventRepository $eventRepository,
         RegistrationEventRepository $registrations ,
+        RegistrationHelpRepository $registrationHelpRepository,
     ): Response {
-        $events = $eventRepository->findAll();
-        $registrations = $registrations->findAll();
 
         return $this->render(view: 'admin/events/details_events.html.twig', parameters: [
-            'events' => $events ,
-            'registrations' => $registrations ,
+            'events' => $eventRepository->findAll(),
+            'registrations' => $registrations->findAll(),
+            'registrationHelps' => $registrationHelpRepository->findBy(['event' => $eventRepository->findAll()])
         ]);
     }
 
     #[Route('/admin/details/inscription/{slug}', name: 'app_admin_details_registration', methods: ['GET'])]
-    public function detailsRegistration(Event $event, RegistrationEventRepository $registrationRepository ,): Response
-    {
+    public function detailsRegistration(
+        Event $event,
+        RegistrationEventRepository $registrationRepository,
+        RegistrationHelpRepository $registrationHelpRepository
+    ): Response {
         $registrations = $registrationRepository->findBy(['event' => $event]);
-
         $uniqueRegistrations = $registrationRepository->findUniqueRegistrations($event);
-
-        // $uniqueRegistrations = new ArrayCollection();
-        /*foreach ($registrations as $registration) {
-            $exist = $uniqueRegistrations->exists(function ($key, $element) use ($registration) {
-                return $registration->getEmail() === $element->getEmail();
-            });
-            if (!$exist) {
-                $uniqueRegistrations->add($registration);
-            }
-        }*/
+        $registrationHelps = $registrationHelpRepository->findBy(['event' => $event]);
 
         return $this->render(view: 'admin/events/details_registration.html.twig', parameters: [
             'registrations' => $registrations ,
             'uniqueRegistrations' => $uniqueRegistrations ,
             'event' => $event ,
+            'registrationHelps' => $registrationHelps ,
         ]);
     }
 

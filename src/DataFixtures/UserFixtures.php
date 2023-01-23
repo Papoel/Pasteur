@@ -55,12 +55,7 @@ class UserFixtures extends Fixture
         $userAdministrateur->setFirstname(firstname: 'Pascal');
         $userAdministrateur->setLastname(lastname: 'Briffard');
         $userAdministrateur->setPseudo(pseudo: 'Papoel');
-        $userAdministrateur->setEmail(
-            email: strtolower(
-                string: $userAdministrateur->getFirstname() . '.' . $userAdministrateur->getLastname()
-            ) .
-            '@aperp.fr'
-        );
+        $userAdministrateur->setEmail(email: 'papoel@aperp.fr');
         $userAdministrateur->setRoles(['ROLE_SUPER_ADMIN']);
         $hash = $this->passwordHasher->hashPassword($userAdministrateur, plainPassword: 'Password1234!');
         $userAdministrateur->setPassword($hash);
