@@ -2,7 +2,7 @@
 
 namespace App\Entity\Event;
 
-use App\Entity\Creneau\Creneau;
+use App\Entity\Slot\Slot;
 use App\Entity\Payment;
 use App\Repository\Event\EventRepository;
 use Cocur\Slugify\Slugify;
@@ -105,7 +105,7 @@ class Event
     #[ORM\Column(type: 'datetime_immutable')]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\ManyToMany(targetEntity: Creneau::class, inversedBy: 'events')]
+    #[ORM\ManyToMany(targetEntity: Slot::class, inversedBy: 'events')]
     #[ORM\JoinTable(name: 'event_creneau')]
     private Collection $creneaux;
 
@@ -362,14 +362,14 @@ class Event
     }
 
     /**
-     * @return Collection<int, Creneau>
+     * @return Collection<int, Slot>
      */
     public function getCreneaux(): Collection
     {
         return $this->creneaux;
     }
 
-    public function addCreneaux(Creneau $creneaux): self
+    public function addCreneaux(Slot $creneaux): self
     {
         if (!$this->creneaux->contains($creneaux)) {
             $this->creneaux->add($creneaux);
@@ -378,7 +378,7 @@ class Event
         return $this;
     }
 
-    public function removeCreneaux(Creneau $creneaux): self
+    public function removeCreneaux(Slot $creneaux): self
     {
         $this->creneaux->removeElement($creneaux);
 

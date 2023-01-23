@@ -62,7 +62,21 @@ qui explique l'objet de cette review, cette introduction est un peu longue mais 
 
 ## Séance de Review
 
-> xx/01/2023
+> 22/01/2023 avec Honoré.
+
+Le Paiement et sa logique métier
+
+Mettre creneau en français => rename en SLOT
+Recreer APP Extension avec la nouvelle façon de faire (runtime)
+
+Si paiement ok 
+
+### QUESTIONS
+
+Comment appliquer une logique déjà en place dans le back-office ? 
+
+
+
 
 
 ## Authors

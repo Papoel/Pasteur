@@ -2,14 +2,14 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Creneau\Creneau;
+use App\Entity\Slot\Slot;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
-class CreneauCrudController extends AbstractCrudController
+class SlotCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Creneau::class;
+        return Slot::class;
     }
 
     /*

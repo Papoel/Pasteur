@@ -8,6 +8,7 @@ use App\Entity\Event\Event;
 use App\Entity\Event\RegistrationHelp;
 use App\Entity\User\User;
 use App\Form\RegistrationHelpFormType;
+use App\Repository\Event\RegistrationHelpRepository;
 use App\Repository\User\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -104,5 +105,30 @@ class EventHelpApeController extends AbstractController
             'event' => $event,
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route(
+        path: '/annulation/{id}/organisation-evenement/{slug}',
+        name: 'app_event_registration_help_cancel',
+        methods: ['GET', 'POST']
+    )]
+    public function cancelRegistrationHelp(
+        Event $event,
+        RegistrationHelpRepository $helpRepository,
+        EntityManagerInterface $em,
+    ): Response {
+        $help = $helpRepository->find($event);
+
+         $em->remove($help);
+         $em->flush();
+
+         $this->addFlash(type: 'success', message: 'L\inscription a bien été annulée');
+
+        return $this->redirectToRoute(
+            route: 'app_admin_details_registration',
+            parameters: [
+                'slug' => $help->getEvent()->getSlug()
+            ]
+        );
     }
 }

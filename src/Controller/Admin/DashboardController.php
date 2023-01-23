@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Contact\Contact;
 use App\Entity\Event\Event;
 use App\Entity\Event\RegistrationEvent;
+use App\Entity\Event\RegistrationHelp;
 use App\Entity\User\User;
 use App\Repository\Contact\ContactRepository;
 use App\Repository\Event\EventRepository;
@@ -109,5 +110,11 @@ class DashboardController extends AbstractDashboardController
                     ->setPermission(permission: 'ROLE_SUPER_ADMIN'),
             ]);
         }
+
+        yield MenuItem::section(label: 'Aide', icon: 'fas fa-question-circle');
+        yield MenuItem::subMenu(label: 'Action', icon: 'fas fa-bars')->setSubItems(subItems: [
+            MenuItem::linkToCrud(label: 'Membres', icon: 'fas fa-users', entityFqcn: RegistrationHelp::class)
+                ->setAction(actionName: Crud::PAGE_INDEX),
+        ]);
     }
 }

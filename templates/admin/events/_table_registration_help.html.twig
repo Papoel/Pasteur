@@ -1,0 +1,49 @@
+<div class="w-full overflow-hidden rounded-lg shadow-xs">
+    <div class="w-full overflow-x-auto">
+        <table class="w-full text-center">
+            <thead>
+            <tr class="text-xs font-semibold tracking-wide text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                <th class="px-4 py-3">Nom</th>
+                <th class="px-4 py-3">Activité</th>
+                <th class="px-4 py-3">Créneaux</th>
+                <th class="px-4 py-3">Téléphone</th>
+                <th class="px-4 py-3">Action</th>
+            </tr>
+            </thead>
+            <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+            {% for help in registrationHelps %}
+                <tr class="bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900
+                                        text-gray-700 dark:text-gray-400">
+
+                    <td class="px-4 py-3">
+                        <p class="font-semibold">{{ help.name }}</p>
+                    </td>
+
+                    <td class="px-4 py-3 text-sm">
+                        <p>{{ help.activity }}</p>
+                    </td>
+
+                    <td class="px-4 py-3 text-sm">
+                        {% for creneau in help.creneauChoices %}
+                            <p>{{ creneau }}</p>
+                        {% endfor %}
+                    </td>
+
+                    <td class="px-4 py-3 text-sm">
+                        <p>{{ help.telephone }}</p>
+                    </td>
+
+                    <td class="px-4 py-3 text-sm">
+                        <a class="text-red-100 bg-red-800 px-3 py-1 rounded-full
+                                                hover:bg-red-600 hover:text-white"
+                           href="{{ path('app_event_registration_help_cancel', {'id': help.id, 'slug': help.event.slug}) }}">
+                            Annuler l'inscription
+                        </a>
+                    </td>
+
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

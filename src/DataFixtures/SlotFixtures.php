@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
-use App\Entity\Creneau\Creneau;
+use App\Entity\Slot\Slot;
 use App\Repository\Event\EventRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class CreneauFixtures extends Fixture implements DependentFixtureInterface
+class SlotFixtures extends Fixture implements DependentFixtureInterface
 {
     public function __construct(
         private readonly EventRepository $eventRepository,
@@ -19,26 +19,26 @@ class CreneauFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-        $creneaux = [];
-        $creneau = new Creneau();
+        $slots = [];
+        $slot = new Slot();
 
         // For each hour from 08:00 to 20:00
         for ($hour = 8; $hour <= 20; ++$hour) {
-            $creneau = new Creneau();
-            $creneau->setStartsAt(startsAt: new \DateTime(datetime: $hour . ':00:00'));
-            $creneau->setEndsAt(endsAt: new \DateTime(datetime: ($hour + 1) . ':00:00'));
+            $slot = new Slot();
+            $slot->setStartsAt(startsAt: new \DateTime(datetime: $hour . ':00:00'));
+            $slot->setEndsAt(endsAt: new \DateTime(datetime: ($hour + 1) . ':00:00'));
 
-            $manager->persist($creneau);
-            $creneaux[] = $creneau;
+            $manager->persist($slot);
+            $slots[] = $slot;
         }
 
         $events = $this->eventRepository->findAll();
 
-        foreach ($creneaux as $creneau) {
+        foreach ($slots as $slot) {
             $nbEvents = random_int(min: 1, max: 3);
             for ($i = 0; $i < $nbEvents; ++$i) {
                 $event = $events[random_int(min: 0, max: count($events) - 1)];
-                $creneau->addEvent(event: $event);
+                $slot->addEvent(event: $event);
             }
         }
 

@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Creneau\Creneau;
+use App\Entity\Slot\Slot;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -34,7 +34,7 @@ class CreneauFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Creneau::class,
+            'data_class' => Slot::class,
         ]);
     }
 }
