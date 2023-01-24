@@ -1,0 +1,30 @@
+{% apply inky_to_html %}
+    <!DOCTYPE html>
+    <html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <title>APERP | Confirmation d'Inscription</title>
+    </head>
+
+    <body class="bg-gray-900 text-gray-400">
+    <div class="container">
+        <h1 class="text-red-800 text-5xl">
+            Suppression du compte de {{ username }}
+        </h1>
+    </div>
+
+    <p class="font-semibold">
+        Bonjour {{ username}} a fait la demande de suppression de son compte.
+    </p>
+
+    <p class="pt-8">
+        Une fois que le compte sera supprimé pensez à prévenir {{ username }} que sa demande a été prise en compte.
+    </p>
+
+    {#<div>
+        <img src="{{ email.image('@img/banner.png') }}" alt="Banner Signature">
+    </div>#}
+
+    </body>
+    </html>
+{% endapply %}

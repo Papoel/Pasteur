@@ -1,17 +1,17 @@
 {% extends 'base.html.twig' %}
 {% block title %} Informations {{ user.firstname }} {{ user.lastname }} {% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('build/css/profile.css') }}">
-{% endblock %}
+
 {% block body %}
 {% include('components/_navbar.html.twig') %}
-    <div class="max-w-4xl flex items-center h-auto lg:h-screen flex-wrap mx-auto my-32 lg:my-0">
+    <!-- ####################################### FlashMessage ########################################### -->
+    <div class="container my-4 mx-auto">
+        {{ include("components/_flash-messages.html.twig") }}
+    </div>
 
+    <div class="max-w-4xl flex items-center h-auto lg:h-screen flex-wrap mx-auto my-32 lg:my-0">
         <!--Main Col-->
         <div id="profile" class="w-full lg:w-4/5 rounded-lg lg:rounded-l-lg lg:rounded-r-none shadow-2xl bg-white opacity-75 mx-6 lg:mx-0">
-
 
             <div class="p-4 md:p-12 text-center lg:text-left">
                 <!-- ####################################### Nom Complet ########################################### -->
@@ -47,7 +47,7 @@
                     </svg>
                     {{ phone(user.telephone) }}
                 </p>
-                <!-- ######################################### Email ############################################# -->
+                <!-- ####################################### Message APE ########################################### -->
                 <p class="pt-6 text-sm">
                     L'association des parents d'élèves de l'école Pasteur de la ville de Rousies est la seule propriétaire
                     de ce compte, les informations qui y sont contenues sont confidentielles et ne peuvent être utilisées
@@ -58,14 +58,15 @@
                     et/ou de supprimer ce compte à tout moment.
                 </p>
                 <p class="pt-6 text-sm">
-                    L'adresse email utilisée <span class="text-indigo-500 font-semibold">{{ user.email }}</span> ne sert que pour accéder à cette application
-                    en tant que membre actif de l'association des parents d'élèves.
+                    L'adresse email utilisée <span class="text-indigo-500 font-semibold">{{ user.email }}</span>
+                    ne sert que pour accéder à cette application en tant que membre actif de l'association
+                    des parents d'élèves.
                 </p>
-                <!-- ################################### Bouton Télécharger ####################################### -->
+                <!-- ############################### Bouton Supprimer le compte ################################### -->
                 <div class="pt-12 pb-8">
-                    <button class="bg-pink-600 hover:bg-pink-800 text-white font-bold py-2 px-4 rounded-full">
+                    <a href="{{ path('app_user_profile_delete') }}" class="bg-pink-600 hover:bg-pink-800 text-white font-bold py-2 px-4 rounded-full">
                         Demander la suppression de ce compte
-                    </button>
+                    </a>
                 </div>
                 <!-- ############################### Tableau des inscriptions ################################### -->
                 {% include('events/_registrationsEvent.html.twig') %}
