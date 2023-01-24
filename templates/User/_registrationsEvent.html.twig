@@ -4,10 +4,10 @@
             <thead>
             <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                 <th class="px-4 py-3">Événement</th>
-                <th class="px-4 py-3">Prix</th>
-                <th class="px-4 py-3">Payé</th>
-                <th class="px-4 py-3">Nom des inscrits</th>
-                <th class="px-4 py-3">Inscrit</th>
+                <th class="px-4 py-3 text-center">Prix</th>
+                <th class="px-4 py-3 text-center">Payé</th>
+                <th class="px-4 py-3 text-center">Nom des inscrits</th>
+                <th class="px-4 py-3 text-center">Inscrit</th>
             </tr>
             </thead>
             <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
@@ -26,14 +26,14 @@
                             </div>
                         </div>
                     </td>
-                    <td class="text-xs text-gray-600 dark:text-gray-400">
+                    <td class="text-xs text-gray-600 text-center dark:text-gray-400">
                         {% if registration.event.price  == 0 %}
                             Gratuit
                         {% else %}
                             {{ (registration.event.price / 100) * (registration.children|length) }} €
                         {% endif %}
                     </td>
-                    <td class="px-4 py-3 text-xs">
+                    <td class="px-4 py-3 text-xs text-center">
                         {% if registration.isPaid == 1 or registration.event.price == 0 %}
                             <span>
                                 {% if registration.event.price  == 0 %}
@@ -46,12 +46,12 @@
                             ❌
                         {% endif %}
                     </td>
-                    <td class="px-4 py-3 text-sm">
+                    <td class="px-4 py-3 text-sm text-center">
                         {% for child in registration.children %}
                             <p class="text-xs text-gray-600 dark:text-gray-400">{{ child.firstname }} {{ child.lastname }}</p>
                         {% endfor %}
                     </td>
-                    <td class="px-4 py-3 text-sm">
+                    <td class="px-4 py-3 text-sm text-center">
                         <p class="text-xs text-gray-600 dark:text-gray-400">
                             {{ registration.createdAt|format_date('short') }}
                         </p>
