@@ -64,4 +64,11 @@ class UserProfileController extends AbstractController
 
         return $this->redirectToRoute(route: 'app_user_profile');
     }
+
+    // CGU
+    #[Route('/user/profile/cgu', name: 'app_cgu')]
+    public function cgu(): Response
+    {
+        return $this->render(view: 'User/cgu.html.twig');
+    }
 }
