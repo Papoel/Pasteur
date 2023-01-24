@@ -13,10 +13,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class EventsGestionController extends AbstractController
 {
     #[Route('/admin/details/evenements', name: 'app_admin_details_events', methods: ['GET'])]
+    #[isGranted('ROLE_ADMIN')]
     public function detailsEvents(
         EventRepository $eventRepository,
         RegistrationEventRepository $registrations ,
@@ -31,6 +33,7 @@ class EventsGestionController extends AbstractController
     }
 
     #[Route('/admin/details/inscription/{slug}', name: 'app_admin_details_registration', methods: ['GET'])]
+    #[isGranted('ROLE_ADMIN')]
     public function detailsRegistration(
         Event $event,
         RegistrationEventRepository $registrationRepository,
@@ -49,6 +52,7 @@ class EventsGestionController extends AbstractController
     }
 
     #[Route('/admin/details/inscription/{slug}/pdf', name: 'app_admin_list_pdf', methods: ['GET'])]
+    #[isGranted('ROLE_ADMIN')]
     public function generatePdf(
         Event $event,
         RegistrationEventRepository $registrations,

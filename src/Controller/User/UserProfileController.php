@@ -19,7 +19,7 @@ class UserProfileController extends AbstractController
         private MailerInterface $mailer,
     ) {
     }
-    #[Route('/user/profile', name: 'app_user_profile')]
+    #[Route('/{user}/profile', name: 'app_user_profile')]
     #[isGranted('ROLE_ADMIN')]
     public function index(RegistrationEventRepository $registrationEventRepository): Response
     {
