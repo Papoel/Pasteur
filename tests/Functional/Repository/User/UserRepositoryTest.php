@@ -40,7 +40,7 @@ class UserRepositoryTest extends WebTestCase
 
         self::assertNotNull($user);
         self::assertSame(
-            expected: 'pascal.briffard@aperp.fr',
+            expected: 'papoel@aperp.fr',
             actual: $user->getEmail(),
             message: 'L\'email de l\'utilisateur n\'est pas le même que celui attendu.'
         );

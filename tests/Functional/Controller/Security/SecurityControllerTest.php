@@ -80,7 +80,7 @@ class SecurityControllerTest extends WebTestCase
         );
 
         $form = $crawler->filter(selector: 'form[name=login]')->form([
-            'email' => 'pascal.briffard@aperp.fr',
+            'email' => 'papoel@aperp.fr',
             'password' => 'Password1234!',
         ]);
 
@@ -113,7 +113,7 @@ class SecurityControllerTest extends WebTestCase
         );
 
         $form = $crawler->filter(selector: 'form[name=login]')->form([
-            'email' => 'pascal.briffard@aperp.fr',
+            'email' => 'papoel@aperp.fr',
             'password' => 'BadPassword1234!',
         ]);
 

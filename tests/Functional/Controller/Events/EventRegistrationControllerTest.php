@@ -38,7 +38,7 @@ class EventRegistrationControllerTest extends WebTestCase
         $crawler = $client->request(method: Request::METHOD_GET, uri: $urlGenerator->generate(name: 'app_login'));
 
         $form = $crawler->filter(selector: 'form[name=login]')->form([
-            'email' => 'pascal.briffard@aperp.fr',
+            'email' => 'papoel@aperp.fr',
             'password' => 'Password1234!',
         ]);
 

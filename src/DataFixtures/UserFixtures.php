@@ -171,7 +171,9 @@ class UserFixtures extends Fixture
             $user->setPostalCode(postalCode: $faker->numberBetween(int1: 10000, int2: 85500));
             $user->setPseudo(pseudo: $faker->userName());
 
-            $user->setBirthday(new \DateTimeImmutable());
+            $date = $faker->dateTimeBetween(startDate: '-40 years', endDate: '-15 years');
+            $immutable = \DateTimeImmutable::createFromMutable($date);
+            $user->setBirthday($immutable);
 
             $manager->persist($user);
             $users[] = $user;

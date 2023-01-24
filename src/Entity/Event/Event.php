@@ -12,6 +12,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation\Uploadable;
 use Vich\UploaderBundle\Mapping\Annotation\UploadableField;
@@ -28,9 +29,11 @@ class Event
     public const STATUS = ['PREPARATION', 'RUNNING', 'FINISHED'];
 
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    #[Assert\Uuid]
+    private ?Uuid $id = null;
 
     #[ORM\Column(type: 'string', length: 150)]
     #[Assert\NotBlank(message: 'Veuillez renseigner un titre pour cet événement.')]
@@ -149,7 +152,7 @@ class Event
         $this->slug = (new Slugify())->slugify($this->name);
     }
 
-    public function getId(): ?int
+    public function getId(): ?Uuid
     {
         return $this->id;
     }
