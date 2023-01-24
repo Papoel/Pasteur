@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Repository\User;
 
+use App\Entity\User\User;
 use App\Repository\User\UserRepository;
 use JetBrains\PhpStorm\NoReturn;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -66,6 +67,16 @@ class UserRepositoryTest extends WebTestCase
     public function testBirthdayMethodReturn3Users(): void
     {
         $client = static::createClient();
+        $user = new User();
+        $user->setFirstname(firstname: 'pascal')
+            ->setLastname(lastname: 'briffard')
+            ->setEmail(email: 'test@test.fr')
+            ->setPassword(password: 'test')
+            ->setBirthday(birthday: new \DateTimeImmutable());
+
+        $client->getContainer()->get(id: 'doctrine')->getManager()->persist($user);
+        $client->getContainer()->get(id: 'doctrine')->getManager()->flush();
+
 
         /** @var UserRepository $userRepository */
         $userRepository = $client
@@ -76,9 +87,9 @@ class UserRepositoryTest extends WebTestCase
         $users = $userRepository->findByBirthday();
 
         self::assertCount(
-            expectedCount: 3,
+            expectedCount: 1,
             haystack: $users,
-            message: 'Il n\'y a pas 3 utilisateurs qui ont leur anniversaire aujourd\'hui.'
+            message: 'Il n\'y a pas d\'utilisateur qui a son anniversaire aujourd\'hui.'
         );
     }
 
