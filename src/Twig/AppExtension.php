@@ -27,6 +27,7 @@ class AppExtension extends AbstractExtension
         return [
             new TwigFunction(name: 'pluralize', callable: [$this, 'pluralize']),
             new TwigFunction(name: 'format_price', callable: [$this, 'formatPrice']),
+            new TwigFunction(name: 'phone', callable: [$this, 'phone']),
         ];
     }
 
@@ -59,5 +60,15 @@ class AppExtension extends AbstractExtension
     public function html($html)
     {
         return $html;
+    }
+
+    public function phone($phone): string
+    {
+        // Return phone number like this: 06 12 34 56 78 instead of 0612345678
+        return substr($phone, offset: 0, length: 2)
+            . ' ' . substr($phone, offset: 2, length: 2)
+            . ' ' . substr($phone, offset: 4, length: 2)
+            . ' ' . substr($phone, offset: 6, length: 2)
+            . ' ' . substr($phone, offset: 8, length: 2);
     }
 }

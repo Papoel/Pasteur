@@ -1,104 +1,86 @@
 {% extends 'base.html.twig' %}
+{% block title %} Informations {{ user.firstname }} {{ user.lastname }} {% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('build/css/profile.css') }}">
+{% endblock %}
 {% block body %}
+{% include('components/_navbar.html.twig') %}
+    <div class="max-w-4xl flex items-center h-auto lg:h-screen flex-wrap mx-auto my-32 lg:my-0">
 
-    <div class="hidden sm:block" aria-hidden="true">
-        <div class="py-5">
-            <div class="border-t border-gray-200"></div>
-        </div>
-    </div>
+        <!--Main Col-->
+        <div id="profile" class="w-full lg:w-4/5 rounded-lg lg:rounded-l-lg lg:rounded-r-none shadow-2xl bg-white opacity-75 mx-6 lg:mx-0">
 
-    <div class="mt-10 sm:mt-0">
-        <div class="md:grid md:grid-cols-3 md:gap-6">
-            <div class="md:col-span-1">
-                <div class="px-4 sm:px-0">
-                    <h3 class="text-lg font-extrabold text-purple-degrade uppercase text-center">Informations Personnelles</h3>
-                    <p class="mt-1 text-sm text-gray-400 lead text-center">Renseigner vos données personnelles</p>
+
+            <div class="p-4 md:p-12 text-center lg:text-left">
+                <!-- ####################################### Nom Complet ########################################### -->
+                <h1 class="text-3xl font-bold pt-8 lg:pt-0">{{ user.firstname }} {{ user.lastname }}</h1>
+                <!-- Get the pseudo and align right -->
+                <h3>{{ user.pseudo }}</h3>
+
+                <div class="mx-auto lg:mx-0 w-4/5 pt-3 border-b-2 border-green-500 opacity-25"></div>
+                <!-- ######################################### Fonction ############################################ -->
+                <p class="pt-4 text-base font-bold flex items-center justify-center lg:justify-start">
+                    <svg class="h-4 fill-current text-green-700 pr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                        <path d="M9 12H1v6a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6h-8v2H9v-2zm0-1H0V5c0-1.1.9-2 2-2h4V2a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1h4a2 2 0 0 1 2 2v6h-9V9H9v2zm3-8V2H8v1h4z"/>
+                    </svg> {{ user.function }}</p>
+                <!-- ######################################### Adresse ############################################# -->
+                <p class="pt-2 text-gray-600 text-xs lg:text-sm flex items-center justify-center lg:justify-start">
+                    <svg class="h-4 fill-current text-green-700 pr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                        <path d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm7.75-8a8.01 8.01 0 0 0 0-4h-3.82a28.81 28.81 0 0 1 0 4h3.82zm-.82 2h-3.22a14.44 14.44 0 0 1-.95 3.51A8.03 8.03 0 0 0 16.93 14zm-8.85-2h3.84a24.61 24.61 0 0 0 0-4H8.08a24.61 24.61 0 0 0 0 4zm.25 2c.41 2.4 1.13 4 1.67 4s1.26-1.6 1.67-4H8.33zm-6.08-2h3.82a28.81 28.81 0 0 1 0-4H2.25a8.01 8.01 0 0 0 0 4zm.82 2a8.03 8.03 0 0 0 4.17 3.51c-.42-.96-.74-2.16-.95-3.51H3.07zm13.86-8a8.03 8.03 0 0 0-4.17-3.51c.42.96.74 2.16.95 3.51h3.22zm-8.6 0h3.34c-.41-2.4-1.13-4-1.67-4S8.74 3.6 8.33 6zM3.07 6h3.22c.2-1.35.53-2.55.95-3.51A8.03 8.03 0 0 0 3.07 6z"/>
+                    </svg>
+                    {{ user.address }} {% if user.complementAddress %} {{ user.complementAddress }} {% endif %}
+                    {{ user.postalCode }} {{ user.town|e }}
+                </p>
+                <!-- ####################################### Anniversaire ########################################## -->
+                <p class="pt-2 text-gray-600 text-xs lg:text-sm flex items-center justify-center lg:justify-start">
+                    <svg class="h-4 fill-current text-green-700 pr-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8.25v-1.5m0 1.5c-1.355 0-2.697.056-4.024.166C6.845 8.51 6 9.473 6 10.608v2.513m6-4.87c1.355 0 2.697.055 4.024.165C17.155 8.51 18 9.473 18 10.608v2.513m-3-4.87v-1.5m-6 1.5v-1.5m12 9.75l-1.5.75a3.354 3.354 0 01-3 0 3.354 3.354 0 00-3 0 3.354 3.354 0 01-3 0 3.354 3.354 0 00-3 0 3.354 3.354 0 01-3 0L3 16.5m15-3.38a48.474 48.474 0 00-6-.37c-2.032 0-4.034.125-6 .37m12 0c.39.049.777.102 1.163.16 1.07.16 1.837 1.094 1.837 2.175v5.17c0 .62-.504 1.124-1.125 1.124H4.125A1.125 1.125 0 013 20.625v-5.17c0-1.08.768-2.014 1.837-2.174A47.78 47.78 0 016 13.12M12.265 3.11a.375.375 0 11-.53 0L12 2.845l.265.265zm-3 0a.375.375 0 11-.53 0L9 2.845l.265.265zm6 0a.375.375 0 11-.53 0L15 2.845l.265.265z" />
+                    </svg>
+                    {{ user.birthday|format_date('medium') }}
+                </p>
+                <!-- ####################################### Téléphone ########################################## -->
+                <p class="pt-2 text-gray-600 text-xs lg:text-sm flex items-center justify-center lg:justify-start">
+                    <svg class="h-4 fill-current text-green-700 pr-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+                    </svg>
+                    {{ phone(user.telephone) }}
+                </p>
+                <!-- ######################################### Email ############################################# -->
+                <p class="pt-6 text-sm">
+                    L'association des parents d'élèves de l'école Pasteur de la ville de Rousies est la seule propriétaire
+                    de ce compte, les informations qui y sont contenues sont confidentielles et ne peuvent être utilisées
+                    à des fins commerciales.
+                </p>
+                <p class="pt-6 text-sm">
+                    L'association des parents d'élèves se réserve le droit exclusif de modifier les informations contenues
+                    et/ou de supprimer ce compte à tout moment.
+                </p>
+                <p class="pt-6 text-sm">
+                    L'adresse email utilisée <span class="text-indigo-500 font-semibold">{{ user.email }}</span> ne sert que pour accéder à cette application
+                    en tant que membre actif de l'association des parents d'élèves.
+                </p>
+                <!-- ################################### Bouton Télécharger ####################################### -->
+                <div class="pt-12 pb-8">
+                    <button class="bg-pink-600 hover:bg-pink-800 text-white font-bold py-2 px-4 rounded-full">
+                        Demander la suppression de ce compte
+                    </button>
                 </div>
+                <!-- ############################### Tableau des inscriptions ################################### -->
+                {% include('events/_registrationsEvent.html.twig') %}
+
             </div>
-            <div class="mt-5 md:col-span-2 md:mt-0 shadow-lg mx-4">
-                <form action="#" method="POST">
-                    <div class="overflow-hidden shadow sm:rounded-md">
-                        <div class="bg-white px-4 py-5 sm:p-6">
-                            <div class="grid grid-cols-6 gap-6">
-                                <div class="col-span-6 sm:col-span-3">
-                                    <label for="first-name" class="block text-sm font-medium text-gray-700">
-                                        First name
-                                    </label>
-                                    <input type="text" name="first-name" id="first-name" autocomplete="given-name"
-                                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                                </div>
 
-                                <div class="col-span-6 sm:col-span-3">
-                                    <label for="last-name" class="block text-sm font-medium text-gray-700">Last
-                                        name</label>
-                                    <input type="text" name="last-name" id="last-name" autocomplete="family-name"
-                                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                                </div>
-
-                                <div class="col-span-6 sm:col-span-4">
-                                    <label for="email-address" class="block text-sm font-medium text-gray-700">Email
-                                        address</label>
-                                    <input type="text" name="email-address" id="email-address" autocomplete="email"
-                                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                                </div>
-
-                                <div class="col-span-6 sm:col-span-3">
-                                    <label for="country" class="block text-sm font-medium text-gray-700">Country</label>
-                                    <select id="country" name="country" autocomplete="country-name"
-                                            class="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
-                                        <option>United States</option>
-                                        <option>Canada</option>
-                                        <option>Mexico</option>
-                                    </select>
-                                </div>
-
-                                <div class="col-span-6">
-                                    <label for="street-address" class="block text-sm font-medium text-gray-700">Street
-                                        address</label>
-                                    <input type="text" name="street-address" id="street-address"
-                                           autocomplete="street-address"
-                                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                                </div>
-
-                                <div class="col-span-6 sm:col-span-6 lg:col-span-2">
-                                    <label for="city" class="block text-sm font-medium text-gray-700">City</label>
-                                    <input type="text" name="city" id="city" autocomplete="address-level2"
-                                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                                </div>
-
-                                <div class="col-span-6 sm:col-span-3 lg:col-span-2">
-                                    <label for="region" class="block text-sm font-medium text-gray-700">State /
-                                        Province</label>
-                                    <input type="text" name="region" id="region" autocomplete="address-level1"
-                                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                                </div>
-
-                                <div class="col-span-6 sm:col-span-3 lg:col-span-2">
-                                    <label for="postal-code" class="block text-sm font-medium text-gray-700">ZIP /
-                                        Postal code</label>
-                                    <input type="text" name="postal-code" id="postal-code" autocomplete="postal-code"
-                                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-gray-50 px-4 py-3 text-right sm:px-6">
-                            <button type="submit"
-                                    class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                                Save
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
         </div>
-    </div>
 
-    <div class="hidden sm:block" aria-hidden="true">
-        <div class="py-5">
-            <div class="border-t border-gray-200"></div>
+        <!--Img Col-->
+        <div class="w-full lg:w-1/5">
+            <!-- Big profile image for side bar (desktop) -->
+            <img src="https://lorempokemon.fakerapi.it/pokemon" class="rounded-none lg:rounded-lg shadow-2xl hidden lg:block">
+            <!-- Image from: http://unsplash.com/photos/MP0IUfwrn0A -->
         </div>
+
     </div>
 
 {% endblock %}

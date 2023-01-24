@@ -1,0 +1,64 @@
+<div class="w-full overflow-hidden rounded-lg shadow-xs">
+    <div class="w-full overflow-x-auto">
+        <table class="w-full">
+            <thead>
+            <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                <th class="px-4 py-3">Événement</th>
+                <th class="px-4 py-3">Prix</th>
+                <th class="px-4 py-3">Payé</th>
+                <th class="px-4 py-3">Nom des inscrits</th>
+                <th class="px-4 py-3">Inscrit</th>
+            </tr>
+            </thead>
+            <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                {% for registration in registrations %}
+                <tr class="bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900
+                    text-gray-700 dark:text-gray-400">
+                    <td class="px-4 py-3">
+                        <div class="flex items-center text-sm">
+                            <div>
+                                <p class="font-semibold text-sm">{{ registration.fullname }}</p>
+                                <p class="text-xs text-gray-600 dark:text-gray-400">
+                                    {{ registration.children|length }}
+                                    {{ pluralize(registration.children|length, 'enfant', 'enfants') }}
+                                    {{ pluralize(registration.children|length, 'inscrit', 'inscrits') }}
+                                </p>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-xs text-gray-600 dark:text-gray-400">
+                        {% if registration.event.price  == 0 %}
+                            Gratuit
+                        {% else %}
+                            {{ (registration.event.price / 100) * (registration.children|length) }} €
+                        {% endif %}
+                    </td>
+                    <td class="px-4 py-3 text-xs">
+                        {% if registration.isPaid == 1 or registration.event.price == 0 %}
+                            <span>
+                                {% if registration.event.price  == 0 %}
+                                    Gratuit
+                                {% else %}
+                                    ✅
+                                {% endif %}
+                            </span>
+                        {% else %}
+                            ❌
+                        {% endif %}
+                    </td>
+                    <td class="px-4 py-3 text-sm">
+                        {% for child in registration.children %}
+                            <p class="text-xs text-gray-600 dark:text-gray-400">{{ child.firstname }} {{ child.lastname }}</p>
+                        {% endfor %}
+                    </td>
+                    <td class="px-4 py-3 text-sm">
+                        <p class="text-xs text-gray-600 dark:text-gray-400">
+                            {{ registration.createdAt|format_date('short') }}
+                        </p>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
