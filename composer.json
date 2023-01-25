@@ -94,6 +94,7 @@
     "scripts": {
         "phpstan": "vendor/bin/phpstan -c phpstan.neon",
         "auto-scripts": {
+            "vendor/bin/requirements-checker": "php-script",
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd",
             "ckeditor:install": "symfony-cmd",
