@@ -20,7 +20,7 @@ class MailService
         string $subject,
         string $htmlTemplate,
         array $context,
-        string $to = 'admin@aperp.fr',
+        string $to = 'contact@aperp.info',
     ): void {
         $email = (new TemplatedEmail());
         $email->from($from);
