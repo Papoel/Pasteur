@@ -6,48 +6,6 @@
 
 ## Description des fonctionnalités
 
-#### En tant qu'utilisateur je peux :
-
-- Inscrire un ou plusieurs enfants à une activité
-- Payer en ligne via un client Stripe
-- Annuler une inscription
-- Envoyer un message à l'APE
-
-#### En tant que Président je peux :
-
-- Créer des membres actifs qui pourront se connecter à l'application (détail plus bas)
-- Consulter et répondre aux emails envoyés depuis l'application (page Contact)
-- Consulter, Modifier, Créer, Supprimer un utilisateur
-- Consulter, Modifier, Créer, Supprimer un événement
-- Consulter, Modifier, Créer, Supprimer une inscription à un événement
-
-#### En tant que __SECRÉTAIRE ou TRÉSORIER__
-
-- Consulter, Modifier, Créer, Supprimer un utilisateur
-- Consulter, Modifier, Créer, Supprimer un événement
-- Consulter, Modifier, Créer, Supprimer une inscription à un événement
-
-#### En tant que Membre actif (personne ayant un compte crée par le Président(e))
-
-- Lorsqu'un événement est créé il peut être publié, mais visible uniquement pour les membres de l'association.
-- Certains événements demandent une organisation complexe le Président a donc la possibilité lorsqu'il crée
-  un événement de __demander de l'aide aux membres de l'APE__ et de choisir des creneaux d'aide.
-- Un Membre pourra donc s'enregistrer à un événement, choisir une activité parmi (Installation, Vente et Rangement)
-  puis sélectionner un ou plusieurs créneaux horaires définis par le Président de l'association.
-
-#### Autre ROLE
-
-- Un autre rôle est présent dans l'application : __WEBMASTER__, ce compte est destiné au développeur
-  des fonctionnalités de gestion et consultations seront développéS ultérieurement.
-
-#### Détails Utilisateur
-
-- À la demande du client, un visiteur ne pourra jamais s'inscrire sur le site, en revanche lorsqu'un visiteur
-  inscrit un ou plusieurs enfants à un événement son nom, prénom, email et téléphone lui sont demandés
-  dans le but d'obtenir une fiche contact dans le cas ou l'APE devrait contacter un responsable légal.
-
-👉 L'admin donne la possibilité de s'enregistrer ou non à un événement.
-
 ## Exécuter en Local
 
 Clone le projet
