@@ -1,4 +1,4 @@
-# Pasteur
+# Association des parents d'élèves de Pasteur
 
 [![Symfony 6 - Pipeline CI-CD](https://github.com/Papoel/Pasteur/actions/workflows/code-quality.yml/badge.svg?event=push)](https://github.com/Papoel/Pasteur/actions/workflows/code-quality.yml)
 [![wakatime](https://wakatime.com/badge/user/b00c68bd-cbed-409e-a2c0-719a6f4ea11a/project/f2d13658-b577-42e4-92ad-be17b34bbe17.svg)](https://wakatime.com/badge/user/b00c68bd-cbed-409e-a2c0-719a6f4ea11a/project/f2d13658-b577-42e4-92ad-be17b34bbe17)
