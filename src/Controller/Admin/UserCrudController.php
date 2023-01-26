@@ -88,20 +88,19 @@ class UserCrudController extends AbstractCrudController
             ->setColumns(cols: 'col-12 col-sm-4')
         ;
 
-        /*yield ChoiceField::new(propertyName: 'roles', label: 'Rôle')
+        yield ChoiceField::new(propertyName: 'roles', label: 'Rôle')
             ->setChoices([
-                'ADMIN' => 'ROLE_ADMIN',
-                'SUPER ADMIN' => 'ROLE_SUPER_ADMIN',
-                'TEAM APE' => 'ROLE_USER',
+                'MEMBRE' => 'ROLE_ADMIN',
+                'ADMINISTRATEUR' => 'ROLE_SUPER_ADMIN',
             ])
             ->allowMultipleChoices()
             ->renderAsBadges([
                 'ROLE_SUPER_ADMIN' => 'danger',
                 'ROLE_ADMIN' => 'success',
-                'ROLE_USER' => 'info',
             ])
             ->setColumns(cols: 'col-12 col-sm-4')
-        ;*/
+            ->hideOnIndex()
+        ;
 
         yield ChoiceField::new(propertyName: 'function', label: 'Fonction')
             ->renderAsBadges([
