@@ -8,7 +8,7 @@
 
 ## Exécuter en Local
 
-Clone le projet 
+Cloner le projet 
 
 ```bash
   git clone https://github.com/Papoel/Pasteur.git
