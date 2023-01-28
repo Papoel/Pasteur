@@ -14,11 +14,17 @@
 
     # https redirect
     RewriteCond %{HTTPS} !=on
-    RewriteRule .* https://www.%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+    RewriteRule .* https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
     # redirect all requests to public directory
     RewriteCond %{REQUEST_URI} !public/
     RewriteRule (.*) /public/$1 [L]
+
+    # https://www.webrankinfo.com/dossiers/techniques/redirection-http-https
+    #RewriteCond %{HTTPS} off [OR]
+    #RewriteCond %{HTTP_HOST} !^www\. [NC]
+    #RewriteCond %{HTTP_HOST} ^(?:www\.)?(.+)$ [NC]
+    #RewriteRule ^.*$ https://www.%1%{REQUEST_URI} [L,NE,R=301]
 </IfModule>
 
 <FilesMatch "\.(php4|php5|php3|php2|php|phtml)$">

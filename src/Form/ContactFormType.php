@@ -75,12 +75,12 @@ class ContactFormType extends AbstractType
                 'attr' => [
                     'class' => 'btn-purple-degrade rounded text-lg py-1 px-3 block ml-3 ',
                 ],
-            ])
-            ->add(child: 'captcha', type: Recaptcha3Type::class, options: [
+            ]);
+            /*->add(child: 'captcha', type: Recaptcha3Type::class, options: [
                 'constraints' => new Recaptcha3(),
                 'action_name' => 'contact',
                 'locale' => 'fr',
-            ]);
+            ]);*/
     }
 
     public function configureOptions(OptionsResolver $resolver): void
