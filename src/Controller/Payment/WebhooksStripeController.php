@@ -50,11 +50,11 @@ class WebhooksStripeController extends AbstractController
             // file_put_contents(filename: 'checkout.completed', data: $event);
 
             $registrationEventSlug = $metadata['evenement_slug'];
-            $eventRegistered = $em->getRepository(entityName: Event::class)
+            $eventRegistered = $em->getRepository(Event::class)
                 ->findOneBy(['slug' => $registrationEventSlug]);
 
             $registrationId = $metadata['inscription_id'];
-            $registration = $em->getRepository(entityName: RegistrationEvent::class)
+            $registration = $em->getRepository(RegistrationEvent::class)
                 ->findOneBy(['id' => $registrationId]);
 
             // Passer à true le champ Paid de la table RegistrationEvent
