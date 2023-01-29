@@ -108,6 +108,7 @@ class UserCrudController extends AbstractCrudController
             'Vice-Président' => 'danger',
             'Webmaster' => 'dark',
             'Secrétaire' => 'success',
+            'Vice-Secrétaire' => 'success',
             'Trésorier' => 'warning',
             'Vice-Trésorier' => 'warning',
             'Membre' => 'info',
