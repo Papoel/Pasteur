@@ -105,15 +105,20 @@ class UserCrudController extends AbstractCrudController
         yield ChoiceField::new(propertyName: 'function', label: 'Fonction')
             ->renderAsBadges([
             'Président' => 'danger',
+            'Vice-Président' => 'danger',
             'Webmaster' => 'dark',
             'Secrétaire' => 'success',
             'Trésorier' => 'warning',
+            'Vice-Trésorier' => 'warning',
             'Membre' => 'info',
             ])
             ->setChoices([
                 'PRESIDENT' => 'Président',
+                'VICE_PRESIDENT' => 'Vice-Président',
                 'SECRETAIRE' => 'Secrétaire',
+                'VICE_SECRETAIRE' => 'Vice-Secrétaire',
                 'TRESORIER' => 'Trésorier',
+                'VICE_TRESORIER' => 'Vice-Trésorier',
                 'WEBMASTER' => 'Webmaster',
                 'MEMBRE ACTIF' => 'Membre',
             ])
