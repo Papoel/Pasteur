@@ -22,7 +22,7 @@ class EventRegistrationFormType extends AbstractType
                     'class' => 'block text-gray-500 uppercase tracking-wider text-sm font-bold',
                 ],
                 'attr' => [
-                    'placeholder' => 'Bruce Wayne',
+                    'placeholder' => 'Bruce',
                     'class' => 'w-full bg-white rounded focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 
                     text-base 
                         outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out
@@ -37,7 +37,7 @@ class EventRegistrationFormType extends AbstractType
                     'class' => 'block text-gray-500 uppercase tracking-wider text-sm font-bold',
                 ],
                 'attr' => [
-                    'placeholder' => 'Bruce Wayne',
+                    'placeholder' => 'Wayne',
                     'class' => 'w-full bg-white rounded focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 
                     text-base 
                         outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out
