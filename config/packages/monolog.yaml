@@ -52,6 +52,7 @@ when@prod:
                 level: error
                 max_files: 30
             deprecation:
-                type: stream
+                type: rotating_file
                 channels: [deprecation]
-                path: "%kernel.logs_dir%/%kernel.deprecation%.log"
+                path: "%kernel.logs_dir%/%kernel.environment%-deprecation.log"
+                max_files: 30
