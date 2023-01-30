@@ -60,3 +60,7 @@ time, mark, audio, video
         max-height: 165px;
     }
 }
+
+.active {
+    @apply bg-gradient-to-br from-purple-600 to-blue-500 text-white;
+}
