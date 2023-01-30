@@ -9,16 +9,17 @@
     <body class="bg-gray-900 text-gray-400">
     <div class="container">
         <h1 class="text-red-800 text-5xl">
-            Suppression du compte de {{ username }}
+            Suppression du compte de {{ contact.fullname }}
         </h1>
     </div>
 
     <p class="font-semibold">
-        Bonjour {{ username}} a fait la demande de suppression de son compte.
+        Bonjour {{ contact.fullname }} a fait la demande de suppression de son compte le
+        {{ contact.createdAt|date('d/m/Y') }} à {{ contact.createdAt|date('H:i', 'europe/paris') }}.
     </p>
 
     <p class="pt-8">
-        Une fois que le compte sera supprimé pensez à prévenir {{ username }} que sa demande a été prise en compte.
+        Une fois que le compte sera supprimé pensez à prévenir {{ contact.fullname }} que sa demande a été prise en compte.
     </p>
 
     {#<div>

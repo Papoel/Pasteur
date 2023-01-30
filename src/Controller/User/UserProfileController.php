@@ -2,14 +2,15 @@
 
 namespace App\Controller\User;
 
+use App\Entity\Contact\Contact;
 use App\Entity\User\User;
 use App\Repository\Event\RegistrationEventRepository;
 use App\Services\MailService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -37,32 +38,39 @@ class UserProfileController extends AbstractController
 
     #[Route('/user/profile/delete', name: 'app_user_profile_delete')]
     #[isGranted('ROLE_ADMIN')]
-    public function DeleteAccount(): Response
+    public function delete(MailService $mailService, EntityManagerInterface $entityManager): Response
     {
-        /** @var User $user */
-        $user = $this->getUser();
+        $contact = new Contact();
+        /** @var User $currentUser */
+        $currentUser = $this->getUser();
 
-        $email = (new TemplatedEmail())
-            ->from($user->getEmail())
-            ->to(new Address(address: 'aperousiespasteur@gmail.com'))
-            ->subject(subject: 'Demande de suppression de compte!')
+        $contact->setFullName($currentUser->getFullName());
+        $contact->setEmail($currentUser->getEmail());
+        $contact->setSubject(subject: 'Demande de suppression de compte');
+        $contact->setMessage($currentUser->getFullName() .' demande de suppression de son compte APERP');
+        $contact->setIsReplied(isReplied: true);
 
-            // path of the Twig template to render
-            ->htmlTemplate(template: 'emails/delete_account.html.twig')
+        $entityManager->persist($contact);
+        $entityManager->flush();
 
-            // pass variables (name => value) to the template
-            ->context([
-                'username' => $user->getFirstname() . ' ' . $user->getLastname(),
-            ]);
+        $mailService->sendEmail(
+            from: $contact->getEmail(),
+            subject: $contact->getSubject(),
+            htmlTemplate: 'emails/delete_account.html.twig',
+            context: [
+                'contact' => $contact,
+            ],
+        );
 
-            $this->mailer->send($email);
+        $this->addFlash(
+            type: 'success',
+            message: 'Votre demande de suppression de compte a bien été transmise à l\'administrateur du site.'
+        );
 
-            $this->addFlash(
-                type: 'success',
-                message: 'Votre demande de suppression de compte a bien été transmise à l\'administrateur du site.'
-            );
+        return $this->redirectToRoute(route: 'app_user_profile', parameters: [
+            'user' => $currentUser,
+        ]);
 
-        return $this->redirectToRoute(route: 'app_user_profile');
     }
 
     // CGU
