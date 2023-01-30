@@ -103,12 +103,8 @@ class ContactCrudController extends AbstractCrudController
             ->remove(pageName: Crud::PAGE_INDEX, actionName: Action::NEW)
             ->remove(pageName: Crud::PAGE_INDEX, actionName: Action::EDIT)
             ->remove(pageName: Crud::PAGE_DETAIL, actionName: Action::EDIT)
-            ->disable(Action::NEW, Action::DELETE)
             ->add(pageName: Crud::PAGE_INDEX, actionNameOrObject: 'detail')
-            ->add(Crud::PAGE_DETAIL, $email_response)
-            /*->add(pageName: Crud::PAGE_DETAIL, actionNameOrObject: $email_response[
-                'displayIf' => fn (Contact $contact): bool => !$contact->getIsReplied(),
-            ])*/
+            ->add(pageName: Crud::PAGE_DETAIL, actionNameOrObject: $email_response)
 
             ->setPermission(actionName: 'contact', permission: 'ROLE_SUPER_ADMIN');
     }
@@ -148,7 +144,5 @@ class ContactCrudController extends AbstractCrudController
         return $this->forward(controller: 'App\Controller\Admin\Contact\EmailResponseController::index', path: [
             'entityId' => $entityId,
         ]);
-        // return $this->redirectToRoute(route: 'app_response_message');
-        // return $this->render(view: 'admin/contact/response.html.twig');
     }
 }
