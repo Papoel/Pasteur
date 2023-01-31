@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Now the "Super Admin" can delete a messages from the user
 - Configuration Monolog for intercept error in PROD + deprecation message
 - Admin can delete registration
+- Command for add new user from terminal
 
 ### Changed
 
@@ -52,3 +53,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## v-1.0.0 - 28-01-2023
 > The project is deployed.
+
+---
+
+# Bug report
+
+Admin sur les cartes détails d'événements je ne vois pas le seul insrit pour l'événement
