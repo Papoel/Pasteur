@@ -57,7 +57,6 @@ class RegistrationEvent
     private bool $Paid = false;
 
     #[ORM\ManyToOne(inversedBy: 'registrationEvents')]
-    #[Assert\Valid]
     private Event $event;
 
     #[ORM\OneToMany(

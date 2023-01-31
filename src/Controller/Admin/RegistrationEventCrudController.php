@@ -19,6 +19,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class RegistrationEventCrudController extends AbstractCrudController
 {
+    public const DUMP = 'dump';
+
     public static function getEntityFqcn(): string
     {
         return RegistrationEvent::class;
@@ -28,25 +30,19 @@ class RegistrationEventCrudController extends AbstractCrudController
     {
         return $crud
             ->setEntityLabelInSingular(label: 'Inscription à un événement')
-
             ->setEntityLabelInPlural(label: 'Inscriptions aux événements')
-
             ->setPageTitle(pageName: 'index', title: '📆 Aperp - Inscriptions aux événements')
-
             ->setPaginatorPageSize(maxResultsPerPage: 20)
-
             ->setDateTimeFormat(
                 dateFormatOrPattern: dateTimeField::FORMAT_LONG,
                 timeFormat: dateTimeField::FORMAT_SHORT
             )
-
             ->setPageTitle(
                 pageName: 'detail',
                 title: fn (RegistrationEvent $registrationEvent) => '📇 Inscription - ' . $registrationEvent
                         ->getEvent()
                         ->getName()
             )
-
             ->setPageTitle(
                 pageName: 'edit',
                 title: fn (RegistrationEvent $registrationEvent) => sprintf(
@@ -55,12 +51,10 @@ class RegistrationEventCrudController extends AbstractCrudController
                     $registrationEvent->getFullname()
                 )
             )
-
             ->setPageTitle(
                 pageName: 'new',
-                title: 'Organiser un nouvel événement 🎉'
+                title: 'Inscription à un événement 🎉'
             )
-
             ->setFormOptions([
                 'validation_groups' => ['Default'],
             ])
@@ -69,8 +63,16 @@ class RegistrationEventCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
+        /*$dump = Action::new(name: self::DUMP, label: 'Dump', icon: 'fa fa-dumpster')
+            ->linkToCrudAction(crudActionName: 'dumpFunction')
+            ->setCssClass(cssClass: 'btn btn-danger')
+            ->setIcon(icon: 'fa fa-dumpster')
+        ;*/
+
         return $actions
-            ->add(pageName: Crud::PAGE_INDEX, actionNameOrObject: 'detail');
+            ->add(pageName: Crud::PAGE_INDEX, actionNameOrObject: 'detail')
+            //->add(Crud::PAGE_EDIT, $dump)
+        ;
     }
 
     public function configureFields(string $pageName): iterable
@@ -91,12 +93,17 @@ class RegistrationEventCrudController extends AbstractCrudController
         ;
 
         yield EmailField::new(propertyName: 'email', label: 'Email')
-            ->setColumns(cols: 'col-12 col-sm-6')
+            ->setColumns(cols: 'col-12 col-sm-4')
         ;
 
         yield AssociationField::new(propertyName: 'event', label: 'Événement')
             ->setColumns(cols: 'col-12 col-sm-4')
             ->setCrudController(crudControllerFqcn: EventCrudController::class)
+        ;
+
+        yield BooleanField::new(propertyName: 'paid', label: 'Payé')
+            ->renderAsSwitch(isASwitch: false)
+            ->setColumns(cols: 'col-12 col-sm-4')
         ;
 
         yield CollectionField::new(propertyName: 'children', label: 'Enfants')
@@ -105,12 +112,20 @@ class RegistrationEventCrudController extends AbstractCrudController
             ->setEntryIsComplex()
             ->setTemplatePath(path: 'admin/registration/add_children.html.twig')
         ;
-
-        yield BooleanField::new(propertyName: 'paid', label: 'Payé')
-
-            ->renderAsSwitch(isASwitch: false);
     }
 
+    public function deleteEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        if (!$entityInstance instanceof RegistrationEvent) {
+            return;
+        }
+
+        foreach ($entityInstance->getChildren() as $child) {
+            $entityManager->remove($child);
+        }
+
+        parent::deleteEntity($entityManager, $entityInstance);
+    }
     public function persistEntity(EntityManagerInterface $em, $entityInstance): void
     {
         if (!$entityInstance instanceof RegistrationEvent) {
@@ -121,4 +136,10 @@ class RegistrationEventCrudController extends AbstractCrudController
 
         parent::persistEntity($em, $entityInstance);
     }
+
+    /*public function dumpFunction(AdminContext $context):response
+    {
+        $entity = $context->getEntity()->getInstance()->getEvent();
+        dd($context);
+    }*/
 }
