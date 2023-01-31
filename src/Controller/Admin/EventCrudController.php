@@ -16,7 +16,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 
@@ -91,7 +91,7 @@ class EventCrudController extends AbstractCrudController
             ->setColumns(cols: 'col-12 col-sm-6')
         ;
 
-        yield TextareaField::new(propertyName: 'description', label: 'Décrivez l\'événement')
+        yield TextEditorField::new(propertyName: 'description', label: 'Décrivez l\'événement')
             ->hideOnIndex()
             ->setColumns(cols: 'col-12')
         ;
@@ -154,7 +154,6 @@ class EventCrudController extends AbstractCrudController
             ->setColumns(cols: 'col-12 col-sm-4')
         ;
 
-        // if capacity == 0 then display 'COMPLET' with background red and text red on index
         yield IntegerField::new(propertyName: 'capacity', label: 'Places disponibles')
             ->setColumns(cols: 'col-12 col-sm-4')
             ->setCustomOption(optionName: 'fullColor', optionValue: 'red')
@@ -172,6 +171,7 @@ class EventCrudController extends AbstractCrudController
             ->setBasePath($this->uploadDir)
             ->hideOnForm()
             ->setColumns(cols: 'col-12')
+            ->setSortable(isSortable: false)
         ;
     }
 
