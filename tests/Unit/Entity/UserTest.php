@@ -158,10 +158,10 @@ class UserTest extends KernelTestCase
 
         $this->assertValidationErrorsCount(entity: $userComplementAddress, count: 1);
     }
-    public function testComplementAddressIsSmallerThan5Characters(): void
+    public function testComplementAddressIsSmallerThan4Characters(): void
     {
-        $userComplementAddress = $this->getEntityUser()->setComplementAddress(complementAddress: 'cool');
-        self::assertSame(expected: 'cool', actual: $userComplementAddress->getComplementAddress());
+        $userComplementAddress = $this->getEntityUser()->setComplementAddress(complementAddress: 'WTF');
+        self::assertSame(expected: 'WTF', actual: $userComplementAddress->getComplementAddress());
 
         $this->assertValidationErrorsCount(entity: $userComplementAddress, count: 1);
     }

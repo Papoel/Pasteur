@@ -90,7 +90,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 200, nullable: true)]
     #[Assert\Length(
-        min: 5,
+        min: 4,
         max: 200,
         minMessage: 'Le complément d\'adresse doit comporter au moins {{ limit }} caractères.',
         maxMessage: ' Le complément d\'adresse ne peut pas comporter plus de {{ limit }} caractères.'
