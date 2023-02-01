@@ -30,7 +30,7 @@ class UserProfileController extends AbstractController
 
         // Get all data from user for profile page RGPD rules
 
-        return $this->render(view: 'User/profile.html.twig', parameters: [
+        return $this->render(view: 'user/profile.html.twig', parameters: [
             'user' => $user,
             'registrations' => $registrations,
         ]);
@@ -77,6 +77,6 @@ class UserProfileController extends AbstractController
     #[Route('/user/profile/cgu', name: 'app_cgu')]
     public function cgu(): Response
     {
-        return $this->render(view: 'User/cgu.html.twig');
+        return $this->render(view: 'user/cgu.html.twig');
     }
 }
