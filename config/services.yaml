@@ -10,6 +10,7 @@ parameters:
     STRIPE_KEY_SECRET: '%env(resolve:STRIPE_KEY_SECRET)%'
     STRIPE_KEY_PUBLIC: '%env(resolve:STRIPE_KEY_PUBLIC)%'
     STRIPE_WEBHOOK_SECRET: '%env(resolve:STRIPE_WEBHOOK_SECRET)%'
+    maintenance_file: '%kernel.project_dir%/public/.maintenance'
 
 services:
     # default configuration for services in *this* file
@@ -30,3 +31,9 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    App\EventListener\MaintenanceListener:
+        arguments:
+            - '%maintenance_file%'
+            - '@twig'
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
