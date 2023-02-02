@@ -30,7 +30,7 @@ class RecapPaymentController extends AbstractController
 
         $STRIPE_KEY_PUBLIC = $this->getParameter(name: 'STRIPE_KEY_PUBLIC');
 
-        return $this->render(view: 'stripe/recap.html.twig', parameters: [
+        return $this->render(view: 'stripe/order/order.html.twig', parameters: [
             'stripe_key' => $STRIPE_KEY_PUBLIC ,
             'event' => $eventRegistered ,
             'reservedPlaces' => $reservedPlaces ,
