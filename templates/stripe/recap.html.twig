@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+{% block title %} Résumé inscription {% endblock %}
 {% block body %}
     {% include('components/_navbar.html.twig') %}
     <div class="w-full bg-white border rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
@@ -34,7 +35,7 @@
                     {{ event.name }}
                 </h2>
                 <p class="mb-3 text-gray-500 dark:text-gray-400">
-                    {{ event.description }}
+                    {{ event.description|striptags }}
                 </p>
             </div>
             <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="services" role="tabpanel"
