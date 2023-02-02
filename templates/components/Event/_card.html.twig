@@ -77,7 +77,7 @@
                 <hr>
 
                 <p class="text-gray-700 text-base p-6">
-                    {{ event.description|u.truncate(75, '...', false) }}
+                    {{ event.description|u.truncate(75, '...', false)|striptags }}
                 </p>
 
                 <div class="flex justify-center mb-8">
