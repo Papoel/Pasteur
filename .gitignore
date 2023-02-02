@@ -5,8 +5,8 @@
 
 ###> symfony/framework-bundle ###
 /.env.local
-/.env.local.php
 /.env.*.local
+/.env.local.php
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
 /var/
@@ -39,3 +39,8 @@ yarn-error.log
 /public/uploads/
 /assets/uploads/
 ##< assets/uploads ###
+
+##> build/prod ###
+/public/build/entrypoints.json
+/public/build/manifest.json
+##< build/prod ###

@@ -17,7 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Fix bug on page UserProfile format phone Twig.
-- Fix missing filter Twig for format html tags in description event. 
+- Fix missing filter Twig for format html tags in description event.
+- Add Maintenance page for the website.
 
 
 ## v-1.1.1 - (30-01-2023)
