@@ -16,10 +16,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Fix bug on page UserProfile format phone Twig.
-- Fix missing filter Twig for format html tags in description event.
-- Add Maintenance page for the website.
+## v-1.1.2 - (02-02-2023)
 
+### Added
+
+- New template for payment after registration.
+- Add alert message for prevent user of the site is soon in maintenance.
 
 ## v-1.1.1 - (30-01-2023)
 
@@ -31,6 +33,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Configuration Monolog for intercept error in PROD + deprecation message
 - Admin can delete registration
 - Command for add new user from terminal
+- Fix bug on page UserProfile format phone Twig.
+- Fix missing filter Twig for format html tags in description event.
+- Add Maintenance page for the website.
 
 ### Changed
 
