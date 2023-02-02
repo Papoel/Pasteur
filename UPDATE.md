@@ -7,13 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
-### Added
+### Wish
 
 - Sell Products like cake pie, or other products 
 
+### Added
+ - /
+
 ### Fixed
 
----
+- Fix bug on page UserProfile format phone Twig.
+- Fix missing filter Twig for format html tags in description event. 
+
 
 ## v-1.1.1 - (30-01-2023)
 
