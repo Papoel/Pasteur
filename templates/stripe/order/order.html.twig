@@ -142,9 +142,11 @@
                                 <p class="text-base dark:text-white font-semibold leading-4 text-left text-gray-800">
                                     {{ registration.fullname }}
                                 </p>
-                                <p class="text-sm dark:text-gray-300 leading-5 text-gray-600">
-                                    {{ phone(registration.telephone) }}
-                                </p>
+                                {% if registration.telephone %}
+                                    <p class="text-sm dark:text-gray-300 leading-5 text-gray-600">
+                                        {{ phone(registration.telephone) }}
+                                    </p>
+                                {% endif %}
                             </div>
                         </div>
 
