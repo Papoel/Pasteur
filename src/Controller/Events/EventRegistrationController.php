@@ -115,7 +115,7 @@ class EventRegistrationController extends AbstractController
             ));
         }
 
-        return $this->renderForm(view: 'events/registrations/registration-event.html.twig', parameters: [
+        return $this->render(view: 'events/registrations/registration-event.html.twig', parameters: [
             'event' => $event ,
             'form' => $form ,
         ]);
