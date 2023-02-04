@@ -430,8 +430,8 @@ first-install: ## First install.
 
 # create .env.local file and set APP_ENV=dev
 env-local:
-	touch .env.local
-	@echo "DATABASE_URL=$(DATABASE_URL)" > .env.local
+	touch .env.dev.local
+	@echo "DATABASE_URL=$(DATABASE_URL)" > .env.dev.local
 .PHONY: dev-env
 
 # Ne lancer les tests que dans un seul dossier :
