@@ -3,8 +3,6 @@ on:
   push:
     branches:
       - main
-  pull_request:
-
 jobs:
   symfony:
     name: Symfony 6.1 (PHP ${{ matrix.php-versions }})
@@ -24,20 +22,22 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
         # DATABASE_URL
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
-        php-versions: ['8.1']
+        php-versions: ['8.0', '8.1', '8.2']
     steps:
       # —— Setup GitHub actions 🐙 —————————————————————————————————————————————
       # https://github.com/actions/checkout (official)
-      - name: Checkout
+      - name: Git checkout placeholder-service
         uses: actions/checkout@v3
 
       # https://github.com/shivammathur/setup-php (community)
-      - name: Setup PHP, extensions and composer with shivammathur/setup-php
+      - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
+          coverage: none
+          tools: composer:v2
           extensions: mbstring, xml, ctype, iconv, intl, pdo, pdo_mysql, dom, filter, gd, iconv, json
         env:
           update: true
@@ -71,19 +71,22 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Install Composer dependencies
-        run: make install
+        run: composer install
 
       ## —— Coding standards ✨ ————————————————————————————————————————————————
-      - name: Run php-cs-fixer
-        run: |
-          make fix-php
-          make lint-php
+#      - name: Run php-cs-fixer
+#        run: |
+#          make fix-php
+#          make lint-php
+      - name: PHP-CS-Fixer
+        uses: docker://oskarstark/php-cs-fixer-ga
+        with:
+          args: --config=.php_cs.dist --diff --dry-run
 
       ## —— Static analysis ✨ —————————————————————————————————————————————————
-      - name: Run php-stan
+      - name: Dump test env
         run: |
           php bin/console about --env=test
-          make stan-1
 
       # —— Symfony 🎵 ——————————————————————————————————————————————————————————
       - name: Check Symfony requirements
@@ -92,7 +95,7 @@ jobs:
       - name: Check the Symfony console
         run: |
           APP_ENV=test php bin/console cache:clear
-          php bin/console about
+          php bin/console -V
 
       ## —— Tests ✅ ———————————————————————————————————————————————————————————
       - name: Run functional and unit tests
@@ -101,4 +104,4 @@ jobs:
           php bin/console doctrine:database:drop --force --env=test --if-exists
           php bin/console doctrine:database:create --env=test
           php bin/console doctrine:schema:update --env=test --force
-          php vendor/phpunit/phpunit/phpunit --testdox
+          php vendor/phpunit/phpunit/phpunit --testdox --colors=always
