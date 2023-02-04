@@ -1,6 +1,6 @@
 # Paramètre
 SHELL         = sh
-PROJECT       = Pasteur
+PROJECT       = pasteur
 GIT_AUTHOR    = Papoel
 HTTP_PORT     = 8000
 HOST_NAME	  = 127.0.0.1
@@ -94,7 +94,6 @@ cc: ## Videz le cache
 	$(SYMFONY) cache:clear
 	$(SYMFONY) cache:clear --no-warmup
 	$(SYMFONY) cache:warmup
-
 .PHONY: cc
 
 sf-dc: ## Create symfony database.
@@ -199,10 +198,6 @@ init-db: ## Construire la base de données, contrôler la validité des schémas
 .PHONY: init-db
 
 ## —— Tests ✅                    ———————————————————————————————————————————————————————————————————————————————————————————————————————————
-test: ## Créer un test avec la commande make test
-	$(SYMFONY) make:test
-.PHONY: test
-
 # Execute the tests in folder tests/Unit or tests/Functional according to answer of the user
 test-unit: ## Exécutez les tests unitaires
 	@echo "\n==> Exécution des Tests Unitaires <==\n"
