@@ -93,6 +93,7 @@
         "symfony/polyfill-php81": "*"
     },
     "scripts": {
+        "tests": "php bin/phpunit --colors=always --testdox",
         "phpstan": "vendor/bin/phpstan -c phpstan.neon",
         "auto-scripts": {
             "vendor/bin/requirements-checker": "php-script",
