@@ -27,7 +27,6 @@ class EventRegistrationController extends AbstractController
             $currentUser = $this->getUser();
             $userFirstname = $currentUser->getFirstname();
             $userLastname = $currentUser->getLastname();
-            $userEmail = $currentUser->getEmail();
             $userTelephone = $currentUser->getTelephone();
         }
 
@@ -37,8 +36,6 @@ class EventRegistrationController extends AbstractController
             $registration->setFirstname($userFirstname);
             /* @var User $userLastname */
             $registration->setLastname($userLastname);
-            /* @var User $userEmail */
-            $registration->setEmail($userEmail);
             /* @var User $userTelephone */
             $registration->setTelephone($userTelephone);
         }
