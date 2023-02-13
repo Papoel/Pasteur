@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Controller\Payment;
 
-use App\Entity\Event\Event;
 use App\Entity\Event\RegistrationEvent;
 use App\Services\MailService;
 use Doctrine\ORM\EntityManagerInterface;
 use Stripe\Checkout\Session;
+use Stripe\Exception\ApiErrorException;
 use Stripe\Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +27,6 @@ class CheckoutSessionController extends AbstractController
     {
         $STRIPE_KEY_SECRET = $this->getParameter(name: 'STRIPE_KEY_SECRET');
         Stripe::setApiKey($STRIPE_KEY_SECRET);
-        // $stripe = new StripeClient($STRIPE_KEY_SECRET);
 
         $session = $request->getSession()->get(name: 'details_inscription');
 
@@ -37,15 +36,6 @@ class CheckoutSessionController extends AbstractController
             'name' => $session['representant_legal'],
             'phone' => $session['representant_legal_telephone'],
         ];
-
-        /** Créez un nouveau client Stripe en utilisant les détails du client */
-        /*$customer = Customer::create(params: [
-            'email' => $customer_details['email'] ,
-            'name' => $customer_details['name'] ,
-            'phone' => $customer_details['phone'] ,
-        ]);*/
-
-       //dd($session);
 
         $checkout_session = Session::create(params: [
             'customer_email' => $session['representant_legal_email'],
@@ -66,6 +56,9 @@ class CheckoutSessionController extends AbstractController
                 'payment_id' => $session['id'] . '_' . $session['date_creation_session'],
                 'evenement' => $session['evenement_nom'],
                 'evenement_slug' => $session['evenement_slug'],
+                'evenement_debut' => $session['evenement_debut'],
+                'evenement_fin' => $session['evenement_fin'],
+                'evenement_lieu' => $session['evenement_lieu'],
                 'inscription_id' => $session['inscription_id'],
                 'places_reservees' => $session['places_reservees'],
                 'prix_unitaire' => $session['evenement_prix'],
@@ -107,27 +100,35 @@ class CheckoutSessionController extends AbstractController
             $registrationEvent = $this->em->getRepository(RegistrationEvent::class)->find(
                 $request->getSession()->get(name: 'details_inscription')['inscription_id']
             );
-            $registrationEvent->setPaid(true);
+            /** @var RegistrationEvent $registrationEvent */
+            $registrationEvent->setPaid(Paid: true);
             $this->em->flush();
         }
 
         $session = $request->getSession()->get(name: 'details_inscription');
 
         $mailService->sendEmail(
-            from: $session['representant_legal_email'],
-            subject: 'Confirmation d\'inscription à l\'événement ' . $session['evenement_nom'],
-            htmlTemplate: 'emails/confirmation_inscription.html.twig',
+            from: 'contact@aperp.info',
+            to: $session['representant_legal_email'],
+            subject: 'Confirmation de paiement et d\'inscription',
+            htmlTemplate: 'emails/confirm_payment.html',
             context: [
-                'nom' => $session['representant_legal'],
+                'inscription_id' => $session['inscription_id'],
+                'representant_legal' => $session['representant_legal'],
                 'evenement' => $session['evenement_nom'],
                 'places_reservees' => $session['places_reservees'],
                 'prix_total' => $session['total'] / 100,
                 'date_de_creation' => $session['date_creation_session'],
+                'evenement_lieu' => $session['evenement_lieu'],
+                'evenement_debut' => $session['evenement_debut'],
+                'evenement_fin' => $session['evenement_fin'],
+                'evenement_date' => $session['evenement_date'],
+                'date_inscription' => $session['date_inscription'],
             ]
         );
 
-
         $request->getSession()->remove(name: 'details_inscription');
+
         return $this->redirectToRoute(route: 'app_home');
     }
 

@@ -55,10 +55,12 @@ class UserProfileController extends AbstractController
 
         $mailService->sendEmail(
             from: $contact->getEmail(),
+            to: 'contact@aperp.info',
             subject: $contact->getSubject(),
-            htmlTemplate: 'emails/delete_account.html.twig',
+            htmlTemplate: 'emails/delete_account.html',
             context: [
-                'contact' => $contact,
+                'fullname' => $contact->getFullName(),
+                'createdAt' => $contact->getCreatedAt(),
             ],
         );
 

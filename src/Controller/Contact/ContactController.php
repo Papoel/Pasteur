@@ -65,15 +65,6 @@ class ContactController extends AbstractController
                 $contact->setSubject(subject: 'Aperp - Nouveau message sans sujet');
             }
 
-            $mailService->sendEmail(
-                from: $contact->getEmail(),
-                subject: $contact->getSubject(),
-                htmlTemplate: 'emails/contact.html.twig',
-                context: [
-                    'contact' => $contact,
-                ],
-            );
-
             $this->addFlash(type: 'success', message: 'Merci 🙏  '
                 . $contact->getFullname() .
                 ', votre message a bien été envoyé.');

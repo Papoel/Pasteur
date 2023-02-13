@@ -17,10 +17,10 @@ class MailService
 
     public function sendEmail(
         string $from,
+        string $to,
         string $subject,
         string $htmlTemplate,
         array $context,
-        string $to = 'contact@aperp.info',
     ): void {
         $email = (new TemplatedEmail());
         $email->from($from);

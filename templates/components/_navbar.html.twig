@@ -86,6 +86,7 @@
                 <li class="{{ currentRoute=='app_home' ? 'active' }}"><a href="{{ path('app_home') }}" class="block text-base px-2 py-4 text-white hover:bg-indigo-500 hover:font-semibold">Accueil</a></li>
                 <li class="{{ currentRoute=='app_events' ? 'active' }}"><a href="{{ path('app_events') }}" class="block text-base px-2 py-4 text-white hover:bg-indigo-500 hover:font-semibold transition duration-300">Événements</a></li>
                 <li class="{{ currentRoute=='app_contact' ? 'active' }}"><a href="{{ path('app_contact') }}" class="block text-base px-2 py-4 text-white hover:bg-indigo-500 hover:font-semibold transition duration-300">Contact</a></li>
+                <li class="{{ currentRoute=='app_contact' ? 'active' }}"><a href="{{ path('app_cgu') }}" class="block text-base px-2 py-4 text-white hover:bg-indigo-500 hover:font-semibold transition duration-300">CGU</a></li>
                 {% if not app.user %}
                     <li class="{{ currentRoute=='app_login' ? 'active' }}"><a href="{{ path('app_login') }}" class="block text-base px-2 py-4 text-white hover:bg-indigo-500 hover:font-semibold transition duration-300">Connexion</a></li>
                 {% endif %}

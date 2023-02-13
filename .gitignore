@@ -45,6 +45,6 @@ yarn-error.log
 /public/build/manifest.json
 ##< build/prod ###
 
-##> maizzle/maizzle ###
+##> Maizzle/maizzle ###
 /.mails/
-##< maizzle/maizzle ###
+##< Maizzle/maizzle ###

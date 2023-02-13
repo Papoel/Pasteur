@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v="urn:schemas-microsoft-com:vml" style="color-scheme: light dark;">
+<head>
+  <meta charset="utf-8">
+  <meta name="x-apple-disable-message-reformatting">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="format-detection" content="telephone=no, date=no, address=no, email=no, url=no">
+  <meta name="color-scheme" content="light dark">
+  <meta name="supported-color-schemes" content="light dark">
+  <!--[if mso]>
+  <noscript>
+    <xml>
+      <o:OfficeDocumentSettings xmlns:o="urn:schemas-microsoft-com:office:office">
+        <o:PixelsPerInch>96</o:PixelsPerInch>
+      </o:OfficeDocumentSettings>
+    </xml>
+  </noscript>
+  <style>
+    td,th,div,p,a,h1,h2,h3,h4,h5,h6 {font-family: "Segoe UI", sans-serif; mso-line-height-rule: exactly;}
+  </style>
+  <![endif]-->
+  <style>:root {
+  color-scheme: light dark;
+}</style></head>
+<body style="word-break: break-word; -webkit-font-smoothing: antialiased; margin: 0; width: 100%; padding: 0">
+  <div role="article" aria-roledescription="email" aria-label lang="en">    <section style="background-color: #111827; color: #9ca3af">
+      <div style="width: 100%">
+        <h1 style="font-size: 48px; color: #991b1b">
+          Suppression du compte de {{ fullname }}
+        </h1>
+      </div>
+      <p style="font-weight: 600">
+        Bonjour {{ fullname }} a fait la demande de suppression de son compte le
+        {{ createdAt|date('d/m/Y') }} à {{ createdAt|date('H:i', 'europe/paris') }}.
+      </p>
+      <p style="padding-top: 32px">
+        Une fois que le compte sera supprimé pensez à prévenir {{ fullname }} que sa demande a été prise en
+        compte.
+      </p>
+      {#
+      <div>
+        <img src="undefined" alt="Banner Signature">
+      </div>
+      #}
+    </section>  </div>
+</body>
+</html>

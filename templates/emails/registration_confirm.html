@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v="urn:schemas-microsoft-com:vml" style="color-scheme: light dark;">
+<head>
+  <meta charset="utf-8">
+  <meta name="x-apple-disable-message-reformatting">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="format-detection" content="telephone=no, date=no, address=no, email=no, url=no">
+  <meta name="color-scheme" content="light dark">
+  <meta name="supported-color-schemes" content="light dark">
+  <!--[if mso]>
+  <noscript>
+    <xml>
+      <o:OfficeDocumentSettings xmlns:o="urn:schemas-microsoft-com:office:office">
+        <o:PixelsPerInch>96</o:PixelsPerInch>
+      </o:OfficeDocumentSettings>
+    </xml>
+  </noscript>
+  <style>
+    td,th,div,p,a,h1,h2,h3,h4,h5,h6 {font-family: "Segoe UI", sans-serif; mso-line-height-rule: exactly;}
+  </style>
+  <![endif]-->
+  <style>:root {
+  color-scheme: light dark;
+}
+.hover-text-blue-700:hover {
+  color: #1d4ed8 !important;
+}
+@media (prefers-color-scheme: dark) {
+  .dark-border-gray-600 {
+    border-color: #4b5563 !important;
+  }
+  .dark-bg-gray-800 {
+    background-color: #1f2937 !important;
+  }
+  .dark-text-gray-300 {
+    color: #d1d5db !important;
+  }
+}</style></head>
+<body style="word-break: break-word; -webkit-font-smoothing: antialiased; margin: 0; width: 100%; padding: 0">
+  <div role="article" aria-roledescription="email" aria-label lang="en">    <section style="background-color: #f3f4f6; font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; color: #1f2937">
+      <div style="width: 100%; margin-left: auto; margin-right: auto; padding-left: 16px; padding-right: 16px; padding-top: 64px; padding-bottom: 64px">
+        <div style="border-radius: 4px; background-color: #fff; padding: 40px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1)">
+          <h1 style="margin-bottom: 24px; border-radius: 24px; background-color: #0369a1; padding-left: 16px; padding-right: 16px; padding-top: 8px; padding-bottom: 8px; text-align: center; font-size: 30px; font-weight: 800; letter-spacing: 0.025em; color: #fff">
+            Confirmation d'inscription à l'événement
+          </h1>
+          <p style="margin-bottom: 32px; color: #4b5563">
+            Cher(e)
+            {{ representant_legal }}
+            ,
+          </p>
+          <p style="margin-bottom: 32px">
+            Nous sommes ravis de vous annoncer que votre inscription à l'événement
+            <strong>{{ evenement }}</strong>
+            a été confirmée. <br> Nous attendons avec impatience votre présence.
+          </p>
+          <p style="margin-bottom: 32px; font-size: 18px; font-weight: 600; text-decoration-line: underline">
+            Détails de l'événement:
+          </p>
+          <ul style="margin-bottom: 32px; margin-left: 32px; list-style-type: disc">
+            <li>Nom de l'événement:
+              <strong>{{ evenement }}</strong>
+            </li>
+            <li>Date:
+              <strong>{{ evenement_date }}</strong>
+            </li>
+            <li>Heure:
+              <strong>{{ evenement_debut }}</strong>
+            </li>
+            <li>
+              Lieu:
+              <strong>{{ evenement_lieu }}</strong>
+            </li>
+          </ul>
+          <p style="margin-bottom: 32px; border-radius: 24px; background-color: #0d9488; padding-left: 16px; padding-right: 16px; padding-top: 8px; padding-bottom: 8px; font-weight: 800; letter-spacing: 0.025em; color: #fff">
+            Vous avez choisi de payer sur place. Le coût total est de
+            {{ prix_total }}
+            euros.
+          </p>
+          <p style="margin-bottom: 32px; font-weight: 600; text-decoration-line: underline">
+            Détails de l'inscription:
+          </p>
+          <ul style="margin-bottom: 32px; margin-left: 32px; list-style-type: disc">
+            <li>
+              Nom:
+              <strong>{{ representant_legal }}</strong>
+            </li>
+            <li>
+              Nombre de place(s) <small>(ou autre)</small> réservées:
+              <strong>{{ places_reservees }}</strong>
+            </li>
+            <li>
+              Date et heure de l'inscription:
+              <strong>{{ date_inscription }}</strong>
+            </li>
+          </ul>
+          <p style="margin-bottom: 32px">
+            Si vous avez des questions ou des préoccupations, n'hésitez pas à nous contacter à l'adresse ci-dessous:
+          </p>
+          <div>
+            <a class="hover-text-blue-700" href="mailto:aperousiespasteur@gmail.com" target="_blank" style="color: #3b82f6; transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 300ms">
+              aperousiespasteur@gmail.com
+            </a>
+          </div>
+          <p style="margin-bottom: 32px">
+            Merci d'avoir choisi de participer à notre événement. Nous espérons que vous passerez un bon moment et
+            nous nous réjouissons de vous accueillir.
+          </p>
+          <div id="alert-additional-content-5" class="dark-border-gray-600 dark-bg-gray-800" role="alert" style="border-radius: 8px; border-width: 1px; border-color: #d1d5db; background-color: #f9fafb; padding: 16px">
+            <div style="display: flex; align-items: center">
+              <svg aria-hidden="true" class="dark-text-gray-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" style="margin-right: 8px; height: 20px; width: 20px; color: #1f2937"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+              <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0">Info</span>
+              <h3 class="dark-text-gray-300" style="font-size: 18px; font-weight: 500; color: #1f2937">Le paiement en ligne est disponible</h3>
+            </div>
+            <div class="dark-text-gray-300" style="margin-bottom: 32px; margin-top: 8px; font-size: 14px; color: #1f2937">
+              Nous voulons vous informer que pour votre prochaine inscription, vous avez la possibilité de payer en ligne
+              en toute sécurité grâce à notre système de paiement en ligne sécurisé, Stripe.
+              Nous comprenons les préoccupations concernant la sécurité des informations en ligne, c'est pourquoi nous
+              avons choisi Stripe, un leader mondial de la sécurité des paiements en ligne.
+              Nous sommes confiants que vous apprécierez la commodité et la sécurité de payer en ligne pour nos
+              futurs événements.
+            </div>
+          </div>
+          <p style="margin-bottom: 32px">
+            Cordialement,
+          </p>
+          <p style="font-size: 18px; font-weight: 500; color: #4f46e5">
+            L'équipe APERP
+          </p>
+          <p style="font-size: 16px; font-weight: 500; color: #4b5563">
+            Vous remercie pour votre soutien
+          </p>
+        </div>
+      </div>
+    </section>  </div>
+</body>
+</html>

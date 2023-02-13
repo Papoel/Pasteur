@@ -58,9 +58,10 @@ class EmailResponseController extends AbstractController
 
             // TODO: Pourquoi l'email ne s'envoie pas ?
             $mailService->sendEmail(
-                from: 'aperousiespasteur@gmail.com',
+                from: 'contact@aperp.info',
+                to: $contact->getEmail(),
                 subject: 'Aperp - Votre message a été traité',
-                htmlTemplate: 'emails/response.html.twig',
+                htmlTemplate: 'emails/response.html',
                 context: [
                     'contact' => $contact,
                     'user' => $user,
