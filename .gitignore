@@ -44,3 +44,7 @@ yarn-error.log
 /public/build/entrypoints.json
 /public/build/manifest.json
 ##< build/prod ###
+
+##> maizzle/maizzle ###
+/.mails/
+##< maizzle/maizzle ###
