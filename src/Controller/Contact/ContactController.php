@@ -8,7 +8,6 @@ use App\Entity\Contact\Contact;
 use App\Entity\User\User;
 use App\Form\ContactFormType;
 use App\Repository\User\UserRepository;
-use App\Services\MailService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +20,6 @@ class ContactController extends AbstractController
     public function index(
         Request $request,
         EntityManagerInterface $entityManager,
-        MailService $mailService,
         UserRepository $userRepository,
     ): Response {
         $contact = new Contact();
@@ -30,14 +28,10 @@ class ContactController extends AbstractController
 
         if ($currentUser) {
             $userName = $userRepository->find($currentUser)->getFullName();
-            $userEmail = $userRepository->find($currentUser)->getEmail();
+            // Renseigné les informations de l'utilisateur connecté dans le formulaire
+            $contact->setFullName($userName);
         }
 
-        // Renseigné les informations de l'utilisateur connecté dans le formulaire
-        if ($currentUser) {
-            $contact->setFullName($userName);
-            $contact->setEmail($userEmail);
-        }
 
         $form = $this->createForm(type: ContactFormType::class, data: $contact);
         $form->handleRequest(request: $request);
@@ -47,14 +41,8 @@ class ContactController extends AbstractController
 
             $contact->setIsReplied(false);
 
-            if ($this->getUser()) {
-                if (
-                    $contact->getEmail() !== $userEmail ||
-                    $contact->getFullName() !== $userName
-                ) {
-                    $contact->setEmail($userEmail);
-                    $contact->setFullName($userName);
-                }
+            if ($this->getUser() && $contact->getFullName() !== $userName) {
+                $contact->setFullName($userName);
             }
 
             $entityManager->persist($contact);
