@@ -92,11 +92,13 @@ class UserCrudController extends AbstractCrudController
             ->setChoices([
                 'MEMBRE' => 'ROLE_ADMIN',
                 'ADMINISTRATEUR' => 'ROLE_SUPER_ADMIN',
+                'UTILISATEUR' => 'ROLE_USER',
             ])
             ->allowMultipleChoices()
             ->renderAsBadges([
                 'ROLE_SUPER_ADMIN' => 'danger',
                 'ROLE_ADMIN' => 'success',
+                'ROLE_USER' => 'secondary',
             ])
             ->setColumns(cols: 'col-12 col-sm-4')
             ->hideOnIndex()
