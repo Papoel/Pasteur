@@ -4,6 +4,12 @@
 
 {% block body %}
     {% include('components/_navbar.html.twig') %}
+
+    {# Add flash bag message #}
+    <div role="alert" class="w-full">
+        {{ include("components/_flash-messages.html.twig") }}
+    </div>
+
     <section class="h-screen">
         <div class="px-6 h-full text-gray-800">
             <div class="flex xl:justify-center lg:justify-between justify-center items-center flex-wrap h-full g-6">
@@ -35,14 +41,24 @@
                         {% endif %}
 
                         {% if app.user %}
-                            <div class="mb-3">
-                                Vous êtes connecté en tant que {{ app.user.userIdentifier }}, souhaitez-vous vous<a href="{{ path('app_logout') }}">déconnecter ?</a>
+                            <div id="alert-user-connected" class="p-4 my-6 text-blue-800 border border-blue-300 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800" role="alert">
+                                <div class="mt-2 mb-4 text-md">
+                                    <p class="leading-6">
+                                        Bonjour {{ app.user.firstname }}, <br><br>
+                                        Il semble que vous êtes déjà connecté avec
+                                        l'adresse email <span class="bg-indigo-100 text-gray-800 px-2 py-1 rounded-full shadow">{{ app.user.userIdentifier }}</span>, si ce n'est pas vous,
+                                        veuillez vous
+                                        <a href="{{ path('app_logout') }}" class="text-red-800 hover:underline">
+                                            déconnecter , en cliquant ici.
+                                        </a>
+                                    </p>
+                                </div>
                             </div>
                         {% endif %}
 
                         <!-- Email input -->
-                        <div class="mb-6">
-                            <label for="inputEmail">Email</label>
+                        <div class="my-6">
+                            <label class="text-xs uppercase tracking-wider text-gray-700" for="inputEmail">Email</label>
                             <input type="email"
                                    value="{{ last_username }}"
                                    name="email"
@@ -62,7 +78,7 @@
                                     Afficher
                                 </label>
                             </div>
-                            <label for="inputPassword">Mot de passe</label>
+                            <label class="text-xs uppercase tracking-wider text-gray-700" for="inputPassword">Mot de passe</label>
                             <input type="password"
                                    id="inputPassword"
                                    name="password"
@@ -73,13 +89,13 @@
                         </div>
 
                         <div class="flex items-center mt-1">
-                            <input id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="link-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                J'accepte les
-                                <a href="{{ path('app_cgu') }}" class="text-blue-600 dark:text-blue-500 hover:underline">
-                                    conditions d'utilisation
-                                </a>.
-                            </label>
+                            <p class="ml-2 block text-sm tracking-wider text-gray-700 required">
+                                Je n'ai pas de compte, je souhaite
+                                <a href="{{ path('app_register') }}"
+                                   class="text-blue-600 dark:text-blue-500 hover:underline">
+                                    m'inscrire .
+                                </a>
+                            </p>
                         </div>
 
                         <!-- Submit form button -->
