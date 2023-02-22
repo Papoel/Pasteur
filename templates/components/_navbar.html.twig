@@ -22,7 +22,7 @@
                 <!-- Secondary Navbar items -->
                 <div class="hidden md:flex items-center space-x-3">
                     {% if app.user %}
-                        {% if is_granted('ROLE_ADMIN') == true %}
+                        {% if is_granted('ROLE_USER') == true %}
                             <button id="dropdownApeTeamButtonDesktop" data-dropdown-toggle="dropdownApeTeamDesktop"
                                     class="flex items-center font-semibold text-white rounded-full hover:text-white md:mr-0" type="button">
                                 <span class="sr-only">Menu APE</span>
@@ -42,12 +42,12 @@
                                                 Administration
                                             </a>
                                         </li>
+                                    {% endif %}
                                         <li>
                                             <a href="{{ path('app_user_profile', {'user': app.user.id}) }}" class="block text-base px-2 py-4 text-white hover:bg-indigo-500 hover:text-white hover:font-semibold transition duration-300">
                                                 Mes informations
                                             </a>
                                         </li>
-                                    {% endif %}
                                 </ul>
                                 <div class="py-2">
                                     <a href="{{ path('app_logout') }}" class="block text-base px-2 py-4 text-red-500 hover:font-semibold hover:tracking-wide transition duration-300">
@@ -93,7 +93,7 @@
             </ul>
             <hr>
             <div class="px-2 pt-2 pb-4">
-                {% if is_granted('ROLE_ADMIN') == true %}
+                {% if is_granted('ROLE_USER') == true %}
                     <button id="dropdownApeTeamButtonMobile" data-dropdown-toggle="dropdownApeTeamMobile"
                             class="flex items-center text-sm font-medium text-indigo-200 rounded-full hover:text-white md:mr-0" type="button">
                         <span class="sr-only">Menu APE</span>
@@ -113,12 +113,12 @@
                                         Administration
                                     </a>
                                 </li>
+                            {% endif %}
                                 <li>
                                     <a href="{{ path('app_user_profile', {'user': app.user.id}) }}" class="block text-base px-2 py-4 text-white hover:bg-indigo-500 hover:text-white hover:font-semibold transition duration-300">
                                         Mes informations
                                     </a>
                                 </li>
-                            {% endif %}
                         </ul>
                         <div class="py-2">
                             <a href="#" class="block text-base px-2 py-4 text-red-500 hover:font-semibold hover:tracking-wide transition duration-300">

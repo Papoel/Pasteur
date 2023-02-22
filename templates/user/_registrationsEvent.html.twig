@@ -2,8 +2,9 @@
     <div class="w-full overflow-x-auto">
         <table class="w-full">
             <thead>
-            <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+            <tr class="text-xs text-center font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                 <th class="px-4 py-3">Événement</th>
+                <th class="px-4 py-3">Le</th>
                 <th class="px-4 py-3 text-center">Prix</th>
                 <th class="px-4 py-3 text-center">Payé</th>
                 <th class="px-4 py-3 text-center">Nom des inscrits</th>
@@ -17,7 +18,7 @@
                     <td class="px-4 py-3">
                         <div class="flex items-center text-sm">
                             <div>
-                                <p class="font-semibold text-sm">{{ registration.fullname }}</p>
+                                <p class="font-semibold text-sm">{{ registration.event.name }}</p>
                                 <p class="text-xs text-gray-600 dark:text-gray-400">
                                     {{ registration.children|length }}
                                     {{ pluralize(registration.children|length, 'enfant', 'enfants') }}
@@ -25,6 +26,12 @@
                                 </p>
                             </div>
                         </div>
+                    </td>
+                    <td class="px-4 py-3 text-sm text-center">
+                        <p class="text-xs text-gray-600 dark:text-gray-400">
+                            {{ registration.event.startsAt|format_date('short') }} <br>
+                            {{ registration.event.startsAt|date('H:i') }}
+                        </p>
                     </td>
                     <td class="text-xs text-gray-600 text-center dark:text-gray-400">
                         {% if registration.event.price  == 0 %}

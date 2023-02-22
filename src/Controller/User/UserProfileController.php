@@ -21,7 +21,7 @@ class UserProfileController extends AbstractController
     ) {
     }
     #[Route('/{user}/profile', name: 'app_user_profile')]
-    #[isGranted('ROLE_ADMIN')]
+    #[isGranted('ROLE_USER')]
     public function index(RegistrationEventRepository $registrationEventRepository): Response
     {
         /** @var User $user */
@@ -37,7 +37,7 @@ class UserProfileController extends AbstractController
     }
 
     #[Route('/user/profile/delete', name: 'app_user_profile_delete')]
-    #[isGranted('ROLE_ADMIN')]
+    #[isGranted('ROLE_USER')]
     public function delete(MailService $mailService, EntityManagerInterface $entityManager): Response
     {
         $contact = new Contact();
