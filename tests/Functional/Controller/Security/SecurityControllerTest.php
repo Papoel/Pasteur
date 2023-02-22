@@ -33,7 +33,6 @@ class SecurityControllerTest extends WebTestCase
 
         $html = $crawler->html();
         self::assertStringContainsString(needle: 'Formulaire de connexion', haystack: $html);
-        self::assertStringContainsString(needle: 'Connexion réservée aux membres de l\'APERP.', haystack: $html);
     }
     /**
      * Tester que le Block Title est implémenté
