@@ -3,6 +3,7 @@
 namespace App\Entity\User;
 
 use App\Repository\User\UserRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -12,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#[UniqueEntity('email', message: 'Cet utilisateur existe déjà dans la base de données.')]
+#[UniqueEntity(fields: ['email'], message: 'Un compte existe déjà avec cette adresse email.')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -25,26 +26,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180, unique: true)]
     #[Assert\NotBlank(message: 'L\'email est obligatoire')]
     #[Assert\Email(
-        message: 'L\'adresse email "{{ value }}" n\'est pas valide',
+        message: 'L\' adresse email {{ value }} n\'est pas valide',
     )]
     private string $email;
 
     #[ORM\Column]
     private array $roles = ['ROLE_USER'];
 
-    #[ORM\Column]
-    #[Assert\NotBlank]
-    #[Assert\Regex(
-        pattern: '/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/',
-        message: 'Le mot de passe doit contenir au moins une minuscule, 
-                  une majuscule, et un chiffre.',
-    )]
-    #[Assert\Length(
-        min: 8,
-        max: 80,
-        minMessage: 'Le mot de passe doit faire au moins {{ limit }} caractères',
-        maxMessage: 'Le mot de passe doit faire au plus {{ limit }} caractères',
-    )]
+    private ?string $plainPassword;
+
+    #[ORM\Column(type: 'string')]
     private string $password;
 
     #[ORM\Column(length: 50)]
@@ -54,6 +45,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         minMessage: 'Le prénom doit faire au moins {{ limit }} caractères',
         maxMessage: 'Le prénom doit faire au plus {{ limit }} caractères',
     )]
+    #[Assert\NotBlank(message: 'Le prénom est obligatoire')]
     #[Assert\Type(type: 'string')]
     private string $firstname;
 
@@ -64,6 +56,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         minMessage: 'Le nom doit faire au moins {{ limit }} caractères',
         maxMessage: 'Le nom doit faire au plus {{ limit }} caractères',
     )]
+    #[Assert\NotBlank(message: 'Le nom est obligatoire')]
     private string $lastname;
 
     #[ORM\Column(length: 50, nullable: true)]
@@ -117,32 +110,44 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $town = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    private ?DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $updatedAt = null;
+    private ?DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $birthday = null;
+    private ?DateTimeImmutable $birthday = null;
 
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $function = null;
 
+    #[ORM\Column(type: 'boolean')]
+    private $isVerified = false;
+
+    #[ORM\Column(nullable: true)]
+    private DateTimeImmutable $agreedTermsAt;
+
     public function __construct()
     {
-        $this->createdAt = new \DateTimeImmutable();
-        $this->updatedAt = new \DateTimeImmutable();
+        $this->createdAt = new DateTimeImmutable();
+        $this->updatedAt = new DateTimeImmutable();
     }
 
     public function __toString(): string
     {
-        return $this->firstname . ' ' . $this->lastname;
+        $firstname = $this->firstname;
+        $lastname = $this->lastname;
+
+        $firstname = ucfirst($firstname);
+        $lastname = ucfirst($lastname);
+
+        return $firstname . ' ' . $lastname;
     }
 
     #[ORM\PreUpdate]
     public function preUpdate(): void
     {
-        $this->updatedAt = new \DateTimeImmutable();
+        $this->updatedAt = new DateTimeImmutable();
     }
 
     public function getId(): ?Uuid
@@ -190,6 +195,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(string $plainPassword): self
+    {
+        $this->plainPassword = $plainPassword;
+
+        return $this;
+    }
+
 
     /**
      * @see PasswordAuthenticatedUserInterface
@@ -311,36 +329,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    public function setCreatedAt(DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeImmutable
+    public function getUpdatedAt(): ?DateTimeImmutable
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
+    public function setUpdatedAt(DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
-    public function getBirthday(): ?\DateTimeImmutable
+    public function getBirthday(): ?DateTimeImmutable
     {
         return $this->birthday;
     }
 
-    public function setBirthday(?\DateTimeImmutable $birthday): self
+    public function setBirthday(?DateTimeImmutable $birthday): self
     {
         $this->birthday = $birthday;
 
@@ -350,7 +368,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     // Count age from birthday
     public function getAge(): int
     {
-        $now = new \DateTimeImmutable();
+        $now = new DateTimeImmutable();
         $age = $now->diff($this->birthday)->y;
 
         return $age;
@@ -359,7 +377,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     // Create function to know if today is birthday
     public function isBirthday(): bool
     {
-        $now = new \DateTimeImmutable();
+        $now = new DateTimeImmutable();
         $birthday = $this->birthday->format('d-m');
         $today = $now->format('d-m');
 
@@ -379,6 +397,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setFunction(?string $function): self
     {
         $this->function = $function;
+
+        return $this;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getAgreedTermsAt(): ?DateTimeImmutable
+    {
+        return $this->agreedTermsAt;
+    }
+
+    public function setAgreedTermsAt(DateTimeImmutable $agreedTermsAt): self
+    {
+        $this->agreedTermsAt = $agreedTermsAt;
 
         return $this;
     }
