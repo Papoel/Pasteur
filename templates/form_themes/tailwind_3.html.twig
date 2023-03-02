@@ -19,3 +19,27 @@
     {%- set label_class = label_class|default('block text-gray-800') -%}
     {{- block('form_label') -}}
 {%- endblock -%}
+
+{%- block form_widget_simple -%}
+    {%- set type = type|default('text') -%}
+    {%- if type == 'range' or type == 'color' -%}
+        {%- set required = false -%}
+    {%- endif -%}
+    <input type="{{ type }}"
+    {{ block('widget_attributes') }}
+    {% if value is not empty %}
+        value="{{ value }}"
+    {% endif %} />
+{%- endblock form_widget_simple -%}
+
+{#
+
+{%- block form_widget_simple -%}
+    {%- set type = type|default('text') -%}
+    {%- if type == 'range' or type == 'color' -%}
+        {%- set required = false -%}
+    {%- endif -%}
+<input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+{%- endblock form_widget_simple -%}
+
+#}
