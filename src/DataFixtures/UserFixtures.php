@@ -43,7 +43,7 @@ class UserFixtures extends Fixture
         $userPresident->setAddress(address: '1007 Mountain Drive');
         $userPresident->setPostalCode(postalCode: '00000');
         $userPresident->setTown(town: 'Gotham City.');
-        $userPresident->setBirthday(birthday: new \DateTimeImmutable(datetime: '1914/04/07'));
+        $userPresident->setBirthday(birthday: new \DateTime(datetime: '1914/04/07'));
         $userPresident->setFunction(function: 'Président');
 
         $manager->persist($userPresident);
@@ -66,7 +66,7 @@ class UserFixtures extends Fixture
         $userAdministrateur->setAddress(address: '12 res Kennedy rue des Roquelles');
         $userAdministrateur->setPostalCode(postalCode: '59460');
         $userAdministrateur->setTown(town: 'Jeumont');
-        $userAdministrateur->setBirthday(birthday: new \DateTimeImmutable(datetime: '1985/02/20'));
+        $userAdministrateur->setBirthday(birthday: new \DateTime(datetime: '1985/02/20'));
         $userAdministrateur->setFunction(function: 'Webmaster');
 
         $manager->persist($userAdministrateur);
@@ -99,8 +99,8 @@ class UserFixtures extends Fixture
         $userTresorier->setTown(town: $faker->city());
 
         $date = $faker->dateTimeBetween(startDate: '-40 years', endDate: '-15 years');
-        $immutable = \DateTimeImmutable::createFromMutable($date);
-        $userTresorier->setBirthday($immutable);
+        //$immutable = \DateTime::createFromImmutable($date);
+        $userTresorier->setBirthday($date);
         $userTresorier->setFunction(function: 'Trésorier');
 
         $manager->persist($userTresorier);
@@ -133,8 +133,8 @@ class UserFixtures extends Fixture
         $userSecretaire->setTown(town: $faker->city());
 
         $date = $faker->dateTimeBetween(startDate: '-40 years', endDate: '-15 years');
-        $immutable = \DateTimeImmutable::createFromMutable($date);
-        $userSecretaire->setBirthday($immutable);
+        //$immutable = \DateTimeImmutable::createFromMutable($date);
+        $userSecretaire->setBirthday($date);
         $userSecretaire->setFunction(function: 'Secrétaire');
 
         $manager->persist($userSecretaire);
@@ -172,8 +172,8 @@ class UserFixtures extends Fixture
             $user->setPseudo(pseudo: $faker->userName());
 
             $date = $faker->dateTimeBetween(startDate: '-40 years', endDate: '-15 years');
-            $immutable = \DateTimeImmutable::createFromMutable($date);
-            $user->setBirthday($immutable);
+            //$immutable = \DateTimeImmutable::createFromMutable($date);
+            $user->setBirthday($date);
 
             $manager->persist($user);
             $users[] = $user;

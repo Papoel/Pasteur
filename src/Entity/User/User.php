@@ -3,6 +3,7 @@
 namespace App\Entity\User;
 
 use App\Repository\User\UserRepository;
+use DateTime;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -112,11 +113,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?DateTimeImmutable $updatedAt = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?DateTimeImmutable $birthday = null;
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?DateTime $birthday = null;
 
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $function = null;
@@ -125,7 +126,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $isVerified = false;
 
     #[ORM\Column(nullable: true)]
-    private DateTimeImmutable $agreedTermsAt;
+    private ?DateTimeImmutable $agreedTermsAt = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?DateTimeImmutable $askDeleteAccountAt = null;
 
     public function __construct()
     {
@@ -346,19 +350,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(DateTimeImmutable $updatedAt): self
+    public function setUpdatedAt(?DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
-    public function getBirthday(): ?DateTimeImmutable
+    public function getBirthday(): ?DateTime
     {
         return $this->birthday;
     }
 
-    public function setBirthday(?DateTimeImmutable $birthday): self
+    public function setBirthday(?DateTime $birthday): self
     {
         $this->birthday = $birthday;
 
@@ -369,9 +373,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getAge(): int
     {
         $now = new DateTimeImmutable();
-        $age = $now->diff($this->birthday)->y;
 
-        return $age;
+        return $now->diff($this->birthday)->y;
     }
 
     // Create function to know if today is birthday
@@ -421,6 +424,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAgreedTermsAt(DateTimeImmutable $agreedTermsAt): self
     {
         $this->agreedTermsAt = $agreedTermsAt;
+
+        return $this;
+    }
+
+    public function getAskDeleteAccountAt(): ?DateTimeImmutable
+    {
+        return $this->askDeleteAccountAt;
+    }
+
+    public function setAskDeleteAccountAt(?DateTimeImmutable $askDeleteAccountAt): self
+    {
+        $this->askDeleteAccountAt = $askDeleteAccountAt;
 
         return $this;
     }
