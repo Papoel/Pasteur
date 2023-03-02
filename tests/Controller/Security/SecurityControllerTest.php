@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Functional\Controller\Security;
+namespace App\Tests\Controller\Security;
 
 use App\Entity\User\User;
 use App\Repository\User\UserRepository;

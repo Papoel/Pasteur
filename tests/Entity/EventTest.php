@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Tests\Unit\Entity;
+namespace App\Tests\Entity;
 
 use App\Entity\Event\Event;
-use App\Entity\User\User;
 use DateTimeImmutable;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Validator\Validator\ValidatorInterface;

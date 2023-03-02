@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Functional\Controller\Events;
+namespace App\Tests\Controller\Events;
 
 use App\Repository\Event\EventRepository;
 use ContainerHEGeeJq\getDoctrine_DatabaseDropCommandService;

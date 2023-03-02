@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Functional\Controller\General;
+namespace App\Tests\Controller\General;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use function App\Tests\Functional\Controller\General\count;
 
 class HomePageControllerTest extends WebTestCase
 {
@@ -275,7 +276,7 @@ class HomePageControllerTest extends WebTestCase
         $elements = $crawler->filter(selector: 'div[role="alert"]');
         self::assertGreaterThan(
             expected: 0,
-            actual: count($elements),
+            actual: $this->count($elements) ,
             message: 'La page ne contient aucun élément correspondant au sélecteur: "div[role="alert"]"'
         );
     }

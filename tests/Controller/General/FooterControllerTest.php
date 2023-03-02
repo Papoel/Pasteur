@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Functional\Controller\General;
+namespace App\Tests\Controller\General;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class FooterControllerTest extends WebTestCase

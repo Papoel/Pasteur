@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Tests\Unit\Entity;
+namespace App\Tests\Entity;
 
 use App\Entity\Event\RegistrationHelp;
-use App\Repository\Event\EventRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
