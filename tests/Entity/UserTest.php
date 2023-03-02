@@ -26,7 +26,7 @@ class UserTest extends KernelTestCase
         $user->setTown(town: 'Maubeuge');
         $user->setCreatedAt(new \DateTimeImmutable());
         $user->setUpdatedAt(new \DateTimeImmutable(datetime: 'now + 1 month'));
-        $user->setBirthday(birthday: new \DateTimeImmutable(datetime: '1085-02-20'));
+        $user->setBirthday(birthday: new \DateTime(datetime: '1085-02-20'));
 
         return $user;
     }
