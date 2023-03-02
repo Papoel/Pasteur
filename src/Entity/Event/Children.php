@@ -3,6 +3,7 @@
 namespace App\Entity\Event;
 
 use App\Repository\Event\ChildrenRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -47,6 +48,12 @@ class Children
 
     #[ORM\ManyToOne(cascade: ['persist', 'remove'], inversedBy: 'children')]
     private ?RegistrationEvent $registrationEvent = null;
+
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    #[Assert\Positive(message: 'L\'âge doit être un nombre positif.')]
+    #[Assert\GreaterThan(2, message: 'L\'âge doit être supérieur à {{ compared_value }} ans.')]
+    #[Assert\LessThan(18, message: 'L\'âge doit être inférieur à {{ compared_value }} ans.')]
+    private ?int $age = null;
 
     public function __toString(): string
     {
@@ -102,6 +109,17 @@ class Children
     public function setRegistrationEvent(?RegistrationEvent $registrationEvent): self
     {
         $this->registrationEvent = $registrationEvent;
+
+        return $this;
+    }
+
+    public function getAge(): ?int
+    {
+        return $this->age;
+    }
+    public function setAge(?int $age): self
+    {
+        $this->age = $age;
 
         return $this;
     }
