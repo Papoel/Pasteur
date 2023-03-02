@@ -44,6 +44,9 @@ class UserProfileController extends AbstractController
         /** @var User $currentUser */
         $currentUser = $this->getUser();
 
+        // Set in table User the field AskDeleteAccountAt to now
+        $currentUser->setAskDeleteAccountAt(new \DateTimeImmutable());
+
         $contact->setFullName($currentUser->getFullName());
         $contact->setEmail($currentUser->getEmail());
         $contact->setSubject(subject: 'Demande de suppression de compte');
@@ -69,7 +72,7 @@ class UserProfileController extends AbstractController
             message: 'Votre demande de suppression de compte a bien été transmise à l\'administrateur du site.'
         );
 
-        return $this->redirectToRoute(route: 'app_user_profile', parameters: [
+        return $this->redirectToRoute(route: 'app_user_show', parameters: [
             'user' => $currentUser,
         ]);
 
