@@ -123,7 +123,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $function = null;
 
     #[ORM\Column(type: 'boolean')]
-    private $isVerified = false;
+    private bool $isVerified = false;
 
     #[ORM\Column(nullable: true)]
     private ?DateTimeImmutable $agreedTermsAt = null;
@@ -134,7 +134,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable();
-        $this->updatedAt = new DateTimeImmutable();
     }
 
     public function __toString(): string
@@ -142,8 +141,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $firstname = $this->firstname;
         $lastname = $this->lastname;
 
-        $firstname = ucfirst($firstname);
-        $lastname = ucfirst($lastname);
+        $firstname = mb_convert_case($firstname, MB_CASE_TITLE, 'UTF-8');
+        $lastname = mb_convert_case($lastname, MB_CASE_TITLE, 'UTF-8');
 
         return $firstname . ' ' . $lastname;
     }
@@ -370,12 +369,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     // Count age from birthday
-    public function getAge(): int
+    public function getAge(): ?int
     {
-        $now = new DateTimeImmutable();
+        if ($this->birthday === null) {
+            return null;
+        }
 
+        $now = new DateTimeImmutable();
         return $now->diff($this->birthday)->y;
     }
+
 
     // Create function to know if today is birthday
     public function isBirthday(): bool
