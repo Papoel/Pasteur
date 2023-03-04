@@ -78,12 +78,18 @@ class RegistrationEvent
 
     public function __toString(): string
     {
-        return $this->firstname . ' ' . $this->lastname;
+        return $this->getFullname();
     }
 
     public function getFullname(): string
     {
-        return $this->firstname . ' ' . $this->lastname;
+        $firstname = $this->firstname;
+        $lastname = $this->lastname;
+
+        $firstname = mb_convert_case($firstname, MB_CASE_TITLE, 'UTF-8');
+        $lastname = mb_convert_case($lastname, MB_CASE_TITLE, 'UTF-8');
+
+        return $firstname . ' ' . $lastname;
     }
 
     public function getId(): ?int

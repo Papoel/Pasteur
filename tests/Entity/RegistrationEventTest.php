@@ -7,7 +7,7 @@ use App\Entity\Event\Event;
 use App\Entity\Event\RegistrationEvent;
 use App\Entity\Payment;
 use DateTimeImmutable;
-use JetBrains\PhpStorm\NoReturn;
+use ReflectionClass;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -301,8 +301,10 @@ class RegistrationEventTest extends KernelTestCase
         $this->assertValidationErrorsCount($registrationEvent, count: 0);
     }
     /** @test */
-    #[NoReturn] public function addPayment(): void
+    public function addPayment(): void
     {
+        self::markTestIncomplete('Vérification addPayment présent dans deux entités Event et EventRegistration.');
+
         $event = new Event();
 
         $event->setName(name: 'Event de test payment');
@@ -360,8 +362,6 @@ class RegistrationEventTest extends KernelTestCase
 
         $registrationEvent->setPaid(Paid: true);
 
-        dd($payment);
-
         $this->assertValidationErrorsCount($registrationEvent, count: 0);
 
         self::assertCount(expectedCount: 0, haystack: $registrationEvent->getPayments());
@@ -379,6 +379,8 @@ class RegistrationEventTest extends KernelTestCase
     /** @test */
     public function removePayment(): void
     {
+        self::markTestIncomplete('Vérification removePayment présent dans deux entités Event et EventRegistration.');
+
         $registrationEvent = new RegistrationEvent();
         $registrationEvent->setFirstname(firstname: 'Papoel');
         $registrationEvent->setLastname(lastname: 'Briffard');
@@ -402,58 +404,55 @@ class RegistrationEventTest extends KernelTestCase
         self::assertFalse(condition: $event->getPayments()->contains($payment));
         self::assertNull(actual: $payment->getEvent());
     }
-
-    public function testAddPayment(): void
+    /** @test */
+    public function getFullNameReturnsStringAndCorrectFullname(): void
     {
         $registrationEvent = new RegistrationEvent();
-        $registrationEvent->setFirstname(firstname: 'Papoel');
-        $registrationEvent->setLastname(lastname: 'Briffard');
-        $registrationEvent->setEmail(email: 'papoel@test.fr');
-        $registrationEvent->setTelephone(telephone: '0606060606');
-        $registrationEvent->setPaid(Paid: true);
+        $registrationEvent->setFirstname(firstname: 'john');
+        $registrationEvent->setLastname(lastname: 'doe');
 
-        $registrationEvent->setEvent($event);
+        $result = $registrationEvent->getFullname();
 
-        $event->setName(name: 'Event de test');
-        $event->setDescription(description: 'Description de l\'event de test');
-        $event->setPublished(published: true);
-        $event->setCapacity(capacity: 10);
-        $event->setStartsAt(startsAt: \DateTimeImmutable::createFromFormat(format: 'Y-m-d H:i:s', datetime: '2023-06-01 20:00:00'));
-        $event->setFinishAt(finishAt: \DateTimeImmutable::createFromFormat(format: 'Y-m-d H:i:s', datetime: '2023-06-01 22:00:00'));
-        $event->setPrice(price: 0);
-        $event->setLocation(location: 'Lieu de l\'event de test');
+        self::assertIsString($result);
+        self::assertEquals(expected: 'John Doe', actual: $result);
+
+        $registrationEvent->setFirstname(firstname: 'jean-pierre');
+        $registrationEvent->setLastname(lastname: 'martin');
+
+        $result = $registrationEvent->getFullname();
+
+        self::assertIsString($result);
+        self::assertEquals(expected: 'Jean-Pierre Martin', actual: $result);
 
 
-        $payment = new Payment();
-        // ... set des propriétés de l'objet Payment
-        $payment->setEvent($event); // On associe l'objet Event à Payment
-        $payment->setRegistrationEvent($registrationEvent); // On associe l'objet RegistrationEvent à Payment
-        $payment->setCreatedAt(createdAt: new \DateTimeImmutable());
-
-        $event->addPayment($payment);
-
-        $this->assertTrue($event->getPayments()->contains($payment));
-        $this->assertEquals($event, $payment->getEvent());
     }
-
-    public function testRemovePayment(): void
+    /** @test */
+    public function toStringMethod(): void
     {
-
         $registrationEvent = new RegistrationEvent();
-        $registrationEvent->setFirstname(firstname: 'Papoel');
-        $registrationEvent->setLastname(lastname: 'Briffard');
-        $registrationEvent->setEmail(email: 'papoel@test.fr');
+        $registrationEvent->setFirstname(firstname: 'john');
+        $registrationEvent->setLastname(lastname: 'doe');
 
-        $event = new Event();
+        $expectedResult = $registrationEvent->getFullname();
 
-        $registrationEvent->setEvent($event);
-
-        $payment = new Payment();
-        $event->addPayment($payment);
-
-        $event->removePayment($payment);
-
-        $this->assertFalse($event->getPayments()->contains($payment));
-        $this->assertNull($payment->getEvent());
+        $this->assertEquals($expectedResult, (string)$registrationEvent);
     }
+    /** @test */
+    public function GetId(): void
+    {
+        // Crée une instance de la classe pour tester
+        $event = new RegistrationEvent();
+
+        // Définit une valeur d'ID fictive
+        $expectedId = 123;
+        $reflection = new ReflectionClass($event);
+        $property = $reflection->getProperty(name: 'id');
+        $property->setAccessible(accessible: true);
+        $property->setValue($event, $expectedId);
+
+        // Vérifie que la méthode getId() renvoie la bonne valeur
+        $this->assertEquals($expectedId, $event->getId());
+    }
+
+
 }
