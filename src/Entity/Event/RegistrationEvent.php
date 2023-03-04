@@ -20,7 +20,7 @@ class RegistrationEvent
     #[ORM\Column(length: 100)]
     #[Assert\Length(
         min: 3,
-        max: 100,
+        max: 50,
         minMessage: 'Le prénom doit faire plus de {{ limit }} caractères.',
         maxMessage: 'Le prénom ne doit pas faire plus de {{ limit }} caractères.'
     )]
@@ -30,7 +30,7 @@ class RegistrationEvent
     #[ORM\Column(length: 100)]
     #[Assert\Length(
         min: 3,
-        max: 100,
+        max: 50,
         minMessage: 'Le nom doit faire plus de {{ limit }} caractères.',
         maxMessage: 'Le nom ne doit pas faire plus de {{ limit }} caractères.'
     )]
@@ -38,12 +38,6 @@ class RegistrationEvent
     private ?string $lastname;
 
     #[ORM\Column(length: 180)]
-    #[Assert\Length(
-        min: 6,
-        max: 180,
-        minMessage: 'L\' email doit faire plus de {{ limit }} caractères.',
-        maxMessage: 'L\'email ne doit pas faire plus de {{ limit }} caractères.'
-    )]
     #[Assert\NotBlank(message: 'L\'adresse email est obligatoire.')]
     #[Assert\Email]
     private ?string $email;
@@ -70,7 +64,7 @@ class RegistrationEvent
     private Collection $children;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    private \DateTimeImmutable $createdAt;
 
     #[ORM\OneToMany(mappedBy: 'registrationEvent', targetEntity: Payment::class)]
     private Collection $payments;
@@ -169,6 +163,18 @@ class RegistrationEvent
         return $this;
     }
 
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Children>
      */
@@ -195,18 +201,6 @@ class RegistrationEvent
                 $child->setRegistrationEvent(registrationEvent: null);
             }
         }
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }
