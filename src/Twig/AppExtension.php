@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Twig;
 
 use App\Entity\Event\Event;
+use App\Entity\Product\Product;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
@@ -37,13 +38,32 @@ class AppExtension extends AbstractExtension
         return $count > 1 ? $plural : $singular;
     }
 
-    public function formatPrice(Event $event): string
+    public function formatPrice($item): string
+    {
+        if($item instanceof Event){
+            $price = $item->getPrice() / 100;
+            $price = number_format($price, 2);
+
+            return $item->isFree() ? 'Gratuit' : $price . ' €';
+        }
+
+        if($item instanceof Product){
+            $price = $item->getPrice() / 100;
+            $price = number_format($price, 2);
+
+            return $item->isFree() ? 'Gratuit' : $price . ' €';
+        }
+
+        return '';
+    }
+
+    /*public function formatPrice(Event $event): string
     {
         $price = $event->getPrice() / 100;
         $price = number_format($price, 2);
 
         return $event->isFree() ? 'Gratuit' : $price . ' €';
-    }
+    }*/
 
     public function formatDateTime(\DateTimeInterface $dateTime): string
     {

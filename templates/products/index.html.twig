@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Événements{% endblock %}
+
+{% block body %}
+    {% include('components/_navbar.html.twig') %}
+    <section>
+        <div id="hero">
+            <h1 id="main-title" class="text-center py-8 md:py12 xl:py-24 text-4xl md:text-5xl">
+                Découvrez nos <span class="mx-2 text-purple-degrade uppercase font-extrabold">articles</span>.
+            </h1>
+        </div>
+
+
+        {% if products %}
+            <section class="bg-gray-100 body-font">
+                <div class="lg:w-1/2 w-full mb-6 ml-10 pt-10">
+                    <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">
+                        On achète nos produits, ou on réserve
+                    </h1>
+                    <div class="h-1 w-44 bg-indigo-500 rounded"></div>
+                </div>
+                    {% include('components/Product/_cardProduct.html.twig') %}
+            </section>
+            {% else %}
+                <div class="text-center">
+                    <h1 class="text-2xl font-medium title-font mb-2 text-gray-900">
+                        Aucun produit n'est disponible pour le moment
+                    </h1>
+                </div>
+        {% endif %}
+
+
+        <!-- Component if there isn't event -->
+
+      {#  {% if eventsPublished == 0 %}
+            {% include('components/Event/_soon.html.twig') %}
+        {% endif %}#}
+    </section>
+{% endblock %}

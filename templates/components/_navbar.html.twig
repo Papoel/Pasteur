@@ -15,6 +15,7 @@
                     <div class="hidden md:flex items-center space-x-1">
                         <a href="{{ path('app_home') }}" class="{{ currentRoute=='app_home' ? 'text-indigo-100 border-b-4 border-indigo-400' : 'py-4 px-2 text-gray-400 font-semibold hover:text-indigo-400 transition duration-300' }}">Accueil</a>
                         <a href="{{ path('app_events') }}" class="{{ currentRoute=='app_events' ? 'text-indigo-100 border-b-4 border-indigo-400' : 'py-4 px-2 text-gray-400 font-semibold hover:text-indigo-400 transition duration-300' }}">Événements</a>
+                        <a href="{{ path('app_products') }}" class="{{ currentRoute=='app_products' ? 'text-indigo-100 border-b-4 border-indigo-400' : 'py-4 px-2 text-gray-400 font-semibold hover:text-indigo-400 transition duration-300' }}">Ventes / Réservations</a>
                         <a href="{{ path('app_contact') }}" class="{{ currentRoute=='app_contact' ? 'text-indigo-100 border-b-4 border-indigo-400' : 'py-4 px-2 text-gray-400 font-semibold hover:text-indigo-400 transition duration-300' }}">Contact</a>
                         <a href="{{ path('app_cgu') }}" class="py-4 px-2 text-gray-400 font-semibold hover:text-indigo-400 transition duration-300">CGU</a>
                     </div>
@@ -91,6 +92,7 @@
             <ul class="">
                 <li class="{{ currentRoute=='app_home' ? 'active' }}"><a href="{{ path('app_home') }}" class="block text-base px-2 py-4 text-white hover:bg-indigo-500 hover:font-semibold">Accueil</a></li>
                 <li class="{{ currentRoute=='app_events' ? 'active' }}"><a href="{{ path('app_events') }}" class="block text-base px-2 py-4 text-white hover:bg-indigo-500 hover:font-semibold transition duration-300">Événements</a></li>
+                <li class="{{ currentRoute=='app_products' ? 'active' }}"><a href="{{ path('app_products') }}" class="block text-base px-2 py-4 text-white hover:bg-indigo-500 hover:font-semibold transition duration-300">Ventes / Réservation</a></li>
                 <li class="{{ currentRoute=='app_contact' ? 'active' }}"><a href="{{ path('app_contact') }}" class="block text-base px-2 py-4 text-white hover:bg-indigo-500 hover:font-semibold transition duration-300">Contact</a></li>
                 <li class="{{ currentRoute=='app_contact' ? 'active' }}"><a href="{{ path('app_cgu') }}" class="block text-base px-2 py-4 text-white hover:bg-indigo-500 hover:font-semibold transition duration-300">CGU</a></li>
                 {% if not app.user %}

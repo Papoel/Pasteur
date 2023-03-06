@@ -2,6 +2,7 @@
 
 namespace App\Entity\Event;
 
+use App\Entity\Product\Product;
 use App\Repository\Event\RegistrationHelpRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -49,6 +50,9 @@ class RegistrationHelp
 
     #[ORM\Column]
     private array $creneau_choices = [];
+
+    #[ORM\ManyToOne(inversedBy: 'registrationHelp')]
+    private ?Product $product = null;
 
     public function getCreneauChoicesAsString(): string
     {
@@ -147,6 +151,18 @@ class RegistrationHelp
     public function setCreneauChoices(array $creneau_choices): self
     {
         $this->creneau_choices = $creneau_choices;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): self
+    {
+        $this->product = $product;
 
         return $this;
     }

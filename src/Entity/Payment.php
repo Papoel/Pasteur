@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Entity\Event\Event;
 use App\Entity\Event\RegistrationEvent;
+use App\Entity\Product\Product;
 use App\Repository\PaymentRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -48,6 +49,9 @@ class Payment
 
     #[ORM\Column]
     private ?int $unit_price = null;
+
+    #[ORM\ManyToOne(inversedBy: 'payments')]
+    private ?Product $product = null;
 
     public function __construct()
     {
@@ -163,6 +167,18 @@ class Payment
     public function setUnitPrice(int $unit_price): self
     {
         $this->unit_price = $unit_price;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): self
+    {
+        $this->product = $product;
 
         return $this;
     }
