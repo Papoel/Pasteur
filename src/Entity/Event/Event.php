@@ -9,13 +9,13 @@ use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Uid\Uuid;
-use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation\Uploadable;
 use Vich\UploaderBundle\Mapping\Annotation\UploadableField;
+use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EventRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -64,8 +64,7 @@ class Event
     #[Assert\LessThan(
         10000,
         message: 'Le prix ne doit pas dépasser {{ value }} €'
-    )
-    ]
+    )]
     private ?int $price = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
@@ -109,7 +108,7 @@ class Event
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\ManyToMany(targetEntity: Slot::class, inversedBy: 'events')]
-    #[ORM\JoinTable(name: 'event_creneau')]
+    #[ORM\JoinTable(name: 'slot_event')]
     private Collection $creneaux;
 
     #[ORM\OneToMany(mappedBy: 'event', targetEntity: RegistrationHelp::class)]
