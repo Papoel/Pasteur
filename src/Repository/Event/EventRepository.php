@@ -41,11 +41,11 @@ class EventRepository extends ServiceEntityRepository
 
     public function findUpcoming(): array
     {
-        $qb = $this->createQueryBuilder(alias: 'events')
-            ->andWhere('events.startsAt > :now')
-            ->andWhere('events.published = true')
+        $qb = $this->createQueryBuilder(alias: 'e')
+            ->andWhere('e.startsAt > :now')
+            ->andWhere('e.published = true')
             ->setParameter(key: ':now', value: new \DateTime())
-            ->orderBy(sort: 'events.startsAt', order: 'ASC');
+            ->orderBy(sort: 'e.startsAt', order: 'ASC');
 
         return $qb->getQuery()->getResult();
     }
