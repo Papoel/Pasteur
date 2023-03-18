@@ -2,42 +2,28 @@
     {% for product in products %}
             <div id="card-product-{{ product.id }}"
                  class="card-event bg-white border border-t-0 border-green-600 rounded-lg transform duration-500 hover:-translate-y-2 hover:shadow-2xl overflow-hidden hover:shadow-grren-100 relative">
-                <div class="{{ product.capacity == 0 ? 'bg-red-700' : 'bg-indigo-700' }} z-10 absolute left-[-34px] top-[32px] w-[170px] transform -rotate-45 text-center text-white font-semibold py-1 text-sm tracking-tight">
-                    {% if product.capacity == 0 %}
-                        <span id="product-full-{{ product.id }}">COMPLET</span>
+                <div class="{{ product.stock == 0 ? 'bg-red-700' : 'bg-indigo-700' }} z-10 absolute left-[-34px] top-[32px] w-[170px] transform -rotate-45 text-center text-white font-semibold py-1 text-sm tracking-tight">
+                    {% if product.stock == 0 %}
+                        <span id="product-full-{{ product.id }}">ÉPUISÉ</span>
                     {% else %}
                         {{ product.startsAt|date("d / m / Y") }}
                     {% endif %}
                 </div>
 
-                {% if product.imageName == "event.jpeg" %}
-                    <img class="{{ product.capacity == 0 ? 'filter grayscale opacity-75' }} image-event z-0"
+                {% if product.imageName == "event.jpeg" or product.imageName is null %}
+                    <img class="{{ product.stock == 0 ? 'filter grayscale opacity-75' }} image-event z-0"
                          src="{{ asset('uploads/images/bases/event.jpeg') }}" alt="{{ product.name }}">
                 {% else %}
-                    <img class="{{ product.capacity == 0 ? 'filter grayscale ' }} image-event"
-                         src="{{ vich_uploader_asset(event, 'imageFile') }}" alt="{{ product.name }}">
+                    <img class="{{ product.stock == 0 ? 'filter grayscale ' }} image-event"
+                         src="{{ vich_uploader_asset(product, 'imageFile') }}" alt="{{ product.name }}">
                 {% endif %}
 
                 <div class="flex justify-between p-2 bg-gray-50">
                     <div class="font-bold text-lg">{{ product.name }}</div>
-                    <div class="flex justify-between">
+                    <div class="flex justify-between items-center">
                         <p class="inline-flex">
-                            <svg class="w-6 h-6 text-pink-700" viewBox="0 0 24 24">
-                                <defs>
-                                    <path id="map-pin-fill_svg__24_small_map_pin_fill-a"
-                                          d="M7 0a7 7 0 00-7 7c0 2.015 1.016 3.985 2 5.5.985 1.515 5 7.5 5 7.5s3.985-5.985 5-7.5c1.015-1.515 2-3.485 2-5.5a7 7 0 00-7-7m0 9.5c1.378 0 2.5-1.122 2.5-2.5S8.378 4.5 7 4.5A2.503 2.503 0 004.5 7c0 1.378 1.122 2.5 2.5 2.5"></path>
-                                </defs>
-                                <g fill="none" fill-rule="evenodd" transform="translate(5 2)">
-                                    <mask id="map-pin-fill_svg__24_small_map_pin_fill-b" fill="#fff">
-                                        <use xlink:href="#map-pin-fill_svg__24_small_map_pin_fill-a"></use>
-                                    </mask>
-                                    <use fill="#45494E" xlink:href="#map-pin-fill_svg__24_small_map_pin_fill-a"></use>
-                                    <g mask="url(#map-pin-fill_svg__24_small_map_pin_fill-b)">
-                                        <path fill="#BE185D" d="M-5-2h24v24H-5z"></path>
-                                    </g>
-                                </g>
-                            </svg>
-                            {{ product.location }}
+                            <svg class="w-6 h-6 text-pink-700" viewBox="0 0 24 24"><defs><path id="map-pin-fill_svg__24_small_map_pin_fill-a" d="M7 0a7 7 0 00-7 7c0 2.015 1.016 3.985 2 5.5.985 1.515 5 7.5 5 7.5s3.985-5.985 5-7.5c1.015-1.515 2-3.485 2-5.5a7 7 0 00-7-7m0 9.5c1.378 0 2.5-1.122 2.5-2.5S8.378 4.5 7 4.5A2.503 2.503 0 004.5 7c0 1.378 1.122 2.5 2.5 2.5"></path></defs><g fill="none" fill-rule="evenodd" transform="translate(5 2)"><mask id="map-pin-fill_svg__24_small_map_pin_fill-b" fill="#fff"><use xlink:href="#map-pin-fill_svg__24_small_map_pin_fill-a"></use></mask><use fill="#45494E" xlink:href="#map-pin-fill_svg__24_small_map_pin_fill-a"></use><g mask="url(#map-pin-fill_svg__24_small_map_pin_fill-b)"><path fill="#BE185D" d="M-5-2h24v24H-5z"></path></g></g></svg>
+                            {{ product.location ? product.location : 'École' }}
                         </p>
                     </div>
                 </div>
@@ -68,15 +54,15 @@
                         </p>
 
                         <p class="inline-flex">
-                            {% if product.capacity > 0 %}
+                            {% if product.stock > 0 %}
                                 <span id="product-capacity-{{ product.id }}"
-                                      class="{{ product.capacity < 10 ? 'text-red-800 bg-red-100' : 'text-indigo-800 bg-indigo-100' }} inline-flex justify-center items-center w-6 h-6 text-xs font-base rounded-full">
-                                    {{ product.capacity }}
+                                      class="{{ product.stock < 10 ? 'text-red-800 bg-red-100' : 'text-indigo-800 bg-indigo-100' }} inline-flex justify-center items-center w-6 h-6 text-xs font-base rounded-full">
+                                    {{ product.stock }}
                                 </span>
                             {% else %}
                                 <span id="product-full-{{ product.id }}"
                                       class="text-red-800 bg-red-100 inline-flex justify-center items-center text-xs font-base rounded-full px-2">
-                                    Complet
+                                    Indisponible
                                 </span>
                             {% endif %}
                         </p>
@@ -84,25 +70,17 @@
                 {% else %}
                     <div class="flex justify-between my-2 p-2">
                         <p class="inline-flex">
-                            <svg class="w-5 h-5 text-pink-700 mx-2" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"/>
-                            </svg>
+                            <svg class="w-5 h-5 text-pink-700 mx-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"/></svg>
                             <span class="align-items-center text-sm">{{ product.startsAt|date('d/m') }}</span>
                         </p>
                         <p class="inline-flex">
-                            <svg class="w-5 h-5 text-pink-700 mx-2" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
+                            <svg class="w-5 h-5 text-pink-700 mx-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                             <span class="align-items-center text-sm">{{ product.startsAt|date('H:i') }} à {{ product.finishAt|date('H:i') }}</span>
                         </p>
                         <p class="inline-flex">
                             <span id="product-capacity-{{ product.id }}"
-                                  class="{{ product.capacity < 10 ? 'text-red-800 bg-red-100' : 'text-indigo-800 bg-indigo-100' }} inline-flex justify-center items-center w-6 h-6 text-xs font-base rounded-full">
-                                {{ product.capacity }}
+                                  class="{{ product.stock < 10 ? 'text-red-800 bg-red-100' : 'text-indigo-800 bg-indigo-100' }} inline-flex justify-center items-center w-6 h-6 text-xs font-base rounded-full">
+                                {{ product.stock }}
                             </span>
                         </p>
                     </div>
@@ -126,10 +104,10 @@
                 </div>
 
                 <div class="flex justify-between px-6 pb-2">
-        <span id="product-price-{{ product.id }}"
-              class="{{ format_price(product) == 'Gratuit' ? 'bg-green-100 text-green-800 uppercase' : 'bg-gray-200' }} inline-block rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            {{ format_price(product) }}
-        </span>
+                    <span id="product-price-{{ product.id }}"
+                          class="{{ format_price(product) == 'Gratuit' ? 'bg-green-100 text-green-800 uppercase' : 'bg-gray-200' }} inline-block rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                        {{ format_price(product) }}
+                    </span>
 
                     <div class="flex justify-center align-items flex-row">
                         <a id="link-to-share-{{ product.id }}"

@@ -1,0 +1,156 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Paiement de la commande{% endblock %}
+
+{% block body %}
+    {% include('components/_navbar.html.twig') %}
+
+        <!-- Carte récap + Carte Client -->
+        <div class="container mx-auto px-4 my-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+                <!-- Carte récapitulatif client -->
+                <div class="p-4 bg-white rounded-lg shadow-md divide-gray-700 bg-gray-900 text-gray-100">
+                    <h2 class="text-xl font-bold mb-4 text-center">Récapitulatif sur ma commande</h2>
+                    <hr class="my-2">
+                    <!-- Liste des articles commandés -->
+                    <ul class="flex flex-col pt-4 space-y-2">
+                        {% for item in cart %}
+                            <li class="flex items-start justify-between">
+                                <h3>{{ item.product.name }}
+                                    <span class="text-sm text-violet-400">x{{ item.quantity }}</span>
+                                </h3>
+                                <div class="text-right">
+                                    <span class="block">{{ (item.quantity * (item.product.price / 100))|number_format(2) }} €</span>
+                                    <span class="text-sm text-gray-400">{{ (item.product.price / 100)|number_format(2) }} € pièce</span>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+                    <hr class="mt-6 mb-2">
+
+                    <!-- Sous-total -->
+                    <div class="pt-4 space-y-2">
+                        <div class="flex justify-between">
+                            <span>Sous total</span>
+                            <span>
+                                {% set totalPrice = 0 %}
+                                {% for product in app.session.get('cartData') %}
+                                    {% set totalPrice = totalPrice + (product.product.price * product.quantity) %}
+                                {% endfor %}
+                                {{ (totalPrice / 100)|number_format(2) }} €
+                            </span>
+                        </div>
+                    </div>
+
+                    <hr class="mt-6 mb-2">
+
+                    <!-- Frais divers (livraison + services) -->
+                    <div class="pt-4 space-y-2">
+                        <div class="flex justify-between">
+                            <span>Frais de service</span>
+                            <span>{{ chargeService|number_format(2) }} €</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Frais de livraison</span>
+                            <span>{{ chargeDelivery|number_format(2) }} €</span>
+                        </div>
+                    </div>
+
+                    <hr class="mt-6 mb-2">
+
+                    <!-- Détail de livraison-->
+                    <div class="pt-4 space-y-2">
+                        <h3 class="text-xl font-bold mb-4 underline">Détail de la livraison</h3>
+                        <ul class="flex flex-col pt-4 space-y-2">
+                            {% for item in cart %}
+                                <li class="flex items-start justify-between">
+                                    <h3>{{ item.product.name }}</h3>
+                                    <div class="text-right">
+                                        <span class="block">{{ item.product.deliveryAt|date('d/m/y') }}</span>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <hr class="mt-6 mb-2">
+
+                    <!-- Total de la commande -->
+                    <div class="pt-4 space-y-2">
+                        <div class="flex justify-between">
+                            <span class="text-xl font-bold">Total</span>
+                            <span class="font-semibold">
+                            {% set totalWihCharge = (totalPrice / 100) + (chargeDelivery + chargeService) %}
+                                {{ totalWihCharge|number_format(2) }} €
+                        </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Carte information Utilisateur | Client -->
+                <div class="p-4 bg-white rounded-lg shadow-md divide-gray-700 bg-gray-900 text-gray-100">
+                    <h2 class="text-xl font-bold mb-4 text-center">Information client</h2>
+                    <hr class="my-2">
+                    <!-- Identités -->
+                    <ul class="flex flex-col pt-4 space-y-2">
+                        <li class="flex items-start justify-between">
+                            <h3>Nom Complet</h3>
+                            <div class="text-right">
+                                <span class="block">{{ client.firstname }} {{ client.lastname }}</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start justify-between">
+                            <h3>Email</h3>
+                            <div class="text-right">
+                                <span class="block">{{ client.email }}</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start justify-between">
+                            <h3>Téléphone</h3>
+                            <div class="text-right">
+                                {% if client.telephone %}
+                                    <span class="block">{{ client.telephone }}</span>
+                                {% else %}
+                                    <span class="block">Non renseigné</span>
+                                {% endif %}
+                            </div>
+                        </li>
+                    </ul>
+
+                    <hr class="mt-6 mb-2">
+
+                    <!-- Information de livraison -->
+                    <div class="pt-4 space-y-2">
+                        <div class="flex justify-between">
+                            <span>Livraison</span>
+                            <span>
+                                En main propre à votre enfant.
+                            </span>
+                        </div>
+                    </div>
+
+                    <hr class="mt-6 mb-2">
+
+                    <!-- Contact APERP -->
+                    <div class="pt-4 space-y-2">
+                        <h3 class="text-xl font-bold mb-4 underline">Contact APERP</h3>
+                        <span class="block">
+                            Pour toute question, n'hésitez pas à nous contacter,
+                            <a class="text-violet-400 hover:text-violet-300 hover:font-semibold transition-all duration-300" href="tel:0650017440">par téléphone</a> ou nous envoyer un
+                            <a class="text-violet-400 hover:text-violet-300 hover:font-semibold transition-all duration-300" href="{{ path('app_contact') }}"target="_blank">message</a>.
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            {{ dump(form) }}
+            <!-- Payer la commande -->
+            <div class="my-10 w-full">
+                <button type="submit" class="text-center dark:border-white dark:hover:bg-green-900 dark:bg-transparent dark:text-white py-5 hover:bg-green-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-800 border border-green-800 font-medium w-full text-base leading-4 text-green-800">
+                    Payer ma commande
+                </button>
+            </div>
+        </div>
+
+{% endblock %}

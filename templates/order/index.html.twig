@@ -1,0 +1,198 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commande{% endblock %}
+
+{% block body %}
+    {% include('components/_navbar.html.twig') %}
+
+    <main class="container mx-auto py-5">
+
+        {#<section id="recap-order" class="container my-12 mx-auto">
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 border-x">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    <th scope="col" class="px-6 py-3">
+                        Image
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Produit
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Prix unitaire
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Quantité
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Prix
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for item in cart %}
+                    <tr class="bg-white dark:bg-gray-800 align-middle">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {% if item.product.imageName == "event.jpeg" or item.product.imageName is null %}
+                                <img class="w-24 hidden md:block"
+                                     src="{{ asset('uploads/images/bases/event.jpeg') }}" alt="{{ item.product.name }}">
+                            {% else %}
+                                <img class="w-24 hidden md:block"
+                                     src="{{ vich_uploader_asset(product, 'imageFile') }}" alt="{{ item.product.name }}">
+                            {% endif %}
+                        </th>
+                        <td class="px-6 py-4 align-middle">
+                            <span class="">
+                                {{ item.product.name }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 align-middle">
+                            {{ (item.product.price) / 100 }} €
+                        </td>
+                        <td class="px-6 py-4 align-middle">
+                            {{ item.quantity }}
+                        </td>
+                        <td class="px-6 py-4 align-middle">
+                            {{ (item.product.price * item.quantity) / 100 }} €
+                        </td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+                <tfoot>
+                <tr class="font-semibold text-gray-900 dark:text-white bg-gray-100">
+                    <th scope="row" colspan="3" class="px-6 py-3 text-base">Total</th>
+                    <td class="px-6 py-3">
+                        {% set totalQuantity = 0 %}
+                        {% for product in app.session.get('cartData') %}
+                            {% set totalQuantity = totalQuantity + product.quantity %}
+                        {% endfor %}
+                        {{ totalQuantity }}
+                    </td>
+                    <td class="px-6 py-3">
+                        {% set totalPrice = 0 %}
+                        {% for product in app.session.get('cartData') %}
+                            {% set totalPrice = totalPrice + (product.product.price * product.quantity) %}
+                        {% endfor %}
+                        {{ totalPrice / 100 }} €
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </section>#}
+
+        <!-- Carte récap + Carte Client -->
+        <div class="py-14 px-4 md:px-6 2xl:px-20 2xl:container mx-auto">
+            <div class="mt-10 flex flex-col xl:flex-row justify-center items-stretch w-full xl:space-x-8 space-y-4 md:space-y-6 xl:space-y-0">
+
+                <div class="bg-gray-50 dark:bg-gray-800 w-full flex justify-between items-center md:items-start px-4 py-6 md:p-6 xl:p-8 flex-col">
+                    <h3 class="text-xl dark:text-white font-semibold leading-5 text-gray-800 mb-4">Information Client</h3>
+
+                    {% if not app.user %}
+                        {% if order %}
+                            {{ form_start(form) }}
+                                <div class="flex flex-wrap -mx-3 mb-6">
+                                    <div class="w-full md:w-1/2 px-3">{{ form_row(form.firstname, {'value': order.firstname}) }}</div>
+                                    <div class="w-full md:w-1/2 px-3">{{ form_row(form.lastname, {'value': order.lastname}) }}</div>
+                                    <div class="w-full md:w-1/2 px-3">{{ form_row(form.email, {'value': order.email}) }}</div>
+                                    <div class="w-full md:w-1/2 px-3">{{ form_row(form.telephone, {'value': order.telephone}) }}</div>
+                                    <div class="w-full md:w-1/2 px-3 mt-2">
+                                        {{ form_row(form.submit, {'attr': {'class': 'text-center text-sm border text-gray-500 hover:text-gray-600 font-medium px-3 py-4 hover:bg-gray-100 hover:text-gray-600 hover:font-semibold'} }) }}
+                                    </div>
+                                </div>
+                            {{ form_end(form) }}
+                            {% else %}
+                            {{ form_start(form) }}
+                                <div class="flex flex-wrap -mx-3 mb-6">
+                                    <div class="w-full md:w-1/2 px-3">{{ form_row(form.firstname) }}</div>
+                                    <div class="w-full md:w-1/2 px-3">{{ form_row(form.lastname) }}</div>
+                                    <div class="w-full md:w-1/2 px-3">{{ form_row(form.email) }}</div>
+                                    <div class="w-full md:w-1/2 px-3">{{ form_row(form.telephone) }}</div>
+                                    <div class="w-full md:w-1/2 px-3 mt-2">
+                                        {{ form_row(form.submit, {'attr': {'class': 'text-center text-sm border text-gray-500 hover:text-gray-600 font-medium px-3 py-4 hover:bg-gray-100 hover:text-gray-600 hover:font-semibold'} }) }}
+                                    </div>
+                                </div>
+                            {{ form_end(form) }}
+                        {% endif %}
+                        {% else %}
+                            <!-- Card -->
+                            <div class="max-w-sm mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
+                                <div class="flex flex-col h-full">
+                                    <!-- Card top -->
+                                    <div class="flex-grow p-5">
+                                        <div class="flex justify-between items-start">
+                                            <!-- Image + name -->
+                                            <header>
+                                                <div class="flex mb-2">
+                                                    <a class="relative inline-flex items-start mr-5" href="#0">
+                                                        <div class="absolute top-0 right-0 -mr-2 bg-white rounded-full shadow" aria-hidden="true">
+                                                            <svg class="w-8 h-8 fill-current text-yellow-500" viewBox="0 0 32 32">
+                                                                <path d="M21 14.077a.75.75 0 01-.75-.75 1.5 1.5 0 00-1.5-1.5.75.75 0 110-1.5 1.5 1.5 0 001.5-1.5.75.75 0 111.5 0 1.5 1.5 0 001.5 1.5.75.75 0 010 1.5 1.5 1.5 0 00-1.5 1.5.75.75 0 01-.75.75zM14 24.077a1 1 0 01-1-1 4 4 0 00-4-4 1 1 0 110-2 4 4 0 004-4 1 1 0 012 0 4 4 0 004 4 1 1 0 010 2 4 4 0 00-4 4 1 1 0 01-1 1z" />
+                                                            </svg>
+                                                        </div>
+                                                        <img class="rounded-full" src="https://lorempokemon.fakerapi.it/pokemon/300/1000" width="64" height="64" alt="User 01" />
+                                                    </a>
+                                                    <div class="mt-1 pr-1">
+                                                        <span class="inline-flex text-gray-800 hover:text-gray-900" href="#0">
+                                                            <h2 class="text-xl leading-snug justify-center font-semibold">{{ app.user.fullName }}</h2>
+                                                        </span> <br>
+                                                        <span class="inline-flex text-gray-800 hover:text-gray-400" href="#0">
+                                                            <h2 class="text-sm leading-snug justify-center">{{ app.user.email }}</h2>
+                                                        </span>
+                                                        {% if app.user.telephone %}
+                                                            <span class="inline-flex text-gray-800 hover:text-gray-400" href="#0">
+                                                                <h2 class="text-sm leading-snug justify-center">| {{ phone(app.user.telephone) }}</h2>
+                                                            </span>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </header>
+                                        </div>
+                                        <!-- Info -->
+                                        <div class="mt-2">
+                                            <div class="text-sm">
+                                                Vous êtes actuellement connecté à votre compte. Vous pouvez vous déconnecter
+                                                en cliquant sur le bouton ci-dessous.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Card footer (Logout)-->
+                                    <div class="border-t border-gray-200">
+                                        <div class="flex divide-x divide-gray-200r">
+                                            <a href="{{ path('app_stripe_payment_products') }}" class="block flex-1 text-center text-sm text-indigo-500 hover:text-indigo-600 font-medium px-3 py-4 hover:bg-green-100 hover:text-green-600 hover:font-semibold">
+                                                <div class="flex items-center justify-center">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 flex-shrink-0">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
+                                                    </svg>
+                                                    <span class="ml-1">Payer</span>
+                                                </div>
+                                            </a>
+                                            <!-- TODO: Mettre le bouton de validation du formulaire order-form -->
+                                            <a class="block flex-1 text-center text-sm text-indigo-500 hover:text-indigo-600 font-medium px-3 py-4 hover:bg-red-100 hover:text-red-600 hover:font-semibold" href="{{ path('app_logout') }}">
+                                                <div class="flex items-center justify-center">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 flex-shrink-0 mr-2">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+                                                    </svg>
+                                                    <span>Me déconnecter</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+
+    </main>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        console.log("Panier" );
+    </script>
+{% endblock %}

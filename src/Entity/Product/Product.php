@@ -2,6 +2,7 @@
 
 namespace App\Entity\Product;
 
+use App\Entity\Order\OrderDetails;
 use App\Entity\Slot\Slot;
 use App\Entity\Payment;
 use App\Entity\Event\RegistrationHelp;
@@ -12,7 +13,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\Uid\Uuid;
 use Vich\UploaderBundle\Mapping\Annotation\Uploadable;
 use Vich\UploaderBundle\Mapping\Annotation\UploadableField;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -22,17 +22,15 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\HasLifecycleCallbacks]
 #[Uploadable]
 #[UniqueEntity(
-    fields: ['slug', 'startsAt'],
-    message: 'L\'événement {{ value }} est déjà programmé à cette date et heure.'
+    fields: ['slug'],
+    message: 'Le produit {{ value }} existe déjà en base de données.'
 )]
 class Product
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
-    #[ORM\Column(type: 'uuid', unique: true)]
-    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    #[Assert\Uuid]
-    private ?Uuid $id = null;
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 150)]
     #[Assert\NotBlank(message: 'Veuillez renseigner un titre pour cet événement.')]
@@ -76,7 +74,7 @@ class Product
 
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
     #[Assert\PositiveOrZero]
-    private ?int $capacity = null;
+    private ?int $stock = null;
 
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
@@ -97,7 +95,7 @@ class Product
     private \DateTimeImmutable $createdAt;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $updatedAt = null;
+    private ?\DateTimeImmutable $deliveryAt = null;
 
     #[ORM\ManyToMany(targetEntity: Slot::class, inversedBy: 'products')]
     #[ORM\JoinTable(name: 'slot_product')]
@@ -110,7 +108,13 @@ class Product
     private Collection $payments;
 
     #[ORM\Column(nullable: true)]
-    private ?int $registered = null;
+    private ?int $reserved = null;
+
+    #[ORM\Column(type: 'boolean')]
+    private bool $DeliveredSchool = false;
+
+    #[ORM\OneToMany(mappedBy: 'productId', targetEntity: OrderDetails::class)]
+    private Collection $orderDetails;
 
     public function __construct()
     {
@@ -119,18 +123,17 @@ class Product
         $this->creneaux = new ArrayCollection();
         $this->registrationHelp = new ArrayCollection();
         $this->payments = new ArrayCollection();
-    }
-
-    #[ORM\PreUpdate]
-    public function preUpdate(): void
-    {
-        $this->updatedAt = new \DateTimeImmutable();
+        $this->orderDetails = new ArrayCollection();
     }
 
     #[ORM\PrePersist]
     public function prePersist(): void
     {
         $this->slug = (new Slugify())->slugify($this->name);
+
+        if ($this->isDeliveredSchool() === true) {
+            $this->setLocation(location: 'École');
+        }
     }
 
     public function isFree(): bool
@@ -138,7 +141,7 @@ class Product
         return (0 == $this->getPrice()) || is_null($this->getPrice());
     }
 
-    public function getId(): ?Uuid
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -215,14 +218,14 @@ class Product
         return $this;
     }
 
-    public function getCapacity(): ?int
+    public function getStock(): ?int
     {
-        return $this->capacity;
+        return $this->stock;
     }
 
-    public function setCapacity(int $capacity): self
+    public function setStock(int $stock): self
     {
-        $this->capacity = $capacity;
+        $this->stock = $stock;
 
         return $this;
     }
@@ -299,14 +302,14 @@ class Product
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeImmutable
+    public function getDeliveryAt(): ?\DateTimeImmutable
     {
-        return $this->updatedAt;
+        return $this->deliveryAt;
     }
 
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
+    public function setDeliveryAt(\DateTimeImmutable $deliveryAt): self
     {
-        $this->updatedAt = $updatedAt;
+        $this->deliveryAt = $deliveryAt;
 
         return $this;
     }
@@ -395,14 +398,57 @@ class Product
         return $this;
     }
 
-    public function getRegistered(): ?int
+    public function getReserved(): ?int
     {
-        return $this->registered;
+        return $this->reserved;
     }
 
-    public function setRegistered(?int $registered): self
+    public function setReserved(?int $reserved): self
     {
-        $this->registered = $registered;
+        $this->reserved = $reserved;
+
+        return $this;
+    }
+
+    public function isDeliveredSchool(): bool
+    {
+        return $this->DeliveredSchool;
+    }
+
+
+    public function setDeliveredSchool(bool $DeliveredSchool): self
+    {
+        $this->DeliveredSchool = $DeliveredSchool;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, OrderDetails>
+     */
+    public function getOrderDetails(): Collection
+    {
+        return $this->orderDetails;
+    }
+
+    public function addOrderDetail(OrderDetails $orderDetail): self
+    {
+        if (!$this->orderDetails->contains($orderDetail)) {
+            $this->orderDetails->add($orderDetail);
+            $orderDetail->setProductId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderDetail(OrderDetails $orderDetail): self
+    {
+        if ($this->orderDetails->removeElement($orderDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($orderDetail->getProductId() === $this) {
+                $orderDetail->setProductId(null);
+            }
+        }
 
         return $this;
     }

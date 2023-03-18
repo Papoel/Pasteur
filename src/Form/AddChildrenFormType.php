@@ -49,8 +49,8 @@ class AddChildrenFormType extends AbstractType
                     'CM2' => 'CM2',
                     'Extérieur' => 'Extérieur',
                 ],
-                'label' => 'Classe de l\'enfant',
-                'placeholder' => 'Sélectionner la classe de votre enfant',
+                'label' => 'Classe de l\'enfant (Uniquement Pasteur)',
+                'placeholder' => 'Choisissez Extérieur si votre enfant n\'est pas scolarisé à Pasteur',
                 'label_attr' => [
                     'class' => 'block text-gray-500 uppercase tracking-wider text-sm font-bold',
                 ],

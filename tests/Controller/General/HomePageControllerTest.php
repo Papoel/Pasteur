@@ -68,8 +68,7 @@ class HomePageControllerTest extends WebTestCase
         );
 
         // S'assurer que le "header" existe sur la page
-        self::assertSelectorExists(selector: 'header', message: 'Le header n\'existe pas sur la page d\'accueil');
-        self::assertSelectorExists(selector: '.mobile-menu', message: 'La menu mobile n\'existe pas sur la page d\'accueil');
+        self::assertSelectorExists(selector: '#header', message: 'Le header n\'existe pas sur la page d\'accueil');
     }
     /** Tester si le Footer est présent
      * @test

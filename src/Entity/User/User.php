@@ -2,9 +2,12 @@
 
 namespace App\Entity\User;
 
+use App\Entity\Order\Order;
 use App\Repository\User\UserRepository;
 use DateTime;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -131,9 +134,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?DateTimeImmutable $askDeleteAccountAt = null;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Order::class)]
+    private Collection $orders;
+
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable();
+        $this->orders = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -439,6 +446,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAskDeleteAccountAt(?DateTimeImmutable $askDeleteAccountAt): self
     {
         $this->askDeleteAccountAt = $askDeleteAccountAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Order>
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function addOrder(Order $order): self
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders->add($order);
+            $order->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(Order $order): self
+    {
+        if ($this->orders->removeElement($order)) {
+            // set the owning side to null (unless already changed)
+            if ($order->getUser() === $this) {
+                $order->setUser(null);
+            }
+        }
 
         return $this;
     }

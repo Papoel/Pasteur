@@ -40,7 +40,6 @@ class RegistrationHelpRepository extends ServiceEntityRepository
         }
     }
 
-    // SELECT DISTINCT `activity` FROM `registration` WHERE `email` = 'pascal.briffard@gmail.com' AND `event_id` = 5
     public function findActivitiesByEventAndEmail(Event $event, string $email, string $activity)
     {
         return $this->createQueryBuilder(alias: 'r')

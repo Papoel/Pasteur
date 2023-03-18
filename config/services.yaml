@@ -10,6 +10,7 @@ parameters:
     STRIPE_KEY_SECRET: '%env(resolve:STRIPE_KEY_SECRET)%'
     STRIPE_KEY_PUBLIC: '%env(resolve:STRIPE_KEY_PUBLIC)%'
     STRIPE_WEBHOOK_SECRET: '%env(resolve:STRIPE_WEBHOOK_SECRET)%'
+    STRIPE_WEBHOOK_SECRET_ORDER: '%env(resolve:STRIPE_WEBHOOK_SECRET_ORDER)%'
     maintenance_file: '%kernel.project_dir%/public/.maintenance'
 
 services:

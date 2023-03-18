@@ -2,12 +2,13 @@
   "entrypoints": {
     "app": {
       "js": [
-        "/build/runtime.js",
-        "/build/vendors-node_modules_core-js_modules_es_object_to-string_js-node_modules_core-js_modules_es_p-38b208.js",
-        "/build/app.js"
+        "http://localhost:8080/build/runtime.js",
+        "http://localhost:8080/build/vendors-node_modules_webpack-dev-server_client_index_js_protocol_ws_3A_hostname_localhost_por-3885b1.js",
+        "http://localhost:8080/build/vendors-node_modules_core-js_modules_es_object_to-string_js-node_modules_core-js_modules_es_p-033863.js",
+        "http://localhost:8080/build/app.js"
       ],
       "css": [
-        "/build/app.css"
+        "http://localhost:8080/build/app.css"
       ]
     }
   }
