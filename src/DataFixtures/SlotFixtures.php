@@ -36,15 +36,12 @@ class SlotFixtures extends Fixture implements DependentFixtureInterface
         }
 
         $events = $this->eventRepository->findAll();
-        $products = $this->productRepository->findAll();
 
         foreach ($slots as $slot) {
             $nbEvents = random_int(min: 1, max: 3);
             for ($i = 0; $i < $nbEvents; ++$i) {
                 $event = $events[random_int(min: 0, max: count($events) - 1)];
-                $product = $products[random_int(min: 0, max: count($products) - 1)];
                 $slot->addEvent(event: $event);
-                $slot->addProduct(product: $product);
             }
         }
 

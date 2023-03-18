@@ -51,9 +51,6 @@ class RegistrationHelp
     #[ORM\Column]
     private array $creneau_choices = [];
 
-    #[ORM\ManyToOne(inversedBy: 'registrationHelp')]
-    private ?Product $product = null;
-
     public function getCreneauChoicesAsString(): string
     {
         return implode(separator: ', ', array: $this->creneau_choices);
@@ -151,18 +148,6 @@ class RegistrationHelp
     public function setCreneauChoices(array $creneau_choices): self
     {
         $this->creneau_choices = $creneau_choices;
-
-        return $this;
-    }
-
-    public function getProduct(): ?Product
-    {
-        return $this->product;
-    }
-
-    public function setProduct(?Product $product): self
-    {
-        $this->product = $product;
 
         return $this;
     }

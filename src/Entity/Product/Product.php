@@ -3,9 +3,6 @@
 namespace App\Entity\Product;
 
 use App\Entity\Order\OrderDetails;
-use App\Entity\Slot\Slot;
-use App\Entity\Payment;
-use App\Entity\Event\RegistrationHelp;
 use Cocur\Slugify\Slugify;
 use App\Repository\Product\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -46,13 +43,6 @@ class Product
     #[Assert\NotBlank]
     private ?string $description = null;
 
-    #[ORM\Column(length: 100, nullable: true)]
-    #[Assert\Length(
-        max: 100,
-        maxMessage: 'Le lieu ne peut pas comporter plus de {{ limit }} caractères.'
-    )]
-    private ?string $location;
-
     #[ORM\Column(type: Types::INTEGER, precision: 4, scale: 2, nullable: true)]
     #[Assert\GreaterThanOrEqual(0)]
     #[Assert\LessThan(
@@ -79,33 +69,20 @@ class Product
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?bool $helpNeeded = null;
-
     #[ORM\Column]
     private bool $published = false;
 
     #[UploadableField(mapping: 'product_image', fileNameProperty: 'imageName')]
     private ?File $imageFile = null;
 
-    #[ORM\Column(type: 'string', nullable: true, options: ['default' => 'event.jpeg'])]
-    private ?string $imageName = 'event.jpeg';
+    #[ORM\Column(type: 'string', nullable: true, options: ['default' => 'product.webp'])]
+    private ?string $imageName = 'product.webp';
 
     #[ORM\Column]
     private \DateTimeImmutable $createdAt;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $deliveryAt = null;
-
-    #[ORM\ManyToMany(targetEntity: Slot::class, inversedBy: 'products')]
-    #[ORM\JoinTable(name: 'slot_product')]
-    private Collection $creneaux;
-
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: RegistrationHelp::class)]
-    private Collection $registrationHelp;
-
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Payment::class)]
-    private Collection $payments;
 
     #[ORM\Column(nullable: true)]
     private ?int $reserved = null;
@@ -119,10 +96,6 @@ class Product
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
-
-        $this->creneaux = new ArrayCollection();
-        $this->registrationHelp = new ArrayCollection();
-        $this->payments = new ArrayCollection();
         $this->orderDetails = new ArrayCollection();
     }
 
@@ -130,10 +103,6 @@ class Product
     public function prePersist(): void
     {
         $this->slug = (new Slugify())->slugify($this->name);
-
-        if ($this->isDeliveredSchool() === true) {
-            $this->setLocation(location: 'École');
-        }
     }
 
     public function isFree(): bool
@@ -166,18 +135,6 @@ class Product
     public function setDescription(?string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getLocation(): ?string
-    {
-        return $this->location;
-    }
-
-    public function setLocation(?string $location): self
-    {
-        $this->location = $location;
 
         return $this;
     }
@@ -242,18 +199,6 @@ class Product
         return $this;
     }
 
-    public function isHelpNeeded(): bool
-    {
-        return $this->helpNeeded;
-    }
-
-    public function setHelpNeeded(?bool $helpNeeded): self
-    {
-        $this->helpNeeded = $helpNeeded;
-
-        return $this;
-    }
-
     public function isPublished(): bool
     {
         return $this->published;
@@ -276,7 +221,7 @@ class Product
         $this->imageFile = $imageFile;
 
         if (null !== $imageFile) {
-            $this->updatedAt = new \DateTimeImmutable();
+            $this->createdAt = new \DateTimeImmutable();
         }
     }
 
@@ -310,90 +255,6 @@ class Product
     public function setDeliveryAt(\DateTimeImmutable $deliveryAt): self
     {
         $this->deliveryAt = $deliveryAt;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Slot>
-     */
-    public function getCreneaux(): Collection
-    {
-        return $this->creneaux;
-    }
-
-    public function addCreneaux(Slot $creneaux): self
-    {
-        if (!$this->creneaux->contains($creneaux)) {
-            $this->creneaux->add($creneaux);
-        }
-
-        return $this;
-    }
-
-    public function removeCreneaux(Slot $creneaux): self
-    {
-        $this->creneaux->removeElement($creneaux);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, RegistrationHelp>
-     */
-    public function getRegistrationHelp(): Collection
-    {
-        return $this->registrationHelp;
-    }
-
-    public function addRegistrationHelp(RegistrationHelp $registrationHelp): self
-    {
-        if (!$this->registrationHelp->contains($registrationHelp)) {
-            $this->registrationHelp->add($registrationHelp);
-            $registrationHelp->setProduct($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRegistrationHelp(RegistrationHelp $registrationHelp): self
-    {
-        if ($this->registrationHelp->removeElement($registrationHelp)) {
-            // set the owning side to null (unless already changed)
-            if ($registrationHelp->getProduct() === $this) {
-                $registrationHelp->setProduct(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Payment>
-     */
-    public function getPayments(): Collection
-    {
-        return $this->payments;
-    }
-
-    public function addPayment(Payment $payment): self
-    {
-        if (!$this->payments->contains($payment)) {
-            $this->payments->add($payment);
-            $payment->setProduct($this);
-        }
-
-        return $this;
-    }
-
-    public function removePayment(Payment $payment): self
-    {
-        if ($this->payments->removeElement($payment)) {
-            // set the owning side to null (unless already changed)
-            if ($payment->getProduct() === $this) {
-                $payment->setProduct(null);
-            }
-        }
 
         return $this;
     }
@@ -446,7 +307,7 @@ class Product
         if ($this->orderDetails->removeElement($orderDetail)) {
             // set the owning side to null (unless already changed)
             if ($orderDetail->getProductId() === $this) {
-                $orderDetail->setProductId(null);
+                $orderDetail->setProductId(productId: null);
             }
         }
 

@@ -33,13 +33,9 @@ class Slot
     #[ORM\ManyToMany(targetEntity: Event::class, mappedBy: 'creneaux')]
     private Collection $events;
 
-    #[ORM\ManyToMany(targetEntity: Product::class, mappedBy: 'creneaux')]
-    private Collection $products;
-
     public function __construct()
     {
         $this->events = new ArrayCollection();
-        $this->products = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -98,33 +94,6 @@ class Slot
     {
         if ($this->events->removeElement($event)) {
             $event->removeCreneaux($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Product>
-     */
-    public function getProducts(): Collection
-    {
-        return $this->products;
-    }
-
-    public function addProduct(Product $product): self
-    {
-        if (!$this->products->contains($product)) {
-            $this->products->add($product);
-            $product->addCreneaux($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProduct(Product $product): self
-    {
-        if ($this->products->removeElement($product)) {
-            $product->removeCreneaux($this);
         }
 
         return $this;
