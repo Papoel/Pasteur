@@ -9,7 +9,6 @@ use App\Repository\Event\EventRepository;
 use App\Repository\Event\RegistrationEventRepository;
 use App\Repository\Event\RegistrationHelpRepository;
 use App\Services\PdfService;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -59,7 +58,7 @@ class EventsGestionController extends AbstractController
         PdfService $pdf
     ): Response {
         $html = $this->render(view: 'admin/pdf/liste.html.twig', parameters: [
-            'registrations' => $registrations->findBy(['event' => $event]) ,
+            'registrations' => $registrations->findBy(['event' => $event], ['lastname' => 'ASC']),
             'event' => $event ,
         ]);
         $eventName = $event->getName();

@@ -13,8 +13,7 @@
             </thead>
             <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800 align-middle">
             {% for registration in registrations %}
-                <tr class="bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900
-                                        text-gray-700 dark:text-gray-400">
+                <tr class="bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900 text-gray-700 dark:text-gray-400">
                     <td class="px-4 py-3 text-sm">
                             <p>{{ loop.index }}</p>
                     </td>
@@ -31,24 +30,21 @@
                         </div>
                     </td>
                     <td class="px-4 py-3 text-sm">
-                        {{ (registration.event.price / 100) * (registration.children|length) }}
-                        €
+                        {{ (registration.event.price / 100) * (registration.children|length) }} €
                     </td>
                     <td class="px-4 py-3 text-xs">
                         {% if registration.isPaid == 1 or event.price == 0 %}
-                            <span class="px-2 py-1 font-semibold leading-tight text-green-700
-                                                    bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
-                                                        {% if event.price == 0 %}
-                                                            Gratuit
-                                                        {% else %}
-                                                            Payé
-                                                        {% endif %}
-                                                    </span>
+                            <span class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                                {% if event.price == 0 %}
+                                    Gratuit
+                                {% else %}
+                                    Payé
+                                {% endif %}
+                            </span>
                         {% else %}
-                            <span class="px-2 py-1 font-semibold leading-tight text-red-700
-                                                    bg-red-100 rounded-full dark:bg-red-700 dark:text-red-100">
-                                                        Non Payé
-                                                    </span>
+                            <span class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:bg-red-700 dark:text-red-100">
+                                Non Payé
+                            </span>
                         {% endif %}
                     </td>
                     <td class="px-4 py-3 text-sm">
@@ -57,12 +53,15 @@
                         {% endfor %}
                     </td>
                     <td class="px-4 py-3 text-sm">
-                        <a class="text-red-100 bg-red-800 px-3 py-1 rounded-full
-                                                hover:bg-red-600 hover:text-white"
-                           href="{{ path('app_registration_event_cancel',
-                               {'id': registration.id, 'slug': event.slug}) }}">
-                            Annuler l'inscription
-                        </a>
+                        {% if registration.isPaid == false %}
+                            <a class="text-red-100 bg-red-800 px-3 py-1 rounded-full hover:bg-red-600 hover:text-white"
+                               href="{{ path('app_registration_event_cancel',
+                                   {'id': registration.id, 'slug': event.slug}) }}">
+                                Annuler l'inscription
+                            </a>
+                        {% else %}
+                            ❌
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}

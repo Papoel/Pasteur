@@ -208,7 +208,6 @@
     */
 
 </style>
-<!-- Create All class identicaly to tailwind css -->
 
 <h1 class="text-center uppercase my-4 mb-10">Liste des inscriptions pour {{ event.name }}</h1>
 
@@ -218,6 +217,7 @@
             <table class="w-full text-center border">
                 <thead>
                 <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                    <th class="px-4 py-3">#</th>
                     <th class="px-4 py-3">Client</th>
                     <th class="px-4 py-3">Coordonnées</th>
                     <th class="px-4 py-3">Prix</th>
@@ -228,6 +228,13 @@
                 <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
                 {% for registration in registrations %}
                 <tr class="bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900 text-gray-700 dark:text-gray-400">
+                    <td class="px-4 py-3">
+                        <div class="flex items-center text-sm">
+                            <div>
+                                <p class="font-semibold">{{ loop.index }}</p>
+                            </div>
+                        </div>
+                    </td>
                     <td class="px-4 py-3">
                         <div class="flex items-center text-sm">
                             <div>
@@ -249,8 +256,7 @@
                         </div>
                     </td>
                     <td class="px-4 py-3 text-sm">
-                        {{ (registration.event.price / 100) * (registration.children|length) }}
-                        €
+                        {{ (registration.event.price / 100) * (registration.children|length) }} €
                     </td>
                     <td class="text-sm">
                         {% if registration.isPaid == 1 or event.price == 0 %}

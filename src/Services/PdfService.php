@@ -9,7 +9,7 @@ use Dompdf\Options;
 
 class PdfService
 {
-    private $domPdf;
+    private Dompdf $domPdf;
 
     public function __construct()
     {
