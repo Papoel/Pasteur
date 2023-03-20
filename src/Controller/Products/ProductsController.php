@@ -6,7 +6,6 @@ namespace App\Controller\Products;
 
 use App\Entity\Product\Product;
 use App\Repository\Product\ProductRepository;
-use App\Services\CartService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
