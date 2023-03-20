@@ -133,16 +133,16 @@
                                                         <img class="rounded-full" src="https://lorempokemon.fakerapi.it/pokemon/300/1000" width="64" height="64" alt="User 01" />
                                                     </a>
                                                     <div class="mt-1 pr-1">
-                                                        <span class="inline-flex text-gray-800 hover:text-gray-900" href="#0">
-                                                            <h2 class="text-xl leading-snug justify-center font-semibold">{{ app.user.fullName }}</h2>
-                                                        </span> <br>
-                                                        <span class="inline-flex text-gray-800 hover:text-gray-400" href="#0">
-                                                            <h2 class="text-sm leading-snug justify-center">{{ app.user.email }}</h2>
-                                                        </span>
+                                                        <h2 class="inline-flex text-gray-800 hover:text-gray-900" href="#0">
+                                                            <span class="text-xl leading-snug justify-center font-semibold">{{ app.user.fullName }}</span>
+                                                        </h2> <br>
+                                                        <h2 class="inline-flex text-gray-800" href="#0">
+                                                            <span class="text-sm leading-snug justify-center">{{ app.user.email }}</span>
+                                                        </h2>
                                                         {% if app.user.telephone %}
-                                                            <span class="inline-flex text-gray-800 hover:text-gray-400" href="#0">
-                                                                <h2 class="text-sm leading-snug justify-center">| {{ phone(app.user.telephone) }}</h2>
-                                                            </span>
+                                                            <h2 class="inline-flex text-gray-800 hover:text-gray-400" href="#0">
+                                                                <span class="text-sm leading-snug justify-center">| {{ phone(app.user.telephone) }}</span>
+                                                            </h2>
                                                         {% endif %}
                                                     </div>
                                                 </div>
@@ -155,6 +155,26 @@
                                                 en cliquant sur le bouton ci-dessous.
                                             </div>
                                         </div>
+
+                                        {% if app.user.email|split('@')[1] == 'aperp.fr' %}
+                                            <div class="mt-2">
+                                                <div class="text-sm">
+                                                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                                                        <strong class="font-bold">Attention !</strong>
+                                                        <span class="block sm:inline">
+                                                            Vous êtes connecté avec un compte APERP.
+                                                            Vous ne pouvez pas recevoir les emails de confirmation de paiement et d'inscription. <br />
+                                                            Cliquer sur le bouton ci-dessous pour accéder à votre compte et modifier votre adresse email.
+                                                        </span>
+                                                        <span class="block ml-[25%] my-6">
+                                                            <a class="bg-blue-600 px-3 py-1 mx-auto text-white rounded-full hover:bg-blue-200 hover:text-gray-900" href="{{ path('app_user_edit', {'id': app.user.id}) }}">
+                                                            Modifier mon adresse Email
+                                                            </a>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endif %}
                                     </div>
                                     <!-- Card footer (Logout)-->
                                     <div class="border-t border-gray-200">
@@ -188,11 +208,4 @@
         </div>
 
     </main>
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    <script>
-        console.log("Panier" );
-    </script>
 {% endblock %}
