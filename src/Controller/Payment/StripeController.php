@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controller\Payment;
 
+use App\Entity\Order\OrderDetails;
+use App\Repository\Order\OrderRepository;
 use App\Services\CartService;
+use App\Services\MailService;
 use Stripe\Checkout\Session;
 use Stripe\Exception\ApiErrorException;
 use Stripe\Stripe;
@@ -74,10 +77,43 @@ class StripeController extends AbstractController
     }
 
     #[Route('/ma-commande/paiement/confirmation', name:'app_stripe_payment_products_confirmation')]
-    public function paymentConfirmation(CartService $cartService): Response
-    {
+    public function paymentConfirmation(
+        CartService $cartService,
+        MailService $mailService,
+        OrderRepository $orderRepository,
+    ): Response {
         // Send message flash
         $this->addFlash(type: 'success', message: 'Votre paiement a bien été effectué.');
+
+        $to = $cartService->getFullCart()[array_key_first($cartService->getFullCart())]['customerEmail'];
+        $orderId = $cartService->getOrderId();
+        $order = $orderRepository->findOneBy(['id' => $orderId]);
+        $orderDetails = $order->getOrderDetails();
+        $day = new \DateTime();
+
+        $mailService->sendEmail(
+            from: 'contact@aperp.info',
+            to: $to,
+            subject: 'Confirmation de votre commande',
+            htmlTemplate: 'emails/confirm_order.html',
+            context: [
+                'commande' => $cartService->getFullCart(),
+                'details' => $orderDetails,
+                'client' => $order->getFullName(),
+                'mail' => $order->getEmail(),
+                'telephone' => $order->getTelephone(),
+                'date' => $day->format(format: 'd/m/Y'),
+                'paiement' => $order->getStripePaymentIntentId(),
+                'quantityTotal' => $cartService->getQuantity(),
+                'totalOrder' => $cartService->getTotal(),
+                'facture' => $day->format(format: 'Ymd') . '-' . str_pad(
+                    (string)$order->getId() ,
+                    length: 4,
+                    pad_string: '0',
+                    pad_type: STR_PAD_LEFT
+                ),
+            ]
+        );
 
         // remove cart from cartService and redirect to home
         $cartService->removeCart();

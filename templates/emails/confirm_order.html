@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v="urn:schemas-microsoft-com:vml" style="color-scheme: light dark;">
+<head>
+  <meta charset="utf-8">
+  <meta name="x-apple-disable-message-reformatting">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="format-detection" content="telephone=no, date=no, address=no, email=no, url=no">
+  <meta name="color-scheme" content="light dark">
+  <meta name="supported-color-schemes" content="light dark">
+  <!--[if mso]>
+  <noscript>
+    <xml>
+      <o:OfficeDocumentSettings xmlns:o="urn:schemas-microsoft-com:office:office">
+        <o:PixelsPerInch>96</o:PixelsPerInch>
+      </o:OfficeDocumentSettings>
+    </xml>
+  </noscript>
+  <style>
+    td,th,div,p,a,h1,h2,h3,h4,h5,h6 {font-family: "Segoe UI", sans-serif; mso-line-height-rule: exactly;}
+  </style>
+  <![endif]-->
+  <style>.mt-3 {
+  margin-top: 12px !important;
+}
+.mb-5 {
+  margin-bottom: 20px !important;
+}
+.ml-2 {
+  margin-left: 8px !important;
+}
+.inline-block {
+  display: inline-block !important;
+}
+.rounded {
+  border-radius: 4px !important;
+}
+.border {
+  border-width: 1px !important;
+}
+.border-indigo-500 {
+  border-color: #6366f1 !important;
+}
+.bg-indigo-500 {
+  background-color: #6366f1 !important;
+}
+.py-2 {
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+.text-xl {
+  font-size: 20px !important;
+}
+.leading-5 {
+  line-height: 20px !important;
+}
+.text-gray-100 {
+  color: #f3f4f6 !important;
+}
+.text-white {
+  color: #fff !important;
+}
+:root {
+  color-scheme: light dark;
+}
+.hover-bg-gray-50:hover {
+  background-color: #f9fafb !important;
+}
+.hover-text-sky-500:hover {
+  color: #0ea5e9 !important;
+}
+[dir="ltr"] .ltr-text-right {
+  text-align: right !important;
+}
+[dir="rtl"] .rtl-text-left {
+  text-align: left !important;
+}
+@media (prefers-color-scheme: dark) {
+  .dark-border-gray-700 {
+    border-color: #374151 !important;
+  }
+  .dark-bg-gray-800 {
+    background-color: #1f2937 !important;
+  }
+  .dark-bg-gray-700 {
+    background-color: #374151 !important;
+  }
+  .dark-text-gray-400 {
+    color: #9ca3af !important;
+  }
+  .dark-text-white {
+    color: #fff !important;
+  }
+  .dark-hover-bg-gray-600:hover {
+    background-color: #4b5563 !important;
+  }
+}</style></head>
+<body style="word-break: break-word; -webkit-font-smoothing: antialiased; margin: 0; width: 100%; padding: 0">
+  <div role="article" aria-roledescription="email" aria-label lang="en">    <div style="margin-left: auto; margin-right: auto; background-color: #1f2937; padding: 8px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25)"> <div style="display: flex; flex-direction: row; flex-wrap: wrap">
+        <h1 style="margin-left: auto; margin-right: auto; text-align: center; font-size: 30px; font-weight: 600; line-height: 28px; color: #0ea5e9">
+          Association des parents d'élèves Rousies Pasteur
+        </h1> <div style="margin-top: 96px; width: 100%; max-width: 100%; flex-shrink: 1; padding-left: 16px; padding-right: 16px">
+          <div class="dark-bg-gray-800" style="border-radius: 8px; background-color: #fff; padding: 24px; padding-bottom: 96px">
+            <div class="dark-border-gray-700" style="margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; border-bottom-width: 1px; border-color: #e5e7eb; padding-bottom: 16px">
+              <div style="display: flex; flex-direction: column">
+                <div style="margin-bottom: 4px; font-size: 30px; font-weight: 700">
+                  APERP
+                </div>
+                <p style="font-size: 14px">Association des Parents d'élèves<br>École Pasteur, 59131 Rousies</p>
+              </div>
+              <div style="font-size: 36px; font-weight: 700; text-transform: uppercase">Facture</div>
+            </div>
+            <div style="display: flex; flex-direction: row; justify-content: space-between; padding-top: 12px; padding-bottom: 12px"> <div style="flex: 1 1 0%">
+                <p><strong>Facturé à :</strong><br><br>
+                  {{ client }}<br>
+                  {{ mail }}<br>
+                  {{ telephone }}<br>
+                </p>
+              </div> <div style="flex: 1 1 0%">
+                <div style="margin-bottom: 8px; display: flex; justify-content: space-between">
+                  <div style="flex: 1 1 0%; font-weight: 600">Facture n°:</div>
+                  <div class="ltr-text-right rtl-text-left" style="flex: 1 1 0%"><span>{{ facture }}</span></div>
+                </div>
+                <div style="margin-bottom: 8px; display: flex; justify-content: space-between">
+                  <div style="flex: 1 1 0%; font-weight: 600">Date:</div>
+                  <div class="ltr-text-right rtl-text-left" style="flex: 1 1 0%"><span>{{ date }}</span></div>
+                </div>
+                <div style="margin-bottom: 8px; display: flex; justify-content: space-between">
+                  <div style="flex: 1 1 0%; font-weight: 600">Status:</div>
+                  <div class="ltr-text-right rtl-text-left" style="flex: 1 1 0%">Payé</div>
+                </div>
+                <div style="margin-bottom: 8px; display: flex; justify-content: space-between">
+                  <div style="flex: 1 1 0%; font-weight: 600">Paiement:</div>
+                  <div class="ltr-text-right rtl-text-left" style="flex: 1 1 0%"><span>{{ paiement }}</span></div>
+                </div> </div>
+            </div>
+            <hr style="margin-top: 64px; margin-bottom: 64px; width: 50%"> <div style="position: relative; overflow-x: auto; border-radius: 8px">
+              <table class="dark-text-gray-400" style="width: 100%; color: #6b7280" cellpadding="0" cellspacing="0" role="presentation">
+                <thead class="dark-bg-gray-700 dark-text-gray-400" style="background-color: #f9fafb; text-transform: uppercase; color: #374151">
+                  <tr>
+                    <th scope="col" style="padding-top: 12px; padding-bottom: 12px; padding-left: 24px; padding-right: 24px">
+                      Article
+                    </th>
+                    <th scope="col" style="padding-top: 12px; padding-bottom: 12px; padding-left: 24px; padding-right: 24px">
+                      Quantité
+                    </th>
+                    <th scope="col" style="padding-top: 12px; padding-bottom: 12px; padding-left: 24px; padding-right: 24px">
+                      Prix unitaire
+                    </th>
+                    <th scope="col" style="padding-top: 12px; padding-bottom: 12px; padding-left: 24px; padding-right: 24px">
+                      Total
+                    </th>
+                  </tr>
+                </thead>
+                <tbody style="text-align: center">
+                  {% for item in commande %}
+                    <tr class="dark-bg-gray-800 dark-border-gray-700 hover-bg-gray-50 dark-hover-bg-gray-600" style="border-bottom-width: 1px; background-color: #fff">
+                      <td class="dark-text-white" style="padding-top: 16px; padding-bottom: 16px; padding-left: 24px; padding-right: 24px; font-weight: 600; color: #111827">
+                         {{ item.product.name }}
+                      </td>
+                      <td class="dark-text-white" style="padding-top: 16px; padding-bottom: 16px; padding-left: 24px; padding-right: 24px; font-weight: 600; color: #111827">
+                         {{ item.quantity }}
+                      </td>
+                      <td style="padding-top: 16px; padding-bottom: 16px; padding-left: 24px; padding-right: 24px">
+                         {{ item.product.price/ 100 }} €
+                      </td>
+                      <td style="padding-top: 16px; padding-bottom: 16px; padding-left: 24px; padding-right: 24px">
+                         {{ item.product.price / 100 * item.quantity }} €
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+                <tfoot style="text-align: center">
+                  <tr class="dark-bg-gray-800 dark-border-gray-700 hover-bg-gray-50 dark-hover-bg-gray-600" style="border-bottom-width: 1px; background-color: #fff">
+                    <td class="dark-text-white" style="padding-top: 16px; padding-bottom: 16px; padding-left: 24px; padding-right: 24px; font-weight: 600; color: #111827">
+                      Total
+                    </td>
+                    <td class="dark-text-white" style="padding-top: 16px; padding-bottom: 16px; padding-left: 24px; padding-right: 24px; font-weight: 600; color: #111827">{{ quantityTotal }}</td>
+                    <td class="dark-text-white" style="padding-top: 16px; padding-bottom: 16px; padding-left: 24px; padding-right: 24px; font-weight: 600; color: #111827"></td>
+                    <td style="padding-top: 16px; padding-bottom: 16px; padding-left: 24px; padding-right: 24px">{{ totalOrder / 100 }} €</td>
+                  </tr>
+              </tfoot></table>
+            </div>
+          </div> <div style="margin-top: 48px; display: flex; flex-direction: column; align-items: center; border-radius: 8px">
+            <h2 style="font-size: 30px; font-weight: 600; line-height: 28px; color: #0ea5e9">
+              L'APERP vous remercie de tout ❤️
+            </h2>
+            <p style="font-weight: 500; line-height: 24px; color: #e5e7eb">
+              En cas de doute ou de question, n'hésitez pas à nous contacter. <br>
+              <a href="mailto:aperousiespasteur@gmail.com" target="_blank" class="hover-text-sky-500" style="display: block; text-align: center; color: #e5e7eb; transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter; transition-duration: 500ms; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1)">
+                aperousiespasteur@gmail.com
+              </a>
+            </p>
+          </div>
+        </div> </div>
+    </div>  </div>
+</body>
+</html>
