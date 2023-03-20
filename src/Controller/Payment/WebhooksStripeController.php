@@ -115,7 +115,6 @@ class WebhooksStripeController extends AbstractController
             }
 
             $em->flush();
-            // ******** GESTION D'UNE COMMANDE ********
 
         } else {
             // Gérer les événements inconnus ou non traités
