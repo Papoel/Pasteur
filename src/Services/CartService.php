@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Entity\Order\Order;
 use App\Entity\Order\OrderDetails;
+use App\Entity\Product\Product;
 use App\Repository\Order\OrderDetailsRepository;
 use App\Repository\Order\OrderRepository;
 use App\Repository\Product\ProductRepository;
@@ -14,6 +15,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class CartService
 {
+    private string $errorMessage;
+
     public function __construct(
         protected RequestStack $requestStack,
         private EntityManagerInterface $entityManager,
@@ -33,8 +36,42 @@ class CartService
         $this->requestStack->getSession()->set('cart', $cart);
         $this->requestStack->getSession()->set('cartData', $this->getFullCart());
     }
-    // Ajouter un produit au panier
     public function addToCart(int $id): void
+    {
+        // Récupérer le panier dans la session
+        $cart = $this->getCart();
+
+        // Vérifier si le produit est en stock
+        /** @var Product $product */
+        $product = $this->productRepository->find($id);
+        $stock = $product->getStock();
+
+        if ($stock <= 0) {
+            $this->errorMessage = 'Le produit n\'est plus en stock';
+            return;
+        }
+
+        // Si le produit existe déjà dans le panier
+        if (!empty($cart[$id])) {
+            // On vérifie si la quantité demandée peut être ajoutée au panier
+            if ($cart[$id] < $stock) {
+                // On incrémente la quantité
+                $cart[$id]++;
+            } else {
+                $this->errorMessage = 'Désolé, la limite de disponibilité est atteinte pour ce produit';
+                return;
+            }
+        } else {
+            // Sinon, on ajoute le produit au panier
+            $cart[$id] = 1;
+        }
+        $this->updateCart($cart);
+    }
+
+
+
+    // Ajouter un produit au panier
+    public function ExaddToCart(int $id): void
     {
         // Récupérer le panier dans la session
         $cart = $this->getCart();
@@ -56,8 +93,8 @@ class CartService
         }
 
         // Mettre à jour les entités liées au panier
-//         $this->decreaseProductStock($id);
-//         $this->increaseProductReserved($id);
+        // $this->decreaseProductStock($id);
+        // $this->increaseProductReserved($id);
 
         // Mettre à jour le panier dans la session
         $this->updateCart($cart);
@@ -158,6 +195,7 @@ class CartService
                     'stock'     => $product->getStock(),
                     'orderId'   => $this->getOrderId(),
                     'customerEmail' => $customerEmail,
+                    'stockAvailableAfterCommand' => $product->getStock() - $cart[$product->getId()],
                 ];
             }
         }
