@@ -21,7 +21,7 @@
     }
     #registration-list {
         color: #363636;
-        font-size: 16px;
+        font-size: 20px;
     }
     .w-8 {
         width: 2rem;
@@ -96,6 +96,9 @@
     }
     .text-sm {
         font-size: 0.875rem;
+    }
+    .text-base {
+        font-size: 1rem;
     }
     .font-semibold {
         font-weight: 600;
@@ -216,7 +219,7 @@
         <div class="w-full overflow-x-auto">
             <table class="w-full text-center border">
                 <thead>
-                <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                <tr class="text-base font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                     <th class="px-4 py-3">#</th>
                     <th class="px-4 py-3">Client</th>
                     <th class="px-4 py-3">Coordonnées</th>
@@ -229,14 +232,14 @@
                 {% for registration in registrations %}
                 <tr class="bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900 text-gray-700 dark:text-gray-400">
                     <td class="px-4 py-3">
-                        <div class="flex items-center text-sm">
+                        <div class="flex items-center text-base">
                             <div>
                                 <p class="font-semibold">{{ loop.index }}</p>
                             </div>
                         </div>
                     </td>
                     <td class="px-4 py-3">
-                        <div class="flex items-center text-sm">
+                        <div class="flex items-center text-base">
                             <div>
                                 <p class="font-semibold">{{ registration.fullname }}</p>
                                 <p class="text-xs text-gray-600 dark:text-gray-400">
@@ -248,17 +251,17 @@
                         </div>
                     </td>
                     <td class="px-4 py-3">
-                        <div class="flex items-center text-sm">
+                        <div class="flex items-center text-base">
                             <div class="text-xs text-gray-600">
                                 <p>{{ registration.telephone }}</p>
                                 <p>{{ registration.email }}</p>
                             </div>
                         </div>
                     </td>
-                    <td class="px-4 py-3 text-sm">
+                    <td class="px-4 py-3 text-base">
                         {{ (registration.event.price / 100) * (registration.children|length) }} €
                     </td>
-                    <td class="text-sm">
+                    <td class="text-base">
                         {% if registration.isPaid == 1 or event.price == 0 %}
                         <span class="px-2 py-1 font-semibold text-green-700 bg-green-100 rounded-full text-center">
                             {% if event.price == 0 %}
@@ -273,7 +276,7 @@
                         </span>
                         {% endif %}
                     </td>
-                    <td class="px-4 py-3 text-sm">
+                    <td class="px-4 py-3 text-base">
                         {% for child in registration.children %}
                         <p>{{ child.firstname }} {{ child.lastname }} ({{ child.classroom }})</p>
                         {% endfor %}

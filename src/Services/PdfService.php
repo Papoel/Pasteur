@@ -16,7 +16,7 @@ class PdfService
         $this->domPdf = new Dompdf();
 
         $pdfOptions = new Options();
-        $pdfOptions->set('defaultFont', 'Garamond');
+        $pdfOptions->set('Times New Roman');
 
         $this->domPdf->setOptions($pdfOptions);
         $this->domPdf->setPaper(size: 'A4', orientation: 'landscape');
