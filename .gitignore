@@ -4,7 +4,7 @@
 ###< phpstorm/phpstorm ###
 
 ###> symfony/framework-bundle ###
-/.env.dev.local
+/.env.local
 /.env.*.local
 /.env.prod.php
 /config/secrets/prod/prod.decrypt.private.php
