@@ -6,6 +6,7 @@ use App\Entity\Contact\Contact;
 use App\Entity\Event\Event;
 use App\Entity\Event\RegistrationEvent;
 use App\Entity\Event\RegistrationHelp;
+use App\Entity\Product\Product;
 use App\Entity\User\User;
 use App\Repository\Contact\ContactRepository;
 use App\Repository\Event\EventRepository;
@@ -61,6 +62,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section();
         yield MenuItem::linkToUrl(label: 'Site-Web', icon: 'fas fa-check', url: $this->generateUrl(route: 'app_home'));
 
+        // Utilisateurs
         $totalUsers = $this->userRepository->count([]);
         yield MenuItem::section(label: 'Utilisateurs', icon: 'fa fa-users')
             ->setBadge(content: $totalUsers, style: 'info')
@@ -71,6 +73,7 @@ class DashboardController extends AbstractDashboardController
                 ->setAction(actionName: Crud::PAGE_NEW),
         ]);
 
+        // Événements
         $totalEvents = (string) $this->eventRepository->countNotPastEvents();
         yield MenuItem::section(label: 'Événements', icon: 'fas fa-jedi')
             ->setBadge($totalEvents, style: 'info')
@@ -81,6 +84,7 @@ class DashboardController extends AbstractDashboardController
                 ->setAction(actionName: Crud::PAGE_NEW),
         ]);
 
+        // Inscriptions
         $totalInscriptions = $this->registrationEventRepository->count([]);
         yield MenuItem::section(label: 'Inscriptions', icon: 'fas fa-calendar-check')
             ->setBadge($totalInscriptions, style: 'info');
@@ -101,6 +105,7 @@ class DashboardController extends AbstractDashboardController
             ])
         ;
 
+        // Messages (depuis la page de contact)
         if ($this->container->get('security.authorization_checker')->isGranted(attribute: 'ROLE_SUPER_ADMIN')) {
             $totalMessages = $this->contactRepository->count(['isReplied' => false]);
             yield MenuItem::section(label: 'Messages', icon: 'fas fa-envelope')
@@ -113,10 +118,25 @@ class DashboardController extends AbstractDashboardController
             ]);
         }
 
+        // Aide
         yield MenuItem::section(label: 'Aide', icon: 'fas fa-question-circle');
         yield MenuItem::subMenu(label: 'Action', icon: 'fas fa-bars')->setSubItems(subItems: [
             MenuItem::linkToCrud(label: 'Membres', icon: 'fas fa-users', entityFqcn: RegistrationHelp::class)
                 ->setAction(actionName: Crud::PAGE_INDEX),
         ]);
+
+        // Produits
+        yield MenuItem::section(label: 'Produits', icon: 'fas fa-boxes')
+            ->setPermission(permission: 'ROLE_SUPER_ADMIN')
+        ;
+        yield MenuItem::subMenu(label: 'Action', icon: 'fas fa-bars')
+            ->setPermission(permission: 'ROLE_SUPER_ADMIN')
+            ->setSubItems(subItems: [
+                MenuItem::linkToCrud(label: 'Voir les produits', icon: 'fas fa-eye', entityFqcn: Product::class)
+                    ->setAction(actionName: Crud::PAGE_INDEX),
+                MenuItem::linkToCrud(label: 'Ajouter un produit', icon: 'fas fa-plus', entityFqcn: Product::class)
+                    ->setAction(actionName: Crud::PAGE_NEW),
+            ])
+        ;
     }
 }

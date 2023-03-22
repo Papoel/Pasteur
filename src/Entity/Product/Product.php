@@ -58,7 +58,7 @@ class Product
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     #[Assert\GreaterThan(
         propertyPath: 'startsAt',
-        message: 'La date de fin doit être supérieur à la dae de début.'
+        message: 'La date de fin doit être supérieur à la date de début.'
     )]
     private ?\DateTimeImmutable $finishAt = null;
 
@@ -82,6 +82,10 @@ class Product
     private \DateTimeImmutable $createdAt;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\GreaterThan(
+        propertyPath: 'finishAt',
+        message: 'La date de livraison doit être postérieur à la date de fin de réservation.'
+    )]
     private ?\DateTimeImmutable $deliveryAt = null;
 
     #[ORM\Column(nullable: true)]

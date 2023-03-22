@@ -7,6 +7,7 @@ parameters:
     app.contact_email: contact@aperp.info
     app.name: Association des Parents d'Élèves - Rousies Pasteur
     upload_dir: '/uploads/images/events'
+    product_upload_dir: '/uploads/images/products'
     STRIPE_KEY_SECRET: '%env(resolve:STRIPE_KEY_SECRET)%'
     STRIPE_KEY_PUBLIC: '%env(resolve:STRIPE_KEY_PUBLIC)%'
     STRIPE_WEBHOOK_SECRET: '%env(resolve:STRIPE_WEBHOOK_SECRET)%'
@@ -19,6 +20,7 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
             string $uploadDir: '%upload_dir%'
+            string $productUploadDir: '%product_upload_dir%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
