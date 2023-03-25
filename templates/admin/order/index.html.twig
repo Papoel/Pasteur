@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'ADMIN - Détails Événements' %}
+
+{% block body %}
+    {% include('components/_navbar.html.twig') %}
+
+    <main class="container mx-auto my-12">
+        <div class="container mx-auto px-4 sm:px-8">
+            <div class="py-8">
+                <div class="flex justify-between">
+                    <h2 class="text-2xl font-semibold leading-tight">Commandes</h2>
+                    <a href="{{ path('admin') }}" class="inline-block px-4 py-2 text-white bg-sky-600 rounded-md shadow-md hover:shadow-lg hover:shadow-sky-600 hover:bg-sky-700 transition duration-200 ease-in-out">
+                        Revenir sur l'administration
+                    </a>
+                </div>
+                <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+                    <div class="inline-block min-w-full shadow-md rounded-lg overflow-hidden">
+                        <table class="min-w-full leading-normal">
+                            <thead>
+                                <tr>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                                        Client / Facture
+                                    </th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                                        Montant
+                                    </th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                                        Date
+                                    </th>
+                                    <th class="py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                                        Articles commandés
+                                    </th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100"></th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                            {% for order in orders %}
+                                <tr>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <div class="flex">
+                                            <div class="flex-shrink-0 w-10 h-10">
+                                                <p class="text-center">
+                                                    # {{ loop.index }}
+                                                </p>
+                                            </div>
+                                            <div class="ml-3">
+                                                <p class="text-gray-900 whitespace-no-wrap">
+                                                    {{ order.fullname }}
+                                                </p>
+                                                <p class="text-gray-600 whitespace-no-wrap">
+                                                    {{ order.createdAt|date('Ymd') ~ '-' ~ order.id | format_number({min_integer_digit:'4'}) }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <p class="text-gray-900 whitespace-no-wrap">
+                                            {% set sum = 0 %}
+                                            {% for details in order.orderDetails %}
+                                                {% set sum = sum + details.total %}
+                                            {% endfor %}
+                                            {{ sum / 100 }} €
+                                        </p>
+                                        <p class="text-gray-600 whitespace-no-wrap">EUR</p>
+                                    </td>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <p class="text-gray-900 whitespace-no-wrap">{{ order.createdAt|format_date('short') }}</p>
+                                    </td>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                                            <span class="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
+                                            <span class="relative">
+                                                {% set items = 0 %}
+                                                {% for details in order.orderDetails %}
+                                                    {% set items = items + details.quantity %}
+                                                {% endfor %}
+                                                {{ items }}{{ pluralize(items, ' article commandé', ' articles commandés') }}
+                                            </span>
+                                        </span>
+                                    </td>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <a href="{{ path('app_admin_details_order', {id: order.id}) }}" class="text-green-700 hover:text-white border border-green-700 hover:bg-green-500 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800">
+                                            Voir les détails
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+{% endblock %}

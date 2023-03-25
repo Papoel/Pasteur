@@ -6,11 +6,13 @@ use App\Entity\Contact\Contact;
 use App\Entity\Event\Event;
 use App\Entity\Event\RegistrationEvent;
 use App\Entity\Event\RegistrationHelp;
+use App\Entity\Order\Order;
 use App\Entity\Product\Product;
 use App\Entity\User\User;
 use App\Repository\Contact\ContactRepository;
 use App\Repository\Event\EventRepository;
 use App\Repository\Event\RegistrationEventRepository;
+use App\Repository\Order\OrderRepository;
 use App\Repository\User\UserRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -24,6 +26,7 @@ class DashboardController extends AbstractDashboardController
 {
     public function __construct(
         private readonly UserRepository $userRepository,
+        private readonly OrderRepository $orderRepository,
         private readonly EventRepository $eventRepository,
         private readonly ContactRepository $contactRepository,
         private readonly RegistrationEventRepository $registrationEventRepository,
@@ -126,9 +129,7 @@ class DashboardController extends AbstractDashboardController
         ]);
 
         // Produits
-        yield MenuItem::section(label: 'Produits', icon: 'fas fa-boxes')
-            ->setPermission(permission: 'ROLE_SUPER_ADMIN')
-        ;
+        yield MenuItem::section(label: 'Produits', icon: 'fas fa-boxes');
         yield MenuItem::subMenu(label: 'Action', icon: 'fas fa-bars')
             ->setPermission(permission: 'ROLE_SUPER_ADMIN')
             ->setSubItems(subItems: [
@@ -137,6 +138,26 @@ class DashboardController extends AbstractDashboardController
                 MenuItem::linkToCrud(label: 'Ajouter un produit', icon: 'fas fa-plus', entityFqcn: Product::class)
                     ->setAction(actionName: Crud::PAGE_NEW),
             ])
+        ;
+
+        // Commandes;
+        $totalOrder = $this->orderRepository->count([]);
+        yield MenuItem::section(label: 'Commandes', icon: 'fas fa-shopping-cart')
+            ->setBadge(content: $totalOrder, style: 'dark')
+        ;
+
+        yield MenuItem::subMenu(label: 'Action', icon: 'fas fa-bars')->setSubItems(subItems: [
+            MenuItem::linkToRoute(
+                label: 'Voir les commandes',
+                icon: 'fas fa-eye',
+                routeName: 'app_admin_orders'
+            ),
+        ]);
+
+        // Séparateur et déconnexion
+        yield MenuItem::section();
+        yield MenuItem::linkToLogout(label: 'Déconnexion', icon: 'fas fa-sign-out-alt text-white ms-1')
+            ->setCssClass(cssClass: 'btn btn-danger text-white')
         ;
     }
 }
