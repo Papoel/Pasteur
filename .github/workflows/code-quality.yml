@@ -73,11 +73,6 @@ jobs:
       - name: Install Composer dependencies
         run: composer install
 
-      ## —— Coding standards ✨ ————————————————————————————————————————————————
-#      - name: Run php-cs-fixer
-#        run: |
-#          make fix-php
-#          make lint-php
       - name: PHP-CS-Fixer
         uses: docker://oskarstark/php-cs-fixer-ga
         with:
