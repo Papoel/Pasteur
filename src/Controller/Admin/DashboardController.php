@@ -131,7 +131,6 @@ class DashboardController extends AbstractDashboardController
         // Produits
         yield MenuItem::section(label: 'Produits', icon: 'fas fa-boxes');
         yield MenuItem::subMenu(label: 'Action', icon: 'fas fa-bars')
-            ->setPermission(permission: 'ROLE_SUPER_ADMIN')
             ->setSubItems(subItems: [
                 MenuItem::linkToCrud(label: 'Voir les produits', icon: 'fas fa-eye', entityFqcn: Product::class)
                     ->setAction(actionName: Crud::PAGE_INDEX),
