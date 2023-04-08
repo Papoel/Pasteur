@@ -39,7 +39,14 @@ class EventsGestionController extends AbstractController
         RegistrationHelpRepository $registrationHelpRepository
     ): Response {
         $registrations = $registrationRepository->findBy(['event' => $event]);
-        $uniqueRegistrations = $registrationRepository->findUniqueRegistrations($event);
+
+        // Get unique people registered search by firstname and lastname
+        $uniqueRegistrations = [];
+        foreach ($registrations as $registration) {
+            $uniqueRegistrations[$registration->getFirstname() . $registration->getLastname()] = $registration;
+        }
+        $uniqueRegistrations = array_values($uniqueRegistrations);
+
         $registrationHelps = $registrationHelpRepository->findBy(['event' => $event]);
 
         return $this->render(view: 'admin/events/details_registration.html.twig', parameters: [

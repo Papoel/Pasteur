@@ -157,6 +157,7 @@
                 <!-- Séparateur -->
                 <div class="my-8 text-center border-b">
                     <div class="inline-block px-2 text-sm font-medium leading-none tracking-wide text-gray-600 transform translate-y-1/2 bg-white">
+                        {{ uniqueRegistrations|length }}
                         {{ pluralize(event.registered, 'Représentant', 'Représentants') }}
                         {{ pluralize(event.registered, 'légal', 'légaux') }}
                     </div>
