@@ -96,13 +96,11 @@ cc: ## Videz le cache
 	$(SYMFONY) cache:warmup
 .PHONY: cc
 
-sf-dc: ## Create symfony database.
-	$(SYMFONY) doctrine:database:create --if-not-exists
-.PHONY: sf-dc
+db-create: ## Créer la base de données | symfony console doctrine:database:create
+	$(SYMFONY) doctrine:database:create
 
-sf-dd: ## Drop symfony database.
+db-drop : ## Supprimer la base de données | symfony console doctrine:database:drop --force
 	$(SYMFONY) doctrine:database:drop --if-exists --force
-.PHONY: sf-dd
 
 sf-mm: ## Make migrations.
 	$(SYMFONY) make:migration
@@ -112,9 +110,20 @@ sf-dmm: ## Migrate.
 	$(SYMFONY) doctrine:migrations:migrate --no-interaction
 .PHONY: sf-dmm
 
-sf-dfl: ## Load Fixtures.
-	$(SYMFONY) doctrine:fixtures:load --no-interaction
-.PHONY: sf-dmm
+fixtures: ## Créer des fixtures | symfony console make:fixtures
+	$(SYMFONY) make:fixtures
+
+fixtures-load: ## Charger les fixtures | symfony console doctrine:fixtures:load -n
+	$(MAKE) db-drop
+	$(MAKE) db-create
+	if test -n "$$(find migrations -name 'Version*' -print -quit)"; then \
+        $(SYMFONY) doctrine:migrations:migrate --no-interaction; \
+    else \
+        $(SYMFONY) doctrine:schema:validate; \
+		$(SYMFONY) doctrine:schema:update --force; \
+    fi; \
+    $(SYMFONY) doctrine:fixtures:load -n
+.PHONY: fixtures-load
 
 sf-migrations-status: ## Migrations status
 	$(SYMFONY) doctrine:migrations:status
