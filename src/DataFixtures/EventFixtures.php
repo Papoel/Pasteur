@@ -114,6 +114,9 @@ class EventFixtures extends Fixture
             $immutable = \DateTimeImmutable::createFromMutable($date);
             $event->setUpdatedAt($immutable);
 
+            // Add reference for use in other fixtures
+            $this->addReference(name: 'event_' . $newEvent, object: $event);
+
             $manager->persist($event);
             $events[] = $event;
         }
