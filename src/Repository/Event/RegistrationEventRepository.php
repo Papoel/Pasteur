@@ -60,15 +60,4 @@ class RegistrationEventRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
-
-    public function findUniqueRegistrations(Event $event): array
-    {
-        $qb = $this->createQueryBuilder(alias: 'r')
-            ->select(select: 'r')
-            ->andWhere('r.event = :event')
-            ->setParameter(key: ':event', value: $event)
-            ->groupBy(groupBy: 'r.email')
-        ;
-        return $qb->getQuery()->getResult();
-    }
 }
