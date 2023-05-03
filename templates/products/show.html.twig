@@ -71,7 +71,7 @@
                                     <h3 class="text-blue-500 capitalize">{{ product.name }}</h3>
                                 </a>
                                 <p>
-                                    Le {{ product.startsAt|format_datetime('full', 'short') }}.
+                                    Commander avant le {{ product.finishAt|format_datetime('full', 'none') }}.
                                 </p>
                             </div>
                             <hr class="my-6 border-gray-200 dark:border-gray-700">
