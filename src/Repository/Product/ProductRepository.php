@@ -42,7 +42,7 @@ class ProductRepository extends ServiceEntityRepository
     public function findUpComing(): array
     {
         $qb = $this->createQueryBuilder(alias: 'p')
-            ->andWhere('p.startsAt > :now')
+            ->andWhere('p.finishAt > :now')
             ->andWhere('p.published = true')
             ->setParameter(key: ':now', value: new \DateTime())
             ->orderBy(sort: 'p.startsAt', order: 'ASC');
